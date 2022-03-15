@@ -6,6 +6,7 @@ const Circle = styled.div`
   background-color: ${(props) => props.theme.bgColor};
   border: 10px solid ${(props) => props.theme.btnColor};
   border-radius: 500px;
+  position: absolute;
 `;
 
 function Home() {
