@@ -1,5 +1,5 @@
 function Hello() {
-  return null
+  return null;
 }
 
-export default Hello
+export default Hello;
