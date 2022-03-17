@@ -36,7 +36,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     line-height: 1;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Nanum Myeongjo', serif;
     background-color: ${(props) => props.theme.beige};
   }
   ol, ul {
@@ -53,6 +53,9 @@ const GlobalStyle = createGlobalStyle`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+  a{
+    text-decoration: none;
   }
 `;
 
