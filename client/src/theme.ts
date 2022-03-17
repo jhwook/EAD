@@ -10,6 +10,7 @@ export const theme: DefaultTheme = {
   beige: '#FFFDF7',
   green: '#BEC6B8',
   pink: '#EDD4B9',
+  grey: '#B7B7B7',
   white: 'whitesmoke',
   black: 'black',
   mobile: `(max-width: ${size.mobile})`,
