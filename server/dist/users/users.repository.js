@@ -16,6 +16,7 @@ exports.UsersRepository = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("mongoose");
+const bcrypt = require("bcrypt");
 const users_schema_1 = require("./users.schema");
 let UsersRepository = class UsersRepository {
     constructor(userModel) {
@@ -39,6 +40,28 @@ let UsersRepository = class UsersRepository {
     }
     async create(user) {
         return await this.userModel.create(user);
+    }
+    async delete(user) {
+        return await this.userModel.deleteOne(user);
+    }
+    async findUserAndUpdate(user, body) {
+        const { id } = user;
+        const { password: newPassowrd, stacks: newStacks, username: newUsername, } = body;
+        console.log(newUsername);
+        const isUsernameExist = await this.userModel.findOne({ newUsername });
+        if (!isUsernameExist) {
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(newPassowrd, salt);
+            await this.userModel.findByIdAndUpdate(id, {
+                username: newUsername,
+                password: hashedPassword,
+                stacks: newStacks,
+            });
+        }
+        if (isUsernameExist) {
+            throw new common_1.HttpException('this username already exists', 400);
+        }
+        return 'ok';
     }
 };
 UsersRepository = __decorate([

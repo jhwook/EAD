@@ -27,20 +27,24 @@ let UsersController = class UsersController {
         this.authService = authService;
     }
     auth(req) {
+        console.log(req.user);
         return req.user.readOnlyData;
     }
     login(data) {
         return this.authService.jwtLogIn(data);
     }
     async signup(body) {
-        const signupService = await this.usersService.signup(body);
+        const signupService = await this.usersService.createUser(body);
         return signupService;
     }
     logout() {
         return 'logout';
     }
-    signout() {
-        return 'signout';
+    signout(req) {
+        return this.usersService.deleteUser(req.user);
+    }
+    updateUser(req) {
+        return this.usersService.updateUser(req);
     }
 };
 __decorate([
@@ -72,11 +76,21 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "logout", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Delete)('/signout'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "signout", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)('/profile'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "updateUser", null);
 UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

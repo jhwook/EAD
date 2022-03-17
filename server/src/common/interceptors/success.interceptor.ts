@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SuccessInterceptor implements NestInterceptor {
+  // eslint-disable-next-line class-methods-use-this
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => ({

@@ -3,9 +3,12 @@ import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
     private readonly usersRepository;
     constructor(usersRepository: UsersRepository);
-    signup(body: UserRequestDto): Promise<{
+    createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;
         username: string;
+        stacks: any;
     }>;
+    deleteUser(userInfo: UserRequestDto): Promise<string>;
+    updateUser(req: any): Promise<void>;
 }

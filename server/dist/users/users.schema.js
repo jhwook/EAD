@@ -55,6 +55,10 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "exp", void 0);
 __decorate([
+    (0, mongoose_1.Prop)([String]),
+    __metadata("design:type", Array)
+], User.prototype, "stacks", void 0);
+__decorate([
     (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
@@ -69,6 +73,7 @@ exports.UserSchema.virtual('readOnlyData').get(function () {
         id: this.id,
         email: this.email,
         username: this.username,
+        stacks: this.stacks,
     };
 });
 //# sourceMappingURL=users.schema.js.map
