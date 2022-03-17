@@ -50,7 +50,10 @@ export class UsersRepository {
       username: newUsername,
     } = body;
     console.log(newUsername);
-    const isUsernameExist = await this.userModel.findOne({ newUsername });
+    const isUsernameExist = await this.userModel.findOne({
+      username: newUsername,
+    });
+    console.log(isUsernameExist);
     if (!isUsernameExist) {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(newPassowrd, salt);
