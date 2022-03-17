@@ -16,6 +16,7 @@ declare module 'styled-components' {
       medium: string;
       large: string;
       huge: string;
+      veryHuge: string;
     };
   }
 }
