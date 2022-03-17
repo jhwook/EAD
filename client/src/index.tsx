@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     line-height: 1;
     font-family: 'Barlow Condensed', sans-serif;
+    background-color: ${(props) => props.theme.beige};
   }
   ol, ul {
     list-style: none;
