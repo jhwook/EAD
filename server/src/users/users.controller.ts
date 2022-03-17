@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Req,
+  Res,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -34,9 +35,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('/auth')
   auth(@Req() req) {
-    // error 처리
-    // throw new HttpException('not authorized', 401);
-    console.log(req.user);
     return req.user.readOnlyData;
   }
 
@@ -52,9 +50,15 @@ export class UsersController {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  @UseGuards(JwtAuthGuard)
   @Post('/logout')
-  logout() {
-    return 'logout';
+  logout(@Req() req, @Res() res) {
+    res.cookie('jwt', '', {
+      maxAge: 0,
+    });
+    return res.send({
+      message: 'success',
+    });
   }
 
   // eslint-disable-next-line class-methods-use-this
