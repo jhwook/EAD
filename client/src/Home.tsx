@@ -19,11 +19,6 @@ const Circle = styled.div`
   }
 `;
 
-const Title = styled.div`
-  font-size: 80px;
-  background-color: ${(props) => props.theme.pink};
-`;
-
 const Wrapper = styled.div`
   .logo {
     font-size: 30px;
@@ -45,7 +40,6 @@ function Home() {
   return (
     <Wrapper>
       <Logo src={logo} />
-      <Title>Hello</Title>
       <GiHamburgerMenu className="logo" />
       <Circle />
     </Wrapper>
