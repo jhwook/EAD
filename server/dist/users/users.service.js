@@ -17,7 +17,7 @@ let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    async signup(body) {
+    async createUser(body) {
         const { email, username, password } = body;
         const isEmailExist = await this.usersRepository.existsByEmail(email);
         const isUsernameExist = await this.usersRepository.existsByUsername(username);
@@ -35,8 +35,17 @@ let UsersService = class UsersService {
             email,
             username,
             password: hashedPassword,
+            stacks: [],
         });
         return user.readOnlyData;
+    }
+    async deleteUser(userInfo) {
+        await this.usersRepository.delete(userInfo);
+        return 'successfully signout';
+    }
+    async updateUser(req) {
+        const userInfo = req.user;
+        await this.usersRepository.findUserAndUpdate(userInfo, req.body);
     }
 };
 UsersService = __decorate([

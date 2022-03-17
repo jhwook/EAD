@@ -1,6 +1,12 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 const options: SchemaOptions = {
   timestamps: true,
@@ -39,11 +45,19 @@ export class User extends Document {
   @IsNumber()
   exp: number;
 
+  @Prop([String])
+  stacks: string[];
+
   @Prop()
   @IsString()
   imgUrl: string;
 
-  readonly readOnlyData: { id: string; email: string; username: string };
+  readonly readOnlyData: {
+    id: string;
+    email: string;
+    username: string;
+    stacks;
+  };
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -53,5 +67,6 @@ UserSchema.virtual('readOnlyData').get(function (this: User) {
     id: this.id,
     email: this.email,
     username: this.username,
+    stacks: this.stacks,
   };
 });

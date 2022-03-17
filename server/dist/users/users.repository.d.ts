@@ -17,4 +17,6 @@ export declare class UsersRepository {
     create(user: UserRequestDto): Promise<User & {
         _id: any;
     }>;
+    delete(user: UserRequestDto): Promise<import("mongodb").DeleteResult>;
+    findUserAndUpdate(user: any, body: any): Promise<string>;
 }

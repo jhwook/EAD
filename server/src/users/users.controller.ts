@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
+  Patch,
   Post,
   Req,
   UseFilters,
@@ -34,7 +36,7 @@ export class UsersController {
   auth(@Req() req) {
     // error 처리
     // throw new HttpException('not authorized', 401);
-
+    console.log(req.user);
     return req.user.readOnlyData;
   }
 
@@ -45,7 +47,7 @@ export class UsersController {
 
   @Post('/signup')
   async signup(@Body() body: UserRequestDto) {
-    const signupService = await this.usersService.signup(body);
+    const signupService = await this.usersService.createUser(body);
     return signupService;
   }
 
@@ -56,8 +58,15 @@ export class UsersController {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  @UseGuards(JwtAuthGuard)
   @Delete('/signout')
-  signout() {
-    return 'signout';
+  signout(@Req() req) {
+    return this.usersService.deleteUser(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/profile')
+  updateUser(@Req() req) {
+    return this.usersService.updateUser(req);
   }
 }

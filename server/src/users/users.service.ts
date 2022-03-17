@@ -12,7 +12,7 @@ export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   // 회원가입
-  async signup(body: UserRequestDto) {
+  async createUser(body: UserRequestDto) {
     const { email, username, password } = body;
     const isEmailExist = await this.usersRepository.existsByEmail(email);
     const isUsernameExist = await this.usersRepository.existsByUsername(
@@ -35,8 +35,22 @@ export class UsersService {
       email,
       username,
       password: hashedPassword,
+      stacks: [],
     });
 
     return user.readOnlyData;
+  }
+
+  // 회원탈퇴
+  async deleteUser(userInfo: UserRequestDto) {
+    await this.usersRepository.delete(userInfo);
+    return 'successfully signout';
+  }
+
+  // 회원정보 수정
+  async updateUser(req) {
+    const userInfo = req.user;
+    // console.log(userInfo.id);
+    await this.usersRepository.findUserAndUpdate(userInfo, req.body);
   }
 }

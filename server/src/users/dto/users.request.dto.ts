@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class UserRequestDto {
   @IsEmail()
@@ -12,4 +12,6 @@ export class UserRequestDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+
+  stacks: object;
 }
