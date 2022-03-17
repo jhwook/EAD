@@ -10,5 +10,12 @@ declare module 'styled-components' {
     mobile: string;
     tablet: string;
     desktop: string;
+    fontSize: {
+      tiny: string;
+      small: string;
+      medium: string;
+      large: string;
+      huge: string;
+    };
   }
 }

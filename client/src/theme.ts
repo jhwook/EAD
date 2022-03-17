@@ -15,4 +15,11 @@ export const theme: DefaultTheme = {
   mobile: `(max-width: ${size.mobile})`,
   tablet: `(min-width: ${size.mobile}) and (max-width: ${size.tablet})`,
   desktop: `(min-width: ${size.desktop})`,
+  fontSize: {
+    tiny: '15px',
+    small: '23px',
+    medium: '30px',
+    large: '40px',
+    huge: '50px',
+  },
 };
