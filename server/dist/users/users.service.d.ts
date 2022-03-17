@@ -1,9 +1,8 @@
-import { Model } from 'mongoose';
-import { User } from './users.schema';
+import { UsersRepository } from './users.repository';
 import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
-    private userModel;
-    constructor(userModel: Model<User>);
+    private readonly usersRepository;
+    constructor(usersRepository: UsersRepository);
     signup(body: UserRequestDto): Promise<{
         id: string;
         email: string;

@@ -8,24 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
-const mongoose_1 = require("mongoose");
-const mongoose_2 = require("@nestjs/mongoose");
 const bcrypt = require("bcrypt");
-const users_schema_1 = require("./users.schema");
+const users_repository_1 = require("./users.repository");
 let UsersService = class UsersService {
-    constructor(userModel) {
-        this.userModel = userModel;
+    constructor(usersRepository) {
+        this.usersRepository = usersRepository;
     }
     async signup(body) {
         const { email, username, password } = body;
-        const isEmailExist = await this.userModel.exists({ email });
-        const isUsernameExist = await this.userModel.exists({ username });
+        const isEmailExist = await this.usersRepository.existsByEmail(email);
+        const isUsernameExist = await this.usersRepository.existsByUsername(username);
         if (isEmailExist || isUsernameExist) {
             if (isEmailExist) {
                 throw new common_1.HttpException('this email already exist', 400);
@@ -36,7 +31,7 @@ let UsersService = class UsersService {
         }
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
-        const user = await this.userModel.create({
+        const user = await this.usersRepository.create({
             email,
             username,
             password: hashedPassword,
@@ -46,8 +41,7 @@ let UsersService = class UsersService {
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __metadata("design:paramtypes", [users_repository_1.UsersRepository])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

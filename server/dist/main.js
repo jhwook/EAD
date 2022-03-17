@@ -8,6 +8,10 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useGlobalPipes(new common_1.ValidationPipe());
     app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
+    app.enableCors({
+        origin: true,
+        credentials: true,
+    });
     const { PORT } = process.env;
     await app.listen(PORT);
 }
