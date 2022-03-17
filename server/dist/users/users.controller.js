@@ -14,24 +14,27 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_guard_1 = require("../auth/jwt/jwt.guard");
+const login_request_dto_1 = require("../auth/dto/login.request.dto");
+const auth_service_1 = require("../auth/auth.service");
 const users_request_dto_1 = require("./dto/users.request.dto");
 const success_interceptor_1 = require("../common/interceptors/success.interceptor");
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const users_service_1 = require("./users.service");
 let UsersController = class UsersController {
-    constructor(usersService) {
+    constructor(usersService, authService) {
         this.usersService = usersService;
+        this.authService = authService;
     }
-    auth() {
-        throw new common_1.HttpException('not authorized', 401);
-        return 'auth';
+    auth(req) {
+        return req.user.readOnlyData;
     }
-    login(param) {
-        console.log('hello controller!');
-        return { user: 'jhwook' };
+    login(data) {
+        return this.authService.jwtLogIn(data);
     }
     async signup(body) {
-        return await this.usersService.signup(body);
+        const signupService = await this.usersService.signup(body);
+        return signupService;
     }
     logout() {
         return 'logout';
@@ -41,16 +44,18 @@ let UsersController = class UsersController {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Get)('/auth'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "auth", null);
 __decorate([
-    (0, common_1.Post)('/login/:id'),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    (0, common_1.Post)('/login'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [login_request_dto_1.LoginRequestDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "login", null);
 __decorate([
@@ -76,7 +81,8 @@ UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
-    __metadata("design:paramtypes", [users_service_1.UsersService])
+    __metadata("design:paramtypes", [users_service_1.UsersService,
+        auth_service_1.AuthService])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.controller.js.map
