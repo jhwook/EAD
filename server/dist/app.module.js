@@ -10,15 +10,29 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const config_1 = require("@nestjs/config");
+const mongoose = require("mongoose");
+const logger_middleware_1 = require("./common/middlewares/logger.middleware");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const users_module_1 = require("./users/users.module");
 let AppModule = class AppModule {
+    constructor() {
+        this.isDev = process.env.MODE === 'dev';
+    }
+    configure(consumer) {
+        consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes('*');
+        mongoose.set('debug', this.isDev);
+    }
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot(),
-            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            }),
+            users_module_1.UsersModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
