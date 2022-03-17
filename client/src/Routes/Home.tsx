@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
+import { useState } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -91,7 +94,41 @@ const SearchInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.small};
 `;
 
+const Form = styled.form`
+  display: flex;
+  align-items: center;
+`;
+
+const Button = styled.button`
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+`;
+
 function Home() {
+  const [value, setValue] = useState('');
+  const dispatch = useDispatch();
+
+  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value);
+  };
+
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = axios.post(
+      `${process.env.REACT_APP_SERVER}/search`,
+      { keyword: value },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    dispatch({ type: 'Search', payload: data });
+    setValue('');
+  };
+
   return (
     <>
       <Wrapper>
@@ -100,8 +137,16 @@ function Home() {
           <Text>개발하면서 궁금했던 점을</Text>
           <Text>검색해보세요!</Text>
           <Searchbar>
-            <SearchInput placeholder="여기에 입력해주세요!" />
-            <FaSearch className="search" />
+            <Form onSubmit={handleOnSubmit}>
+              <SearchInput
+                onChange={handleOnChange}
+                value={value}
+                placeholder="여기에 입력해주세요!"
+              />
+              <Button type="submit">
+                <FaSearch className="search" />
+              </Button>
+            </Form>
           </Searchbar>
         </SearchBox>
       </Wrapper>

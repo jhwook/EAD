@@ -61,27 +61,23 @@ const GlobalStyle = createGlobalStyle`
 
 interface IActionPros {
   type: string;
-  id: number;
-  payload: object;
+  payload: [{ title: string; tag: string }];
 }
 
 const initialState = [
-  { id: 0, name: '멋진신발', quan: 2 },
-  { id: 1, name: '웃긴신발', quan: 1 },
-  { id: 2, name: '예쁜신발', quan: 0 },
+  { title: 'react error', tag: 'react' },
+  { title: 'react type error', tag: 'react' },
 ];
 
 const reducer = (state = initialState, action: IActionPros) => {
   switch (action.type) {
-    case 'Plus': {
-      const copy = [...state];
-      copy[action.id].quan += 1;
+    case 'Search': {
+      let copy = [...state];
+      copy = [...action.payload];
       return copy;
     }
     case 'Minus': {
-      const copyy = [...state];
-      copyy[action.id].quan -= 1;
-      return copyy;
+      return state;
     }
     default:
       return state;
