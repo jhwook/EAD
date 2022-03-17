@@ -8,7 +8,6 @@ const Circle = styled.div`
   background-color: ${(props) => props.theme.white};
   border: 10px solid ${(props) => props.theme.green};
   border-radius: 500px;
-  position: absolute;
   @media ${(props) => props.theme.mobile} {
     background-color: ${(props) => props.theme.white};
   }
