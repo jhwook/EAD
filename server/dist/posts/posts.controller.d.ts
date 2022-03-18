@@ -7,4 +7,7 @@ export declare class PostsController {
     createPost(req: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
+    updatePost(req: any, param: any): Promise<import("./posts.schema").Post & {
+        _id: any;
+    }>;
 }

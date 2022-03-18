@@ -16,6 +16,10 @@ const options: SchemaOptions = {
 export class Post extends Document {
   @Prop()
   @IsString()
+  writer: string;
+
+  @Prop()
+  @IsString()
   @IsNotEmpty()
   title: string;
 

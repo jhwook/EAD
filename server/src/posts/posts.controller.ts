@@ -1,5 +1,7 @@
 import {
   Controller,
+  Param,
+  Patch,
   Post,
   Req,
   UseFilters,
@@ -26,6 +28,12 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Post('/add')
   createPost(@Req() req) {
-    return this.postsService.createPost(req.body);
+    return this.postsService.createPost(req);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/:postId')
+  updatePost(@Req() req, @Param() param) {
+    return this.postsService.updatePost(req, param);
   }
 }

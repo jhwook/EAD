@@ -3,12 +3,15 @@ import { PostsRepository } from './posts.repository';
 
 @Injectable()
 export class PostsService {
+  // eslint-disable-next-line no-useless-constructor
   constructor(private readonly postsRepository: PostsRepository) {}
 
-  createPost(body) {
-    const { title, content, tag, img } = body;
+  async createPost(req) {
+    const { title, content, tag, img } = req.body;
+    const { username } = req.user;
 
-    const post = this.postsRepository.create({
+    const post = await this.postsRepository.create({
+      writer: username,
       title,
       content,
       tag,
@@ -16,5 +19,12 @@ export class PostsService {
     });
 
     return post;
+  }
+
+  async updatePost(req, param) {
+    const { postId } = param;
+    await this.postsRepository.findPostByIdAndUpdate(postId, req.body);
+    const updatedPost = await this.postsRepository.findPostById(postId);
+    return updatedPost;
   }
 }
