@@ -127,7 +127,7 @@ const Button = styled.button`
 
 function Home() {
   const [value, setValue] = useState('');
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {

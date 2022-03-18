@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Nav from 'Components/Nav';
 import Home from 'Routes/Home';
 import Footer from 'Components/Footer';
-import Team from 'Components/Team';
+import Login from 'Routes/Login';
 
 function App() {
   return (
@@ -10,6 +10,7 @@ function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Footer />
     </>
