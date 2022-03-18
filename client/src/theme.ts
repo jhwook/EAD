@@ -9,9 +9,10 @@ const size = {
 export const theme: DefaultTheme = {
   beige: '#FFFDF7',
   green: '#BEC6B8',
+  btnGreen: '#5A9E7A',
   pink: '#EDD4B9',
   grey: '#B7B7B7',
-  white: 'whitesmoke',
+  white: 'white',
   black: 'black',
   mobile: `(max-width: ${size.mobile})`,
   tablet: `(min-width: ${size.mobile}) and (max-width: ${size.tablet})`,
