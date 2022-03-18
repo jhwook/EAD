@@ -21,6 +21,11 @@ let Post = class Post extends mongoose_2.Document {
 __decorate([
     (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], Post.prototype, "writer", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], Post.prototype, "title", void 0);

@@ -6,6 +6,7 @@
 /// <reference types="mongoose/types/schemaoptions" />
 import { Document } from 'mongoose';
 export declare class Post extends Document {
+    writer: string;
     title: string;
     content: string;
     tag: string[];

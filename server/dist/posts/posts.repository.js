@@ -24,6 +24,19 @@ let PostsRepository = class PostsRepository {
     async create(post) {
         return await this.postModel.create(post);
     }
+    async findPostById(id) {
+        return await this.postModel.findById(id);
+    }
+    async findPostByIdAndUpdate(id, body) {
+        const { title, content, img } = body;
+        const updatedPost = await this.postModel.findByIdAndUpdate(id, {
+            title,
+            content,
+            img,
+        });
+        console.log(updatedPost);
+        return updatedPost;
+    }
 };
 PostsRepository = __decorate([
     (0, common_1.Injectable)(),

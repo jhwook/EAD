@@ -16,15 +16,23 @@ let PostsService = class PostsService {
     constructor(postsRepository) {
         this.postsRepository = postsRepository;
     }
-    createPost(body) {
-        const { title, content, tag, img } = body;
-        const post = this.postsRepository.create({
+    async createPost(req) {
+        const { title, content, tag, img } = req.body;
+        const { username } = req.user;
+        const post = await this.postsRepository.create({
+            writer: username,
             title,
             content,
             tag,
             img,
         });
         return post;
+    }
+    async updatePost(req, param) {
+        const { postId } = param;
+        await this.postsRepository.findPostByIdAndUpdate(postId, req.body);
+        const updatedPost = await this.postsRepository.findPostById(postId);
+        return updatedPost;
     }
 };
 PostsService = __decorate([

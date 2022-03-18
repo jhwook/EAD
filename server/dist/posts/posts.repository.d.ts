@@ -6,4 +6,10 @@ export declare class PostsRepository {
     create(post: any): Promise<Post & {
         _id: any;
     }>;
+    findPostById(id: any): Promise<Post & {
+        _id: any;
+    }>;
+    findPostByIdAndUpdate(id: any, body: any): Promise<Post & {
+        _id: any;
+    }>;
 }
