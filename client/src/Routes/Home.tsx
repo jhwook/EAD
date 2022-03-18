@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
+import { IoMdArrowDropleft } from 'react-icons/io';
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import Team from 'Components/Team';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -16,6 +18,24 @@ const Wrapper = styled.div`
   flex-direction: flex;
   justify-content: center;
   align-items: center;
+  .team {
+    font-size: ${(props) => props.theme.fontSize.veryHuge};
+    color: ${(props) => props.theme.green};
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
+    z-index: 2;
+    &:hover {
+      font-size: ${(props) => props.theme.fontSize.huge};
+    }
+  }
+`;
+
+const TeamWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  right: 0px;
+  z-index: 3;
 `;
 
 const Box = styled.div`
@@ -107,6 +127,7 @@ const Button = styled.button`
 
 function Home() {
   const [value, setValue] = useState('');
+  const [open, setOpen] = useState(true);
   const dispatch = useDispatch();
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -129,9 +150,19 @@ function Home() {
     setValue('');
   };
 
+  const handleOnClick = () => {
+    setOpen(true);
+  };
+
   return (
     <>
+      {open ? (
+        <TeamWrapper>
+          <Team setOpen={setOpen} />
+        </TeamWrapper>
+      ) : null}
       <Wrapper>
+        <IoMdArrowDropleft className="team" onClick={handleOnClick} />
         <Logo src={logo1} />
         <SearchBox>
           <Text>개발하면서 궁금했던 점을</Text>
