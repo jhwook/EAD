@@ -16,7 +16,7 @@ export declare class UsersController {
         username: string;
         stacks: any;
     }>;
-    logout(): string;
+    logout(req: any, res: any): any;
     signout(req: any): Promise<string>;
     updateUser(req: any): Promise<void>;
 }

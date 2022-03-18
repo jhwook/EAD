@@ -27,7 +27,6 @@ let UsersController = class UsersController {
         this.authService = authService;
     }
     auth(req) {
-        console.log(req.user);
         return req.user.readOnlyData;
     }
     login(data) {
@@ -37,8 +36,13 @@ let UsersController = class UsersController {
         const signupService = await this.usersService.createUser(body);
         return signupService;
     }
-    logout() {
-        return 'logout';
+    logout(req, res) {
+        res.cookie('jwt', '', {
+            maxAge: 0,
+        });
+        return res.send({
+            message: 'success',
+        });
     }
     signout(req) {
         return this.usersService.deleteUser(req.user);
@@ -70,9 +74,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "signup", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/logout'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "logout", null);
 __decorate([

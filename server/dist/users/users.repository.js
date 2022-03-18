@@ -47,8 +47,9 @@ let UsersRepository = class UsersRepository {
     async findUserAndUpdate(user, body) {
         const { id } = user;
         const { password: newPassowrd, stacks: newStacks, username: newUsername, } = body;
-        console.log(newUsername);
-        const isUsernameExist = await this.userModel.findOne({ newUsername });
+        const isUsernameExist = await this.userModel.findOne({
+            username: newUsername,
+        });
         if (!isUsernameExist) {
             const salt = await bcrypt.genSalt();
             const hashedPassword = await bcrypt.hash(newPassowrd, salt);
