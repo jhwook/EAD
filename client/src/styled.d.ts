@@ -7,8 +7,12 @@ declare module 'styled-components' {
     btnGreen: string;
     pink: string;
     grey: string;
+    lightGrey: string;
     white: string;
     black: string;
+    naver: string;
+    google: string;
+    kakao: string;
     mobile: string;
     tablet: string;
     desktop: string;
