@@ -1,14 +1,10 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import Button from '../Components/Button';
 import hiLogo from '../Image/Logo/profile.png';
-
-// `${process.env.REACT_APP_SERVER}/search`
-
-interface IStackButton {
-  bgColor: string;
-  color: string;
-}
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,75 +16,56 @@ const Wrapper = styled.div`
 `;
 
 const LeftBox = styled.div`
-  width: 100%;
-  height: 80vh;
+  width: 700px;
+  height: 650px;
   display: flex;
-  //justify-content: center;
   align-items: center;
   flex-direction: column;
 `;
 
 // 유저의 등록된 사진으로 변경 예정
 const UserPhoto = styled.img`
-  width: 33vh;
-  height: 23vh;
+  width: 240px;
+  height: 170px;
 `;
 
 const StackName = styled.div`
-  font-size: 4vh; //${(props) => props.theme.fontSize.large};
-  margin-bottom: 5vh;
+  font-size: ${(props) => props.theme.fontSize.small};
+  margin-bottom: 40px;
 `;
 
 const StackText = styled.div`
-  font-size: 4.5vh; //${(props) => props.theme.fontSize.large};
-  margin-bottom: 1vh;
+  font-size: ${(props) => props.theme.fontSize.small};
+  width: 300px;
 `;
 
-const UnderLine = styled.hr`
+const StackLine = styled.hr`
   height: 2px;
-  width: 40vh;
-  margin-bottom: 2vh;
+  width: 300px;
   background-color: ${(props) => props.theme.black};
 `;
 
 const StackBox = styled.div`
   width: 50%;
-  height: 32vh;
-  //background-color: ${(props) => props.theme.white};
-  border: 1px solid ${(props) => props.theme.grey};
+  height: 245px;
   display: flex;
   padding-top: 3vh;
-  //align-items: space-evenly;
-  //flex-direction: column;
   justify-content: space-evenly;
-  //flex-flow: column wrap;
   flex-wrap: wrap;
 `;
 
-const StackBtn = styled.button<IStackButton>`
-  background-color: ${(props) => props.bgColor};
-  color: ${(props) => props.color};
-  font-size: 1.8vh;
-  width: 40%;
-  height: 15%;
-  border: 1px solid ${(props) => props.theme.btnGreen};
-  border-radius: 15px;
-  cursor: pointer;
-`;
-
 const RightBox = styled.div`
-  width: 100%;
-  height: 80vh;
+  width: 700px;
+  height: 650px;
   display: flex;
-  //justify-content: center;
   align-items: center;
   flex-direction: column;
 `;
 
 const InfoBox = styled.div`
-  width: 60%;
-  height: 80%;
-  margin-top: 5vh;
+  width: 400px;
+  height: 500px;
+  margin-top: 30px;
   border-radius: 30px;
   border: 1px solid ${(props) => props.theme.grey};
   background-color: ${(props) => props.theme.white};
@@ -100,54 +77,86 @@ const InfoBox = styled.div`
 `;
 
 const InfoText = styled.div`
-  font-size: 3vh;
-  margin: 0.5vh;
-  /* position: relative;
-  left: 0%; */
-  //float: right;
+  font-size: ${(props) => props.theme.fontSize.small};
+  width: 290px;
+  margin-top: 20px;
+`;
+
+const InfoWarn = styled.div`
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  color: ${(props) => props.theme.grey};
+  width: 290px;
+  text-align: right;
+  cursor: default;
+`;
+
+const InfoDistrict = styled.div`
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  color: ${(props) => props.theme.grey};
+  width: 290px;
+  text-align: right;
+  cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+    font-weight: bold;
+  }
 `;
 
 const EmailInput = styled.input`
-  font-size: 2.4vh;
+  font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.grey};
-  width: 75%;
-  height: 5vh;
-  padding-left: 1vh;
-  margin: 1vh;
+  width: 290px;
+  height: 40px;
+  padding-left: 8px;
+  margin-top: 3px;
+  margin-bottom: 5px;
   border: 1px solid ${(props) => props.theme.grey};
   border-radius: 10px;
   cursor: no-drop;
 `;
 
 const InfoInput = styled.input`
-  font-size: 2.4vh;
+  font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.grey};
-  width: 75%;
-  height: 5vh;
-  padding-left: 1vh;
-  margin: 0.5vh;
-  margin-bottom: 1.5vh;
+  width: 290px;
+  height: 40px;
+  padding-left: 8px;
+  margin-top: 3px;
+  margin-bottom: 5px;
   border: 1px solid ${(props) => props.theme.grey};
   border-radius: 10px;
 `;
 
-const InfoDistrict = styled.div`
-  font-size: 1.7vh;
-  color: ${(props) => props.theme.grey};
-  cursor: pointer;
-`;
-
 const InfoConfirmBtn = styled.button`
+  font-size: ${(props) => props.theme.fontSize.small};
   background-color: ${(props) => props.theme.btnGreen};
   color: ${(props) => props.theme.white};
-  width: 24vh;
-  height: 5vh;
-  margin: 1vh;
-  margin-bottom: 2vh;
-  font-size: 2.2vh;
+  width: 200px;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
+`;
+
+const WitText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.small};
+  width: 290px;
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const WitInfo = styled.div`
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  color: ${(props) => props.theme.grey};
+  width: 290px;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+    font-weight: bold;
+  }
 `;
 
 const WitModalBack = styled.div`
@@ -155,18 +164,17 @@ const WitModalBack = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
 `;
 
 const WitModalBox = styled.div`
   position: absolute;
-  width: 35vh;
-  height: 20vh;
+  width: 320px;
+  height: 150px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  //transition: all 0.5s;
   background-color: ${(props) => props.theme.beige};
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
@@ -176,82 +184,247 @@ const WitModalBox = styled.div`
   flex-direction: column;
 `;
 
-const WitModalYesBtn = styled.button`
+const WitModalBtnBox = styled.div``;
+
+const WitModalBtn = styled.button`
   background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.green};
+  color: ${(props) => props.theme.btnGreen};
   border: 1px solid ${(props) => props.theme.grey};
   border-radius: 11px;
-  margin: 1vh;
-  font-size: 2vh;
-  width: 9vh;
-  height: 4vh;
+  margin: 20px;
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  width: 80px;
+  height: 30px;
   cursor: pointer;
 `;
 
-const WitModalNoBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.green};
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 11px;
-  margin: 1vh;
-  font-size: 2vh;
-  width: 9vh;
-  height: 4vh;
-  cursor: pointer;
-`;
-
+// `${process.env.REACT_APP_SERVER}/search`
 function Profile() {
-  const [modalView, setModalView] = useState<boolean>(false);
-  const [checkJs, setCheckJs] = useState<boolean>(false);
+  const [user, setUser] = useState<string | null>(null);
 
-  const onClick = () => {
-    setCheckJs(!checkJs);
+  const [modalView, setModalView] = useState(false);
+  const [js, setJs] = useState(false);
+  const [ts, setTs] = useState(false);
+  const [css, setCss] = useState(false);
+  const [react, setReact] = useState(false);
+  const [vue, setVue] = useState(false);
+  const [noSql, setNoSql] = useState(false);
+  const [sql, setSql] = useState(false);
+  const [express, setExpress] = useState(false);
+  const [aws, setAws] = useState(false);
+  const [other, setOther] = useState(false);
+
+  // const [nickname, setNickname] = useState('');
+  // const [firstPw, setFirstPw] = useState('');
+  // const [secPw, setSecPw] = useState('');
+
+  // useEffect(() => {
+  //   const userinfo = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${process.env.REACT_APP_SERVER}/profile/:id`,
+  //       );
+  //       setUser(response.data);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  // }, []);
+
+  const onClickJs = () => {
+    setJs(!js);
   };
 
-  const modalClick = () => {
+  const onClickTs = () => {
+    setTs(!ts);
+  };
+
+  const onClickCss = () => {
+    setCss(!css);
+  };
+
+  const onClickReact = () => {
+    setReact(!react);
+  };
+
+  const onClickVue = () => {
+    setVue(!vue);
+  };
+
+  const onClickNoSql = () => {
+    setNoSql(!noSql);
+  };
+
+  const onClickSql = () => {
+    setSql(!sql);
+  };
+
+  const onClickExpress = () => {
+    setExpress(!express);
+  };
+
+  const onClickAws = () => {
+    setAws(!aws);
+  };
+
+  const onClickOther = () => {
+    setOther(!other);
+  };
+
+  const handleModalClick = () => {
     setModalView(!modalView);
   };
 
   return (
     <Wrapper>
       <LeftBox>
-        <UserPhoto src={hiLogo} />
-        <StackName>Hi, EB!</StackName>
-        <StackText>내가 사용하는 스텍</StackText>
-        <UnderLine />
+        <UserPhoto
+          src={hiLogo}
+          // {user?.photo ? (src={user.photo}) : (src={hiLogo})}
+        />
+        <StackName>어서오세요, 전해커님!</StackName>
+        <StackText>내가 사용하는 스택</StackText>
+        <StackLine />
         <StackBox>
-          {checkJs ? (
-            <Button onClick={onClick} bg="green" cl="white" name="Javascript" />
+          {js ? (
+            <Button
+              onClick={onClickJs}
+              bg="#5A9E7A"
+              cl="white"
+              name="Javascript"
+            />
           ) : (
-            <Button onClick={onClick} bg="white" cl="green" name="Javascript" />
+            <Button
+              onClick={onClickJs}
+              bg="white"
+              cl="#5A9E7A"
+              name="Javascript"
+            />
           )}
-          <Button onClick={onClick} bg="green" cl="white" name="Javascript" />
+          {ts ? (
+            <Button
+              onClick={onClickTs}
+              bg="#5A9E7A"
+              cl="white"
+              name="Typescript"
+            />
+          ) : (
+            <Button
+              onClick={onClickTs}
+              bg="white"
+              cl="#5A9E7A"
+              name="Typescript"
+            />
+          )}
+          {css ? (
+            <Button onClick={onClickCss} bg="#5A9E7A" cl="white" name="CSS" />
+          ) : (
+            <Button onClick={onClickCss} bg="white" cl="#5A9E7A" name="CSS" />
+          )}
+          {react ? (
+            <Button
+              onClick={onClickReact}
+              bg="#5A9E7A"
+              cl="white"
+              name="React"
+            />
+          ) : (
+            <Button
+              onClick={onClickReact}
+              bg="white"
+              cl="#5A9E7A"
+              name="React"
+            />
+          )}
+          {vue ? (
+            <Button onClick={onClickVue} bg="#5A9E7A" cl="white" name="Vue" />
+          ) : (
+            <Button onClick={onClickVue} bg="white" cl="#5A9E7A" name="Vue" />
+          )}
+          {noSql ? (
+            <Button
+              onClick={onClickNoSql}
+              bg="#5A9E7A"
+              cl="white"
+              name="NoSql"
+            />
+          ) : (
+            <Button
+              onClick={onClickNoSql}
+              bg="white"
+              cl="#5A9E7A"
+              name="NoSql"
+            />
+          )}
+          {sql ? (
+            <Button onClick={onClickSql} bg="#5A9E7A" cl="white" name="SQL" />
+          ) : (
+            <Button onClick={onClickSql} bg="white" cl="#5A9E7A" name="SQL" />
+          )}
+          {express ? (
+            <Button
+              onClick={onClickExpress}
+              bg="#5A9E7A"
+              cl="white"
+              name="Express"
+            />
+          ) : (
+            <Button
+              onClick={onClickExpress}
+              bg="white"
+              cl="#5A9E7A"
+              name="Express"
+            />
+          )}
+          {aws ? (
+            <Button onClick={onClickAws} bg="#5A9E7A" cl="white" name="AWS" />
+          ) : (
+            <Button onClick={onClickAws} bg="white" cl="#5A9E7A" name="AWS" />
+          )}
+          {other ? (
+            <Button
+              onClick={onClickOther}
+              bg="#5A9E7A"
+              cl="white"
+              name="Others"
+            />
+          ) : (
+            <Button
+              onClick={onClickOther}
+              bg="white"
+              cl="#5A9E7A"
+              name="Others"
+            />
+          )}
         </StackBox>
       </LeftBox>
       <RightBox>
         <InfoBox>
           <InfoText>이메일</InfoText>
-          <InfoDistrict>변경불가</InfoDistrict>
+          <InfoWarn>변경불가</InfoWarn>
           <EmailInput value="기존 이메일" readOnly />
           <InfoText>닉네임</InfoText>
           <InfoDistrict>중복검사</InfoDistrict>
           <InfoInput type="text" placeholder="기존 닉네임" />
           <InfoText>비밀번호</InfoText>
+          <InfoWarn>필수사항</InfoWarn>
           <InfoInput type="password" placeholder="비밀번호를 입력하세요" />
           <InfoInput
             type="password"
             placeholder="비밀번호를 한번 더 입력하세요"
           />
           <InfoConfirmBtn>변경하기</InfoConfirmBtn>
-          <InfoDistrict onClick={modalClick}>회원탈퇴</InfoDistrict>
+          <WitInfo onClick={handleModalClick}>회원탈퇴</WitInfo>
         </InfoBox>
       </RightBox>
       {modalView ? (
         <WitModalBack>
           <WitModalBox>
-            <InfoText>정말로 탈퇴하실 건가요?</InfoText>
-            <WitModalYesBtn onClick={modalClick}>네</WitModalYesBtn>
-            <WitModalNoBtn onClick={modalClick}>아니요</WitModalNoBtn>
+            <WitText>정말로 탈퇴하실 건가요?</WitText>
+            <WitModalBtnBox>
+              <WitModalBtn onClick={handleModalClick}>네</WitModalBtn>
+              <WitModalBtn onClick={handleModalClick}>아니요</WitModalBtn>
+            </WitModalBtnBox>
           </WitModalBox>
         </WitModalBack>
       ) : null}

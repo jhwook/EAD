@@ -12,23 +12,12 @@ interface IStackButton {
   color: string;
 }
 
-const StackBtn = styled.button<IStackButton>`
+const Btn = styled.button<IStackButton>`
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.color};
-  font-size: 1.8vh;
-  width: 40%;
-  height: 15%;
-  border: 1px solid ${(props) => props.theme.btnGreen};
-  border-radius: 15px;
-  cursor: pointer;
-`;
-
-const Btn = styled.button<IStackButton>`
-  background-color: bg;
-  color: cl;
-  font-size: 1.8vh;
-  width: 40%;
-  height: 15%;
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  width: 120px;
+  height: 37px;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
   cursor: pointer;
