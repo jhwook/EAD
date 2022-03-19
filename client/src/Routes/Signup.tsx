@@ -150,7 +150,7 @@ function Signup() {
 
   const checkUernameOnClick = async () => {
     const data = await axios.post(
-      `${process.env.REACT_APP_SERVER}/signup/username`,
+      `${process.env.REACT_APP_SERVER}/users/verify/username`,
       { username },
       {
         headers: {
@@ -163,7 +163,7 @@ function Signup() {
 
   const checkEmailOnClick = async () => {
     const data = await axios.post(
-      `${process.env.REACT_APP_SERVER}/signup/email`,
+      `${process.env.REACT_APP_SERVER}/users/verify/email`,
       { email },
       {
         headers: {
