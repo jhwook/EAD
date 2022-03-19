@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const mailer_1 = require("@nestjs-modules/mailer");
 const auth_module_1 = require("../auth/auth.module");
 const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
@@ -20,6 +21,16 @@ UsersModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: users_schema_1.User.name, schema: users_schema_1.UserSchema }]),
+            mailer_1.MailerModule.forRoot({
+                transport: {
+                    host: 'smtp.naver.com',
+                    port: 465,
+                    auth: {
+                        user: process.env.EMAIL_ID,
+                        pass: process.env.EMAIL_PASS,
+                    },
+                },
+            }),
             (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
         ],
         controllers: [users_controller_1.UsersController],

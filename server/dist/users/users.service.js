@@ -12,10 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+const mailer_1 = require("@nestjs-modules/mailer");
 const users_repository_1 = require("./users.repository");
 let UsersService = class UsersService {
-    constructor(usersRepository) {
+    constructor(usersRepository, mailerService) {
         this.usersRepository = usersRepository;
+        this.mailerService = mailerService;
     }
     async createUser(body) {
         const { email, username, password } = body;
@@ -89,10 +92,24 @@ let UsersService = class UsersService {
             return { message: 'ok' };
         }
     }
+    async sendEmail(body) {
+        const { email } = body;
+        console.log(email);
+        const number = crypto.randomBytes(8).readUInt32LE(0);
+        console.log(number);
+        await this.mailerService.sendMail({
+            to: email,
+            from: `${process.env.EMAIL_ID}@naver.com`,
+            subject: 'Testing Nest MailerModule ✔',
+            text: 'welcome',
+            html: `6자리 인증 코드 :  <b> ${number}</b>`,
+        });
+    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [users_repository_1.UsersRepository])
+    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
+        mailer_1.MailerService])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

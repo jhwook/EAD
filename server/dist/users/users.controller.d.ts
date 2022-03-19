@@ -31,4 +31,5 @@ export declare class UsersController {
     verifyUsername(body: any): Promise<{
         message: string;
     }>;
+    sendEmail(body: any): Promise<void>;
 }

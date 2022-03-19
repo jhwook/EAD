@@ -46,6 +46,7 @@ export class PostsService {
 
   async searchPostByTag(body) {
     const { tag } = body;
+    // eslint-disable-next-line no-return-await
     return await this.postsRepository.searchPostByTag(tag);
   }
 }

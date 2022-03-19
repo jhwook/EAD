@@ -89,4 +89,19 @@ export class UsersController {
   verifyUsername(@Body() body) {
     return this.usersService.verifyUsername(body);
   }
+
+  @Post('/send-email')
+  sendEmail(@Body() body) {
+    return this.usersService.sendEmail(body);
+  }
+
+  // @Post('/find/email')
+  // findEmail(@Body() body) {
+  //   return this.usersService.findEmail(body);
+  // }
+
+  // @Post('/find/password')
+  // findPassword(@Body() body) {
+  //   return this.usersService.findPassword(body);
+  // }
 }

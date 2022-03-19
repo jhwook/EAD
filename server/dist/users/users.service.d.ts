@@ -1,8 +1,10 @@
+import { MailerService } from '@nestjs-modules/mailer';
 import { UsersRepository } from './users.repository';
 import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
     private readonly usersRepository;
-    constructor(usersRepository: UsersRepository);
+    private readonly mailerService;
+    constructor(usersRepository: UsersRepository, mailerService: MailerService);
     createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;
@@ -21,4 +23,5 @@ export declare class UsersService {
     verifyUsername(body: any): Promise<{
         message: string;
     }>;
+    sendEmail(body: any): Promise<void>;
 }
