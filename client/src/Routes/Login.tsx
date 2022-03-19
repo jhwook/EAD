@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router';
 import naver from '../Image/Btn/naver.png';
 import kakao from '../Image/Btn/kakao.png';
@@ -112,28 +113,36 @@ const Text = styled.div`
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [open, isOpen] = useState(true);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: Dispatch = useDispatch();
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (email && password) {
-      const data = await axios.post(
-        `${process.env.REACT_APP_SERVER}/login`,
-        { email, password },
-        {
-          headers: {
-            'Content-Type': 'application/json',
+    try {
+      if (email && password) {
+        const data = await axios.post(
+          `${process.env.REACT_APP_SERVER}/users/login`,
+          { email, password },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      );
-      dispatch({ type: 'Login', userInfo: data, accessToken: data });
-      setEmail('');
-      setPassword('');
-      navigate('/');
+        );
+        dispatch({
+          type: 'Login',
+          userInfo: data.data.userInfo,
+          accessToken: data.data.token,
+        });
+        setEmail('');
+        setPassword('');
+        navigate('/');
+      }
+    } catch (err) {
+      setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');
     }
   };
 
@@ -170,9 +179,11 @@ function Login() {
               <PasswordInput
                 value={password}
                 required
+                type="password"
                 onChange={passwordOnChange}
                 placeholder="비밀번호을 입력해주세요"
               />
+              <Text>{errorMessage || null}</Text>
               <LoginBtn type="submit">로그인</LoginBtn>
             </Form>
             <Text>--------------- 또는 --------------</Text>

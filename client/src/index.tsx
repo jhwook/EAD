@@ -76,7 +76,7 @@ interface ILoginActionPros {
   accessToken: string;
 }
 
-const loginState: ILoginState = {
+const userState: ILoginState = {
   userInfo: {
     id: '1',
     username: 'kim',
@@ -85,7 +85,7 @@ const loginState: ILoginState = {
   accessToken: 'dfgvdfgtyty123@#%',
 };
 
-const LoginReducer = (state = loginState, action: ILoginActionPros) => {
+const userReducer = (state = userState, action: ILoginActionPros) => {
   switch (action.type) {
     case 'Login': {
       const copy = { ...state };
@@ -99,7 +99,7 @@ const LoginReducer = (state = loginState, action: ILoginActionPros) => {
   }
 };
 
-const store = createStore(LoginReducer);
+const store = createStore(userReducer);
 
 export type RootState = ReturnType<typeof store.getState>;
 
