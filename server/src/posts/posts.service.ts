@@ -43,4 +43,9 @@ export class PostsService {
     // eslint-disable-next-line no-return-await
     return await this.postsRepository.searchPostInDB(keyword);
   }
+
+  async searchPostByTag(body) {
+    const { tag } = body;
+    return await this.postsRepository.searchPostByTag(tag);
+  }
 }

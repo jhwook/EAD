@@ -10,4 +10,5 @@ export declare class PostsService {
     }>;
     deletePost(param: any): Promise<void>;
     searchPost(body: any): Promise<any[]>;
+    searchPostByTag(body: any): Promise<any[]>;
 }

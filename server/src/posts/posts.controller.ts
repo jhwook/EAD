@@ -49,4 +49,9 @@ export class PostsController {
   searchPost(@Body() body) {
     return this.postsService.searchPost(body);
   }
+
+  @Post('/search/tag')
+  searchPostByTag(@Body() body) {
+    return this.postsService.searchPostByTag(body);
+  }
 }
