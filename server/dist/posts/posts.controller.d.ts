@@ -10,4 +10,5 @@ export declare class PostsController {
     updatePost(req: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
+    deletePost(param: any): Promise<void>;
 }

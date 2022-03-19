@@ -34,8 +34,12 @@ let PostsRepository = class PostsRepository {
             content,
             img,
         });
-        console.log(updatedPost);
         return updatedPost;
+    }
+    async findPostByIdAndDelete(id) {
+        const deletePost = this.postModel.findByIdAndDelete(id);
+        console.log(deletePost);
+        return deletePost;
     }
 };
 PostsRepository = __decorate([

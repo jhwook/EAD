@@ -12,4 +12,7 @@ export declare class PostsRepository {
     findPostByIdAndUpdate(id: any, body: any): Promise<Post & {
         _id: any;
     }>;
+    findPostByIdAndDelete(id: any): Promise<Post & {
+        _id: any;
+    }>;
 }
