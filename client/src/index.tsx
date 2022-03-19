@@ -62,6 +62,7 @@ const GlobalStyle = createGlobalStyle`
 
 // Login
 interface ILoginState {
+  isLogin: boolean;
   userInfo: {
     id?: string;
     username?: string;
@@ -79,31 +80,22 @@ interface ILoginActionPros {
   type: string;
   userInfo: object;
   accessToken: string;
+  isLogin: boolean;
 }
 
 const userState: ILoginState = {
+  isLogin: true,
   userInfo: {
     id: '1',
     username: 'kim',
-    email: '1234@naver.com',
+    email: 'sad@naver.com',
     oauth: false,
-    stacks: [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ],
-    createdAt: '2022-03-19T03:49:29.710Z',
-    updateAt: '2022-03-19T03:49:29.710Z',
+    stacks: [false],
+    createdAt: '1',
+    updateAt: '2',
     __v: 0,
   },
-  accessToken: 'dfgvdfgtyty123@#%',
+  accessToken: '',
 };
 
 const userReducer = (state = userState, action: ILoginActionPros) => {
@@ -112,6 +104,14 @@ const userReducer = (state = userState, action: ILoginActionPros) => {
       const copy = { ...state };
       copy.userInfo = action.userInfo;
       copy.accessToken = action.accessToken;
+      copy.isLogin = action.isLogin;
+      return copy;
+    }
+    case 'Logout': {
+      const copy = { ...state };
+      copy.userInfo = {};
+      copy.accessToken = '';
+      copy.isLogin = false;
       return copy;
     }
     default: {

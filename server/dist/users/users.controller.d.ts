@@ -8,6 +8,7 @@ export declare class UsersController {
     constructor(usersService: UsersService, authService: AuthService);
     auth(req: any): any;
     login(body: LoginRequestDto): Promise<{
+        isLogin: boolean;
         userInfo: import("./users.schema").User;
         token: string;
     }>;

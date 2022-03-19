@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { RootState } from 'index';
 import Button from '../Components/Button';
 import hiLogo from '../Image/Logo/profile.png';
 
@@ -259,6 +260,7 @@ function Profile() {
   const [username, setUsername] = useState('');
   const [firstPw, setFirstPw] = useState('');
   const [secPw, setSecPw] = useState('');
+  const userData = useSelector((state: RootState) => state);
 
   // fpw,spw가 같지않으면 요청을 거절해야 함
   // 버튼을 비활성화 할건지, 요청을 자를건지는 고민해보고
