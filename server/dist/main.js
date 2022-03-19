@@ -3,10 +3,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const common_1 = require("@nestjs/common");
 const cookieParser = require("cookie-parser");
-const http_exception_filter_1 = require("./common/exceptions/http-exception.filter");
+const fs = require("fs");
+const http = require("http");
+const https = require("https");
+const express = require("express");
+const platform_express_1 = require("@nestjs/platform-express");
 const app_module_1 = require("./app.module");
+const http_exception_filter_1 = require("./common/exceptions/http-exception.filter");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    const httpsOptions = {
+        key: fs.readFileSync('./key.pem'),
+        cert: fs.readFileSync('./cert.pem'),
+    };
+    const server = express();
+    const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter(server));
     app.use(cookieParser());
     app.useGlobalPipes(new common_1.ValidationPipe());
     app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
@@ -14,8 +24,10 @@ async function bootstrap() {
         origin: true,
         credentials: true,
     });
+    await app.init();
     const { PORT } = process.env;
-    await app.listen(PORT);
+    http.createServer(server).listen(PORT);
+    https.createServer(httpsOptions, server).listen(443);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

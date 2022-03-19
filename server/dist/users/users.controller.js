@@ -59,6 +59,9 @@ let UsersController = class UsersController {
     verifyUsername(body) {
         return this.usersService.verifyUsername(body);
     }
+    sendEmail(body) {
+        return this.usersService.sendEmail(body);
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
@@ -130,6 +133,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "verifyUsername", null);
+__decorate([
+    (0, common_1.Post)('/send-email'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "sendEmail", null);
 UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

@@ -2,6 +2,8 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
+import { MailerService } from '@nestjs-modules/mailer';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
@@ -9,7 +11,10 @@ import { UserRequestDto } from './dto/users.request.dto';
 @Injectable()
 export class UsersService {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly mailerService: MailerService,
+  ) {}
 
   // 회원가입
   async createUser(body: UserRequestDto) {
@@ -97,5 +102,19 @@ export class UsersService {
     } else {
       return { message: 'ok' };
     }
+  }
+
+  async sendEmail(body) {
+    const { email } = body;
+    console.log(email);
+    const number: number = crypto.randomBytes(8).readUInt32LE(0);
+    console.log(number);
+    await this.mailerService.sendMail({
+      to: email, // list of receivers
+      from: `${process.env.EMAIL_ID}@naver.com`, // sender address
+      subject: 'Testing Nest MailerModule ✔', // Subject line
+      text: 'welcome', // plaintext body
+      html: `6자리 인증 코드 :  <b> ${number}</b>`, // HTML body content
+    });
   }
 }
