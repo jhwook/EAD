@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { RootState } from 'index';
 import styled from 'styled-components';
 import Home from './Home';
 
@@ -128,6 +129,9 @@ function Signup() {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userData = useSelector((state: RootState) => state);
+  console.log(userData);
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
