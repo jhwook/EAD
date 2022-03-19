@@ -67,8 +67,11 @@ const InfoBox = styled.div`
   height: 500px;
   margin-top: 30px;
   border-radius: 30px;
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 2px solid ${(props) => props.theme.lightGrey};
   background-color: ${(props) => props.theme.white};
+`;
+
+const InfoForm = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,6 +89,7 @@ const InfoWarn = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   color: ${(props) => props.theme.grey};
   width: 290px;
+  margin-bottom: 5px;
   text-align: right;
   cursor: default;
 `;
@@ -95,6 +99,7 @@ const InfoDistrict = styled.div`
   color: ${(props) => props.theme.grey};
   width: 290px;
   text-align: right;
+  margin-bottom: 5px;
   cursor: pointer;
   &:hover {
     color: ${(props) => props.theme.pink};
@@ -103,28 +108,28 @@ const InfoDistrict = styled.div`
 `;
 
 const EmailInput = styled.input`
-  font-size: ${(props) => props.theme.fontSize.small};
+  font-size: ${(props) => props.theme.fontSize.mini};
   color: ${(props) => props.theme.grey};
   width: 290px;
-  height: 40px;
-  padding-left: 8px;
-  margin-top: 3px;
-  margin-bottom: 5px;
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 10px;
+  //height: 35px;
+  border: 2px solid ${(props) => props.theme.lightGrey};
+  border-radius: 15px;
+  padding: 8px;
+  padding-left: 15px;
+  margin-bottom: 10px;
   cursor: no-drop;
 `;
 
 const InfoInput = styled.input`
-  font-size: ${(props) => props.theme.fontSize.small};
+  font-size: ${(props) => props.theme.fontSize.mini};
   color: ${(props) => props.theme.grey};
   width: 290px;
-  height: 40px;
-  padding-left: 8px;
-  margin-top: 3px;
-  margin-bottom: 5px;
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 10px;
+  //height: 35px;
+  border: 2px solid ${(props) => props.theme.lightGrey};
+  border-radius: 15px;
+  padding: 8px;
+  padding-left: 15px;
+  //margin-top: 10px;
 `;
 
 const InfoConfirmBtn = styled.button`
@@ -138,6 +143,10 @@ const InfoConfirmBtn = styled.button`
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
+`;
+
+const AlertText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.micro};
 `;
 
 const WitText = styled.div`
@@ -214,22 +223,25 @@ function Profile() {
   const [aws, setAws] = useState(false);
   const [other, setOther] = useState(false);
 
-  // const [nickname, setNickname] = useState('');
-  // const [firstPw, setFirstPw] = useState('');
-  // const [secPw, setSecPw] = useState('');
+  const [username, setUsername] = useState('');
+  const [firstPw, setFirstPw] = useState('');
+  const [secPw, setSecPw] = useState('');
 
-  // useEffect(() => {
-  //   const userinfo = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${process.env.REACT_APP_SERVER}/profile/:id`,
-  //       );
-  //       setUser(response.data);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  // }, []);
+  // fpw,spw가 같지않으면 요청을 거절해야 함
+  // 버튼을 비활성화 할건지, 요청을 자를건지는 고민해보고
+
+  useEffect(() => {
+    const userinfo = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER}/auth`,
+        );
+        setUser(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+  }, []);
 
   const onClickJs = () => {
     setJs(!js);
@@ -400,21 +412,25 @@ function Profile() {
       </LeftBox>
       <RightBox>
         <InfoBox>
-          <InfoText>이메일</InfoText>
-          <InfoWarn>변경불가</InfoWarn>
-          <EmailInput value="기존 이메일" readOnly />
-          <InfoText>닉네임</InfoText>
-          <InfoDistrict>중복검사</InfoDistrict>
-          <InfoInput type="text" placeholder="기존 닉네임" />
-          <InfoText>비밀번호</InfoText>
-          <InfoWarn>필수사항</InfoWarn>
-          <InfoInput type="password" placeholder="비밀번호를 입력하세요" />
-          <InfoInput
-            type="password"
-            placeholder="비밀번호를 한번 더 입력하세요"
-          />
-          <InfoConfirmBtn>변경하기</InfoConfirmBtn>
-          <WitInfo onClick={handleModalClick}>회원탈퇴</WitInfo>
+          <InfoForm>
+            <InfoText>이메일</InfoText>
+            <InfoWarn>변경불가</InfoWarn>
+            <EmailInput value="기존 이메일" readOnly />
+            <InfoText>닉네임</InfoText>
+            <InfoDistrict>중복검사</InfoDistrict>
+            <InfoInput type="text" placeholder="기존 닉네임" />
+            <AlertText>사용 가능한 이름입니다</AlertText>
+            <InfoText>비밀번호</InfoText>
+            <InfoWarn>필수사항</InfoWarn>
+            <InfoInput type="password" placeholder="비밀번호를 입력하세요" />
+            <InfoInput
+              type="password"
+              placeholder="비밀번호를 한번 더 입력하세요"
+            />
+            <AlertText>비밀번호가 일치합니다</AlertText>
+            <InfoConfirmBtn type="submit">변경하기</InfoConfirmBtn>
+            <WitInfo onClick={handleModalClick}>회원탈퇴</WitInfo>
+          </InfoForm>
         </InfoBox>
       </RightBox>
       {modalView ? (
