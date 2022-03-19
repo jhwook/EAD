@@ -66,6 +66,7 @@ const InfoBox = styled.div`
   width: 400px;
   height: 500px;
   margin-top: 30px;
+  padding-top: 30px;
   border-radius: 30px;
   border: 2px solid ${(props) => props.theme.lightGrey};
   background-color: ${(props) => props.theme.white};
@@ -82,7 +83,7 @@ const InfoForm = styled.form`
 const InfoText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 290px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const InfoWarn = styled.div`
@@ -111,7 +112,6 @@ const EmailInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.mini};
   color: ${(props) => props.theme.grey};
   width: 290px;
-  //height: 35px;
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
   padding: 8px;
@@ -124,12 +124,11 @@ const InfoInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.mini};
   color: ${(props) => props.theme.grey};
   width: 290px;
-  //height: 35px;
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
   padding: 8px;
   padding-left: 15px;
-  //margin-top: 10px;
+  margin-bottom: 5px;
 `;
 
 const InfoConfirmBtn = styled.button`
@@ -138,15 +137,21 @@ const InfoConfirmBtn = styled.button`
   color: ${(props) => props.theme.white};
   width: 200px;
   height: 40px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 12px;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
+  &:hover {
+    font-weight: bold;
+  }
 `;
 
-const AlertText = styled.div`
+const InfoAlertText = styled.div`
   font-size: ${(props) => props.theme.fontSize.micro};
+  color: ${(props) => props.theme.lightGrey};
+  width: 290px;
+  margin-bottom: 10px;
 `;
 
 const WitText = styled.div`
@@ -158,7 +163,7 @@ const WitText = styled.div`
 
 const WitInfo = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
-  color: ${(props) => props.theme.grey};
+  color: ${(props) => props.theme.lightGrey};
   width: 290px;
   text-align: center;
   cursor: pointer;
@@ -205,14 +210,42 @@ const WitModalBtn = styled.button`
   width: 80px;
   height: 30px;
   cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+    font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
 `;
 
 // `${process.env.REACT_APP_SERVER}/search`
 function Profile() {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState({
+    success: true,
+    data: {
+      id: '623554cd3691c8772cded270',
+      email: 'eb@eb.eb',
+      username: 'eb',
+      stacks: [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ],
+      oauth: false,
+    },
+  });
+  // 전역에서 userinfo만 꺼내쓰면 된다
+  // user.data.stacks[] 안에 들어있는 불리언 값을 뿌려야 함
+  // reducer를 고민해야 함
 
   const [modalView, setModalView] = useState(false);
-  const [js, setJs] = useState(false);
+  const [js, setJs] = useState(user.data.stacks[0]);
   const [ts, setTs] = useState(false);
   const [css, setCss] = useState(false);
   const [react, setReact] = useState(false);
@@ -229,19 +262,53 @@ function Profile() {
 
   // fpw,spw가 같지않으면 요청을 거절해야 함
   // 버튼을 비활성화 할건지, 요청을 자를건지는 고민해보고
+  // if 절로 요청 거절을 하는 쪽이 나을듯
+  // `${process.env.REACT_APP_SERVER}/auth`
+  // useEffect(() => {
+  //   const userinfo = async () => {
+  //     console.log(userinfo);
+  //     try {
+  //       const response = await axios.get(
+  //         `${process.env.REACT_APP_SERVER}/auth`,
+  //       );
+  //       console.log(response);
+  //       setUser(response.data);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  // }, [user]);
 
-  useEffect(() => {
-    const userinfo = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_SERVER}/auth`,
-        );
-        setUser(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-  }, []);
+  // const accessToken =
+  //   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+  //     .eyJlbWFpbCI6ImViQGViLmViIiwic3ViIjoiNjIzNTU0Y2QzNjkxYzg3NzJjZGVkMjcwIiwiaWF0IjoxNjQ3NjYyMzA0LCJleHAiOjE2NzkyMTk5MDR9
+  //     .XXVAxmqNyISpKtmMQKi9 -
+  //   d -
+  //   PNIA43 -
+  //   tUwcYpNxh9HVo;
+  // useEffect(() => {
+  //   if (!user) {
+  //     getUser();
+  //   }
+  // }, []);
+
+  // async function getUser() {
+  //   try {
+  //     const userinfo = await axios.get(
+  //       `${process.env.REACT_APP_SERVER}/users/auth`,
+  //       {
+  //         headers: { 'Content-Type': 'application/json' },
+  //         Authorization: accessToken,
+  //         withCredentials: true,
+  //       },
+  //     );
+  //     setUser(userinfo.data);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
+
+  // 받아온 유저의 email, username, stacks([,,,]형태)
 
   const onClickJs = () => {
     setJs(!js);
@@ -419,7 +486,7 @@ function Profile() {
             <InfoText>닉네임</InfoText>
             <InfoDistrict>중복검사</InfoDistrict>
             <InfoInput type="text" placeholder="기존 닉네임" />
-            <AlertText>사용 가능한 이름입니다</AlertText>
+            <InfoAlertText>사용 가능한 이름입니다</InfoAlertText>
             <InfoText>비밀번호</InfoText>
             <InfoWarn>필수사항</InfoWarn>
             <InfoInput type="password" placeholder="비밀번호를 입력하세요" />
@@ -427,7 +494,7 @@ function Profile() {
               type="password"
               placeholder="비밀번호를 한번 더 입력하세요"
             />
-            <AlertText>비밀번호가 일치합니다</AlertText>
+            <InfoAlertText>비밀번호가 일치합니다</InfoAlertText>
             <InfoConfirmBtn type="submit">변경하기</InfoConfirmBtn>
             <WitInfo onClick={handleModalClick}>회원탈퇴</WitInfo>
           </InfoForm>
