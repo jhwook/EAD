@@ -60,34 +60,46 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-interface ISearchKeyword {
-  title: string;
-  tag: string;
-  content: string;
+// Login
+interface ILoginState {
+  userInfo: {
+    id?: string;
+    username?: string;
+    email?: string;
+  };
+  accessToken: string;
 }
 
-interface IActionPros {
+interface ILoginActionPros {
   type: string;
-  payload: [{ title: string; tag: string; content: string }];
+  userInfo: object;
+  accessToken: string;
 }
 
-const searchKeyword: ISearchKeyword[] = [
-  { title: 'react error', tag: 'react', content: 'How to solve this problem?' },
-  { title: 'react type error', tag: 'react', content: "I don't konw why" },
-];
+const loginState: ILoginState = {
+  userInfo: {
+    id: '1',
+    username: 'kim',
+    email: '1234@naver.com',
+  },
+  accessToken: 'dfgvdfgtyty123@#%',
+};
 
-const keywordReducer = (state = searchKeyword, action: IActionPros) => {
+const LoginReducer = (state = loginState, action: ILoginActionPros) => {
   switch (action.type) {
-    case 'Search': {
-      const copy = [...state];
+    case 'Login': {
+      const copy = { ...state };
+      copy.userInfo = action.userInfo;
+      copy.accessToken = action.accessToken;
       return copy;
     }
-    default:
+    default: {
       return state;
+    }
   }
 };
 
-const store = createStore(keywordReducer);
+const store = createStore(LoginReducer);
 
 export type RootState = ReturnType<typeof store.getState>;
 
