@@ -112,25 +112,29 @@ const Text = styled.div`
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // const [errorMessage, setErrorMessage] = useState('');
   const [open, isOpen] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = await axios.post(
-      `${process.env.REACT_APP_SERVER}/login`,
-      { email, password },
-      {
-        headers: {
-          'Content-Type': 'application/json',
+    if (email && password) {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/login`,
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      },
-    );
-    dispatch({ type: 'Login', payload: data });
-    setEmail('');
-    setPassword('');
+      );
+      dispatch({ type: 'Login', userInfo: data, accessToken: data });
+      setEmail('');
+      setPassword('');
+      navigate('/');
+    }
   };
 
   const emailOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -159,15 +163,17 @@ function Login() {
             <Form onSubmit={handleOnSubmit}>
               <EmailInput
                 value={email}
+                required
                 onChange={emailOnChange}
                 placeholder="이메일을 입력해주세요"
               />
               <PasswordInput
                 value={password}
+                required
                 onChange={passwordOnChange}
                 placeholder="비밀번호을 입력해주세요"
               />
-              <LoginBtn type="button">로그인</LoginBtn>
+              <LoginBtn type="submit">로그인</LoginBtn>
             </Form>
             <Text>--------------- 또는 --------------</Text>
             <NaverImg src={naver} />

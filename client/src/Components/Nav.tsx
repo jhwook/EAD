@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from 'index';
 import logo from '../Image/Logo/ead.png';
 
 const Wrapper = styled.div`
@@ -53,8 +55,9 @@ const ModalMenus = styled.ul`
 const ModalMenu = styled.li``;
 
 function Nav() {
-  const [open, setOpen] = useState(false);
+  const [login, setLogin] = useState(false);
   const [show, isShow] = useState(false);
+  const userData = useSelector((state: RootState) => state);
 
   const ModalOnClick = () => {
     isShow(!show);
@@ -71,7 +74,7 @@ function Nav() {
           </ModalMenus>
         </Modal>
       ) : null}
-      {open ? (
+      {login ? (
         <>
           <LeftBox>
             <Link to="/">
