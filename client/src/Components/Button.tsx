@@ -21,6 +21,10 @@ const Btn = styled.button<IStackButton>`
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
   cursor: pointer;
+  &:hover {
+    font-weight: bold;
+    //box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  }
 `;
 
 function Button({ name, onClick, bg, cl }: IProps) {
