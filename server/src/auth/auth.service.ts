@@ -15,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async jwtLogIn(data: LoginRequestDto) {
+  async jwtLogIn(data) {
     const { email, password } = data;
 
     const user = await this.usersRepository.findUserByEmail(email);
@@ -37,6 +37,7 @@ export class AuthService {
     const payload = { email, sub: user.id };
 
     return {
+      userInfo: user,
       token: this.jwtService.sign(payload),
     };
   }

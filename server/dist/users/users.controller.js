@@ -29,8 +29,8 @@ let UsersController = class UsersController {
     auth(req) {
         return req.user.readOnlyData;
     }
-    login(data) {
-        return this.authService.jwtLogIn(data);
+    async login(body) {
+        return this.authService.jwtLogIn(body);
     }
     async signup(body) {
         const signupService = await this.usersService.createUser(body);
@@ -73,7 +73,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [login_request_dto_1.LoginRequestDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "login", null);
 __decorate([
     (0, common_1.Post)('/signup'),

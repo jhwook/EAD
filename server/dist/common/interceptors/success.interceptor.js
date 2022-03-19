@@ -12,7 +12,6 @@ const operators_1 = require("rxjs/operators");
 let SuccessInterceptor = class SuccessInterceptor {
     intercept(context, next) {
         return next.handle().pipe((0, operators_1.map)((data) => ({
-            success: true,
             data,
         })));
     }

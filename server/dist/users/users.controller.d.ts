@@ -7,7 +7,8 @@ export declare class UsersController {
     private readonly authService;
     constructor(usersService: UsersService, authService: AuthService);
     auth(req: any): any;
-    login(data: LoginRequestDto): Promise<{
+    login(body: LoginRequestDto): Promise<{
+        userInfo: import("./users.schema").User;
         token: string;
     }>;
     signup(body: UserRequestDto): Promise<{
