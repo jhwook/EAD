@@ -3,7 +3,6 @@ import { FaSearch } from 'react-icons/fa';
 import { IoMdArrowDropleft } from 'react-icons/io';
 import { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import Team from 'Components/Team';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
@@ -128,7 +127,7 @@ const Button = styled.button`
 function Home() {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
@@ -136,18 +135,22 @@ function Home() {
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = axios.post(
-      `${process.env.REACT_APP_SERVER}/search`,
-      { keyword: value },
-      {
-        headers: {
-          'Content-Type': 'application/json',
+    if (value) {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER}/search`,
+        { keyword: value },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      },
-    );
-    dispatch({ type: 'Search', payload: data });
-    setValue('');
+      );
+      setErrorMessage('여기에 입력해주세요!');
+      setValue('');
+    } else {
+      setErrorMessage('최소 1글자 이상은 입력해주세요!');
+    }
   };
 
   const handleOnClick = () => {
@@ -172,7 +175,7 @@ function Home() {
               <SearchInput
                 onChange={handleOnChange}
                 value={value}
-                placeholder="여기에 입력해주세요!"
+                placeholder={errorMessage || '여기에 입력해주세요!'}
               />
               <Button type="submit">
                 <FaSearch className="search" />

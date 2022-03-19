@@ -60,32 +60,36 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-interface IActionPros {
-  type: string;
-  payload: [{ title: string; tag: string }];
+interface ISearchKeyword {
+  title: string;
+  tag: string;
+  content: string;
 }
 
-const initialState = [
-  { title: 'react error', tag: 'react' },
-  { title: 'react type error', tag: 'react' },
+interface IActionPros {
+  type: string;
+  payload: [{ title: string; tag: string; content: string }];
+}
+
+const searchKeyword: ISearchKeyword[] = [
+  { title: 'react error', tag: 'react', content: 'How to solve this problem?' },
+  { title: 'react type error', tag: 'react', content: "I don't konw why" },
 ];
 
-const reducer = (state = initialState, action: IActionPros) => {
+const keywordReducer = (state = searchKeyword, action: IActionPros) => {
   switch (action.type) {
     case 'Search': {
-      let copy = [...state];
-      copy = [...action.payload];
+      const copy = [...state];
       return copy;
-    }
-    case 'Minus': {
-      return state;
     }
     default:
       return state;
   }
 };
 
-const store = createStore(reducer);
+const store = createStore(keywordReducer);
+
+export type RootState = ReturnType<typeof store.getState>;
 
 ReactDOM.render(
   <React.StrictMode>
