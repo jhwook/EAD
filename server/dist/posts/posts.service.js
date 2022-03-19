@@ -48,6 +48,10 @@ let PostsService = class PostsService {
         const { keyword } = body;
         return await this.postsRepository.searchPostInDB(keyword);
     }
+    async searchPostByTag(body) {
+        const { tag } = body;
+        return await this.postsRepository.searchPostByTag(tag);
+    }
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),

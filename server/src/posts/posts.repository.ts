@@ -43,4 +43,10 @@ export class PostsRepository {
       .sort({ score: { $meta: 'textScore' } });
     return postArray;
   }
+
+  async searchPostByTag(tag) {
+    let postArray = [];
+    postArray = await this.postModel.find({ tag: { $all: tag } });
+    return postArray;
+  }
 }

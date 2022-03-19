@@ -16,4 +16,5 @@ export declare class PostsRepository {
         _id: any;
     }>;
     searchPostInDB(keyword: any): Promise<any[]>;
+    searchPostByTag(tag: any): Promise<any[]>;
 }
