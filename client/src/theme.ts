@@ -22,7 +22,9 @@ export const theme: DefaultTheme = {
   tablet: `(min-width: ${size.mobile}) and (max-width: ${size.tablet})`,
   desktop: `(min-width: ${size.desktop})`,
   fontSize: {
+    micro: '12px',
     tiny: '15px',
+    mini: '19px',
     small: '23px',
     medium: '30px',
     large: '40px',
