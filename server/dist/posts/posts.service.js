@@ -34,6 +34,16 @@ let PostsService = class PostsService {
         const updatedPost = await this.postsRepository.findPostById(postId);
         return updatedPost;
     }
+    async deletePost(param) {
+        const { postId } = param;
+        const isExistPost = await this.postsRepository.findPostById(postId);
+        if (isExistPost) {
+            await this.postsRepository.findPostByIdAndDelete(postId);
+        }
+        else {
+            throw new common_1.HttpException('존재하지 않는 포스트입니다', 400);
+        }
+    }
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),

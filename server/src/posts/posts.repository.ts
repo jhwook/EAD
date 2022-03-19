@@ -11,10 +11,12 @@ export class PostsRepository {
   ) {}
 
   async create(post) {
+    // eslint-disable-next-line no-return-await
     return await this.postModel.create(post);
   }
 
   async findPostById(id) {
+    // eslint-disable-next-line no-return-await
     return await this.postModel.findById(id);
   }
 
@@ -25,7 +27,11 @@ export class PostsRepository {
       content,
       img,
     });
-    console.log(updatedPost);
     return updatedPost;
+  }
+
+  async findPostByIdAndDelete(id) {
+    const deletePost = this.postModel.findByIdAndDelete(id);
+    return deletePost;
   }
 }

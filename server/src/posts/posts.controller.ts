@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Param,
   Patch,
   Post,
@@ -35,5 +36,11 @@ export class PostsController {
   @Patch('/:postId')
   updatePost(@Req() req, @Param() param) {
     return this.postsService.updatePost(req, param);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:postId')
+  deletePost(@Param() param) {
+    return this.postsService.deletePost(param);
   }
 }
