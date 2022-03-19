@@ -38,7 +38,6 @@ let PostsRepository = class PostsRepository {
     }
     async findPostByIdAndDelete(id) {
         const deletePost = this.postModel.findByIdAndDelete(id);
-        console.log(deletePost);
         return deletePost;
     }
 };
