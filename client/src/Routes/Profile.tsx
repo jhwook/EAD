@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { FormEvent, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router';
 import { RootState } from 'index';
 import Button from '../Components/Button';
@@ -220,97 +221,26 @@ const WitModalBtn = styled.button`
 
 // `${process.env.REACT_APP_SERVER}/search`
 function Profile() {
-  const [user, setUser] = useState({
-    success: true,
-    data: {
-      id: '623554cd3691c8772cded270',
-      email: 'eb@eb.eb',
-      username: 'eb',
-      stacks: [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ],
-      oauth: false,
-    },
-  });
-  // 전역에서 userinfo만 꺼내쓰면 된다
-  // user.data.stacks[] 안에 들어있는 불리언 값을 뿌려야 함
-  // reducer를 고민해야 함
-
   const [modalView, setModalView] = useState(false);
-  const [js, setJs] = useState(user.data.stacks[0]);
-  const [ts, setTs] = useState(false);
-  const [css, setCss] = useState(false);
-  const [react, setReact] = useState(false);
-  const [vue, setVue] = useState(false);
-  const [noSql, setNoSql] = useState(false);
-  const [sql, setSql] = useState(false);
-  const [express, setExpress] = useState(false);
-  const [aws, setAws] = useState(false);
-  const [other, setOther] = useState(false);
 
-  const [username, setUsername] = useState('');
-  const [firstPw, setFirstPw] = useState('');
-  const [secPw, setSecPw] = useState('');
-  const userData = useSelector((state: RootState) => state);
+  const user = useSelector((state: RootState) => state);
+  console.log(user);
 
-  // fpw,spw가 같지않으면 요청을 거절해야 함
-  // 버튼을 비활성화 할건지, 요청을 자를건지는 고민해보고
-  // if 절로 요청 거절을 하는 쪽이 나을듯
-  // `${process.env.REACT_APP_SERVER}/auth`
-  // useEffect(() => {
-  //   const userinfo = async () => {
-  //     console.log(userinfo);
-  //     try {
-  //       const response = await axios.get(
-  //         `${process.env.REACT_APP_SERVER}/auth`,
-  //       );
-  //       console.log(response);
-  //       setUser(response.data);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  // }, [user]);
+  const [js, setJs] = useState(user.userInfo.stacks?.[0]);
+  const [ts, setTs] = useState(user.userInfo.stacks?.[1]);
+  const [css, setCss] = useState(user.userInfo.stacks?.[2]);
+  const [react, setReact] = useState(user.userInfo.stacks?.[3]);
+  const [vue, setVue] = useState(user.userInfo.stacks?.[4]);
+  const [noSql, setNoSql] = useState(user.userInfo.stacks?.[5]);
+  const [sql, setSql] = useState(user.userInfo.stacks?.[6]);
+  const [express, setExpress] = useState(user.userInfo.stacks?.[7]);
+  const [aws, setAws] = useState(user.userInfo.stacks?.[8]);
+  const [other, setOther] = useState(user.userInfo.stacks?.[9]);
 
-  // const accessToken =
-  //   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-  //     .eyJlbWFpbCI6ImViQGViLmViIiwic3ViIjoiNjIzNTU0Y2QzNjkxYzg3NzJjZGVkMjcwIiwiaWF0IjoxNjQ3NjYyMzA0LCJleHAiOjE2NzkyMTk5MDR9
-  //     .XXVAxmqNyISpKtmMQKi9 -
-  //   d -
-  //   PNIA43 -
-  //   tUwcYpNxh9HVo;
-  // useEffect(() => {
-  //   if (!user) {
-  //     getUser();
-  //   }
-  // }, []);
-
-  // async function getUser() {
-  //   try {
-  //     const userinfo = await axios.get(
-  //       `${process.env.REACT_APP_SERVER}/users/auth`,
-  //       {
-  //         headers: { 'Content-Type': 'application/json' },
-  //         Authorization: accessToken,
-  //         withCredentials: true,
-  //       },
-  //     );
-  //     setUser(userinfo.data);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-  // 받아온 유저의 email, username, stacks([,,,]형태)
+  const [username, setUsername] = useState(user.userInfo.username);
+  const [password, setpassword] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
+  const dispatch: Dispatch = useDispatch();
 
   const onClickJs = () => {
     setJs(!js);
@@ -356,14 +286,41 @@ function Profile() {
     setModalView(!modalView);
   };
 
+  // const handlePhotoAddClick = () => {};
+
+  // const handleInfoSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   try {
+  //     if (password === confirmPw) {
+  //       const data = await axios.patch(
+  //         `${process.env.REACT_APP_SERVER}/users/profile`,
+  //         {username, password},
+  //         {
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             Authorization: user.accessToken,
+  //           },
+  //        withCredentials: true,
+  //         },
+  //       );
+  //       dispatch({
+  //         type: 'profile',
+  //         userInfo:
+  //       })
+  //     }
+  //   }
+  // }
+
   return (
     <Wrapper>
       <LeftBox>
-        <UserPhoto
-          src={hiLogo}
-          // {user?.photo ? (src={user.photo}) : (src={hiLogo})}
-        />
-        <StackName>어서오세요, 전해커님!</StackName>
+        {/* {userInfo?.photo ? (
+          <UserPhoto src={userInfo.photo} />
+        ) : (
+          <UserPhoto src={hiLogo} />
+        )} */}
+        <UserPhoto src={hiLogo} />
+        <StackName>어서오세요, {user.userInfo.username}님!</StackName>
         <StackText>내가 사용하는 스택</StackText>
         <StackLine />
         <StackBox>
@@ -484,10 +441,10 @@ function Profile() {
           <InfoForm>
             <InfoText>이메일</InfoText>
             <InfoWarn>변경불가</InfoWarn>
-            <EmailInput value="기존 이메일" readOnly />
+            <EmailInput value={user.userInfo.email} readOnly />
             <InfoText>닉네임</InfoText>
             <InfoDistrict>중복검사</InfoDistrict>
-            <InfoInput type="text" placeholder="기존 닉네임" />
+            <InfoInput type="text" placeholder={user.userInfo.username} />
             <InfoAlertText>사용 가능한 이름입니다</InfoAlertText>
             <InfoText>비밀번호</InfoText>
             <InfoWarn>필수사항</InfoWarn>

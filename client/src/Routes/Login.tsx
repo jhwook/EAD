@@ -119,6 +119,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state);
+  console.log(userData);
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
