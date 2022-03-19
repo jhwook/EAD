@@ -44,6 +44,11 @@ let UsersRepository = class UsersRepository {
     async delete(user) {
         return await this.userModel.deleteOne(user);
     }
+    async changeStacks(id, newStacks) {
+        return await this.userModel.findByIdAndUpdate(id, {
+            stacks: newStacks,
+        });
+    }
     async findUserAndUpdate(user, body) {
         const { id } = user;
         const { password: newPassowrd, stacks: newStacks, username: newUsername, } = body;

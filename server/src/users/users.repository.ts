@@ -42,6 +42,13 @@ export class UsersRepository {
     return await this.userModel.deleteOne(user);
   }
 
+  async changeStacks(id, newStacks) {
+    // eslint-disable-next-line no-return-await
+    return await this.userModel.findByIdAndUpdate(id, {
+      stacks: newStacks,
+    });
+  }
+
   async findUserAndUpdate(user, body) {
     const { id } = user;
     const {

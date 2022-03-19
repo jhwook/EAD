@@ -1,4 +1,10 @@
-import { IsArray, IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 
 export class UserRequestDto {
   @IsEmail()
@@ -14,4 +20,6 @@ export class UserRequestDto {
   username: string;
 
   stacks: object;
+
+  oauth: boolean;
 }

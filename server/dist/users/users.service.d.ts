@@ -8,7 +8,11 @@ export declare class UsersService {
         email: string;
         username: string;
         stacks: any;
+        oauth: any;
     }>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
     updateUser(req: any): Promise<void>;
+    changeStacksBoolean(param: any, req: any): Promise<{
+        message: string;
+    }>;
 }

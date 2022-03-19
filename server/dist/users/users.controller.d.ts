@@ -15,8 +15,12 @@ export declare class UsersController {
         email: string;
         username: string;
         stacks: any;
+        oauth: any;
     }>;
     logout(req: any, res: any): any;
     signout(req: any): Promise<string>;
     updateUser(req: any): Promise<void>;
+    updateStacks(param: any, req: any): Promise<{
+        message: string;
+    }>;
 }

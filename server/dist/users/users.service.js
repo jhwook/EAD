@@ -31,11 +31,24 @@ let UsersService = class UsersService {
         }
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
+        const stacks = [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+        ];
         const user = await this.usersRepository.create({
             email,
             username,
             password: hashedPassword,
-            stacks: [],
+            stacks,
+            oauth: false,
         });
         return user.readOnlyData;
     }
@@ -46,6 +59,15 @@ let UsersService = class UsersService {
     async updateUser(req) {
         const userInfo = req.user;
         await this.usersRepository.findUserAndUpdate(userInfo, req.body);
+    }
+    async changeStacksBoolean(param, req) {
+        const { id, email } = req.user;
+        const user = await this.usersRepository.findUserByEmail(email);
+        const idx = param.id;
+        const newStacks = user.stacks;
+        newStacks.splice(idx, 1, !newStacks[idx]);
+        await this.usersRepository.changeStacks(id, newStacks);
+        return { message: 'ok' };
     }
 };
 UsersService = __decorate([

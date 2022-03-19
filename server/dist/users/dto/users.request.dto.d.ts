@@ -3,4 +3,5 @@ export declare class UserRequestDto {
     password: string;
     username: string;
     stacks: object;
+    oauth: boolean;
 }
