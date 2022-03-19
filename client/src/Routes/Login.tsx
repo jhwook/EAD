@@ -119,7 +119,6 @@ function Login() {
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state);
-  console.log(userData);
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -137,8 +136,8 @@ function Login() {
         );
         dispatch({
           type: 'Login',
-          userInfo: data.data.userInfo,
-          accessToken: data.data.token,
+          userInfo: data.data.data.userInfo,
+          accessToken: data.data.data.token,
         });
         setEmail('');
         setPassword('');
