@@ -50,6 +50,11 @@ let UsersController = class UsersController {
     updateUser(req) {
         return this.usersService.updateUser(req);
     }
+    updateStacks(param, req) {
+        console.log(param);
+        console.log(req.user.email);
+        return this.usersService.changeStacksBoolean(param, req);
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
@@ -98,6 +103,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateUser", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('/stacks/:id'),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "updateStacks", null);
 UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

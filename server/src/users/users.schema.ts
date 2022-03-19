@@ -37,16 +37,11 @@ export class User extends Document {
   @IsNotEmpty()
   password: string;
 
-  @Prop()
-  @IsNumber()
-  level: number;
+  @Prop([Boolean])
+  stacks: boolean[];
 
   @Prop()
-  @IsNumber()
-  exp: number;
-
-  @Prop([String])
-  stacks: string[];
+  oauth: boolean;
 
   @Prop()
   @IsString()
@@ -57,6 +52,7 @@ export class User extends Document {
     email: string;
     username: string;
     stacks;
+    oauth;
   };
 }
 
@@ -68,5 +64,6 @@ UserSchema.virtual('readOnlyData').get(function (this: User) {
     email: this.email,
     username: this.username,
     stacks: this.stacks,
+    oauth: this.oauth,
   };
 });

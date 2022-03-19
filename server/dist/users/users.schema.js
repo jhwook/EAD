@@ -45,19 +45,13 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], User.prototype, "level", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], User.prototype, "exp", void 0);
-__decorate([
-    (0, mongoose_1.Prop)([String]),
+    (0, mongoose_1.Prop)([Boolean]),
     __metadata("design:type", Array)
 ], User.prototype, "stacks", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Boolean)
+], User.prototype, "oauth", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsString)(),
@@ -74,6 +68,7 @@ exports.UserSchema.virtual('readOnlyData').get(function () {
         email: this.email,
         username: this.username,
         stacks: this.stacks,
+        oauth: this.oauth,
     };
 });
 //# sourceMappingURL=users.schema.js.map

@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   Req,
@@ -71,5 +72,13 @@ export class UsersController {
   @Patch('/profile')
   updateUser(@Req() req) {
     return this.usersService.updateUser(req);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/stacks/:id')
+  updateStacks(@Param() param, @Req() req) {
+    console.log(param);
+    console.log(req.user.email);
+    return this.usersService.changeStacksBoolean(param, req);
   }
 }

@@ -18,5 +18,8 @@ export declare class UsersRepository {
         _id: any;
     }>;
     delete(user: UserRequestDto): Promise<import("mongodb").DeleteResult>;
+    changeStacks(id: any, newStacks: any): Promise<User & {
+        _id: any;
+    }>;
     findUserAndUpdate(user: any, body: any): Promise<string>;
 }
