@@ -39,8 +39,8 @@ export class UsersController {
   }
 
   @Post('/login')
-  login(@Body() data: LoginRequestDto) {
-    return this.authService.jwtLogIn(data);
+  async login(@Body() body: LoginRequestDto) {
+    return this.authService.jwtLogIn(body);
   }
 
   @Post('/signup')
