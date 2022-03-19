@@ -66,6 +66,11 @@ interface ILoginState {
     id?: string;
     username?: string;
     email?: string;
+    oauth?: boolean;
+    stacks?: boolean[];
+    createdAt?: string;
+    updateAt?: string;
+    __v?: number;
   };
   accessToken: string;
 }
@@ -81,6 +86,22 @@ const userState: ILoginState = {
     id: '1',
     username: 'kim',
     email: '1234@naver.com',
+    oauth: false,
+    stacks: [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    createdAt: '2022-03-19T03:49:29.710Z',
+    updateAt: '2022-03-19T03:49:29.710Z',
+    __v: 0,
   },
   accessToken: 'dfgvdfgtyty123@#%',
 };
