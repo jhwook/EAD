@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router';
+import { RootState } from 'index';
 import naver from '../Image/Btn/naver.png';
 import kakao from '../Image/Btn/kakao.png';
 import google from '../Image/Btn/google.png';
@@ -117,6 +118,8 @@ function Login() {
   const [open, isOpen] = useState(true);
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
+  const userData = useSelector((state: RootState) => state);
+  console.log(userData);
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
