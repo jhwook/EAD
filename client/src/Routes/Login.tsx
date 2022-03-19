@@ -138,6 +138,7 @@ function Login() {
           type: 'Login',
           userInfo: data.data.data.userInfo,
           accessToken: data.data.data.token,
+          isLogin: data.data.data.isLogin,
         });
         setEmail('');
         setPassword('');

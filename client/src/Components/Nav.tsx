@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'index';
+import { Dispatch } from 'redux';
 import logo from '../Image/Logo/ead.png';
 
 const Wrapper = styled.div`
@@ -42,6 +43,7 @@ const Modal = styled.div`
   border-radius: 15px;
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
+  z-index: 3;
 `;
 
 const ModalMenus = styled.ul`
@@ -52,29 +54,45 @@ const ModalMenus = styled.ul`
   justify-content: space-evenly;
   padding-left: 10px;
 `;
-const ModalMenu = styled.li``;
+const ModalMenu = styled.li`
+  cursor: pointer;
+`;
 
 function Nav() {
-  const [login, setLogin] = useState(false);
   const [show, isShow] = useState(false);
-  const userData = useSelector((state: RootState) => state);
-
+  const dispatch: Dispatch = useDispatch();
+  const { userInfo, accessToken, isLogin } = useSelector(
+    (state: RootState) => state,
+  );
+  const navigate = useNavigate();
   const ModalOnClick = () => {
     isShow(!show);
+  };
+
+  const closeModal = () => {
+    isShow(false);
+  };
+
+  const LogoutOnClick = () => {
+    dispatch({ type: 'Logout', userInfo, accessToken, isLogin });
+    isShow(false);
+    navigate('/');
   };
   return (
     <Wrapper>
       {show ? (
         <Modal>
           <ModalMenus>
-            <ModalMenu>내가 쓴 글</ModalMenu>
-            <ModalMenu>내가 쓴 댓글</ModalMenu>
-            <ModalMenu>내 정보</ModalMenu>
-            <ModalMenu>로그아웃</ModalMenu>
+            <ModalMenu onClick={closeModal}>내가 쓴 글</ModalMenu>
+            <ModalMenu onClick={closeModal}>내가 쓴 댓글</ModalMenu>
+            <Link to="/profile">
+              <ModalMenu onClick={closeModal}>내 정보</ModalMenu>
+            </Link>
+            <ModalMenu onClick={LogoutOnClick}>로그아웃</ModalMenu>
           </ModalMenus>
         </Modal>
       ) : null}
-      {login ? (
+      {isLogin === true ? (
         <>
           <LeftBox>
             <Link to="/">

@@ -6,6 +6,7 @@ export declare class AuthService {
     private jwtService;
     constructor(usersRepository: UsersRepository, jwtService: JwtService);
     jwtLogIn(data: any): Promise<{
+        isLogin: boolean;
         userInfo: User;
         token: string;
     }>;
