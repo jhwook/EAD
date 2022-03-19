@@ -13,4 +13,5 @@ export declare class Post extends Document {
     comment: string[];
     imgUrl: string;
 }
-export declare const PostSchema: import("mongoose").Schema<Post, import("mongoose").Model<Post, any, any, any>, any, any>;
+declare const PostSchema: import("mongoose").Schema<Post, import("mongoose").Model<Post, any, any, any>, any, any>;
+export { PostSchema };

@@ -44,6 +44,10 @@ let PostsService = class PostsService {
             throw new common_1.HttpException('존재하지 않는 포스트입니다', 400);
         }
     }
+    async searchPost(body) {
+        const { keyword } = body;
+        return await this.postsRepository.searchPostInDB(keyword);
+    }
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),
