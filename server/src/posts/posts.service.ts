@@ -37,4 +37,10 @@ export class PostsService {
       throw new HttpException('존재하지 않는 포스트입니다', 400);
     }
   }
+
+  async searchPost(body) {
+    const { keyword } = body;
+    // eslint-disable-next-line no-return-await
+    return await this.postsRepository.searchPostInDB(keyword);
+  }
 }

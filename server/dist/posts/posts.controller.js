@@ -33,6 +33,9 @@ let PostsController = class PostsController {
     deletePost(param) {
         return this.postsService.deletePost(param);
     }
+    searchPost(body) {
+        return this.postsService.searchPost(body);
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
@@ -59,6 +62,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "deletePost", null);
+__decorate([
+    (0, common_1.Post)('/search'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "searchPost", null);
 PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

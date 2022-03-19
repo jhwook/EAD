@@ -18,7 +18,7 @@ export class Post extends Document {
   @IsString()
   writer: string;
 
-  @Prop()
+  @Prop({ index: true })
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -40,5 +40,6 @@ export class Post extends Document {
   @IsString()
   imgUrl: string;
 }
-
-export const PostSchema = SchemaFactory.createForClass(Post);
+const PostSchema = SchemaFactory.createForClass(Post);
+PostSchema.index({ title: 'text', content: 'text' });
+export { PostSchema };

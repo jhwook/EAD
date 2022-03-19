@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ConnectableObservable } from 'rxjs';
 import { Post } from './posts.schema';
 
 @Injectable()
@@ -33,5 +34,13 @@ export class PostsRepository {
   async findPostByIdAndDelete(id) {
     const deletePost = this.postModel.findByIdAndDelete(id);
     return deletePost;
+  }
+
+  async searchPostInDB(keyword) {
+    let postArray = [];
+    postArray = await this.postModel
+      .find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
+      .sort({ score: { $meta: 'textScore' } });
+    return postArray;
   }
 }

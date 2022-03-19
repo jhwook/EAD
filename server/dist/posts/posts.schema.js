@@ -24,7 +24,7 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "writer", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ index: true }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
@@ -54,5 +54,7 @@ Post = __decorate([
     (0, mongoose_1.Schema)(options)
 ], Post);
 exports.Post = Post;
-exports.PostSchema = mongoose_1.SchemaFactory.createForClass(Post);
+const PostSchema = mongoose_1.SchemaFactory.createForClass(Post);
+exports.PostSchema = PostSchema;
+PostSchema.index({ title: 'text', content: 'text' });
 //# sourceMappingURL=posts.schema.js.map

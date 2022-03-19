@@ -40,6 +40,13 @@ let PostsRepository = class PostsRepository {
         const deletePost = this.postModel.findByIdAndDelete(id);
         return deletePost;
     }
+    async searchPostInDB(keyword) {
+        let postArray = [];
+        postArray = await this.postModel
+            .find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
+            .sort({ score: { $meta: 'textScore' } });
+        return postArray;
+    }
 };
 PostsRepository = __decorate([
     (0, common_1.Injectable)(),

@@ -11,4 +11,5 @@ export declare class PostsController {
         _id: any;
     }>;
     deletePost(param: any): Promise<void>;
+    searchPost(body: any): Promise<any[]>;
 }

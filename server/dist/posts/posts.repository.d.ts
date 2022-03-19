@@ -15,4 +15,5 @@ export declare class PostsRepository {
     findPostByIdAndDelete(id: any): Promise<Post & {
         _id: any;
     }>;
+    searchPostInDB(keyword: any): Promise<any[]>;
 }

@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Param,
@@ -42,5 +43,10 @@ export class PostsController {
   @Delete('/:postId')
   deletePost(@Param() param) {
     return this.postsService.deletePost(param);
+  }
+
+  @Post('/search')
+  searchPost(@Body() body) {
+    return this.postsService.searchPost(body);
   }
 }
