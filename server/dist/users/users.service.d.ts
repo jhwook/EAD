@@ -15,4 +15,10 @@ export declare class UsersService {
     changeStacksBoolean(param: any, req: any): Promise<{
         message: string;
     }>;
+    verifyUserEmail(body: any): Promise<{
+        message: string;
+    }>;
+    verifyUsername(body: any): Promise<{
+        message: string;
+    }>;
 }

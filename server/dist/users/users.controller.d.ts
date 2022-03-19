@@ -23,4 +23,10 @@ export declare class UsersController {
     updateStacks(param: any, req: any): Promise<{
         message: string;
     }>;
+    verifyEmail(body: any): Promise<{
+        message: string;
+    }>;
+    verifyUsername(body: any): Promise<{
+        message: string;
+    }>;
 }

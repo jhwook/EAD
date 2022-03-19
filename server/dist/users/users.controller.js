@@ -51,9 +51,13 @@ let UsersController = class UsersController {
         return this.usersService.updateUser(req);
     }
     updateStacks(param, req) {
-        console.log(param);
-        console.log(req.user.email);
         return this.usersService.changeStacksBoolean(param, req);
+    }
+    verifyEmail(body) {
+        return this.usersService.verifyUserEmail(body);
+    }
+    verifyUsername(body) {
+        return this.usersService.verifyUsername(body);
     }
 };
 __decorate([
@@ -112,6 +116,20 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateStacks", null);
+__decorate([
+    (0, common_1.Post)('/verify/email'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "verifyEmail", null);
+__decorate([
+    (0, common_1.Post)('/verify/username'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "verifyUsername", null);
 UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
