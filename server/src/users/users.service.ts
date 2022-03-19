@@ -63,7 +63,6 @@ export class UsersService {
   // 회원정보 수정
   async updateUser(req) {
     const userInfo = req.user;
-    // console.log(userInfo.id);
     await this.usersRepository.findUserAndUpdate(userInfo, req.body);
   }
 
@@ -76,5 +75,27 @@ export class UsersService {
     newStacks.splice(idx, 1, !newStacks[idx]);
     await this.usersRepository.changeStacks(id, newStacks);
     return { message: 'ok' };
+  }
+
+  async verifyUserEmail(body) {
+    const { email } = body;
+    const isExistEmail = await this.usersRepository.existsByEmail(email);
+    if (isExistEmail) {
+      throw new HttpException('존재하는 이메일입니다.', 400);
+    } else {
+      return { message: 'ok' };
+    }
+  }
+
+  async verifyUsername(body) {
+    const { username } = body;
+    const isExistUsername = await this.usersRepository.existsByUsername(
+      username,
+    );
+    if (isExistUsername) {
+      throw new HttpException('존재하는 닉네임입니다.', 400);
+    } else {
+      return { message: 'ok' };
+    }
   }
 }

@@ -69,6 +69,26 @@ let UsersService = class UsersService {
         await this.usersRepository.changeStacks(id, newStacks);
         return { message: 'ok' };
     }
+    async verifyUserEmail(body) {
+        const { email } = body;
+        const isExistEmail = await this.usersRepository.existsByEmail(email);
+        if (isExistEmail) {
+            throw new common_1.HttpException('존재하는 이메일입니다.', 400);
+        }
+        else {
+            return { message: 'ok' };
+        }
+    }
+    async verifyUsername(body) {
+        const { username } = body;
+        const isExistUsername = await this.usersRepository.existsByUsername(username);
+        if (isExistUsername) {
+            throw new common_1.HttpException('존재하는 닉네임입니다.', 400);
+        }
+        else {
+            return { message: 'ok' };
+        }
+    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),

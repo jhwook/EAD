@@ -77,8 +77,16 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Post('/stacks/:id')
   updateStacks(@Param() param, @Req() req) {
-    console.log(param);
-    console.log(req.user.email);
     return this.usersService.changeStacksBoolean(param, req);
+  }
+
+  @Post('/verify/email')
+  verifyEmail(@Body() body) {
+    return this.usersService.verifyUserEmail(body);
+  }
+
+  @Post('/verify/username')
+  verifyUsername(@Body() body) {
+    return this.usersService.verifyUsername(body);
   }
 }
