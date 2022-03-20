@@ -13,11 +13,16 @@ exports.CommentSchema = exports.Comment = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const class_validator_1 = require("class-validator");
+const posts_schema_1 = require("./posts.schema");
 const options = {
     timestamps: true,
 };
 let Comment = class Comment extends mongoose_2.Document {
 };
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Post' }),
+    __metadata("design:type", posts_schema_1.Post)
+], Comment.prototype, "post_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsString)(),
@@ -30,7 +35,7 @@ __decorate([
     __metadata("design:type", String)
 ], Comment.prototype, "content", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ default: 0 }),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], Comment.prototype, "up", void 0);

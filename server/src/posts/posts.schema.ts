@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { IsNotEmpty, IsString } from 'class-validator';
+import { Comment } from './comments.schema';
 
 const options: SchemaOptions = {
   timestamps: true,
@@ -26,9 +27,9 @@ export class Post extends Document {
   @IsNotEmpty()
   tag: string[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
+  @Prop([Object])
   @IsNotEmpty()
-  comment: string[];
+  comment: [];
 
   @Prop()
   @IsString()

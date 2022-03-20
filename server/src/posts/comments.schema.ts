@@ -9,6 +9,9 @@ const options: SchemaOptions = {
 
 @Schema(options)
 export class Comment extends Document {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
+  post_id: Post;
+
   @Prop()
   @IsString()
   writer: string;
@@ -18,7 +21,7 @@ export class Comment extends Document {
   @IsNotEmpty()
   content: string;
 
-  @Prop()
+  @Prop({ default: 0 })
   @IsNumber()
   up: number;
 

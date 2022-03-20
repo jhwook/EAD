@@ -59,10 +59,12 @@ let PostsService = class PostsService {
         const post = await this.postsRepository.addComment(content, postId, username);
         return post;
     }
-    async modifyComment(body, param) {
-        const { comment } = body;
-        const { postId } = param;
-        const post = await this.postsRepository.editComment(comment, postId);
+    async modifyComment(req, param) {
+        const { content } = req.body;
+        const { username } = req.user;
+        const { commentId } = param;
+        await this.postsRepository.editComment(content, commentId, username);
+        throw new common_1.HttpException('수정 완료!!!!!', 200);
     }
 };
 PostsService = __decorate([

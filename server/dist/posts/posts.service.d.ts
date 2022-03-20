@@ -11,6 +11,8 @@ export declare class PostsService {
     deletePost(param: any): Promise<void>;
     searchPost(body: any): Promise<any[]>;
     searchPostByTag(body: any): Promise<any[]>;
-    createComment(req: any, param: any): Promise<void>;
-    modifyComment(body: any, param: any): Promise<void>;
+    createComment(req: any, param: any): Promise<import("./posts.schema").Post & {
+        _id: any;
+    }>;
+    modifyComment(req: any, param: any): Promise<void>;
 }

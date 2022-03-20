@@ -19,6 +19,8 @@ export declare class PostsRepository {
     }>;
     searchPostInDB(keyword: any): Promise<any[]>;
     searchPostByTag(tag: any): Promise<any[]>;
-    addComment(content: any, postId: any, username: any): Promise<void>;
-    editComment(newComment: any, postId: any): Promise<void>;
+    addComment(content: any, postId: any, username: any): Promise<Post & {
+        _id: any;
+    }>;
+    editComment(newComment: any, commentId: any, username: any): Promise<void>;
 }

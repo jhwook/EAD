@@ -1,5 +1,7 @@
 import mongoose, { Document } from 'mongoose';
+import { Post } from './posts.schema';
 export declare class Comment extends Document {
+    post_id: Post;
     writer: string;
     content: string;
     up: number;

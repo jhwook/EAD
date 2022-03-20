@@ -69,9 +69,11 @@ export class PostsService {
   }
 
   // 댓글 수정
-  async modifyComment(body, param) {
-    const { comment } = body;
-    const { postId } = param;
-    const post = await this.postsRepository.editComment(comment, postId);
+  async modifyComment(req, param) {
+    const { content } = req.body;
+    const { username } = req.user;
+    const { commentId } = param;
+    await this.postsRepository.editComment(content, commentId, username);
+    throw new HttpException('수정 완료!!!!!', 200);
   }
 }
