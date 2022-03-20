@@ -15,4 +15,5 @@ export declare class PostsService {
         _id: any;
     }>;
     modifyComment(req: any, param: any): Promise<void>;
+    deleteComment(param: any): Promise<void>;
 }

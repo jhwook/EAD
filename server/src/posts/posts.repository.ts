@@ -67,29 +67,47 @@ export class PostsRepository {
     return newPost;
   }
 
-  async editComment(newComment, commentId, username) {
-    const modifiedComment = await this.commentModel.findByIdAndUpdate(
-      commentId,
-      {
-        content: newComment,
-      },
-    );
+  async editComment(newComment, commentId) {
+    await this.commentModel.findByIdAndUpdate(commentId, {
+      content: newComment,
+    });
+    const modifiedComment = await this.commentModel.findById(commentId);
 
-    await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
-      comment: { $elemMatch: { id: commentId }, content: newComment },
+    // await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
+    //   comment: { $set: { id: commentId }, content: newComment },
+    // });
+    interface ExampleObject {
+      [key: string]: any;
+    }
+    const post = await this.postModel.findById(modifiedComment.post_id);
+
+    const newCommentArr = post.comment.map((comment: ExampleObject) => {
+      if (String(comment._id) === commentId) {
+        comment.content = modifiedComment.content;
+      }
+      return comment;
     });
 
-    // await post.comment.findById()
-    // interface ExampleObject {
-    //   [key: string]: any;
-    // }
-    // post.comment.map((comment: ExampleObject) => {
-    //   // const id = comment._id;
-    //   console.log(`comment_id: ${String(comment._id)}`);
-    //   console.log(`commentId: ${commentId}`);
-    //   if (String(comment._id) === commentId) {
-    //     comment = modifiedComment;
-    //   }
-    // });
+    await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
+      comment: newCommentArr,
+    });
+  }
+
+  async deleteComment(commentId) {
+    const comment = await this.commentModel.findById(commentId);
+
+    const post = await this.postModel.findById(comment.post_id);
+
+    interface ExampleObject {
+      [key: string]: any;
+    }
+    const newCommentArr = post.comment.filter((comment: ExampleObject) => {
+      // eslint-disable-next-line no-underscore-dangle
+      return String(comment._id) !== commentId;
+    });
+
+    await this.postModel.findByIdAndUpdate(comment.post_id, {
+      comment: newCommentArr,
+    });
   }
 }

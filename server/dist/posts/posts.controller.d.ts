@@ -17,4 +17,5 @@ export declare class PostsController {
         _id: any;
     }>;
     modifyComment(req: any, param: any): Promise<void>;
+    deleteComment(param: any): Promise<void>;
 }

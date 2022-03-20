@@ -66,12 +66,30 @@ let PostsRepository = class PostsRepository {
         const newPost = await this.postModel.findById(postId);
         return newPost;
     }
-    async editComment(newComment, commentId, username) {
-        const modifiedComment = await this.commentModel.findByIdAndUpdate(commentId, {
+    async editComment(newComment, commentId) {
+        await this.commentModel.findByIdAndUpdate(commentId, {
             content: newComment,
         });
+        const modifiedComment = await this.commentModel.findById(commentId);
+        const post = await this.postModel.findById(modifiedComment.post_id);
+        const newCommentArr = post.comment.map((comment) => {
+            if (String(comment._id) === commentId) {
+                comment.content = modifiedComment.content;
+            }
+            return comment;
+        });
         await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
-            comment: { $elemMatch: { id: commentId }, content: newComment },
+            comment: newCommentArr,
+        });
+    }
+    async deleteComment(commentId) {
+        const comment = await this.commentModel.findById(commentId);
+        const post = await this.postModel.findById(comment.post_id);
+        const newCommentArr = post.comment.filter((comment) => {
+            return String(comment._id) !== commentId;
+        });
+        await this.postModel.findByIdAndUpdate(comment.post_id, {
+            comment: newCommentArr,
         });
     }
 };
