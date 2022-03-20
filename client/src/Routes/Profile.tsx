@@ -368,32 +368,29 @@ function Profile() {
   const [infoModalView, setInfoModalView] = useState(false);
   const [pwModalView, setPwModalView] = useState(false);
 
-  const user = useSelector((state: RootState) => state);
+  const { userReducer } = useSelector((state: RootState) => state);
+  const { userInfo, accessToken, isLogin } = userReducer;
 
   // const [userData, setUserData] = useState<any>('');
-  const [js, setJs] = useState(user.userInfo.stacks?.[0]);
-  const [ts, setTs] = useState(user.userInfo.stacks?.[1]);
-  const [css, setCss] = useState(user.userInfo.stacks?.[2]);
-  const [react, setReact] = useState(user.userInfo.stacks?.[3]);
-  const [vue, setVue] = useState(user.userInfo.stacks?.[4]);
-  const [noSql, setNoSql] = useState(user.userInfo.stacks?.[5]);
-  const [sql, setSql] = useState(user.userInfo.stacks?.[6]);
-  const [express, setExpress] = useState(user.userInfo.stacks?.[7]);
-  const [aws, setAws] = useState(user.userInfo.stacks?.[8]);
-  const [other, setOther] = useState(user.userInfo.stacks?.[9]);
+  const [js, setJs] = useState(userInfo.stacks?.[0]);
+  const [ts, setTs] = useState(userInfo.stacks?.[1]);
+  const [css, setCss] = useState(userInfo.stacks?.[2]);
+  const [react, setReact] = useState(userInfo.stacks?.[3]);
+  const [vue, setVue] = useState(userInfo.stacks?.[4]);
+  const [noSql, setNoSql] = useState(userInfo.stacks?.[5]);
+  const [sql, setSql] = useState(userInfo.stacks?.[6]);
+  const [express, setExpress] = useState(userInfo.stacks?.[7]);
+  const [aws, setAws] = useState(userInfo.stacks?.[8]);
+  const [other, setOther] = useState(userInfo.stacks?.[9]);
 
-  const [username, setUsername] = useState(user.userInfo.username);
-  const [nametag, setNametag] = useState(user.userInfo.username);
+  const [username, setUsername] = useState(userInfo.username);
+  const [nametag, setNametag] = useState(userInfo.username);
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
   const [errNameMessage, setErrNameMessage] = useState('');
   const [errPwMessage, setErrPwMessage] = useState('');
   const [errConfirmPwMessage, setErrConfirmPwMessage] = useState('');
 
-  const { userInfo, accessToken, isLogin } = useSelector(
-    (state: RootState) => state,
-  );
-  console.log(user);
   // onChange=중복검사 때
 
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -127,7 +127,65 @@ const userReducer = (state = userState, action: ILoginActionPros) => {
   }
 };
 
-const store = createStore(userReducer);
+// Search
+// interface IPostStateProps {
+//   _id: string;
+//   comment: object;
+//   tag: object;
+//   content: string;
+//   title: string;
+//   writer: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   __v: number;
+//   score: number;
+// }
+
+// interface IPostAction {
+//   type: string;
+//   post: [
+//     {
+//       _id: string;
+//       comment: object;
+//       tag: object;
+//       content: string;
+//       title: string;
+//       writer: string;
+//       createdAt: string;
+//       updatedAt: string;
+//       __v: number;
+//       score: number;
+//     },
+//   ];
+// }
+
+const postState: any = [
+  {
+    _id: '62358684fb4e36ac568fd48e',
+    comment: [],
+    tag: ['tag?', 'tag!'],
+    content: '!!content~~~~',
+    title: '!!title',
+    writer: 'bbb',
+    createdAt: '2022-03-19T07:30:12.570Z',
+    updatedAt: '2022-03-19T07:30:12.570Z',
+    __v: 0,
+    score: 1,
+  },
+];
+const postReducer = (state = postState, action: any) => {
+  switch (action.type) {
+    case 'Search': {
+      const copy = [...action.post];
+      return copy;
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+const store = createStore(combineReducers({ userReducer, postReducer }));
 
 export type RootState = ReturnType<typeof store.getState>;
 

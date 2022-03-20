@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import { IoMdArrowDropleft } from 'react-icons/io';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Team from 'Components/Team';
+import SearchList from 'Components/SearchList';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
+import { RootState } from 'index';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -108,7 +112,7 @@ const SearchInput = styled.input`
   width: 500px;
   height: 30px;
   border: 3px solid ${(props) => props.theme.green};
-  padding: 10px;
+  padding: 10px 10px 10px 15px;
   margin-right: 20px;
   font-size: ${(props) => props.theme.fontSize.small};
 `;
@@ -124,10 +128,64 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const SearchBarWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
+
+const SearchBarBox = styled.ul`
+  display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+  padding: 15px 5px 10px 15px;
+  width: 503px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  font-weight: bold;
+  border: 2px solid ${(props) => props.theme.green};
+  position: absolute;
+  top: 60px;
+`;
+
+const DeleteBtn = styled.div`
+  font-size: ${(props) => props.theme.fontSize.small};
+  font-weight: bold;
+  position: absolute;
+  top: 17px;
+  right: 35px;
+  cursor: pointer;
+`;
+
 function Home() {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const dispatch: Dispatch = useDispatch();
+  const { postReducer } = useSelector((state: RootState) => state);
+  console.log(postReducer);
+
+  const arr = postReducer.filter((el: any) => {
+    return el.title.toLowerCase().includes(value.toLowerCase());
+  });
+
+  const searchListOnClick = (e: any) => {
+    setValue(e.target.innerText);
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // up
+    if (e.keyCode === 38) {
+      console.log('38');
+    }
+    // down
+    if (e.keyCode === 40) {
+      console.log('40');
+    }
+
+    if (e.keyCode === 13) {
+      console.log('13');
+    }
+  };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
@@ -136,8 +194,8 @@ function Home() {
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value) {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/search`,
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/posts/search`,
         { keyword: value },
         {
           headers: {
@@ -146,6 +204,7 @@ function Home() {
           withCredentials: true,
         },
       );
+      dispatch({ type: 'Search', post: data.data.data });
       setErrorMessage('여기에 입력해주세요!');
       setValue('');
     } else {
@@ -155,6 +214,10 @@ function Home() {
 
   const handleOnClick = () => {
     setOpen(true);
+  };
+
+  const deleteValueOnClick = () => {
+    setValue('');
   };
 
   return (
@@ -172,11 +235,22 @@ function Home() {
           <Text>검색해보세요!</Text>
           <Searchbar>
             <Form onSubmit={handleOnSubmit}>
-              <SearchInput
-                onChange={handleOnChange}
-                value={value}
-                placeholder={errorMessage || '여기에 입력해주세요!'}
-              />
+              <SearchBarWrapper>
+                <SearchInput
+                  onChange={handleOnChange}
+                  onKeyUp={handleKeyUp}
+                  value={value}
+                  placeholder={errorMessage || '여기에 입력해주세요!'}
+                />
+                {value !== '' ? (
+                  <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
+                ) : null}
+                {arr.length !== 0 && value !== '' ? (
+                  <SearchBarBox>
+                    <SearchList list={arr} chooseList={searchListOnClick} />
+                  </SearchBarBox>
+                ) : null}
+              </SearchBarWrapper>
               <Button type="submit">
                 <FaSearch className="search" />
               </Button>
