@@ -41,7 +41,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Post.prototype, "tag", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Comment' }),
+    (0, mongoose_1.Prop)([Object]),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Array)
 ], Post.prototype, "comment", void 0);

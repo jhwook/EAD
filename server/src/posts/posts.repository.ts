@@ -55,16 +55,41 @@ export class PostsRepository {
     // await this.postModel.findByIdAndUpdate(postId, {
     //   $push: { comment: { $each: [newComment], $position: 0 } },
     // });
-    await this.commentModel.create({ writer: username, content, up: 0 });
-    // await this.postModel.findByIdAndUpdate(postId, {
-    //   $push: { comment: { $each: [newComment], $position: 0 } },
-    // });
-    // const newPost = await this.postModel.findById(postId);
-    // return newPost;
+    const newComment = await this.commentModel.create({
+      post_id: postId,
+      writer: username,
+      content,
+    });
+    await this.postModel.findByIdAndUpdate(postId, {
+      $push: { comment: { $each: [newComment], $position: 0 } },
+    });
+    const newPost = await this.postModel.findById(postId);
+    return newPost;
   }
 
-  async editComment(newComment, postId) {
-    // await this.postModel.findByIdAndUpdate(postId, {
-    // })
+  async editComment(newComment, commentId, username) {
+    const modifiedComment = await this.commentModel.findByIdAndUpdate(
+      commentId,
+      {
+        content: newComment,
+      },
+    );
+
+    await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
+      comment: { $elemMatch: { id: commentId }, content: newComment },
+    });
+
+    // await post.comment.findById()
+    // interface ExampleObject {
+    //   [key: string]: any;
+    // }
+    // post.comment.map((comment: ExampleObject) => {
+    //   // const id = comment._id;
+    //   console.log(`comment_id: ${String(comment._id)}`);
+    //   console.log(`commentId: ${commentId}`);
+    //   if (String(comment._id) === commentId) {
+    //     comment = modifiedComment;
+    //   }
+    // });
   }
 }
