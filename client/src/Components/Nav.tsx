@@ -61,9 +61,8 @@ const ModalMenu = styled.li`
 function Nav() {
   const [show, isShow] = useState(false);
   const dispatch: Dispatch = useDispatch();
-  const { userInfo, accessToken, isLogin } = useSelector(
-    (state: RootState) => state,
-  );
+  const { userReducer } = useSelector((state: RootState) => state);
+  const { userInfo, accessToken, isLogin } = userReducer;
   const navigate = useNavigate();
   const ModalOnClick = () => {
     isShow(!show);
