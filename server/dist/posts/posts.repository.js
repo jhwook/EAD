@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const posts_schema_1 = require("./posts.schema");
+const comments_schema_1 = require("./comments.schema");
 let PostsRepository = class PostsRepository {
-    constructor(postModel) {
+    constructor(postModel, commentModel) {
         this.postModel = postModel;
+        this.commentModel = commentModel;
     }
     async create(post) {
         return await this.postModel.create(post);
@@ -52,18 +54,18 @@ let PostsRepository = class PostsRepository {
         postArray = await this.postModel.find({ tag: { $all: tag } });
         return postArray;
     }
-    async addComment(newComment, postId) {
-        await this.postModel.findByIdAndUpdate(postId, {
-            $push: { comment: { $each: [newComment], $position: 0 } },
-        });
-        const newPost = await this.postModel.findById(postId);
-        return newPost;
+    async addComment(content, postId, username) {
+        await this.commentModel.create({ writer: username, content, up: 0 });
+    }
+    async editComment(newComment, postId) {
     }
 };
 PostsRepository = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(1, (0, mongoose_1.InjectModel)(comments_schema_1.Comment.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model])
 ], PostsRepository);
 exports.PostsRepository = PostsRepository;
 //# sourceMappingURL=posts.repository.js.map

@@ -39,8 +39,11 @@ let PostsController = class PostsController {
     searchPostByTag(body) {
         return this.postsService.searchPostByTag(body);
     }
-    createComment(body, param) {
-        return this.postsService.createComment(body, param);
+    createComment(req, param) {
+        return this.postsService.createComment(req, param);
+    }
+    modifyComment(body, param) {
+        return this.postsService.modifyComment(body, param);
     }
 };
 __decorate([
@@ -83,13 +86,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "searchPostByTag", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/:postId/add/comment'),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "createComment", null);
+__decorate([
+    (0, common_1.Patch)('/:postId/modify/comment'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "modifyComment", null);
 PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

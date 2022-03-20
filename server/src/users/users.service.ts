@@ -68,8 +68,8 @@ export class UsersService {
   // 회원정보 수정
   async updateUser(req) {
     const userInfo = req.user;
-    console.log(userInfo);
-    await this.usersRepository.findUserAndUpdate(userInfo, req.body);
+    // eslint-disable-next-line no-return-await
+    return await this.usersRepository.findUserAndUpdate(userInfo, req.body);
   }
 
   // 스택 버튼 누를 시 수정

@@ -14,12 +14,16 @@ const posts_repository_1 = require("./posts.repository");
 const posts_controller_1 = require("./posts.controller");
 const posts_service_1 = require("./posts.service");
 const posts_schema_1 = require("./posts.schema");
+const comments_schema_1 = require("./comments.schema");
 let PostsModule = class PostsModule {
 };
 PostsModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: posts_schema_1.Post.name, schema: posts_schema_1.PostSchema }]),
+            mongoose_1.MongooseModule.forFeature([
+                { name: posts_schema_1.Post.name, schema: posts_schema_1.PostSchema },
+                { name: comments_schema_1.Comment.name, schema: comments_schema_1.CommentSchema },
+            ]),
             auth_module_1.AuthModule,
         ],
         controllers: [posts_controller_1.PostsController],

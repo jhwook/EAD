@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ConnectableObservable } from 'rxjs';
 import { Post } from './posts.schema';
+import { Comment } from './comments.schema';
 
 @Injectable()
 export class PostsRepository {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
+    @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
   ) {}
 
   async create(post) {
@@ -50,11 +51,20 @@ export class PostsRepository {
     return postArray;
   }
 
-  async addComment(newComment, postId) {
-    await this.postModel.findByIdAndUpdate(postId, {
-      $push: { comment: { $each: [newComment], $position: 0 } },
-    });
-    const newPost = await this.postModel.findById(postId);
-    return newPost;
+  async addComment(content, postId, username) {
+    // await this.postModel.findByIdAndUpdate(postId, {
+    //   $push: { comment: { $each: [newComment], $position: 0 } },
+    // });
+    await this.commentModel.create({ writer: username, content, up: 0 });
+    // await this.postModel.findByIdAndUpdate(postId, {
+    //   $push: { comment: { $each: [newComment], $position: 0 } },
+    // });
+    // const newPost = await this.postModel.findById(postId);
+    // return newPost;
+  }
+
+  async editComment(newComment, postId) {
+    // await this.postModel.findByIdAndUpdate(postId, {
+    // })
   }
 }
