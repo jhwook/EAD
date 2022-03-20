@@ -73,4 +73,10 @@ export class PostsController {
   modifyComment(@Req() req, @Param() param) {
     return this.postsService.modifyComment(req, param);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:commentId/delete/comment')
+  deleteComment(@Param() param) {
+    return this.postsService.deleteComment(param);
+  }
 }

@@ -22,5 +22,6 @@ export declare class PostsRepository {
     addComment(content: any, postId: any, username: any): Promise<Post & {
         _id: any;
     }>;
-    editComment(newComment: any, commentId: any, username: any): Promise<void>;
+    editComment(newComment: any, commentId: any): Promise<void>;
+    deleteComment(commentId: any): Promise<void>;
 }
