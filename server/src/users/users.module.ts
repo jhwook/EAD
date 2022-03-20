@@ -2,6 +2,7 @@ import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from '../auth/auth.module';
 import { UsersRepository } from './users.repository';
 import { User, UserSchema } from './users.schema';
@@ -10,6 +11,9 @@ import { UsersService } from './users.service';
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './upload',
+    }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MailerModule.forRoot({
       transport: {

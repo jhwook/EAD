@@ -92,6 +92,15 @@ let UsersService = class UsersService {
             return { message: 'ok' };
         }
     }
+    async uploadImg(req, files) {
+        const { user } = req;
+        console.log(`user: ${user}`);
+        const fileName = `users/${files[0].filename}`;
+        console.log(`fileName: ${fileName}`);
+        const newUser = await this.usersRepository.findByIdAndUpdateImg(user.id, fileName);
+        console.log(newUser);
+        return newUser;
+    }
     async sendEmail(body) {
         const { email } = body;
         console.log(email);

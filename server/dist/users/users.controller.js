@@ -14,6 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_options_1 = require("../common/utils/multer.options");
 const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 const login_request_dto_1 = require("../auth/dto/login.request.dto");
 const auth_service_1 = require("../auth/auth.service");
@@ -58,6 +60,10 @@ let UsersController = class UsersController {
     }
     verifyUsername(body) {
         return this.usersService.verifyUsername(body);
+    }
+    uploadImage(files, req) {
+        console.log(files);
+        return this.usersService.uploadImg(req, files);
     }
     sendEmail(body) {
         return this.usersService.sendEmail(body);
@@ -133,6 +139,16 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "verifyUsername", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('users'))),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('upload'),
+    __param(0, (0, common_1.UploadedFiles)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array, Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "uploadImage", null);
 __decorate([
     (0, common_1.Post)('/send-email'),
     __param(0, (0, common_1.Body)()),

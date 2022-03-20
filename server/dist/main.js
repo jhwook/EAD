@@ -8,8 +8,9 @@ const http = require("http");
 const https = require("https");
 const express = require("express");
 const platform_express_1 = require("@nestjs/platform-express");
-const app_module_1 = require("./app.module");
+const path = require("path");
 const http_exception_filter_1 = require("./common/exceptions/http-exception.filter");
+const app_module_1 = require("./app.module");
 async function bootstrap() {
     const httpsOptions = {
         key: fs.readFileSync('./key.pem'),
@@ -23,6 +24,9 @@ async function bootstrap() {
     app.enableCors({
         origin: true,
         credentials: true,
+    });
+    app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {
+        prefix: '/media',
     });
     await app.init();
     const { PORT } = process.env;

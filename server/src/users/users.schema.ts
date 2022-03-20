@@ -51,8 +51,9 @@ export class User extends Document {
     id: string;
     email: string;
     username: string;
-    stacks;
+    stacks: object;
     oauth;
+    imgUrl: string;
   };
 }
 
@@ -65,5 +66,6 @@ UserSchema.virtual('readOnlyData').get(function (this: User) {
     username: this.username,
     stacks: this.stacks,
     oauth: this.oauth,
+    imgUrl: this.imgUrl,
   };
 });

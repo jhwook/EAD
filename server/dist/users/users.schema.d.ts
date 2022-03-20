@@ -16,8 +16,9 @@ export declare class User extends Document {
         id: string;
         email: string;
         username: string;
-        stacks: any;
+        stacks: object;
         oauth: any;
+        imgUrl: string;
     };
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any>, any, any>;

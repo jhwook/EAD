@@ -8,10 +8,14 @@ import {
   Post,
   Req,
   Res,
+  UploadedFile,
+  UploadedFiles,
   UseFilters,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from '../common/utils/multer.options';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
 import { AuthService } from '../auth/auth.service';
@@ -19,6 +23,7 @@ import { UserRequestDto } from './dto/users.request.dto';
 import { SuccessInterceptor } from '../common/interceptors/success.interceptor';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { UsersService } from './users.service';
+import { User } from './users.schema';
 
 @Controller('users')
 @UseInterceptors(SuccessInterceptor)
@@ -88,6 +93,17 @@ export class UsersController {
   @Post('/verify/username')
   verifyUsername(@Body() body) {
     return this.usersService.verifyUsername(body);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+
+  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('users')))
+  @UseGuards(JwtAuthGuard)
+  @Post('upload')
+  uploadImage(@UploadedFiles() files: Array<Express.Multer.File>, @Req() req) {
+    console.log(files);
+    // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
+    return this.usersService.uploadImg(req, files);
   }
 
   @Post('/send-email')

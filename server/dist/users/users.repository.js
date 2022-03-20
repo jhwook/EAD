@@ -74,6 +74,13 @@ let UsersRepository = class UsersRepository {
         const modifiedUserInfo = await this.userModel.findById(id);
         return modifiedUserInfo;
     }
+    async findByIdAndUpdateImg(id, fileName) {
+        const user = await this.userModel.findById(id);
+        user.imgUrl = `http://localhost:4000/media/${fileName}`;
+        const newUser = await user.save();
+        console.log(newUser);
+        return newUser.readOnlyData;
+    }
 };
 UsersRepository = __decorate([
     (0, common_1.Injectable)(),
