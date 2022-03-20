@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -238,48 +238,212 @@ function Profile() {
   const [other, setOther] = useState(user.userInfo.stacks?.[9]);
 
   const [username, setUsername] = useState(user.userInfo.username);
-  const [password, setpassword] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
+  const [errMessage, setErrMessage] = useState('');
+
+  const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
 
-  const onClickJs = () => {
+  // useEffect(() => {
+  //   axios.get(
+  //     `${process.env.REACT_APP_SERVER}/auth`,
+  //   )
+  // })
+
+  const usernameOnChange = (e: FormEvent<HTMLInputElement>) => {
+    setUsername(e.currentTarget.value);
+    console.log(username);
+  };
+
+  const passwordOnChange = (e: FormEvent<HTMLInputElement>) => {
+    setPassword(e.currentTarget.value);
+    console.log(password);
+  };
+
+  const confirmPwOnChange = (e: FormEvent<HTMLInputElement>) => {
+    setConfirmPw(e.currentTarget.value);
+    console.log(confirmPw);
+  };
+
+  const onClickJs = async () => {
     setJs(!js);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/0`,
+        { js },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickTs = () => {
+  const onClickTs = async () => {
     setTs(!ts);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/1`,
+        { ts },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickCss = () => {
+  const onClickCss = async () => {
     setCss(!css);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/2`,
+        { css },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickReact = () => {
+  const onClickReact = async () => {
     setReact(!react);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/3`,
+        { react },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickVue = () => {
+  const onClickVue = async () => {
     setVue(!vue);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/4`,
+        { vue },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickNoSql = () => {
+  const onClickNoSql = async () => {
     setNoSql(!noSql);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/5`,
+        { noSql },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickSql = () => {
+  const onClickSql = async () => {
     setSql(!sql);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/6`,
+        { sql },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickExpress = () => {
+  const onClickExpress = async () => {
     setExpress(!express);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/7`,
+        { express },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickAws = () => {
+  const onClickAws = async () => {
     setAws(!aws);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/8`,
+        { aws },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickOther = () => {
+  const onClickOther = async () => {
     setOther(!other);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/stacks/9`,
+        { other },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleModalClick = () => {
@@ -288,33 +452,85 @@ function Profile() {
 
   // const handlePhotoAddClick = () => {};
 
-  // const handleInfoSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   try {
-  //     if (password === confirmPw) {
-  //       const data = await axios.patch(
-  //         `${process.env.REACT_APP_SERVER}/users/profile`,
-  //         {username, password},
-  //         {
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //             Authorization: user.accessToken,
-  //           },
-  //        withCredentials: true,
-  //         },
-  //       );
-  //       dispatch({
-  //         type: 'profile',
-  //         userInfo:
-  //       })
-  //     }
-  //   }
-  // }
+  const handleInfoSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      // 유저이름도 변경, 비번도 변경
+      if (
+        password === confirmPw &&
+        password !== '' &&
+        username !== user.userInfo.username
+      ) {
+        const data = await axios.patch(
+          `${process.env.REACT_APP_SERVER}/users/profile`,
+          { username, password },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+            withCredentials: true,
+          },
+        );
+        dispatch({
+          type: 'ModifyUsernamePassword',
+        });
+        navigate('/');
+      }
+      // 유저 이름만 변경
+      if (
+        password === confirmPw &&
+        password === '' &&
+        username !== user.userInfo.username
+      ) {
+        setUsername(username);
+        const data = await axios.patch(
+          `${process.env.REACT_APP_SERVER}/users/profile`,
+          { username },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+            withCredentials: true,
+          },
+        );
+        dispatch({
+          type: 'ModifyUsername',
+        });
+        // navigate('/profile');
+      }
+      // 비밀번호만 변경
+      if (
+        password === confirmPw &&
+        password !== '' &&
+        username === user.userInfo.username
+      ) {
+        const data = await axios.patch(
+          `${process.env.REACT_APP_SERVER}/users/profile`,
+          { password },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+            withCredentials: true,
+          },
+        );
+        dispatch({
+          type: 'ModifyPassword',
+        });
+        navigate('/');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Wrapper>
       <LeftBox>
-        {/* {userInfo?.photo ? (
+        {/* {userInfo?.photo !== '' ? (
           <UserPhoto src={userInfo.photo} />
         ) : (
           <UserPhoto src={hiLogo} />
@@ -438,22 +654,31 @@ function Profile() {
       </LeftBox>
       <RightBox>
         <InfoBox>
-          <InfoForm>
+          <InfoForm onSubmit={handleInfoSubmit}>
             <InfoText>이메일</InfoText>
             <InfoWarn>변경불가</InfoWarn>
             <EmailInput value={user.userInfo.email} readOnly />
             <InfoText>닉네임</InfoText>
             <InfoDistrict>중복검사</InfoDistrict>
-            <InfoInput type="text" placeholder={user.userInfo.username} />
+            <InfoInput
+              type="text"
+              placeholder={user.userInfo.username}
+              onChange={usernameOnChange}
+            />
             <InfoAlertText>사용 가능한 이름입니다</InfoAlertText>
             <InfoText>비밀번호</InfoText>
             <InfoWarn>필수사항</InfoWarn>
-            <InfoInput type="password" placeholder="비밀번호를 입력하세요" />
+            <InfoInput
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              onChange={passwordOnChange}
+            />
             <InfoInput
               type="password"
               placeholder="비밀번호를 한번 더 입력하세요"
+              onChange={confirmPwOnChange}
             />
-            <InfoAlertText>비밀번호가 일치합니다</InfoAlertText>
+            <InfoAlertText>{errMessage}</InfoAlertText>
             <InfoConfirmBtn type="submit">변경하기</InfoConfirmBtn>
             <WitInfo onClick={handleModalClick}>회원탈퇴</WitInfo>
           </InfoForm>
