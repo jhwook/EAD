@@ -54,4 +54,9 @@ export class PostsController {
   searchPostByTag(@Body() body) {
     return this.postsService.searchPostByTag(body);
   }
+
+  @Post('/:postId/add/comment')
+  createComment(@Body() body, @Param() param) {
+    return this.postsService.createComment(body, param);
+  }
 }

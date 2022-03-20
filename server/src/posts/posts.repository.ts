@@ -49,4 +49,12 @@ export class PostsRepository {
     postArray = await this.postModel.find({ tag: { $all: tag } });
     return postArray;
   }
+
+  async addComment(newComment, postId) {
+    await this.postModel.findByIdAndUpdate(postId, {
+      $push: { comment: { $each: [newComment], $position: 0 } },
+    });
+    const newPost = await this.postModel.findById(postId);
+    return newPost;
+  }
 }
