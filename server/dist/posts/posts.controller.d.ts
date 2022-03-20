@@ -1,3 +1,4 @@
+/// <reference types="multer" />
 import { AuthService } from 'src/auth/auth.service';
 import { PostsService } from './posts.service';
 export declare class PostsController {
@@ -19,4 +20,10 @@ export declare class PostsController {
     modifyComment(req: any, param: any): Promise<void>;
     deleteComment(param: any): Promise<void>;
     getPostTitle(): Promise<string[]>;
+    uploadPostImage(files: Array<Express.Multer.File>, param: any, req: any): Promise<import("./posts.schema").Post & {
+        _id: any;
+    }>;
+    uploadCommentImage(files: Array<Express.Multer.File>, param: any, req: any): Promise<import("./comments.schema").Comment & {
+        _id: any;
+    }>;
 }

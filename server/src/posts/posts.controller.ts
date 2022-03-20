@@ -10,11 +10,14 @@ import {
   UseFilters,
   UseGuards,
   UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
+import { multerOptions } from 'src/common/utils/multer.options';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
@@ -86,5 +89,33 @@ export class PostsController {
   @Get('/title')
   getPostTitle() {
     return this.postsService.getPostTitle();
+  }
+
+  // 포스트 이미지 업로드
+  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('posts')))
+  @UseGuards(JwtAuthGuard)
+  @Post('/upload-post/:postId')
+  uploadPostImage(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Param() param,
+    @Req() req,
+  ) {
+    console.log(files);
+    // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
+    return this.postsService.uploadPostImg(req, param, files);
+  }
+
+  // 댓글 이미지 업로드
+  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('comments')))
+  @UseGuards(JwtAuthGuard)
+  @Post('/upload-comment/:commentId')
+  uploadCommentImage(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Param() param,
+    @Req() req,
+  ) {
+    console.log(files);
+    // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
+    return this.postsService.uploadCommentImg(req, param, files);
   }
 }

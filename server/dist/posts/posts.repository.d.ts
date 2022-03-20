@@ -24,5 +24,14 @@ export declare class PostsRepository {
     }>;
     editComment(newComment: any, commentId: any): Promise<void>;
     deleteComment(commentId: any): Promise<void>;
+    findCommentById(commentId: any): Promise<Comment & {
+        _id: any;
+    }>;
     getTitle(): Promise<string[]>;
+    findPostAndUpdateImg(id: string, fileName: string): Promise<Post & {
+        _id: any;
+    }>;
+    findCommentAndUpdateImg(id: string, fileName: string): Promise<Comment & {
+        _id: any;
+    }>;
 }

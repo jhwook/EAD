@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const platform_express_1 = require("@nestjs/platform-express");
 const auth_module_1 = require("../auth/auth.module");
 const posts_repository_1 = require("./posts.repository");
 const posts_controller_1 = require("./posts.controller");
@@ -20,6 +21,9 @@ let PostsModule = class PostsModule {
 PostsModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            platform_express_1.MulterModule.register({
+                dest: './upload',
+            }),
             mongoose_1.MongooseModule.forFeature([
                 { name: posts_schema_1.Post.name, schema: posts_schema_1.PostSchema },
                 { name: comments_schema_1.Comment.name, schema: comments_schema_1.CommentSchema },

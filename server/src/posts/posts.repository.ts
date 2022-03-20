@@ -12,16 +12,20 @@ export class PostsRepository {
     @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
   ) {}
 
+  // 포스트 생성
   async create(post) {
     // eslint-disable-next-line no-return-await
     return await this.postModel.create(post);
   }
 
+  // 포스트 id로 찾기
   async findPostById(id) {
     // eslint-disable-next-line no-return-await
-    return await this.postModel.findById(id);
+    const post = await this.postModel.findById(id);
+    return post;
   }
 
+  // 포스트 id로 찾고 포스트 수정
   async findPostByIdAndUpdate(id, body) {
     const { title, content, img } = body;
     const updatedPost = await this.postModel.findByIdAndUpdate(id, {
@@ -32,11 +36,13 @@ export class PostsRepository {
     return updatedPost;
   }
 
+  // 포스트 id로 찾고 포스트 삭제
   async findPostByIdAndDelete(id) {
     const deletePost = this.postModel.findByIdAndDelete(id);
     return deletePost;
   }
 
+  // 키워드로 포스트 찾기
   async searchPostInDB(keyword) {
     let postArray = [];
     postArray = await this.postModel
@@ -45,12 +51,14 @@ export class PostsRepository {
     return postArray;
   }
 
+  // 태그로 포스트 찾기
   async searchPostByTag(tag) {
     let postArray = [];
     postArray = await this.postModel.find({ tag: { $all: tag } });
     return postArray;
   }
 
+  // 댓글 작성
   async addComment(content, postId, username) {
     // await this.postModel.findByIdAndUpdate(postId, {
     //   $push: { comment: { $each: [newComment], $position: 0 } },
@@ -67,6 +75,7 @@ export class PostsRepository {
     return newPost;
   }
 
+  // 댓글 수정
   async editComment(newComment, commentId) {
     await this.commentModel.findByIdAndUpdate(commentId, {
       content: newComment,
@@ -95,6 +104,7 @@ export class PostsRepository {
     });
   }
 
+  // 댓글 삭제
   async deleteComment(commentId) {
     const comment = await this.commentModel.findById(commentId);
 
@@ -113,10 +123,35 @@ export class PostsRepository {
     });
   }
 
+  // 댓글 찾기
+  async findCommentById(commentId) {
+    const comment = await this.commentModel.findById(commentId);
+    return comment;
+  }
+
+  // 전체 포스트 제목만 가져오기
   async getTitle() {
     const titleArr = await this.postModel.find();
     return titleArr.map((post) => {
       return post.title;
     });
+  }
+
+  // 포스트 이미지 업로드
+  async findPostAndUpdateImg(id: string, fileName: string) {
+    const post = await this.postModel.findById(id);
+    post.imgUrl = `http://localhost:4000/media/${fileName}`;
+    const newPost = await post.save();
+    console.log(newPost);
+    return newPost;
+  }
+
+  // 댓글 이미지 업로드
+  async findCommentAndUpdateImg(id: string, fileName: string) {
+    const comment = await this.commentModel.findById(id);
+    comment.imgUrl = `http://localhost:4000/media/${fileName}`;
+    const newComment = await comment.save();
+    console.log(newComment);
+    return newComment;
   }
 }
