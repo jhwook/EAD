@@ -1,5 +1,6 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { UsersRepository } from './users.repository';
+import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
     private readonly usersRepository;
@@ -13,7 +14,9 @@ export declare class UsersService {
         oauth: any;
     }>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
-    updateUser(req: any): Promise<void>;
+    updateUser(req: any): Promise<User & {
+        _id: any;
+    }>;
     changeStacksBoolean(param: any, req: any): Promise<{
         message: string;
     }>;

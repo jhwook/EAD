@@ -52,11 +52,17 @@ let PostsService = class PostsService {
         const { tag } = body;
         return await this.postsRepository.searchPostByTag(tag);
     }
-    async createComment(body, param) {
+    async createComment(req, param) {
+        const { content } = req.body;
+        const { username } = req.user;
+        const { postId } = param;
+        const post = await this.postsRepository.addComment(content, postId, username);
+        return post;
+    }
+    async modifyComment(body, param) {
         const { comment } = body;
         const { postId } = param;
-        const post = await this.postsRepository.addComment(comment, postId);
-        return post;
+        const post = await this.postsRepository.editComment(comment, postId);
     }
 };
 PostsService = __decorate([

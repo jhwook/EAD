@@ -26,6 +26,7 @@ export class PostsController {
     private readonly authService: AuthService,
   ) {}
 
+  // 포스트 작성
   // eslint-disable-next-line class-methods-use-this
   @UseGuards(JwtAuthGuard)
   @Post('/add')
@@ -33,30 +34,43 @@ export class PostsController {
     return this.postsService.createPost(req);
   }
 
+  // 포스트 수정
   @UseGuards(JwtAuthGuard)
   @Patch('/:postId')
   updatePost(@Req() req, @Param() param) {
     return this.postsService.updatePost(req, param);
   }
 
+  // 포스트 삭제
   @UseGuards(JwtAuthGuard)
   @Delete('/:postId')
   deletePost(@Param() param) {
     return this.postsService.deletePost(param);
   }
 
+  // 검색
   @Post('/search')
   searchPost(@Body() body) {
     return this.postsService.searchPost(body);
   }
 
+  // 검색 (태그)
   @Post('/search/tag')
   searchPostByTag(@Body() body) {
     return this.postsService.searchPostByTag(body);
   }
 
+  // 댓글 작성
+  @UseGuards(JwtAuthGuard)
   @Post('/:postId/add/comment')
-  createComment(@Body() body, @Param() param) {
-    return this.postsService.createComment(body, param);
+  createComment(@Req() req, @Param() param) {
+    return this.postsService.createComment(req, param);
+  }
+
+  // 댓글 수정
+  // @UseGuards(JwtAuthGuard)
+  @Patch('/:postId/modify/comment')
+  modifyComment(@Body() body, @Param() param) {
+    return this.postsService.modifyComment(body, param);
   }
 }

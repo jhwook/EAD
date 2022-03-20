@@ -52,6 +52,12 @@ let UsersRepository = class UsersRepository {
     async findUserAndUpdate(user, body) {
         const { id } = user;
         const { username: newUsername, password: newPassword } = body;
+        const isExistUsername = await this.userModel.findOne({
+            username: newUsername,
+        });
+        if (isExistUsername) {
+            throw new common_1.HttpException('이미 존재하는 닉네임입니다.', 400);
+        }
         if (!newPassword) {
             await this.userModel.findByIdAndUpdate(id, {
                 username: newUsername,
@@ -65,7 +71,8 @@ let UsersRepository = class UsersRepository {
                 password: hashedPassword,
             });
         }
-        return 'ok';
+        const modifiedUserInfo = await this.userModel.findById(id);
+        return modifiedUserInfo;
     }
 };
 UsersRepository = __decorate([

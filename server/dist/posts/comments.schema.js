@@ -9,52 +9,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostSchema = exports.Post = void 0;
+exports.CommentSchema = exports.Comment = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const class_validator_1 = require("class-validator");
 const options = {
     timestamps: true,
 };
-let Post = class Post extends mongoose_2.Document {
+let Comment = class Comment extends mongoose_2.Document {
 };
 __decorate([
     (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], Post.prototype, "writer", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ index: true }),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], Post.prototype, "title", void 0);
+], Comment.prototype, "writer", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], Post.prototype, "content", void 0);
+], Comment.prototype, "content", void 0);
 __decorate([
-    (0, mongoose_1.Prop)([String]),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Array)
-], Post.prototype, "tag", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Comment' }),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Array)
-], Post.prototype, "comment", void 0);
+    (0, mongoose_1.Prop)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], Comment.prototype, "up", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], Post.prototype, "imgUrl", void 0);
-Post = __decorate([
+], Comment.prototype, "imgUrl", void 0);
+Comment = __decorate([
     (0, mongoose_1.Schema)(options)
-], Post);
-exports.Post = Post;
-const PostSchema = mongoose_1.SchemaFactory.createForClass(Post);
-exports.PostSchema = PostSchema;
-PostSchema.index({ title: 'text', content: 'text' });
-//# sourceMappingURL=posts.schema.js.map
+], Comment);
+exports.Comment = Comment;
+const CommentSchema = mongoose_1.SchemaFactory.createForClass(Comment);
+exports.CommentSchema = CommentSchema;
+//# sourceMappingURL=comments.schema.js.map

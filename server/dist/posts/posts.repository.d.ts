@@ -1,8 +1,10 @@
 import { Model } from 'mongoose';
 import { Post } from './posts.schema';
+import { Comment } from './comments.schema';
 export declare class PostsRepository {
     private readonly postModel;
-    constructor(postModel: Model<Post>);
+    private readonly commentModel;
+    constructor(postModel: Model<Post>, commentModel: Model<Comment>);
     create(post: any): Promise<Post & {
         _id: any;
     }>;
@@ -17,7 +19,6 @@ export declare class PostsRepository {
     }>;
     searchPostInDB(keyword: any): Promise<any[]>;
     searchPostByTag(tag: any): Promise<any[]>;
-    addComment(newComment: any, postId: any): Promise<Post & {
-        _id: any;
-    }>;
+    addComment(content: any, postId: any, username: any): Promise<void>;
+    editComment(newComment: any, postId: any): Promise<void>;
 }

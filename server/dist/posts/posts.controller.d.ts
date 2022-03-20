@@ -13,7 +13,6 @@ export declare class PostsController {
     deletePost(param: any): Promise<void>;
     searchPost(body: any): Promise<any[]>;
     searchPostByTag(body: any): Promise<any[]>;
-    createComment(body: any, param: any): Promise<import("./posts.schema").Post & {
-        _id: any;
-    }>;
+    createComment(req: any, param: any): Promise<void>;
+    modifyComment(body: any, param: any): Promise<void>;
 }

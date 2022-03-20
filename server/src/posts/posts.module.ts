@@ -5,10 +5,14 @@ import { PostsRepository } from './posts.repository';
 import { PostsController } from './posts.controller';
 import { PostsService } from './posts.service';
 import { PostSchema, Post } from './posts.schema';
+import { CommentSchema, Comment } from './comments.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
+    MongooseModule.forFeature([
+      { name: Post.name, schema: PostSchema },
+      { name: Comment.name, schema: CommentSchema },
+    ]),
     AuthModule,
   ],
   controllers: [PostsController],
