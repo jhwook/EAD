@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from '../auth/auth.module';
 import { PostsRepository } from './posts.repository';
 import { PostsController } from './posts.controller';
@@ -9,6 +10,9 @@ import { CommentSchema, Comment } from './comments.schema';
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './upload',
+    }),
     MongooseModule.forFeature([
       { name: Post.name, schema: PostSchema },
       { name: Comment.name, schema: CommentSchema },

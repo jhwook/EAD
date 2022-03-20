@@ -14,10 +14,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
 const auth_service_1 = require("../auth/auth.service");
 const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const success_interceptor_1 = require("../common/interceptors/success.interceptor");
+const multer_options_1 = require("../common/utils/multer.options");
 const posts_service_1 = require("./posts.service");
 let PostsController = class PostsController {
     constructor(postsService, authService) {
@@ -50,6 +52,14 @@ let PostsController = class PostsController {
     }
     getPostTitle() {
         return this.postsService.getPostTitle();
+    }
+    uploadPostImage(files, param, req) {
+        console.log(files);
+        return this.postsService.uploadPostImg(req, param, files);
+    }
+    uploadCommentImage(files, param, req) {
+        console.log(files);
+        return this.postsService.uploadCommentImg(req, param, files);
     }
 };
 __decorate([
@@ -123,6 +133,28 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "getPostTitle", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('posts'))),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('/upload-post/:postId'),
+    __param(0, (0, common_1.UploadedFiles)()),
+    __param(1, (0, common_1.Param)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array, Object, Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "uploadPostImage", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('comments'))),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('/upload-comment/:commentId'),
+    __param(0, (0, common_1.UploadedFiles)()),
+    __param(1, (0, common_1.Param)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array, Object, Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "uploadCommentImage", null);
 PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

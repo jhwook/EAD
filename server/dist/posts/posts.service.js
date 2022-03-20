@@ -44,6 +44,21 @@ let PostsService = class PostsService {
             throw new common_1.HttpException('존재하지 않는 포스트입니다', 400);
         }
     }
+    async uploadPostImg(req, param, files) {
+        const { user } = req;
+        const { postId } = param;
+        console.log(postId);
+        const post = await this.postsRepository.findPostById(postId);
+        console.log(post);
+        if (user.username === post.writer) {
+            const fileName = `posts/${files[0].filename}`;
+            console.log(`fileName: ${fileName}`);
+            const newPost = await this.postsRepository.findPostAndUpdateImg(postId, fileName);
+            console.log(newPost);
+            return newPost;
+        }
+        throw new common_1.HttpException('작성자가 일치하지 않습니다.', 401);
+    }
     async searchPost(body) {
         const { keyword } = body;
         return await this.postsRepository.searchPostInDB(keyword);
@@ -69,6 +84,19 @@ let PostsService = class PostsService {
         const { commentId } = param;
         await this.postsRepository.deleteComment(commentId);
         throw new common_1.HttpException('삭제 완료.....', 200);
+    }
+    async uploadCommentImg(req, param, files) {
+        const { user } = req;
+        const { commentId } = param;
+        const comment = await this.postsRepository.findCommentById(commentId);
+        if (user.username === comment.writer) {
+            const fileName = `comments/${files[0].filename}`;
+            console.log(`fileName: ${fileName}`);
+            const newComment = await this.postsRepository.findCommentAndUpdateImg(commentId, fileName);
+            console.log(newComment);
+            return newComment;
+        }
+        throw new common_1.HttpException('작성자가 일치하지 않습니다.', 401);
     }
     async getPostTitle() {
         const postTitles = await this.postsRepository.getTitle();

@@ -27,7 +27,8 @@ let PostsRepository = class PostsRepository {
         return await this.postModel.create(post);
     }
     async findPostById(id) {
-        return await this.postModel.findById(id);
+        const post = await this.postModel.findById(id);
+        return post;
     }
     async findPostByIdAndUpdate(id, body) {
         const { title, content, img } = body;
@@ -92,11 +93,29 @@ let PostsRepository = class PostsRepository {
             comment: newCommentArr,
         });
     }
+    async findCommentById(commentId) {
+        const comment = await this.commentModel.findById(commentId);
+        return comment;
+    }
     async getTitle() {
         const titleArr = await this.postModel.find();
         return titleArr.map((post) => {
             return post.title;
         });
+    }
+    async findPostAndUpdateImg(id, fileName) {
+        const post = await this.postModel.findById(id);
+        post.imgUrl = `http://localhost:4000/media/${fileName}`;
+        const newPost = await post.save();
+        console.log(newPost);
+        return newPost;
+    }
+    async findCommentAndUpdateImg(id, fileName) {
+        const comment = await this.commentModel.findById(id);
+        comment.imgUrl = `http://localhost:4000/media/${fileName}`;
+        const newComment = await comment.save();
+        console.log(newComment);
+        return newComment;
     }
 };
 PostsRepository = __decorate([
