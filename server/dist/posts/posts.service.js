@@ -70,6 +70,10 @@ let PostsService = class PostsService {
         await this.postsRepository.deleteComment(commentId);
         throw new common_1.HttpException('삭제 완료.....', 200);
     }
+    async getPostTitle() {
+        const postTitles = await this.postsRepository.getTitle();
+        return postTitles;
+    }
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),

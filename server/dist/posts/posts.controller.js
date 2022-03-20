@@ -48,6 +48,9 @@ let PostsController = class PostsController {
     deleteComment(param) {
         return this.postsService.deleteComment(param);
     }
+    getPostTitle() {
+        return this.postsService.getPostTitle();
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
@@ -114,6 +117,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "deleteComment", null);
+__decorate([
+    (0, common_1.Get)('/title'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getPostTitle", null);
 PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

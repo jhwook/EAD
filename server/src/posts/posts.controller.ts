@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   Req,
+  Get,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -74,9 +75,16 @@ export class PostsController {
     return this.postsService.modifyComment(req, param);
   }
 
+  // 댓글 삭제
   @UseGuards(JwtAuthGuard)
   @Delete('/:commentId/delete/comment')
   deleteComment(@Param() param) {
     return this.postsService.deleteComment(param);
+  }
+
+  // 포스트 제목만
+  @Get('/title')
+  getPostTitle() {
+    return this.postsService.getPostTitle();
   }
 }

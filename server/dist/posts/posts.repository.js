@@ -92,6 +92,12 @@ let PostsRepository = class PostsRepository {
             comment: newCommentArr,
         });
     }
+    async getTitle() {
+        const titleArr = await this.postModel.find();
+        return titleArr.map((post) => {
+            return post.title;
+        });
+    }
 };
 PostsRepository = __decorate([
     (0, common_1.Injectable)(),
