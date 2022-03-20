@@ -1,3 +1,4 @@
+/// <reference types="multer" />
 import { MailerService } from '@nestjs-modules/mailer';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
@@ -10,8 +11,9 @@ export declare class UsersService {
         id: string;
         email: string;
         username: string;
-        stacks: any;
+        stacks: object;
         oauth: any;
+        imgUrl: string;
     }>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
     updateUser(req: any): Promise<User & {
@@ -25,6 +27,14 @@ export declare class UsersService {
     }>;
     verifyUsername(body: any): Promise<{
         message: string;
+    }>;
+    uploadImg(req: any, files: Express.Multer.File[]): Promise<{
+        id: string;
+        email: string;
+        username: string;
+        stacks: object;
+        oauth: any;
+        imgUrl: string;
     }>;
     sendEmail(body: any): Promise<void>;
 }

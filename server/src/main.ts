@@ -5,9 +5,13 @@ import * as fs from 'fs';
 import * as http from 'http';
 import * as https from 'https';
 import * as express from 'express';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import { AppModule } from './app.module';
+import {
+  ExpressAdapter,
+  NestExpressApplication,
+} from '@nestjs/platform-express';
+import * as path from 'path';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const httpsOptions = {
@@ -16,7 +20,10 @@ async function bootstrap() {
   };
 
   const server = express();
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    new ExpressAdapter(server),
+  );
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
@@ -24,6 +31,10 @@ async function bootstrap() {
     // origin: 'http://localhost:4000'
     origin: true,
     credentials: true,
+  });
+  // http://localhost:4000/media/users/aaa.png
+  app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {
+    prefix: '/media',
   });
   await app.init();
   const { PORT } = process.env;

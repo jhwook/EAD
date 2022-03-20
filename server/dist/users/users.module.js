@@ -10,6 +10,7 @@ exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mailer_1 = require("@nestjs-modules/mailer");
+const platform_express_1 = require("@nestjs/platform-express");
 const auth_module_1 = require("../auth/auth.module");
 const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
@@ -20,6 +21,9 @@ let UsersModule = class UsersModule {
 UsersModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            platform_express_1.MulterModule.register({
+                dest: './upload',
+            }),
             mongoose_1.MongooseModule.forFeature([{ name: users_schema_1.User.name, schema: users_schema_1.UserSchema }]),
             mailer_1.MailerModule.forRoot({
                 transport: {

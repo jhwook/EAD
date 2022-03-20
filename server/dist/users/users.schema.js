@@ -69,6 +69,7 @@ exports.UserSchema.virtual('readOnlyData').get(function () {
         username: this.username,
         stacks: this.stacks,
         oauth: this.oauth,
+        imgUrl: this.imgUrl,
     };
 });
 //# sourceMappingURL=users.schema.js.map

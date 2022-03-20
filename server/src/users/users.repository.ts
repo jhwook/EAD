@@ -79,4 +79,12 @@ export class UsersRepository {
     const modifiedUserInfo = await this.userModel.findById(id);
     return modifiedUserInfo;
   }
+
+  async findByIdAndUpdateImg(id: string, fileName: string) {
+    const user = await this.userModel.findById(id);
+    user.imgUrl = `http://localhost:4000/media/${fileName}`;
+    const newUser = await user.save();
+    console.log(newUser);
+    return newUser.readOnlyData;
+  }
 }
