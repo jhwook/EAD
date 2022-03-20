@@ -39,6 +39,9 @@ let PostsController = class PostsController {
     searchPostByTag(body) {
         return this.postsService.searchPostByTag(body);
     }
+    createComment(body, param) {
+        return this.postsService.createComment(body, param);
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
@@ -79,6 +82,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "searchPostByTag", null);
+__decorate([
+    (0, common_1.Post)('/:postId/add/comment'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "createComment", null);
 PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

@@ -52,6 +52,12 @@ let PostsService = class PostsService {
         const { tag } = body;
         return await this.postsRepository.searchPostByTag(tag);
     }
+    async createComment(body, param) {
+        const { comment } = body;
+        const { postId } = param;
+        const post = await this.postsRepository.addComment(comment, postId);
+        return post;
+    }
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),

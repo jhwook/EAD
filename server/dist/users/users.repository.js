@@ -51,21 +51,19 @@ let UsersRepository = class UsersRepository {
     }
     async findUserAndUpdate(user, body) {
         const { id } = user;
-        const { password: newPassowrd, stacks: newStacks, username: newUsername, } = body;
-        const isUsernameExist = await this.userModel.findOne({
-            username: newUsername,
-        });
-        if (!isUsernameExist) {
+        const { username: newUsername, password: newPassword } = body;
+        if (!newPassword) {
+            await this.userModel.findByIdAndUpdate(id, {
+                username: newUsername,
+            });
+        }
+        if (newPassword) {
             const salt = await bcrypt.genSalt();
-            const hashedPassword = await bcrypt.hash(newPassowrd, salt);
+            const hashedPassword = await bcrypt.hash(newPassword, salt);
             await this.userModel.findByIdAndUpdate(id, {
                 username: newUsername,
                 password: hashedPassword,
-                stacks: newStacks,
             });
-        }
-        if (isUsernameExist) {
-            throw new common_1.HttpException('this username already exists', 400);
         }
         return 'ok';
     }

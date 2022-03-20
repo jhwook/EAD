@@ -61,6 +61,7 @@ let UsersService = class UsersService {
     }
     async updateUser(req) {
         const userInfo = req.user;
+        console.log(userInfo);
         await this.usersRepository.findUserAndUpdate(userInfo, req.body);
     }
     async changeStacksBoolean(param, req) {
