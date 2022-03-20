@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, {
+  FormEvent,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -65,16 +70,24 @@ const RightBox = styled.div`
 `;
 
 const InfoBox = styled.div`
-  width: 400px;
-  height: 500px;
-  margin-top: 30px;
-  padding-top: 30px;
+  width: 375px;
+  height: 520px;
+  margin-top: 10px;
+  padding-top: 25px;
   border-radius: 30px;
   border: 2px solid ${(props) => props.theme.lightGrey};
   background-color: ${(props) => props.theme.white};
 `;
 
-const InfoForm = styled.form`
+const InfoNameForm = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+`;
+
+const InfoPasswordForm = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,11 +98,25 @@ const InfoForm = styled.form`
 const InfoText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 290px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+`;
+
+const NameText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.small};
+  width: 290px;
   margin-top: 10px;
 `;
 
+const PasswordText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.small};
+  width: 290px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+`;
+
 const InfoWarn = styled.div`
-  font-size: ${(props) => props.theme.fontSize.tiny};
+  font-size: ${(props) => props.theme.fontSize.micro};
   color: ${(props) => props.theme.grey};
   width: 290px;
   margin-bottom: 5px;
@@ -98,7 +125,7 @@ const InfoWarn = styled.div`
 `;
 
 const InfoDistrict = styled.div`
-  font-size: ${(props) => props.theme.fontSize.tiny};
+  font-size: ${(props) => props.theme.fontSize.micro};
   color: ${(props) => props.theme.grey};
   width: 290px;
   text-align: right;
@@ -133,14 +160,14 @@ const InfoInput = styled.input`
   margin-bottom: 5px;
 `;
 
-const InfoConfirmBtn = styled.button`
-  font-size: ${(props) => props.theme.fontSize.small};
+const InfoNameBtn = styled.button`
+  font-size: ${(props) => props.theme.fontSize.tiny};
   background-color: ${(props) => props.theme.btnGreen};
   color: ${(props) => props.theme.white};
-  width: 200px;
-  height: 40px;
-  margin-top: 5px;
-  margin-bottom: 12px;
+  width: 130px;
+  height: 30px;
+  margin-top: 2px;
+  margin-bottom: 20px;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
@@ -149,11 +176,127 @@ const InfoConfirmBtn = styled.button`
   }
 `;
 
-const InfoAlertText = styled.div`
+const InfoPwBtn = styled.button`
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  background-color: ${(props) => props.theme.btnGreen};
+  color: ${(props) => props.theme.white};
+  width: 130px;
+  height: 30px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  border-radius: 10px;
+  cursor: pointer;
+  &:hover {
+    font-weight: bold;
+  }
+`;
+
+const InfoErrorText = styled.div`
   font-size: ${(props) => props.theme.fontSize.micro};
   color: ${(props) => props.theme.lightGrey};
   width: 290px;
+  height: 8px;
+  margin-top: 2px;
   margin-bottom: 10px;
+`;
+
+const InfoModalBack = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+`;
+
+const InfoModalBox = styled.div`
+  position: absolute;
+  width: 320px;
+  height: 150px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: ${(props) => props.theme.beige};
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const InfoModalText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.small};
+  width: 290px;
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const InfoModalBtn = styled.button`
+  background-color: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.btnGreen};
+  border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 11px;
+  margin: 20px;
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  width: 80px;
+  height: 30px;
+  cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+    font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+`;
+
+const PwModalBack = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+`;
+
+const PwModalBox = styled.div`
+  position: absolute;
+  width: 320px;
+  height: 150px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: ${(props) => props.theme.beige};
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const PwModalText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.small};
+  width: 290px;
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const PwModalBtn = styled.button`
+  background-color: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.btnGreen};
+  border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 11px;
+  margin: 20px;
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  width: 80px;
+  height: 30px;
+  cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+    font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
 `;
 
 const WitText = styled.div`
@@ -221,11 +364,13 @@ const WitModalBtn = styled.button`
 
 // `${process.env.REACT_APP_SERVER}/search`
 function Profile() {
-  const [modalView, setModalView] = useState(false);
+  const [witModalView, setWitModalView] = useState(false);
+  const [infoModalView, setInfoModalView] = useState(false);
+  const [pwModalView, setPwModalView] = useState(false);
 
   const user = useSelector((state: RootState) => state);
-  console.log(user);
 
+  // const [userData, setUserData] = useState<any>('');
   const [js, setJs] = useState(user.userInfo.stacks?.[0]);
   const [ts, setTs] = useState(user.userInfo.stacks?.[1]);
   const [css, setCss] = useState(user.userInfo.stacks?.[2]);
@@ -238,32 +383,109 @@ function Profile() {
   const [other, setOther] = useState(user.userInfo.stacks?.[9]);
 
   const [username, setUsername] = useState(user.userInfo.username);
+  const [nametag, setNametag] = useState(user.userInfo.username);
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
-  const [errMessage, setErrMessage] = useState('');
+  const [errNameMessage, setErrNameMessage] = useState('');
+  const [errPwMessage, setErrPwMessage] = useState('');
+  const [errConfirmPwMessage, setErrConfirmPwMessage] = useState('');
+
+  const { userInfo, accessToken, isLogin } = useSelector(
+    (state: RootState) => state,
+  );
+  console.log(user);
+  // onChange=중복검사 때
 
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
 
+  // 중복검사, 비밀번호/유저네임 버튼 및 폼 분리할까
+  // 변경 후 변경 완료 확인 모달 제공
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER}/users/auth`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const userinfo = res.data;
+        setUsername(userinfo.data.username);
+        setNametag(userinfo.data.username);
+        setJs(userinfo.data.stacks[0]);
+        setTs(userinfo.data.stacks[1]);
+        setCss(userinfo.data.stacks[2]);
+        setReact(userinfo.data.stacks[3]);
+        setVue(userinfo.data.stacks[4]);
+        setNoSql(userinfo.data.stacks[5]);
+        setSql(userinfo.data.stacks[6]);
+        setExpress(userinfo.data.stacks[7]);
+        setAws(userinfo.data.stacks[8]);
+        setOther(userinfo.data.stacks[9]);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (username === '') {
+      setErrNameMessage('');
+    }
+    // if (username !== '') {
+    //   setErrNameMessage('최소 2글자 이상 입력하세요.');
+    // }
+    if (password === '') {
+      setErrPwMessage('');
+    }
+    if (password.length > 0 && password.length < 4) {
+      setErrPwMessage('최소 4글자 이상 입력하세요.');
+    }
+    if (password.length >= 4) {
+      setErrPwMessage('');
+    }
+    if (confirmPw === '') {
+      setErrConfirmPwMessage('');
+    }
+    if (confirmPw === password) {
+      setErrConfirmPwMessage('');
+    }
+    if (confirmPw !== password) {
+      setErrConfirmPwMessage('비밀번호가 일치하지 않습니다.');
+    }
+  }, [username, password, confirmPw]);
+
   // useEffect(() => {
-  //   axios.get(
-  //     `${process.env.REACT_APP_SERVER}/auth`,
-  //   )
-  // })
+  //   async function getUser() {
+  //     const data = await axios.get(
+  //       `${process.env.REACT_APP_SERVER}/users/auth`,
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //         withCredentials: true,
+  //       },
+  //     );
+  //     console.log(data);
+  //     setUserData(data);
+  //   }
+  //   console.log(userData);
+  // }, [username, password, confirmPw]);
 
   const usernameOnChange = (e: FormEvent<HTMLInputElement>) => {
     setUsername(e.currentTarget.value);
-    console.log(username);
+    // console.log(username);
   };
 
   const passwordOnChange = (e: FormEvent<HTMLInputElement>) => {
     setPassword(e.currentTarget.value);
-    console.log(password);
+    // console.log(password);
   };
 
   const confirmPwOnChange = (e: FormEvent<HTMLInputElement>) => {
     setConfirmPw(e.currentTarget.value);
-    console.log(confirmPw);
+    // console.log(confirmPw);
   };
 
   const onClickJs = async () => {
@@ -275,7 +497,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -293,7 +515,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -311,7 +533,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -329,7 +551,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -347,7 +569,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -365,7 +587,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -383,7 +605,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -401,7 +623,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -419,7 +641,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -437,7 +659,7 @@ function Profile() {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -446,43 +668,51 @@ function Profile() {
     }
   };
 
-  const handleModalClick = () => {
-    setModalView(!modalView);
+  const handleInfoModalClick = () => {
+    setInfoModalView(!infoModalView);
+  };
+
+  const handlePwModalClick = () => {
+    setPwModalView(!pwModalView);
+    navigate('/');
+  };
+
+  const handleWitModalClick = () => {
+    setWitModalView(!witModalView);
+  };
+
+  const handleWitDelClick = async () => {
+    try {
+      const data = await axios.delete(
+        `${process.env.REACT_APP_SERVER}/users/signout`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        },
+      );
+      dispatch({
+        type: 'Logout',
+        userInfo,
+        accessToken,
+        isLogin,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    navigate('/');
+    setWitModalView(!witModalView);
   };
 
   // const handlePhotoAddClick = () => {};
 
-  const handleInfoSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleNameSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // 유저이름도 변경, 비번도 변경
-      if (
-        password === confirmPw &&
-        password !== '' &&
-        username !== user.userInfo.username
-      ) {
-        const data = await axios.patch(
-          `${process.env.REACT_APP_SERVER}/users/profile`,
-          { username, password },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${user.accessToken}`,
-            },
-            withCredentials: true,
-          },
-        );
-        dispatch({
-          type: 'ModifyUsernamePassword',
-        });
-        navigate('/');
-      }
       // 유저 이름만 변경
-      if (
-        password === confirmPw &&
-        password === '' &&
-        username !== user.userInfo.username
-      ) {
+      if (username !== userInfo.username) {
         setUsername(username);
         const data = await axios.patch(
           `${process.env.REACT_APP_SERVER}/users/profile`,
@@ -490,40 +720,72 @@ function Profile() {
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${user.accessToken}`,
+              Authorization: `Bearer ${accessToken}`,
             },
             withCredentials: true,
           },
         );
+        console.log('data', data);
         dispatch({
-          type: 'ModifyUsername',
+          type: 'Modify',
+          userInfo: data.data.data,
+          accessToken,
+          isLogin,
         });
-        // navigate('/profile');
+        setUsername(username);
+        setNametag(username);
+        setErrNameMessage('');
+        setInfoModalView(!infoModalView);
       }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handlePasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
       // 비밀번호만 변경
-      if (
-        password === confirmPw &&
-        password !== '' &&
-        username === user.userInfo.username
-      ) {
-        const data = await axios.patch(
+      if (password === confirmPw && password !== '') {
+        await axios.patch(
           `${process.env.REACT_APP_SERVER}/users/profile`,
           { password },
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${user.accessToken}`,
+              Authorization: `Bearer ${accessToken}`,
             },
             withCredentials: true,
           },
         );
         dispatch({
-          type: 'ModifyPassword',
+          type: 'Logout',
+          userInfo,
+          accessToken,
+          isLogin,
         });
-        navigate('/');
+        setPwModalView(!pwModalView);
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const checkUernameOnClick = async () => {
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/verify/username`,
+        { username },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
+      );
+      setErrNameMessage('닉네임을 사용하실 수 있습니다.');
+    } catch {
+      setErrNameMessage('이미 동일한 닉네임이 존재합니다.');
     }
   };
 
@@ -536,7 +798,7 @@ function Profile() {
           <UserPhoto src={hiLogo} />
         )} */}
         <UserPhoto src={hiLogo} />
-        <StackName>어서오세요, {user.userInfo.username}님!</StackName>
+        <StackName>어서오세요, {userInfo.username}님!</StackName>
         <StackText>내가 사용하는 스택</StackText>
         <StackLine />
         <StackBox>
@@ -654,46 +916,69 @@ function Profile() {
       </LeftBox>
       <RightBox>
         <InfoBox>
-          <InfoForm onSubmit={handleInfoSubmit}>
+          <InfoNameForm onSubmit={handleNameSubmit}>
             <InfoText>이메일</InfoText>
-            <InfoWarn>변경불가</InfoWarn>
-            <EmailInput value={user.userInfo.email} readOnly />
-            <InfoText>닉네임</InfoText>
-            <InfoDistrict>중복검사</InfoDistrict>
+            {/* <InfoWarn>변경불가</InfoWarn> */}
+            <EmailInput value={userInfo.email} readOnly />
+            <NameText>닉네임</NameText>
+            <InfoDistrict onClick={checkUernameOnClick}>중복검사</InfoDistrict>
             <InfoInput
               type="text"
-              placeholder={user.userInfo.username}
+              value={username}
+              // placeholder={username}
               onChange={usernameOnChange}
             />
-            <InfoAlertText>사용 가능한 이름입니다</InfoAlertText>
-            <InfoText>비밀번호</InfoText>
-            <InfoWarn>필수사항</InfoWarn>
+            <InfoErrorText>{errNameMessage}</InfoErrorText>
+            <InfoNameBtn type="submit">닉네임 변경하기</InfoNameBtn>
+          </InfoNameForm>
+          <InfoPasswordForm onSubmit={handlePasswordSubmit}>
+            <PasswordText>비밀번호</PasswordText>
+            {/* <InfoWarn>4자이상</InfoWarn> */}
             <InfoInput
               type="password"
               placeholder="비밀번호를 입력하세요"
               onChange={passwordOnChange}
             />
+            <InfoErrorText>{errPwMessage}</InfoErrorText>
             <InfoInput
               type="password"
               placeholder="비밀번호를 한번 더 입력하세요"
               onChange={confirmPwOnChange}
             />
-            <InfoAlertText>{errMessage}</InfoAlertText>
-            <InfoConfirmBtn type="submit">변경하기</InfoConfirmBtn>
-            <WitInfo onClick={handleModalClick}>회원탈퇴</WitInfo>
-          </InfoForm>
+            <InfoErrorText>{errConfirmPwMessage}</InfoErrorText>
+            <InfoPwBtn type="submit">비밀번호 변경하기</InfoPwBtn>
+            <WitInfo onClick={handleWitModalClick}>회원탈퇴</WitInfo>
+          </InfoPasswordForm>
         </InfoBox>
       </RightBox>
-      {modalView ? (
+      {witModalView ? (
         <WitModalBack>
           <WitModalBox>
             <WitText>정말로 탈퇴하실 건가요?</WitText>
             <WitModalBtnBox>
-              <WitModalBtn onClick={handleModalClick}>네</WitModalBtn>
-              <WitModalBtn onClick={handleModalClick}>아니요</WitModalBtn>
+              <WitModalBtn onClick={handleWitDelClick}>네</WitModalBtn>
+              <WitModalBtn onClick={handleWitModalClick}>아니요</WitModalBtn>
             </WitModalBtnBox>
           </WitModalBox>
         </WitModalBack>
+      ) : null}
+      {infoModalView ? (
+        <InfoModalBack>
+          <InfoModalBox>
+            <InfoModalText>닉네임이 변경되었습니다</InfoModalText>
+            <InfoModalBtn onClick={handleInfoModalClick}>확인</InfoModalBtn>
+          </InfoModalBox>
+        </InfoModalBack>
+      ) : null}
+      {pwModalView ? (
+        <PwModalBack>
+          <PwModalBox>
+            <PwModalText>
+              비밀번호가 변경되었습니다 다시 로그인 해주세요
+            </PwModalText>
+            <PwModalBtn onClick={handlePwModalClick}>확인</PwModalBtn>
+          </PwModalBox>
+        </PwModalBack>
       ) : null}
     </Wrapper>
   );
