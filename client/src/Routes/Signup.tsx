@@ -195,7 +195,7 @@ function Signup() {
   };
 
   const checkUernameOnClick = async () => {
-    if (username.length > 2) {
+    if (username.length >= 2) {
       try {
         await axios.post(
           `${process.env.REACT_APP_SERVER}/users/verify/username`,
