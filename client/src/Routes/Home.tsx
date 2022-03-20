@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import { IoMdArrowDropleft } from 'react-icons/io';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Team from 'Components/Team';
 import SearchList from 'Components/SearchList';
-import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from 'redux';
-import { RootState } from 'index';
+import { useNavigate } from 'react-router';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -143,6 +141,7 @@ const SearchBarBox = styled.ul`
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
   border: 2px solid ${(props) => props.theme.green};
+  background-color: ${(props) => props.theme.beige};
   position: absolute;
   top: 60px;
 `;
@@ -160,30 +159,63 @@ function Home() {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const dispatch: Dispatch = useDispatch();
-  const { postReducer } = useSelector((state: RootState) => state);
-  console.log(postReducer);
+  const [title, setTitle] = useState([]);
+  const [select, setSelect] = useState('');
+  const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
-  const arr = postReducer.filter((el: any) => {
-    return el.title.toLowerCase().includes(value.toLowerCase());
+  const getTitle = async () => {
+    const postTitle = await axios.get(
+      `${process.env.REACT_APP_SERVER}/posts/title`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    setTitle(postTitle.data.data);
+  };
+
+  useEffect(() => {
+    getTitle();
+  }, []);
+
+  const arr = title.filter((el: string) => {
+    return el.toLowerCase().includes(value.toLowerCase());
   });
 
-  const searchListOnClick = (e: any) => {
+  const searchListOnClick = async (e: any) => {
     setValue(e.target.innerText);
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/search`,
+      { keyword: value },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    // navigate("/post/search?keyword=${value}");
   };
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // up
     if (e.keyCode === 38) {
-      console.log('38');
+      setIndex(index - 1);
+      setSelect(title[index]);
+      setValue(select);
     }
     // down
     if (e.keyCode === 40) {
-      console.log('40');
+      setIndex(index + 1);
+      setSelect(title[index]);
+      setValue(select);
     }
-
+    // enter
     if (e.keyCode === 13) {
-      console.log('13');
+      setValue(select);
     }
   };
 
@@ -194,7 +226,7 @@ function Home() {
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value) {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/posts/search`,
         { keyword: value },
         {
@@ -204,9 +236,9 @@ function Home() {
           withCredentials: true,
         },
       );
-      dispatch({ type: 'Search', post: data.data.data });
       setErrorMessage('여기에 입력해주세요!');
-      setValue('');
+      // navigate("/post/search?keyword=${value}");
+      // setValue('');
     } else {
       setErrorMessage('최소 1글자 이상은 입력해주세요!');
     }
@@ -238,7 +270,7 @@ function Home() {
               <SearchBarWrapper>
                 <SearchInput
                   onChange={handleOnChange}
-                  onKeyUp={handleKeyUp}
+                  // onKeyUp={handleKeyUp}
                   value={value}
                   placeholder={errorMessage || '여기에 입력해주세요!'}
                 />
@@ -247,7 +279,12 @@ function Home() {
                 ) : null}
                 {arr.length !== 0 && value !== '' ? (
                   <SearchBarBox>
-                    <SearchList list={arr} chooseList={searchListOnClick} />
+                    <SearchList
+                      type="submit"
+                      list={arr}
+                      chooseList={searchListOnClick}
+                      // onKey={handleKeyUp}
+                    />
                   </SearchBarBox>
                 ) : null}
               </SearchBarWrapper>
