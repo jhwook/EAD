@@ -84,7 +84,7 @@ interface ILoginActionPros {
 }
 
 const userState: ILoginState = {
-  isLogin: true,
+  isLogin: false,
   userInfo: {
     id: '1',
     username: 'kim',

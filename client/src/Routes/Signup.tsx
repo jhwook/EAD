@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { RootState } from 'index';
 import styled from 'styled-components';
 import Home from './Home';
 
@@ -41,7 +39,7 @@ const UsernameInput = styled.input`
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
   padding: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 `;
 const EmailInput = styled.input`
   width: 315px;
@@ -50,7 +48,7 @@ const EmailInput = styled.input`
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
   padding: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 `;
 const PasswordInput = styled.input`
   width: 315px;
@@ -60,7 +58,6 @@ const PasswordInput = styled.input`
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
   padding: 10px;
-  margin-top: 15px;
   margin-bottom: 10px;
 `;
 
@@ -72,7 +69,7 @@ const CofirmPasswordInput = styled.input`
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
   padding: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 const ExitBtn = styled.button`
@@ -121,64 +118,136 @@ const ConfirmText = styled.div`
   }
 `;
 
+const ErrorText = styled.div`
+  width: 340px;
+  color: ${(props) => props.theme.lightGrey};
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  text-align: left;
+  margin-bottom: 10px;
+`;
+
 function Signup() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [open, setOpen] = useState(true);
+  const [show, setShow] = useState(false);
+  const [errorUsernameMessage, setErrorUsernameMessage] = useState('');
+  const [errorEmailMessage, setEmailErrorMessage] = useState('');
+  const [errorPasswordMessage, setPasswordErrorMessage] = useState('');
+  const [errorConfrimPasswordMessage, setConfirmPasswordErrorMessage] =
+    useState('');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const userData = useSelector((state: RootState) => state);
-  console.log(userData);
+  useEffect(() => {
+    if (username === '') {
+      setErrorUsernameMessage('');
+    }
+    if (username.length > 0 && username.length < 2) {
+      setErrorUsernameMessage('최소 2글자 이상 입력하세요.');
+    }
+    if (email === '') {
+      setEmailErrorMessage('');
+    }
+    if (password === '') {
+      setPasswordErrorMessage('');
+    }
+    if (password.length > 0 && password.length < 4) {
+      setPasswordErrorMessage('최소 4글자 이상 입력하세요.');
+    }
+    if (password.length >= 4) {
+      setPasswordErrorMessage('');
+    }
+    if (confirmPassword === '') {
+      setConfirmPasswordErrorMessage('');
+    }
+    if (confirmPassword === password) {
+      setConfirmPasswordErrorMessage('');
+    }
+    if (confirmPassword !== password) {
+      setConfirmPasswordErrorMessage('비밀번호가 일치하지 않습니다.');
+    }
+  }, [username, email, password, confirmPassword]);
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = await axios.post(
-      `${process.env.REACT_APP_SERVER}/signup`,
-      { username, email, password },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      },
-    );
-    dispatch({ type: 'Signup', payload: data });
-    setEmail('');
-    setPassword('');
-    setUsername('');
-    navigate('/');
+    if (username && email && password && confirmPassword) {
+      try {
+        await axios.post(
+          `${process.env.REACT_APP_SERVER}/users/signup`,
+          { username, email, password },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          },
+        );
+        setEmail('');
+        setPassword('');
+        setUsername('');
+        navigate('/login');
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   const checkUernameOnClick = async () => {
-    const data = await axios.post(
-      `${process.env.REACT_APP_SERVER}/users/verify/username`,
-      { username },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      },
-    );
+    if (username.length > 2) {
+      try {
+        await axios.post(
+          `${process.env.REACT_APP_SERVER}/users/verify/username`,
+          { username },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          },
+        );
+        setErrorUsernameMessage('닉네임을 사용하실 수 있습니다.');
+      } catch {
+        setErrorUsernameMessage('이미 동일한 닉네임이 존재합니다.');
+      }
+    }
+  };
+
+  const emailVaildationCheck = () => {
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    return emailRegex.test(email);
   };
 
   const checkEmailOnClick = async () => {
-    const data = await axios.post(
-      `${process.env.REACT_APP_SERVER}/users/verify/email`,
-      { email },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      },
-    );
+    if (emailVaildationCheck()) {
+      try {
+        await axios.post(
+          `${process.env.REACT_APP_SERVER}/users/verify/email`,
+          { email },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          },
+        );
+        setEmailErrorMessage('이메일을 사용하실 수 있습니다.');
+      } catch {
+        setEmailErrorMessage('이미 동일한 이메일이 존재합니다.');
+      }
+    } else {
+      setEmailErrorMessage('유효하지 않은 이메일 양식입니다.');
+    }
+  };
+  const usernameOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setErrorUsernameMessage('닉네임 중복검사를 하세요');
+    setUsername(e.currentTarget.value);
   };
 
   const emailOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setEmailErrorMessage('이메일 중복검사를 하세요');
     setEmail(e.currentTarget.value);
   };
 
@@ -186,12 +255,12 @@ function Signup() {
     setPassword(e.currentTarget.value);
   };
 
-  const usernameOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setUsername(e.currentTarget.value);
-  };
-
   const confirmPasswordOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setConfirmPassword(e.currentTarget.value);
+  };
+
+  const showPasswordOnClick = () => {
+    setShow(!show);
   };
 
   const exitOnClick = () => {
@@ -210,27 +279,82 @@ function Signup() {
               <ConfirmText onClick={checkUernameOnClick}>중복검사</ConfirmText>
               <UsernameInput
                 value={username}
+                required
                 onChange={usernameOnChange}
                 placeholder="닉네임을 입력해주세요"
               />
+              {errorUsernameMessage ? (
+                <ErrorText>{errorUsernameMessage}</ErrorText>
+              ) : null}
               <Text>이메일</Text>
               <ConfirmText onClick={checkEmailOnClick}>중복검사</ConfirmText>
               <EmailInput
                 value={email}
+                type="email"
+                required
                 onChange={emailOnChange}
                 placeholder="이메일을 입력해주세요"
               />
+              {errorEmailMessage ? (
+                <ErrorText>{errorEmailMessage}</ErrorText>
+              ) : null}
               <Text>비밀번호</Text>
-              <PasswordInput
-                value={password}
-                onChange={passwordOnChange}
-                placeholder="비밀번호을 입력해주세요"
-              />
-              <CofirmPasswordInput
-                value={confirmPassword}
-                onChange={confirmPasswordOnChange}
-                placeholder="비밀번호을 한번 더 입력해주세요"
-              />
+              {show ? (
+                <ConfirmText onClick={showPasswordOnClick}>
+                  비밀번호 숨기기
+                </ConfirmText>
+              ) : (
+                <ConfirmText onClick={showPasswordOnClick}>
+                  비밀번호 보기
+                </ConfirmText>
+              )}
+              {show ? (
+                <>
+                  <PasswordInput
+                    value={password}
+                    type="text"
+                    required
+                    onChange={passwordOnChange}
+                    placeholder="비밀번호을 입력해주세요"
+                  />
+                  {errorPasswordMessage ? (
+                    <ErrorText>{errorPasswordMessage}</ErrorText>
+                  ) : null}
+                  <CofirmPasswordInput
+                    value={confirmPassword}
+                    type="text"
+                    required
+                    onChange={confirmPasswordOnChange}
+                    placeholder="비밀번호을 한번 더 입력해주세요"
+                  />
+                  {errorPasswordMessage ? (
+                    <ErrorText>{errorPasswordMessage}</ErrorText>
+                  ) : null}
+                </>
+              ) : (
+                <>
+                  <PasswordInput
+                    value={password}
+                    type="password"
+                    required
+                    onChange={passwordOnChange}
+                    placeholder="비밀번호을 입력해주세요"
+                  />
+                  {errorPasswordMessage ? (
+                    <ErrorText>{errorPasswordMessage}</ErrorText>
+                  ) : null}
+                  <CofirmPasswordInput
+                    value={confirmPassword}
+                    type="password"
+                    required
+                    onChange={confirmPasswordOnChange}
+                    placeholder="비밀번호을 한번 더 입력해주세요"
+                  />
+                  {errorConfrimPasswordMessage ? (
+                    <ErrorText>{errorConfrimPasswordMessage}</ErrorText>
+                  ) : null}
+                </>
+              )}
               <SignupBtn type="submit">회원가입</SignupBtn>
             </Form>
           </Wrapper>
