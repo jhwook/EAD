@@ -114,6 +114,13 @@ const userReducer = (state = userState, action: ILoginActionPros) => {
       copy.isLogin = false;
       return copy;
     }
+    case 'Modify': {
+      const copy = { ...state };
+      copy.userInfo = action.userInfo;
+      copy.accessToken = action.accessToken;
+      copy.isLogin = action.isLogin;
+      return copy;
+    }
     default: {
       return state;
     }
