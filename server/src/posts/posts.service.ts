@@ -82,4 +82,10 @@ export class PostsService {
     await this.postsRepository.deleteComment(commentId);
     throw new HttpException('삭제 완료.....', 200);
   }
+
+  // 포스트 제목만 주기
+  async getPostTitle() {
+    const postTitles = await this.postsRepository.getTitle();
+    return postTitles;
+  }
 }

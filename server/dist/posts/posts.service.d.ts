@@ -16,4 +16,5 @@ export declare class PostsService {
     }>;
     modifyComment(req: any, param: any): Promise<void>;
     deleteComment(param: any): Promise<void>;
+    getPostTitle(): Promise<string[]>;
 }

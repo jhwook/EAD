@@ -24,4 +24,5 @@ export declare class PostsRepository {
     }>;
     editComment(newComment: any, commentId: any): Promise<void>;
     deleteComment(commentId: any): Promise<void>;
+    getTitle(): Promise<string[]>;
 }

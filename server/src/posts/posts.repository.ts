@@ -82,7 +82,9 @@ export class PostsRepository {
     const post = await this.postModel.findById(modifiedComment.post_id);
 
     const newCommentArr = post.comment.map((comment: ExampleObject) => {
+      // eslint-disable-next-line no-underscore-dangle
       if (String(comment._id) === commentId) {
+        // eslint-disable-next-line no-param-reassign
         comment.content = modifiedComment.content;
       }
       return comment;
@@ -108,6 +110,13 @@ export class PostsRepository {
 
     await this.postModel.findByIdAndUpdate(comment.post_id, {
       comment: newCommentArr,
+    });
+  }
+
+  async getTitle() {
+    const titleArr = await this.postModel.find();
+    return titleArr.map((post) => {
+      return post.title;
     });
   }
 }
