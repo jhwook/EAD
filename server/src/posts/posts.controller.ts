@@ -68,9 +68,9 @@ export class PostsController {
   }
 
   // 댓글 수정
-  // @UseGuards(JwtAuthGuard)
-  @Patch('/:postId/modify/comment')
-  modifyComment(@Body() body, @Param() param) {
-    return this.postsService.modifyComment(body, param);
+  @UseGuards(JwtAuthGuard)
+  @Patch('/:commentId/modify/comment')
+  modifyComment(@Req() req, @Param() param) {
+    return this.postsService.modifyComment(req, param);
   }
 }

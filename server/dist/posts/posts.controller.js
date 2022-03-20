@@ -42,8 +42,8 @@ let PostsController = class PostsController {
     createComment(req, param) {
         return this.postsService.createComment(req, param);
     }
-    modifyComment(body, param) {
-        return this.postsService.modifyComment(body, param);
+    modifyComment(req, param) {
+        return this.postsService.modifyComment(req, param);
     }
 };
 __decorate([
@@ -95,8 +95,9 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "createComment", null);
 __decorate([
-    (0, common_1.Patch)('/:postId/modify/comment'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)('/:commentId/modify/comment'),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
