@@ -176,10 +176,10 @@ function Login() {
 
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
-      clientId: process.env.REACT_APP_NAVER_CLIENTID,
+      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
       callbackUrl: process.env.REACT_APP_NAVER_CALLBACK_URL,
       isPopup: false,
-      loginButton: { color: 'green', type: 3, height: '48' }, // 버튼의 스타일, 타입, 크기를 지정
+      loginButton: { color: 'green', type: 3, height: '48' },
     });
     naverLogin.init();
   };
