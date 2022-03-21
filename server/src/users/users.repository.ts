@@ -32,6 +32,11 @@ export class UsersRepository {
     return user;
   }
 
+  async findUserByUsername(username: string): Promise<User | null> {
+    const user = await this.userModel.findOne({ username });
+    return user;
+  }
+
   async create(user: UserRequestDto) {
     // eslint-disable-next-line no-return-await
     return await this.userModel.create(user);

@@ -14,6 +14,7 @@ export declare class UsersRepository {
     existsByUsername(username: string): Promise<Pick<import("mongoose").Document<User, any, any>, "_id">>;
     findUserByIdWithoutPassword(userId: string): Promise<User | null>;
     findUserByEmail(email: string): Promise<User | null>;
+    findUserByUsername(username: string): Promise<User | null>;
     create(user: UserRequestDto): Promise<User & {
         _id: any;
     }>;

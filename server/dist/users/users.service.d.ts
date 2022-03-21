@@ -15,7 +15,10 @@ export declare class UsersService {
         oauth: any;
         imgUrl: string;
     }>;
+    oauthSignUp(username: any): Promise<void>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
+    findUserByEmail(email: any): Promise<User>;
+    findUserByUsername(username: any): Promise<User>;
     updateUser(req: any): Promise<User & {
         _id: any;
     }>;

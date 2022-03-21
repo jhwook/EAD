@@ -38,6 +38,10 @@ let UsersRepository = class UsersRepository {
         const user = await this.userModel.findOne({ email });
         return user;
     }
+    async findUserByUsername(username) {
+        const user = await this.userModel.findOne({ username });
+        return user;
+    }
     async create(user) {
         return await this.userModel.create(user);
     }

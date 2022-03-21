@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
+const naver_guard_1 = require("../auth/naver/naver.guard");
 const multer_options_1 = require("../common/utils/multer.options");
 const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 const login_request_dto_1 = require("../auth/dto/login.request.dto");
@@ -30,6 +31,17 @@ let UsersController = class UsersController {
     }
     auth(req) {
         return req.user.readOnlyData;
+    }
+    async naverlogin() { }
+    async callback(req, res) {
+        if (req.user.type === 'login') {
+            res.cookie('access_token', req.user.access_token);
+        }
+        else {
+            res.cookie('once_token', req.user.once_token);
+        }
+        res.redirect('http://localhost:3000/');
+        res.end();
     }
     async login(body) {
         return this.authService.jwtLogIn(body);
@@ -62,7 +74,6 @@ let UsersController = class UsersController {
         return this.usersService.verifyUsername(body);
     }
     uploadImage(files, req) {
-        console.log(files);
         return this.usersService.uploadImg(req, files);
     }
     sendEmail(body) {
@@ -77,6 +88,22 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "auth", null);
+__decorate([
+    (0, common_1.UseGuards)(naver_guard_1.NaverAuthGuard),
+    (0, common_1.Get)('auth/naver'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "naverlogin", null);
+__decorate([
+    (0, common_1.UseGuards)(naver_guard_1.NaverAuthGuard),
+    (0, common_1.Get)('auth/naver/callback'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "callback", null);
 __decorate([
     (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),

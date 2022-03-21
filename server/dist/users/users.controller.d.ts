@@ -1,17 +1,19 @@
 /// <reference types="multer" />
+import { Response } from 'express';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
 import { AuthService } from '../auth/auth.service';
 import { UserRequestDto } from './dto/users.request.dto';
 import { UsersService } from './users.service';
-import { User } from './users.schema';
 export declare class UsersController {
     private readonly usersService;
     private readonly authService;
     constructor(usersService: UsersService, authService: AuthService);
     auth(req: any): any;
+    naverlogin(): Promise<void>;
+    callback(req: any, res: Response): Promise<any>;
     login(body: LoginRequestDto): Promise<{
         isLogin: boolean;
-        userInfo: User;
+        userInfo: import("./users.schema").User;
         token: string;
     }>;
     signup(body: UserRequestDto): Promise<{
@@ -24,7 +26,7 @@ export declare class UsersController {
     }>;
     logout(req: any, res: any): any;
     signout(req: any): Promise<string>;
-    updateUser(req: any): Promise<User & {
+    updateUser(req: any): Promise<import("./users.schema").User & {
         _id: any;
     }>;
     updateStacks(param: any, req: any): Promise<{

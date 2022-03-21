@@ -8,13 +8,14 @@ import {
   Post,
   Req,
   Res,
-  UploadedFile,
   UploadedFiles,
   UseFilters,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { NaverAuthGuard } from 'src/auth/naver/naver.guard';
+import { Response } from 'express';
 import { multerOptions } from '../common/utils/multer.options';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
@@ -23,7 +24,6 @@ import { UserRequestDto } from './dto/users.request.dto';
 import { SuccessInterceptor } from '../common/interceptors/success.interceptor';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { UsersService } from './users.service';
-import { User } from './users.schema';
 
 @Controller('users')
 @UseInterceptors(SuccessInterceptor)
@@ -41,6 +41,27 @@ export class UsersController {
   @Get('/auth')
   auth(@Req() req) {
     return req.user.readOnlyData;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  @UseGuards(NaverAuthGuard)
+  @Get('auth/naver')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async naverlogin() {}
+
+  // eslint-disable-next-line class-methods-use-this
+  @UseGuards(NaverAuthGuard)
+  @Get('auth/naver/callback')
+  async callback(@Req() req, @Res() res: Response): Promise<any> {
+    if (req.user.type === 'login') {
+      res.cookie('access_token', req.user.access_token);
+      // res.cookie('refresh_token', req.user.refresh_token);
+    } else {
+      res.cookie('once_token', req.user.once_token);
+    }
+    res.redirect('http://localhost:3000/');
+    res.end();
+    // 리다이렉트 해주는 페이지
   }
 
   @Post('/login')
@@ -101,7 +122,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Post('upload')
   uploadImage(@UploadedFiles() files: Array<Express.Multer.File>, @Req() req) {
-    console.log(files);
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
     return this.usersService.uploadImg(req, files);
   }
