@@ -102,6 +102,7 @@ const Searchbar = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 50px;
+  z-index: 0;
   .search {
     font-size: ${(props) => props.theme.fontSize.huge};
   }
