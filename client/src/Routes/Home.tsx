@@ -6,6 +6,9 @@ import axios from 'axios';
 import Team from 'Components/Team';
 import SearchList from 'Components/SearchList';
 import { useNavigate } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -163,7 +166,9 @@ function Home() {
   const [title, setTitle] = useState([]);
   const [select, setSelect] = useState('');
   const [index, setIndex] = useState(0);
+  const location = useLocation();
   const navigate = useNavigate();
+  const dispatch: Dispatch = useDispatch();
 
   const getTitle = async () => {
     const postTitle = await axios.get(
@@ -178,8 +183,33 @@ function Home() {
     setTitle(postTitle.data.data);
   };
 
+  // const getNaverToken = async () => {
+  //   if (location.hash) {
+  //     const token = location.hash.split('=')[1].split('&')[0];
+  //     console.log(token);
+  //     const data = await axios.post(
+  //       `${process.env.REACT_APP_SERVER}/users/login`,
+  //       {},
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authrorization: token,
+  //         },
+  //         withCredentials: true,
+  //       },
+  //     );
+  //     dispatch({
+  //       type: 'Login',
+  //       userInfo: data.data.data.userInfo,
+  //       accessToken: data.data.data.token,
+  //       isLogin: data.data.data.isLogin,
+  //     });
+  //   }
+  // };
+
   useEffect(() => {
     getTitle();
+    // getNaverToken();
   }, []);
 
   const arr = title.filter((el: string) => {

@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router';
-import naver from '../Image/Btn/naver.png';
 import kakao from '../Image/Btn/kakao.png';
 import google from '../Image/Btn/google.png';
 import Home from './Home';
@@ -92,6 +91,8 @@ const SignupBtn = styled.div`
   cursor: pointer;
 `;
 
+const NaverBtn = styled.div``;
+
 const NaverImg = styled.img`
   width: 230px;
   height: 45px;
@@ -110,6 +111,14 @@ const Text = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   margin-bottom: 15px;
 `;
+
+declare global {
+  interface Window {
+    naver: any;
+  }
+}
+
+const { naver } = window;
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -165,6 +174,20 @@ function Login() {
     navigate('/signup');
   };
 
+  const initializeNaverLogin = () => {
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: process.env.REACT_APP_NAVER_CLIENTID,
+      callbackUrl: process.env.REACT_APP_NAVER_CALLBACK_URL,
+      isPopup: false,
+      loginButton: { color: 'green', type: 3, height: '48' }, // 버튼의 스타일, 타입, 크기를 지정
+    });
+    naverLogin.init();
+  };
+
+  useEffect(() => {
+    initializeNaverLogin();
+  }, []);
+
   return (
     <>
       {open ? (
@@ -189,7 +212,7 @@ function Login() {
               <LoginBtn type="submit">로그인</LoginBtn>
             </Form>
             <Text>--------------- 또는 --------------</Text>
-            <NaverImg src={naver} />
+            <NaverBtn id="naverIdLogin" />
             <KaokoImg src={kakao} />
             <GoogleImg src={google} />
             <Text>--------- 아직 회원이 아니시라면? --------</Text>
