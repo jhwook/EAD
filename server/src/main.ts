@@ -28,7 +28,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors({
-    // origin: 'http://localhost:4000'
+    // origin: 'http://localhost:3000',
     origin: true,
     credentials: true,
   });

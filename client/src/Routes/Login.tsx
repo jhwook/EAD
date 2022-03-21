@@ -94,9 +94,9 @@ const SignupBtn = styled.div`
 const NaverBtn = styled.div``;
 
 const NaverImg = styled.img`
-  width: 230px;
-  height: 45px;
-  margin-bottom: 5px;
+  width: 225px;
+  height: 48px;
+  margin-bottom: 1px;
   cursor: pointer;
 `;
 

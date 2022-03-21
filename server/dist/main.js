@@ -24,6 +24,7 @@ async function bootstrap() {
     app.enableCors({
         origin: true,
         credentials: true,
+        allowedHeaders: 'http://localhost:3000',
     });
     app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {
         prefix: '/media',

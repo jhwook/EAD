@@ -184,25 +184,46 @@ function Home() {
   };
 
   const getNaverToken = async () => {
-    // if (location.hash) {
-    //   const token = location.hash.split('=')[1].split('&')[0];
-    //   console.log(token);
-    const data = await axios.get(
-      `${process.env.REACT_APP_SERVER}/users/login`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
+    if (location.hash) {
+      const token = location.hash.split('=')[1].split('&')[0];
+      console.log(token);
+      // 프론트엔드로 리다이렉션시
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/auth/naver`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      },
-    );
-    dispatch({
-      type: 'Login',
-      userInfo: data.data.data.userInfo,
-      accessToken: data.data.data.token,
-      isLogin: data.data.data.isLogin,
-    });
-    // }
+      );
+      dispatch({
+        type: 'Login',
+        userInfo: data.data.data.userInfo,
+        accessToken: data.data.data.token,
+        isLogin: data.data.data.isLogin,
+      });
+      navigate('/');
+
+      // 백엔드로 리다이렉션시
+      // const data = await axios.get(
+      //   `${process.env.REACT_APP_SERVER}/users/auth/naver/callback`,
+      //   {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     withCredentials: true,
+      //   },
+      // );
+      // dispatch({
+      //   type: 'Login',
+      //   userInfo: data.data.data.userInfo,
+      //   accessToken: data.data.data.token,
+      //   isLogin: data.data.data.isLogin,
+      // });
+    }
   };
 
   useEffect(() => {
