@@ -186,7 +186,7 @@ function Home() {
   const getNaverToken = async () => {
     if (location.hash) {
       const token = location.hash.split('=')[1].split('&')[0];
-      console.log(token);
+      // console.log(token);
       // 프론트엔드로 리다이렉션시
       const data = await axios.post(
         `${process.env.REACT_APP_SERVER}/users/auth/naver`,
