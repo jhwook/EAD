@@ -16,6 +16,7 @@ const LoginWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 `;
 const Wrapper = styled.div`
   width: 370px;
