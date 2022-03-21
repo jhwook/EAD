@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { MailerService } from '@nestjs-modules/mailer';
+import { NONAME } from 'dns';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
@@ -59,10 +60,43 @@ export class UsersService {
     return user.readOnlyData;
   }
 
+  // NAVER 유저 회원가입
+  async oauthSignUp(username) {
+    const stacks = [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ];
+    await this.usersRepository.create({
+      email: 'None',
+      password: 'None',
+      username,
+      stacks,
+      oauth: false,
+    });
+  }
+
   // 회원탈퇴
   async deleteUser(userInfo: UserRequestDto) {
     await this.usersRepository.delete(userInfo);
     return 'successfully signout';
+  }
+
+  async findUserByEmail(email) {
+    // eslint-disable-next-line no-return-await
+    return await this.usersRepository.findUserByEmail(email);
+  }
+
+  async findUserByUsername(username) {
+    // eslint-disable-next-line no-return-await
+    return await this.usersRepository.findUserByUsername(username);
   }
 
   // 회원정보 수정

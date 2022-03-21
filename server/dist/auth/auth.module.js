@@ -14,6 +14,7 @@ const config_1 = require("@nestjs/config");
 const users_module_1 = require("../users/users.module");
 const jwt_strategy_1 = require("./jwt/jwt.strategy");
 const auth_service_1 = require("./auth.service");
+const naver_strategy_1 = require("./naver/naver.strategy");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -27,8 +28,8 @@ AuthModule = __decorate([
             }),
             (0, common_1.forwardRef)(() => users_module_1.UsersModule),
         ],
-        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy],
-        exports: [auth_service_1.AuthService],
+        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, naver_strategy_1.NaverStrategy],
+        exports: [auth_service_1.AuthService, jwt_1.JwtModule, passport_1.PassportModule],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

@@ -55,9 +55,36 @@ let UsersService = class UsersService {
         });
         return user.readOnlyData;
     }
+    async oauthSignUp(username) {
+        const stacks = [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+        ];
+        await this.usersRepository.create({
+            email: 'None',
+            password: 'None',
+            username,
+            stacks,
+            oauth: false,
+        });
+    }
     async deleteUser(userInfo) {
         await this.usersRepository.delete(userInfo);
         return 'successfully signout';
+    }
+    async findUserByEmail(email) {
+        return await this.usersRepository.findUserByEmail(email);
+    }
+    async findUserByUsername(username) {
+        return await this.usersRepository.findUserByUsername(username);
     }
     async updateUser(req) {
         const userInfo = req.user;

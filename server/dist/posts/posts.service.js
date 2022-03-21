@@ -47,14 +47,10 @@ let PostsService = class PostsService {
     async uploadPostImg(req, param, files) {
         const { user } = req;
         const { postId } = param;
-        console.log(postId);
         const post = await this.postsRepository.findPostById(postId);
-        console.log(post);
         if (user.username === post.writer) {
             const fileName = `posts/${files[0].filename}`;
-            console.log(`fileName: ${fileName}`);
             const newPost = await this.postsRepository.findPostAndUpdateImg(postId, fileName);
-            console.log(newPost);
             return newPost;
         }
         throw new common_1.HttpException('작성자가 일치하지 않습니다.', 401);
@@ -91,9 +87,7 @@ let PostsService = class PostsService {
         const comment = await this.postsRepository.findCommentById(commentId);
         if (user.username === comment.writer) {
             const fileName = `comments/${files[0].filename}`;
-            console.log(`fileName: ${fileName}`);
             const newComment = await this.postsRepository.findCommentAndUpdateImg(commentId, fileName);
-            console.log(newComment);
             return newComment;
         }
         throw new common_1.HttpException('작성자가 일치하지 않습니다.', 401);

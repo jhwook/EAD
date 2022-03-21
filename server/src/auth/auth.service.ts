@@ -1,16 +1,15 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { User } from 'src/users/users.schema';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/users.schema';
 import { UsersRepository } from '../users/users.repository';
-import { LoginRequestDto } from './dto/login.request.dto';
 
 @Injectable()
 export class AuthService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
+    private usersService: UsersService,
     private readonly usersRepository: UsersRepository,
     private jwtService: JwtService,
   ) {}
@@ -42,4 +41,68 @@ export class AuthService {
       token: this.jwtService.sign(payload),
     };
   }
+
+  // eslint-disable-next-line camelcase
+  async validateUser(username: string): Promise<any> {
+    const user = await this.usersService.findUserByUsername(username);
+    console.log(`validateUser: ${user}`);
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
+  async createOauthUser(username: string) {
+    this.usersService.oauthSignUp(username);
+  }
+
+  onceToken(userProfile: any) {
+    const payload = {
+      user_email: userProfile.user_email,
+      user_nick: userProfile.user_nick,
+      user_provider: userProfile.user_provider,
+      user_token: 'onceToken',
+    };
+    return this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: '10m',
+    });
+  }
+
+  async createLoginToken(user) {
+    const payload = {
+      user_no: user.user_no,
+      user_token: 'loginToken',
+    };
+
+    return this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: '6m',
+    });
+  }
+
+  // async createRefreshToken(user: User) {
+  //   const payload = {
+  //     user_no: user.user_no,
+  //     user_token: 'refreshToken',
+  //   };
+
+  //   const token = this.jwtService.sign(payload, {
+  //     secret: process.env.JWT_SECRET,
+  //     expiresIn: '50m',
+  //   });
+
+  //   const refresh_token = CryptoJS.AES.encrypt(
+  //     JSON.stringify(token),
+  //     process.env.AES_KEY,
+  //   ).toString();
+
+  //   await getConnection()
+  //     .createQueryBuilder()
+  //     .update(User)
+  //     .set({ user_refresh_token: token })
+  //     .where(`user_no = ${user.user_no}`)
+  //     .execute();
+  //   return refresh_token;
+  // }
 }

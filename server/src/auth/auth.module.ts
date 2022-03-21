@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { AuthService } from './auth.service';
+import { NaverStrategy } from './naver/naver.strategy';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { AuthService } from './auth.service';
     }),
     forwardRef(() => UsersModule),
   ],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
+  providers: [AuthService, JwtStrategy, NaverStrategy],
+  exports: [AuthService, JwtModule, PassportModule],
 })
 export class AuthModule {}
