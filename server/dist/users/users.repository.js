@@ -17,7 +17,6 @@ const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("mongoose");
 const bcrypt = require("bcrypt");
-const posts_schema_1 = require("../posts/posts.schema");
 const users_schema_1 = require("./users.schema");
 let UsersRepository = class UsersRepository {
     constructor(userModel, postModel) {
@@ -80,11 +79,8 @@ let UsersRepository = class UsersRepository {
         const modifiedUserInfo = await this.userModel.findById(id);
         return modifiedUserInfo;
     }
-    async findAll() {
-        const PostModel = mongoose_2.default.model('posts', posts_schema_1.PostSchema);
-        const result = await this.postModel.find().populate('writer');
-        console.log(result);
-        console.log('hmmmmmmmmmmmmmmmmmmmm');
+    async findUserPosts(id) {
+        const result = await this.userModel.findById(id).populate('posts');
         return result;
     }
     async findByIdAndUpdateImg(id, fileName) {

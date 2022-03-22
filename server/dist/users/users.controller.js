@@ -76,9 +76,8 @@ let UsersController = class UsersController {
     verifyUsername(body) {
         return this.usersService.verifyUsername(body);
     }
-    getAllPosts() {
-        console.log('hmm..........');
-        return this.usersService.getAllPosts();
+    getUsersPosts(req) {
+        return this.usersService.getUsersPosts(req);
     }
     uploadImage(files, req) {
         return this.usersService.uploadImg(req, files);
@@ -177,10 +176,11 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Get)('posts'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], UsersController.prototype, "getAllPosts", null);
+], UsersController.prototype, "getUsersPosts", null);
 __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('users'))),
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),

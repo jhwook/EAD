@@ -87,12 +87,9 @@ export class UsersRepository {
     return modifiedUserInfo;
   }
 
-  async findAll() {
-    const PostModel = mongoose.model('posts', PostSchema);
+  async findUserPosts(id) {
+    const result = await this.userModel.findById(id).populate('posts');
 
-    const result = await this.postModel.find().populate('writer');
-    console.log(result);
-    console.log('hmmmmmmmmmmmmmmmmmmmm');
     return result;
   }
 

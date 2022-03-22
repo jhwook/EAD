@@ -24,9 +24,8 @@ let PostsService = class PostsService {
     }
     async createPost(req) {
         const { title, content, tag, img } = req.body;
-        const { id } = req.user;
         const post = await this.postsRepository.create({
-            writer: id,
+            writer: req.user._id,
             title,
             content,
             tag,
@@ -74,8 +73,6 @@ let PostsService = class PostsService {
         const { postId } = param;
         const validatedWriter = await this.usersRepository.findUserByUsername(username);
         const validatedPost = await this.postsRepository.findPostById(postId);
-        console.log(validatedPost._id);
-        console.log(validatedWriter._id);
         const post = await this.postsRepository.addComment(content, validatedPost._id, validatedWriter._id);
         return post;
     }

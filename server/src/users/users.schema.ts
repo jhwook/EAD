@@ -65,17 +65,17 @@ export class User extends Document {
 const _UserSchema = SchemaFactory.createForClass(User);
 
 // eslint-disable-next-line func-names
-_UserSchema.virtual('readOnlyData').get(function (this: User) {
-  return {
-    id: this.id,
-    email: this.email,
-    username: this.username,
-    stacks: this.stacks,
-    oauth: this.oauth,
-    imgUrl: this.imgUrl,
-    posts: this.posts,
-  };
-});
+// _UserSchema.virtual('readOnlyData').get(function (this: User) {
+//   return {
+//     id: this.id,
+//     email: this.email,
+//     username: this.username,
+//     stacks: this.stacks,
+//     oauth: this.oauth,
+//     imgUrl: this.imgUrl,
+//     posts: this.posts,
+//   };
+// });
 
 _UserSchema.virtual('posts', {
   ref: 'Post',

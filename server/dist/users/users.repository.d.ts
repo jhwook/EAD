@@ -21,9 +21,9 @@ export declare class UsersRepository {
     findUserAndUpdate(user: any, body: any): Promise<User & {
         _id: any;
     }>;
-    findAll(): Promise<Omit<Post & {
+    findUserPosts(id: any): Promise<User & {
         _id: any;
-    }, never>[]>;
+    }>;
     findByIdAndUpdateImg(id: string, fileName: string): Promise<{
         id: string;
         email: string;

@@ -117,11 +117,11 @@ export class UsersService {
     return { message: 'ok' };
   }
 
-  async getAllPosts() {
-    const allPost = await this.usersRepository.findAll();
-    // console.log(allUser);
+  async getUsersPosts(req) {
+    const { id } = req.user;
+    const usersPost = await this.usersRepository.findUserPosts(id);
 
-    return allPost;
+    return usersPost;
   }
 
   async verifyUserEmail(body) {

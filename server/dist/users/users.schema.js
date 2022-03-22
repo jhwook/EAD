@@ -62,17 +62,6 @@ User = __decorate([
 ], User);
 exports.User = User;
 const _UserSchema = mongoose_1.SchemaFactory.createForClass(User);
-_UserSchema.virtual('readOnlyData').get(function () {
-    return {
-        id: this.id,
-        email: this.email,
-        username: this.username,
-        stacks: this.stacks,
-        oauth: this.oauth,
-        imgUrl: this.imgUrl,
-        posts: this.posts,
-    };
-});
 _UserSchema.virtual('posts', {
     ref: 'Post',
     localField: '_id',

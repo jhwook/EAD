@@ -126,9 +126,8 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get('posts')
-  getAllPosts() {
-    console.log('hmm..........');
-    return this.usersService.getAllPosts();
+  getUsersPosts(@Req() req) {
+    return this.usersService.getUsersPosts(req);
   }
 
   // eslint-disable-next-line class-methods-use-this

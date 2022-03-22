@@ -39,9 +39,9 @@ export declare class UsersController {
     verifyUsername(body: any): Promise<{
         message: string;
     }>;
-    getAllPosts(): Promise<Omit<import("../posts/posts.schema").Post & {
+    getUsersPosts(req: any): Promise<import("./users.schema").User & {
         _id: any;
-    }, never>[]>;
+    }>;
     uploadImage(files: Array<Express.Multer.File>, req: any): Promise<{
         id: string;
         email: string;

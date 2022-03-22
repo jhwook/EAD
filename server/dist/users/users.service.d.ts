@@ -26,9 +26,9 @@ export declare class UsersService {
     changeStacksBoolean(param: any, req: any): Promise<{
         message: string;
     }>;
-    getAllPosts(): Promise<Omit<import("../posts/posts.schema").Post & {
+    getUsersPosts(req: any): Promise<User & {
         _id: any;
-    }, never>[]>;
+    }>;
     verifyUserEmail(body: any): Promise<{
         message: string;
     }>;
