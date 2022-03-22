@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { combineReducers, createStore } from 'redux';
+// Redux
+// import { combineReducers, createStore } from 'redux';
+import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -77,7 +79,6 @@ interface ILoginState {
 }
 
 interface ILoginActionPros {
-  type: string;
   userInfo: object;
   accessToken: string;
   isLogin: boolean;
@@ -98,94 +99,69 @@ const userState: ILoginState = {
   accessToken: '',
 };
 
-const userReducer = (state = userState, action: ILoginActionPros) => {
-  switch (action.type) {
-    case 'Login': {
-      const copy = { ...state };
-      copy.userInfo = action.userInfo;
-      copy.accessToken = action.accessToken;
-      copy.isLogin = action.isLogin;
-      return copy;
-    }
-    case 'Logout': {
-      const copy = { ...state };
-      copy.userInfo = {};
-      copy.accessToken = '';
-      copy.isLogin = false;
-      return copy;
-    }
-    case 'Modify': {
-      const copy = { ...state };
-      copy.userInfo = action.userInfo;
-      copy.accessToken = action.accessToken;
-      copy.isLogin = action.isLogin;
-      return copy;
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-// Search
-// interface IPostStateProps {
-//   _id: string;
-//   comment: object;
-//   tag: object;
-//   content: string;
-//   title: string;
-//   writer: string;
-//   createdAt: string;
-//   updatedAt: string;
-//   __v: number;
-//   score: number;
-// }
-
-// interface IPostAction {
-//   type: string;
-//   post: [
-//     {
-//       _id: string;
-//       comment: object;
-//       tag: object;
-//       content: string;
-//       title: string;
-//       writer: string;
-//       createdAt: string;
-//       updatedAt: string;
-//       __v: number;
-//       score: number;
-//     },
-//   ];
-// }
-
-const postState: any = [
-  {
-    _id: '62358684fb4e36ac568fd48e',
-    comment: [],
-    tag: ['tag?', 'tag!'],
-    content: '!!content~~~~',
-    title: '!!title',
-    writer: 'bbb',
-    createdAt: '2022-03-19T07:30:12.570Z',
-    updatedAt: '2022-03-19T07:30:12.570Z',
-    __v: 0,
-    score: 1,
+const userSlice = createSlice({
+  name: 'user',
+  initialState: userState,
+  reducers: {
+    UserLogin(state, action: PayloadAction<ILoginActionPros>) {
+      state.userInfo = action.payload.userInfo;
+      state.accessToken = action.payload.accessToken;
+      state.isLogin = action.payload.isLogin;
+    },
+    UserLogout(state) {
+      state.userInfo = {};
+      state.accessToken = '';
+      state.isLogin = false;
+    },
+    UserModify(state, action: PayloadAction<ILoginActionPros>) {
+      state.userInfo = action.payload.userInfo;
+      state.accessToken = action.payload.accessToken;
+      state.isLogin = action.payload.isLogin;
+    },
   },
-];
-const postReducer = (state = postState, action: any) => {
-  switch (action.type) {
-    case 'Search': {
-      const copy = [...action.post];
-      return copy;
-    }
-    default: {
-      return state;
-    }
-  }
-};
+});
 
-const store = createStore(combineReducers({ userReducer, postReducer }));
+// Redux
+// const userReducer = (state = userState, action: ILoginActionPros) => {
+//   switch (action.type) {
+//     case 'Login': {
+//       const copy = { ...state };
+//       copy.userInfo = action.userInfo;
+//       copy.accessToken = action.accessToken;
+//       copy.isLogin = action.isLogin;
+//       return copy;
+//     }
+//     case 'Logout': {
+//       const copy = { ...state };
+//       copy.userInfo = {};
+//       copy.accessToken = '';
+//       copy.isLogin = false;
+//       return copy;
+//     }
+//     case 'Modify': {
+//       const copy = { ...state };
+//       copy.userInfo = action.userInfo;
+//       copy.accessToken = action.accessToken;
+//       copy.isLogin = action.isLogin;
+//       return copy;
+//     }
+//     default: {
+//       return state;
+//     }
+//   }
+// };
+
+const store = configureStore({
+  reducer: {
+    userData: userSlice.reducer,
+  },
+});
+
+export type AppDispatch = typeof store.dispatch;
+export const { UserLogin, UserLogout, UserModify } = userSlice.actions;
+
+// Redux
+// const store = createStore(combineReducers({ userReducer, postReducer }));
 
 export type RootState = ReturnType<typeof store.getState>;
 
