@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Post } from './posts.schema';
-import { Comment } from './comments.schema';
+import { Comment, CommentSchema } from './comments.schema';
 
 @Injectable()
 export class PostsRepository {
@@ -11,6 +11,18 @@ export class PostsRepository {
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
     @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
   ) {}
+
+  // 포스트 하나만 가져오기
+  async getOnePost(id) {
+    const CommentModel = mongoose.model('Comment', CommentSchema);
+
+    const result = await this.postModel
+      .find()
+      .populate('Comment', CommentModel);
+    console.log(id);
+    // const post = await this.postModel.findById(id);
+    return result;
+  }
 
   // 포스트 생성
   async create(post) {
@@ -59,68 +71,85 @@ export class PostsRepository {
   }
 
   // 댓글 작성
-  async addComment(content, postId, username) {
+  async addComment(content, postId, id) {
     // await this.postModel.findByIdAndUpdate(postId, {
     //   $push: { comment: { $each: [newComment], $position: 0 } },
     // });
     const newComment = await this.commentModel.create({
       post_id: postId,
-      writer: username,
+      writer: id,
       content,
     });
     await this.postModel.findByIdAndUpdate(postId, {
-      $push: { comment: { $each: [newComment], $position: 0 } },
+      $push: { comment: { $each: [newComment.id], $position: 0 } },
     });
     const newPost = await this.postModel.findById(postId);
     return newPost;
   }
 
   // 댓글 수정
-  async editComment(newComment, commentId) {
-    await this.commentModel.findByIdAndUpdate(commentId, {
-      content: newComment,
-    });
-    const modifiedComment = await this.commentModel.findById(commentId);
+  async editComment(content, commentId) {
+    // await this.commentModel.findByIdAndUpdate(commentId, {
+    //   content: newComment,
+    // });
+    // const modifiedComment = await this.commentModel.findById(commentId);
+
+    // // await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
+    // //   comment: { $set: { id: commentId }, content: newComment },
+    // // });
+    // interface ExampleObject {
+    //   [key: string]: any;
+    // }
+    // const post = await this.postModel.findById(modifiedComment.post_id);
+
+    // const newCommentArr = post.comment.map((comment: ExampleObject) => {
+    //   // eslint-disable-next-line no-underscore-dangle
+    //   if (String(comment._id) === commentId) {
+    //     // eslint-disable-next-line no-param-reassign
+    //     comment.content = modifiedComment.content;
+    //   }
+    //   return comment;
+    // });
 
     // await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
-    //   comment: { $set: { id: commentId }, content: newComment },
+    //   comment: newCommentArr,
     // });
-    interface ExampleObject {
-      [key: string]: any;
-    }
-    const post = await this.postModel.findById(modifiedComment.post_id);
-
-    const newCommentArr = post.comment.map((comment: ExampleObject) => {
-      // eslint-disable-next-line no-underscore-dangle
-      if (String(comment._id) === commentId) {
-        // eslint-disable-next-line no-param-reassign
-        comment.content = modifiedComment.content;
-      }
-      return comment;
+    await this.commentModel.findByIdAndUpdate(commentId, {
+      content,
     });
-
-    await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
-      comment: newCommentArr,
-    });
+    const newComment = await this.commentModel.findById(commentId);
+    return newComment;
   }
 
   // 댓글 삭제
   async deleteComment(commentId) {
+    // const comment = await this.commentModel.findById(commentId);
+
+    // const post = await this.postModel.findById(comment.post_id);
+
+    // interface ExampleObject {
+    //   [key: string]: any;
+    // }
+    // const newCommentArr = post.comment.filter((comment: ExampleObject) => {
+    //   // eslint-disable-next-line no-underscore-dangle
+    //   return String(comment._id) !== commentId;
+    // });
+
+    // await this.postModel.findByIdAndUpdate(comment.post_id, {
+    //   comment: newCommentArr,
+    // });
+
     const comment = await this.commentModel.findById(commentId);
-
-    const post = await this.postModel.findById(comment.post_id);
-
-    interface ExampleObject {
-      [key: string]: any;
+    if (!comment) {
+      throw new HttpException('존재하지 않는 댓글입니다.', 400);
     }
-    const newCommentArr = post.comment.filter((comment: ExampleObject) => {
-      // eslint-disable-next-line no-underscore-dangle
-      return String(comment._id) !== commentId;
+    const post = await this.postModel.findById(comment.post_id);
+    await this.commentModel.findByIdAndDelete(commentId);
+    await this.postModel.findByIdAndUpdate(post.id, {
+      $pull: { comment: commentId },
     });
-
-    await this.postModel.findByIdAndUpdate(comment.post_id, {
-      comment: newCommentArr,
-    });
+    const updatedPost = await this.postModel.findById(post.id);
+    return updatedPost;
   }
 
   // 댓글 찾기

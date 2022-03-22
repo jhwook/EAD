@@ -178,7 +178,7 @@ function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        withCredentials: true,
+        withCredentials: false,
       },
     );
     setTitle(postTitle.data.data);
@@ -189,15 +189,12 @@ function Home() {
       const token = location.hash.split('=')[1].split('&')[0];
       // console.log(token);
       // 프론트엔드로 리다이렉션시
-      const data = await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/auth/naver`,
-        {},
+      const data = await axios.get(
+        `${process.env.REACT_APP_SERVER}/users/auth/naver/callback`,
         {
           headers: {
-            'Content-Type': 'application/json',
             Authorization: token,
           },
-          withCredentials: true,
         },
       );
       dispatch({

@@ -99,6 +99,10 @@ let UsersService = class UsersService {
         await this.usersRepository.changeStacks(id, newStacks);
         return { message: 'ok' };
     }
+    async getAllPosts() {
+        const allPost = await this.usersRepository.findAll();
+        return allPost;
+    }
     async verifyUserEmail(body) {
         const { email } = body;
         const isExistEmail = await this.usersRepository.existsByEmail(email);

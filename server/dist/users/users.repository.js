@@ -17,10 +17,12 @@ const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("mongoose");
 const bcrypt = require("bcrypt");
+const posts_schema_1 = require("../posts/posts.schema");
 const users_schema_1 = require("./users.schema");
 let UsersRepository = class UsersRepository {
-    constructor(userModel) {
+    constructor(userModel, postModel) {
         this.userModel = userModel;
+        this.postModel = postModel;
     }
     async existsByEmail(email) {
         const result = await this.userModel.exists({ email });
@@ -78,6 +80,13 @@ let UsersRepository = class UsersRepository {
         const modifiedUserInfo = await this.userModel.findById(id);
         return modifiedUserInfo;
     }
+    async findAll() {
+        const PostModel = mongoose_2.default.model('posts', posts_schema_1.PostSchema);
+        const result = await this.postModel.find().populate('writer');
+        console.log(result);
+        console.log('hmmmmmmmmmmmmmmmmmmmm');
+        return result;
+    }
     async findByIdAndUpdateImg(id, fileName) {
         const user = await this.userModel.findById(id);
         user.imgUrl = `http://localhost:4000/media/${fileName}`;
@@ -89,7 +98,9 @@ let UsersRepository = class UsersRepository {
 UsersRepository = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(1, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model])
 ], UsersRepository);
 exports.UsersRepository = UsersRepository;
 //# sourceMappingURL=users.repository.js.map

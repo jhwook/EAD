@@ -14,6 +14,7 @@ export declare class UsersService {
         stacks: object;
         oauth: any;
         imgUrl: string;
+        posts: import("../posts/posts.schema").Post[];
     }>;
     oauthSignUp(username: any): Promise<void>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
@@ -25,6 +26,9 @@ export declare class UsersService {
     changeStacksBoolean(param: any, req: any): Promise<{
         message: string;
     }>;
+    getAllPosts(): Promise<Omit<import("../posts/posts.schema").Post & {
+        _id: any;
+    }, never>[]>;
     verifyUserEmail(body: any): Promise<{
         message: string;
     }>;
@@ -38,6 +42,7 @@ export declare class UsersService {
         stacks: object;
         oauth: any;
         imgUrl: string;
+        posts: import("../posts/posts.schema").Post[];
     }>;
     sendEmail(body: any): Promise<void>;
 }

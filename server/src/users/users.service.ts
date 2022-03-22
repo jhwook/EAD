@@ -117,6 +117,13 @@ export class UsersService {
     return { message: 'ok' };
   }
 
+  async getAllPosts() {
+    const allPost = await this.usersRepository.findAll();
+    // console.log(allUser);
+
+    return allPost;
+  }
+
   async verifyUserEmail(body) {
     const { email } = body;
     const isExistEmail = await this.usersRepository.existsByEmail(email);
