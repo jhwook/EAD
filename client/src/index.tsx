@@ -37,6 +37,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
     line-height: 1;
     font-family: 'Nanum Myeongjo', serif;
     background-color: ${(props) => props.theme.beige};
