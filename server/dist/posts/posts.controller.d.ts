@@ -8,15 +8,14 @@ export declare class PostsController {
     createPost(req: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
-    getOnePost(id: string): Promise<Omit<import("./posts.schema").Post & {
+    getOnePost(id: string): Promise<import("./posts.schema").Post & {
         _id: any;
-    }, never>[]>;
-    getAllComments(): Promise<void>;
+    }>;
     updatePost(req: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
     deletePost(param: any): Promise<void>;
-    searchPost(body: any): Promise<any[]>;
+    searchPost(keyword: any): Promise<any[]>;
     searchPostByTag(body: any): Promise<any[]>;
     createComment(req: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;

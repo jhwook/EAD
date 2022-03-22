@@ -1,12 +1,13 @@
 /// <reference types="multer" />
+import { UsersRepository } from 'src/users/users.repository';
 import { PostsRepository } from './posts.repository';
 export declare class PostsService {
     private readonly postsRepository;
-    constructor(postsRepository: PostsRepository);
-    getOnePost(id: any): Promise<Omit<import("./posts.schema").Post & {
+    private readonly usersRepository;
+    constructor(postsRepository: PostsRepository, usersRepository: UsersRepository);
+    getOnePost(id: any): Promise<import("./posts.schema").Post & {
         _id: any;
-    }, never>[]>;
-    getAllComments(): Promise<void>;
+    }>;
     createPost(req: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
@@ -17,7 +18,7 @@ export declare class PostsService {
     uploadPostImg(req: any, param: any, files: Express.Multer.File[]): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
-    searchPost(body: any): Promise<any[]>;
+    searchPost(keyword: any): Promise<any[]>;
     searchPostByTag(body: any): Promise<any[]>;
     createComment(req: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;

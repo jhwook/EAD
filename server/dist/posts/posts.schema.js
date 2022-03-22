@@ -19,7 +19,7 @@ const options = {
 let Post = class Post extends mongoose_2.Document {
 };
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, required: true, ref: 'users' }),
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, required: true, ref: 'User' }),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Post.prototype, "writer", void 0);

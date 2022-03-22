@@ -11,6 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFiles,
+  Query,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { AuthService } from 'src/auth/auth.service';
@@ -45,10 +46,10 @@ export class PostsController {
   }
 
   // 포스트에 적힌 댓글 전부 가져오기
-  @Get()
-  async getAllComments() {
-    return this.postsService.getAllComments();
-  }
+  // @Get()
+  // async getAllComments() {
+  //   return this.postsService.getAllComments();
+  // }
 
   // 포스트 수정
   @UseGuards(JwtAuthGuard)
@@ -65,9 +66,9 @@ export class PostsController {
   }
 
   // 검색
-  @Post('/search')
-  searchPost(@Body() body) {
-    return this.postsService.searchPost(body);
+  @Get('/search')
+  searchPost(@Query('keyword') keyword) {
+    return this.postsService.searchPost(keyword);
   }
 
   // 검색 (태그)

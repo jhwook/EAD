@@ -14,14 +14,8 @@ export class PostsRepository {
 
   // 포스트 하나만 가져오기
   async getOnePost(id) {
-    const CommentModel = mongoose.model('Comment', CommentSchema);
-
-    const result = await this.postModel
-      .find()
-      .populate('Comment', CommentModel);
-    console.log(id);
-    // const post = await this.postModel.findById(id);
-    return result;
+    const post = await this.postModel.findById(id).populate('comments');
+    return post;
   }
 
   // 포스트 생성

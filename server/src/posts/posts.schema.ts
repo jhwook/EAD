@@ -10,7 +10,7 @@ const options: SchemaOptions = {
 @Schema(options)
 export class Post extends Document {
   // 포스트를 작성한 유저
-  @Prop({ type: Types.ObjectId, required: true, ref: 'users' })
+  @Prop({ type: Types.ObjectId, required: true, ref: 'User' })
   @IsNotEmpty()
   writer: Types.ObjectId;
 
