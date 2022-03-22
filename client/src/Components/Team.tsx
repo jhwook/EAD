@@ -21,7 +21,7 @@ const DownBox = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 150px;
 `;
 
 // const Logo = styled.img`

@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 30px;
+  padding: 10px 50px;
   .dot {
     font-size: ${(props) => props.theme.fontSize.large};
     cursor: pointer;
@@ -27,9 +27,16 @@ const Menus = styled.ul`
   display: flex;
   justify-content: space-around;
   font-size: ${(props) => props.theme.fontSize.small};
-  font-weight: 600;
+  font-weight: bold;
+  color: ${(props) => props.theme.black};
 `;
-const Menu = styled.li``;
+const Menu = styled.li`
+  transition: all 0.5s ease-in-out;
+  font-weight: bolder;
+  &:hover {
+    color: ${(props) => props.theme.green};
+  }
+`;
 
 const Modal = styled.div`
   width: 150px;
