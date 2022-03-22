@@ -11,16 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsService = void 0;
 const common_1 = require("@nestjs/common");
+const users_repository_1 = require("../users/users.repository");
 const posts_repository_1 = require("./posts.repository");
 let PostsService = class PostsService {
-    constructor(postsRepository) {
+    constructor(postsRepository, usersRepository) {
         this.postsRepository = postsRepository;
+        this.usersRepository = usersRepository;
     }
     async getOnePost(id) {
         const post = this.postsRepository.getOnePost(id);
         return post;
     }
-    async getAllComments() { }
     async createPost(req) {
         const { title, content, tag, img } = req.body;
         const { id } = req.user;
@@ -60,8 +61,7 @@ let PostsService = class PostsService {
         }
         throw new common_1.HttpException('작성자가 일치하지 않습니다.', 401);
     }
-    async searchPost(body) {
-        const { keyword } = body;
+    async searchPost(keyword) {
         return await this.postsRepository.searchPostInDB(keyword);
     }
     async searchPostByTag(body) {
@@ -70,9 +70,13 @@ let PostsService = class PostsService {
     }
     async createComment(req, param) {
         const { content } = req.body;
-        const { id } = req.user;
+        const { username } = req.user;
         const { postId } = param;
-        const post = await this.postsRepository.addComment(content, postId, id);
+        const validatedWriter = await this.usersRepository.findUserByUsername(username);
+        const validatedPost = await this.postsRepository.findPostById(postId);
+        console.log(validatedPost._id);
+        console.log(validatedWriter._id);
+        const post = await this.postsRepository.addComment(content, validatedPost._id, validatedWriter._id);
         return post;
     }
     async modifyComment(req, param) {
@@ -104,7 +108,8 @@ let PostsService = class PostsService {
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [posts_repository_1.PostsRepository])
+    __metadata("design:paramtypes", [posts_repository_1.PostsRepository,
+        users_repository_1.UsersRepository])
 ], PostsService);
 exports.PostsService = PostsService;
 //# sourceMappingURL=posts.service.js.map

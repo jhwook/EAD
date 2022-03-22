@@ -5,9 +5,9 @@ export declare class PostsRepository {
     private readonly postModel;
     private readonly commentModel;
     constructor(postModel: Model<Post>, commentModel: Model<Comment>);
-    getOnePost(id: any): Promise<Omit<Post & {
+    getOnePost(id: any): Promise<Post & {
         _id: any;
-    }, never>[]>;
+    }>;
     create(post: any): Promise<Post & {
         _id: any;
     }>;

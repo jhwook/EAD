@@ -10,6 +10,7 @@ exports.PostsModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const platform_express_1 = require("@nestjs/platform-express");
+const users_module_1 = require("../users/users.module");
 const auth_module_1 = require("../auth/auth.module");
 const posts_repository_1 = require("./posts.repository");
 const posts_controller_1 = require("./posts.controller");
@@ -29,6 +30,7 @@ PostsModule = __decorate([
                 { name: comments_schema_1.Comment.name, schema: comments_schema_1.CommentSchema },
             ]),
             auth_module_1.AuthModule,
+            users_module_1.UsersModule,
         ],
         controllers: [posts_controller_1.PostsController],
         providers: [posts_service_1.PostsService, posts_repository_1.PostsRepository],

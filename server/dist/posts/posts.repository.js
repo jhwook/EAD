@@ -24,12 +24,8 @@ let PostsRepository = class PostsRepository {
         this.commentModel = commentModel;
     }
     async getOnePost(id) {
-        const CommentModel = mongoose_2.default.model('Comment', comments_schema_1.CommentSchema);
-        const result = await this.postModel
-            .find()
-            .populate('Comment', CommentModel);
-        console.log(id);
-        return result;
+        const post = await this.postModel.findById(id).populate('comments');
+        return post;
     }
     async create(post) {
         return await this.postModel.create(post);

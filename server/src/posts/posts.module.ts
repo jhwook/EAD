@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
+import { UsersService } from 'src/users/users.service';
+import { UsersModule } from '../users/users.module';
+import { UsersRepository } from '../users/users.repository';
 import { AuthModule } from '../auth/auth.module';
 import { PostsRepository } from './posts.repository';
 import { PostsController } from './posts.controller';
@@ -18,6 +21,7 @@ import { CommentSchema, Comment } from './comments.schema';
       { name: Comment.name, schema: CommentSchema },
     ]),
     AuthModule,
+    UsersModule,
   ],
   controllers: [PostsController],
   providers: [PostsService, PostsRepository],

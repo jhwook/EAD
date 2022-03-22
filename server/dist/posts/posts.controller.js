@@ -32,17 +32,14 @@ let PostsController = class PostsController {
     async getOnePost(id) {
         return this.postsService.getOnePost(id);
     }
-    async getAllComments() {
-        return this.postsService.getAllComments();
-    }
     updatePost(req, param) {
         return this.postsService.updatePost(req, param);
     }
     deletePost(param) {
         return this.postsService.deletePost(param);
     }
-    searchPost(body) {
-        return this.postsService.searchPost(body);
+    searchPost(keyword) {
+        return this.postsService.searchPost(keyword);
     }
     searchPostByTag(body) {
         return this.postsService.searchPostByTag(body);
@@ -84,12 +81,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "getOnePost", null);
 __decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], PostsController.prototype, "getAllComments", null);
-__decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Patch)('/:postId'),
     __param(0, (0, common_1.Req)()),
@@ -107,8 +98,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "deletePost", null);
 __decorate([
-    (0, common_1.Post)('/search'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)('/search'),
+    __param(0, (0, common_1.Query)('keyword')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)

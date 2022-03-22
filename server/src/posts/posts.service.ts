@@ -1,10 +1,14 @@
 import { Injectable, HttpException } from '@nestjs/common';
+import { UsersRepository } from 'src/users/users.repository';
 import { PostsRepository } from './posts.repository';
 
 @Injectable()
 export class PostsService {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly postsRepository: PostsRepository) {}
+  constructor(
+    private readonly postsRepository: PostsRepository,
+    private readonly usersRepository: UsersRepository,
+  ) {}
 
   // 포스트 하나만 가져오기
   async getOnePost(id) {
@@ -12,7 +16,7 @@ export class PostsService {
     return post;
   }
 
-  async getAllComments() {}
+  // async getAllComments() {}
 
   // 포스트 작성
   async createPost(req) {
@@ -69,8 +73,7 @@ export class PostsService {
   }
 
   // 검색
-  async searchPost(body) {
-    const { keyword } = body;
+  async searchPost(keyword) {
     // eslint-disable-next-line no-return-await
     return await this.postsRepository.searchPostInDB(keyword);
   }
@@ -85,10 +88,23 @@ export class PostsService {
   // 댓글 작성
   async createComment(req, param) {
     const { content } = req.body;
-    const { id } = req.user;
+    const { username } = req.user;
     const { postId } = param;
 
-    const post = await this.postsRepository.addComment(content, postId, id);
+    const validatedWriter = await this.usersRepository.findUserByUsername(
+      username,
+    );
+
+    const validatedPost = await this.postsRepository.findPostById(postId);
+    console.log(validatedPost._id);
+    console.log(validatedWriter._id);
+    const post = await this.postsRepository.addComment(
+      content,
+      // eslint-disable-next-line no-underscore-dangle
+      validatedPost._id,
+      // eslint-disable-next-line no-underscore-dangle
+      validatedWriter._id,
+    );
     return post;
   }
 
