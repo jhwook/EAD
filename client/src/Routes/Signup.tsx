@@ -96,6 +96,11 @@ const SignupBtn = styled.button`
   padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
+  transition: all 1s;
+  &:hover {
+    background-color: ${(props) => props.theme.lightGrey};
+    color: ${(props) => props.theme.white};
+  }
 `;
 
 const Text = styled.div`
