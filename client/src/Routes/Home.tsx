@@ -39,7 +39,8 @@ const Wrapper = styled.div`
 const TeamWrapper = styled.div`
   position: absolute;
   width: 100%;
-  right: 0px;
+  transform: translateX(0%);
+  transition: all 1s;
   z-index: 3;
 `;
 
