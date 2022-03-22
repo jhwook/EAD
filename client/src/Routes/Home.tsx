@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Slide, Fade } from 'react-awesome-reveal';
+import { Fade } from 'react-awesome-reveal';
 import { FaSearch } from 'react-icons/fa';
 import { IoMdArrowDropleft } from 'react-icons/io';
 import React, { useEffect, useState } from 'react';
