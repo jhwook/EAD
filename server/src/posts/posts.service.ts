@@ -21,11 +21,12 @@ export class PostsService {
   // 포스트 작성
   async createPost(req) {
     const { title, content, tag, img } = req.body;
-    const { id } = req.user;
+    // const { id } = req.user;
     // console.log(req.user);
     // console.log(id);
     const post = await this.postsRepository.create({
-      writer: id,
+      // eslint-disable-next-line no-underscore-dangle
+      writer: req.user._id,
       title,
       content,
       tag,
@@ -96,8 +97,7 @@ export class PostsService {
     );
 
     const validatedPost = await this.postsRepository.findPostById(postId);
-    console.log(validatedPost._id);
-    console.log(validatedWriter._id);
+
     const post = await this.postsRepository.addComment(
       content,
       // eslint-disable-next-line no-underscore-dangle

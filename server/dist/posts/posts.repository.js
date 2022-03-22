@@ -66,7 +66,7 @@ let PostsRepository = class PostsRepository {
             content,
         });
         await this.postModel.findByIdAndUpdate(postId, {
-            $push: { comment: { $each: [newComment.id], $position: 0 } },
+            $push: { comment: { $each: [newComment._id], $position: 0 } },
         });
         const newPost = await this.postModel.findById(postId);
         return newPost;

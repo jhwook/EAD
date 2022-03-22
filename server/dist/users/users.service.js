@@ -99,9 +99,10 @@ let UsersService = class UsersService {
         await this.usersRepository.changeStacks(id, newStacks);
         return { message: 'ok' };
     }
-    async getAllPosts() {
-        const allPost = await this.usersRepository.findAll();
-        return allPost;
+    async getUsersPosts(req) {
+        const { id } = req.user;
+        const usersPost = await this.usersRepository.findUserPosts(id);
+        return usersPost;
     }
     async verifyUserEmail(body) {
         const { email } = body;

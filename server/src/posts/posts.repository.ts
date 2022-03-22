@@ -12,7 +12,7 @@ export class PostsRepository {
     @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
   ) {}
 
-  // 포스트 하나만 가져오기
+  // 포스트 하나만 가져오기 (댓글도 다 가져오기)
   async getOnePost(id) {
     const post = await this.postModel.findById(id).populate('comments');
     return post;
@@ -75,7 +75,8 @@ export class PostsRepository {
       content,
     });
     await this.postModel.findByIdAndUpdate(postId, {
-      $push: { comment: { $each: [newComment.id], $position: 0 } },
+      // eslint-disable-next-line no-underscore-dangle
+      $push: { comment: { $each: [newComment._id], $position: 0 } },
     });
     const newPost = await this.postModel.findById(postId);
     return newPost;
