@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router';
+import { AppDispatch } from 'index';
+import { UserLogin } from '../index';
 import kakao from '../Image/Btn/kakao.png';
 import google from '../Image/Btn/google.png';
 import Home from './Home';
@@ -126,7 +127,7 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [open, isOpen] = useState(true);
   const navigate = useNavigate();
-  const dispatch: Dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -142,12 +143,7 @@ function Login() {
             withCredentials: true,
           },
         );
-        dispatch({
-          type: 'Login',
-          userInfo: data.data.data.userInfo,
-          accessToken: data.data.data.token,
-          isLogin: data.data.data.isLogin,
-        });
+        dispatch(UserLogin(data.data.data));
         setEmail('');
         setPassword('');
         navigate('/');

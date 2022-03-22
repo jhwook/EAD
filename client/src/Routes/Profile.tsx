@@ -7,9 +7,8 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router';
-import { RootState } from 'index';
+import { AppDispatch, RootState } from 'index';
 import Button from '../Components/Button';
 import hiLogo from '../Image/Logo/profile.png';
 
@@ -368,8 +367,8 @@ function Profile() {
   const [infoModalView, setInfoModalView] = useState(false);
   const [pwModalView, setPwModalView] = useState(false);
 
-  const { userReducer } = useSelector((state: RootState) => state);
-  const { userInfo, accessToken, isLogin } = userReducer;
+  const { userData } = useSelector((state: RootState) => state);
+  const { userInfo, accessToken, isLogin } = userData;
 
   // const [userData, setUserData] = useState<any>('');
   const [js, setJs] = useState(userInfo.stacks?.[0]);
@@ -394,7 +393,7 @@ function Profile() {
   // onChange=중복검사 때
 
   const navigate = useNavigate();
-  const dispatch: Dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   // 중복검사, 비밀번호/유저네임 버튼 및 폼 분리할까
   // 변경 후 변경 완료 확인 모달 제공

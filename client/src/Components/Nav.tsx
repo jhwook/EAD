@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'index';
-import { Dispatch } from 'redux';
+import { AppDispatch, RootState, UserLogout } from 'index';
 import logo from '../Image/Logo/ead.png';
 
 const Wrapper = styled.div`
@@ -60,9 +59,9 @@ const ModalMenu = styled.li`
 
 function Nav() {
   const [show, isShow] = useState(false);
-  const dispatch: Dispatch = useDispatch();
-  const { userReducer } = useSelector((state: RootState) => state);
-  const { userInfo, accessToken, isLogin } = userReducer;
+  const dispatch = useDispatch<AppDispatch>();
+  const { userData } = useSelector((state: RootState) => state);
+  const { isLogin } = userData;
   const navigate = useNavigate();
   const ModalOnClick = () => {
     isShow(!show);
@@ -73,7 +72,7 @@ function Nav() {
   };
 
   const LogoutOnClick = () => {
-    dispatch({ type: 'Logout', userInfo, accessToken, isLogin });
+    dispatch(UserLogout());
     isShow(false);
     navigate('/');
   };
