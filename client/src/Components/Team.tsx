@@ -8,7 +8,8 @@ import kdy from '../Image/member/kdy.png';
 const Wrapper = styled.div`
   height: 100vh;
   padding: 30px;
-  background-color: ${(props) => props.theme.pink};
+  background-color: ${(props) => props.theme.green};
+  z-index: 2;
 `;
 const UpBox = styled.div`
   display: flex;

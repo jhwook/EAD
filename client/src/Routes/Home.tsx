@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Slide, Fade } from 'react-awesome-reveal';
 import { FaSearch } from 'react-icons/fa';
 import { IoMdArrowDropleft } from 'react-icons/io';
 import React, { useEffect, useState } from 'react';
@@ -310,11 +311,15 @@ function Home() {
         </TeamWrapper>
       ) : null}
       <Wrapper>
-        <IoMdArrowDropleft className="team" onClick={handleOnClick} />
-        <Logo src={logo1} />
+        <Fade delay={500}>
+          <IoMdArrowDropleft className="team" onClick={handleOnClick} />
+          <Logo src={logo1} />
+        </Fade>
         <SearchBox>
-          <Text>개발하면서 궁금했던 점을</Text>
-          <Text>검색해보세요!</Text>
+          <Fade direction="down">
+            <Text>개발하면서 궁금했던 점을</Text>
+            <Text>검색해보세요!</Text>
+          </Fade>
           <Searchbar>
             <Form onSubmit={handleOnSubmit}>
               <SearchBarWrapper>
@@ -347,58 +352,83 @@ function Home() {
       </Wrapper>
       <Box>
         <LeftBox>
-          <Logo src={logo2} />
-          <TextBox>
-            <Number>01</Number>
-            <Title>공식문서들 봐도 이해가 안되셨나요?</Title>
-            <Descriprtion>
-              이해가 안된 부분만 발취해서 질문해보세요.
-            </Descriprtion>
-            <Descriprtion>
-              다양한 분야의 전문가들이 여러분들을 기다리고 있습니다.
-            </Descriprtion>
-          </TextBox>
+          <Fade cascade>
+            <Logo src={logo2} />
+          </Fade>
+          <Fade delay={500}>
+            <TextBox>
+              <Number>01</Number>
+              <Title>공식문서들 봐도 이해가 안되셨나요?</Title>
+              <Fade delay={700}>
+                <Descriprtion>
+                  이해가 안된 부분만 발취해서 질문해보세요.
+                </Descriprtion>
+                <Descriprtion>
+                  다양한 분야의 전문가들이 여러분들을 기다리고 있습니다.
+                </Descriprtion>
+              </Fade>
+            </TextBox>
+          </Fade>
         </LeftBox>
       </Box>
       <Box>
         <RightBox>
-          <TextBox>
-            <Number>02</Number>
-            <Title>알고리즘에 고민이 많으신가요?</Title>
-            <Descriprtion>
-              문제를 풀다가 막히는 부분이 생기면 질문해보세요.
-            </Descriprtion>
-            <Descriprtion>
-              알고리즘의 전문가들이 여러분들을 기다리고 있습니다.
-            </Descriprtion>
-          </TextBox>
-          <Logo src={logo3} />
+          <Fade delay={500}>
+            <TextBox>
+              <Number>02</Number>
+              <Title>알고리즘에 고민이 많으신가요?</Title>
+              <Fade delay={700}>
+                <Descriprtion>
+                  문제를 풀다가 막히는 부분이 생기면 질문해보세요.
+                </Descriprtion>
+                <Descriprtion>
+                  알고리즘의 전문가들이 여러분들을 기다리고 있습니다.
+                </Descriprtion>
+              </Fade>
+            </TextBox>
+          </Fade>
+          <Fade direction="bottom-right">
+            <Logo src={logo3} />
+          </Fade>
         </RightBox>
       </Box>
       <Box>
         <LeftBox>
-          <Logo src={logo4} />
-          <TextBox>
-            <Number>03</Number>
-            <Title>개발하면서 오류를 만나셨나요?</Title>
-            <Descriprtion>여러분이 겪은 오류를 공유해주세요.</Descriprtion>
-            <Descriprtion>
-              수많은 오류를 해결한 전문가들이 여러분들을 기다리고 있습니다.
-            </Descriprtion>
-          </TextBox>
+          <Fade direction="top-left">
+            <Logo src={logo4} />
+          </Fade>
+          <Fade delay={500}>
+            <TextBox>
+              <Number>03</Number>
+              <Title>개발하면서 오류를 만나셨나요?</Title>
+              <Fade delay={700}>
+                <Descriprtion>여러분이 겪은 오류를 공유해주세요.</Descriprtion>
+                <Descriprtion>
+                  수많은 오류를 해결한 전문가들이 여러분들을 기다리고 있습니다.
+                </Descriprtion>
+              </Fade>
+            </TextBox>
+          </Fade>
         </LeftBox>
       </Box>
       <Box>
         <RightBox>
-          <TextBox>
-            <Number>04</Number>
-            <Title>협업 시에 해결되지 않은 문제가 있으신가요?</Title>
-            <Descriprtion>해결되지 않은 문제를 공유해주세요.</Descriprtion>
-            <Descriprtion>
-              수많은 협업을 진행해 온 전문가들이 여러분들을 기다리고 있습니다.
-            </Descriprtion>
-          </TextBox>
-          <Logo src={logo5} />
+          <Fade delay={500}>
+            <TextBox>
+              <Number>04</Number>
+              <Title>협업 시에 해결되지 않은 문제가 있으신가요?</Title>
+              <Fade delay={700}>
+                <Descriprtion>해결되지 않은 문제를 공유해주세요.</Descriprtion>
+                <Descriprtion>
+                  수많은 협업을 진행해 온 전문가들이 여러분들을 기다리고
+                  있습니다.
+                </Descriprtion>
+              </Fade>
+            </TextBox>
+          </Fade>
+          <Fade direction="right">
+            <Logo src={logo5} />
+          </Fade>
         </RightBox>
       </Box>
     </>
