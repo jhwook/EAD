@@ -77,6 +77,11 @@ const LoginBtn = styled.button`
   padding: 7px 10px;
   margin-bottom: 15px;
   cursor: pointer;
+  transition: all 1s;
+  &:hover {
+    background-color: ${(props) => props.theme.white};
+    color: ${(props) => props.theme.lightGrey};
+  }
 `;
 const SignupBtn = styled.div`
   width: 220px;
@@ -90,6 +95,11 @@ const SignupBtn = styled.div`
   padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
+  transition: all 1s;
+  &:hover {
+    background-color: ${(props) => props.theme.lightGrey};
+    color: ${(props) => props.theme.white};
+  }
 `;
 
 const NaverBtn = styled.div``;
