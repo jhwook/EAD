@@ -1,7 +1,8 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { HttpException, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { PostSchema, Post } from 'src/posts/posts.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 import { User } from './users.schema';
 
@@ -10,6 +11,7 @@ export class UsersRepository {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    @InjectModel(User.name) private readonly postModel: Model<Post>,
   ) {}
 
   async existsByEmail(email: string) {
@@ -83,6 +85,15 @@ export class UsersRepository {
 
     const modifiedUserInfo = await this.userModel.findById(id);
     return modifiedUserInfo;
+  }
+
+  async findAll() {
+    const PostModel = mongoose.model('posts', PostSchema);
+
+    const result = await this.postModel.find().populate('writer');
+    console.log(result);
+    console.log('hmmmmmmmmmmmmmmmmmmmm');
+    return result;
   }
 
   async findByIdAndUpdateImg(id: string, fileName: string) {

@@ -3,6 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MulterModule } from '@nestjs/platform-express';
+import { Post, PostSchema } from 'src/posts/posts.schema';
+import { Comment, CommentSchema } from 'src/posts/comments.schema';
 import { AuthModule } from '../auth/auth.module';
 import { UsersRepository } from './users.repository';
 import { User, UserSchema } from './users.schema';
@@ -14,7 +16,11 @@ import { UsersService } from './users.service';
     MulterModule.register({
       dest: './upload',
     }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Post.name, schema: PostSchema },
+      { name: Comment.name, schema: CommentSchema },
+    ]),
     MailerModule.forRoot({
       transport: {
         host: 'smtp.naver.com',

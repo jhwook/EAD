@@ -23,6 +23,14 @@ let PostsRepository = class PostsRepository {
         this.postModel = postModel;
         this.commentModel = commentModel;
     }
+    async getOnePost(id) {
+        const CommentModel = mongoose_2.default.model('Comment', comments_schema_1.CommentSchema);
+        const result = await this.postModel
+            .find()
+            .populate('Comment', CommentModel);
+        console.log(id);
+        return result;
+    }
     async create(post) {
         return await this.postModel.create(post);
     }
@@ -55,43 +63,37 @@ let PostsRepository = class PostsRepository {
         postArray = await this.postModel.find({ tag: { $all: tag } });
         return postArray;
     }
-    async addComment(content, postId, username) {
+    async addComment(content, postId, id) {
         const newComment = await this.commentModel.create({
             post_id: postId,
-            writer: username,
+            writer: id,
             content,
         });
         await this.postModel.findByIdAndUpdate(postId, {
-            $push: { comment: { $each: [newComment], $position: 0 } },
+            $push: { comment: { $each: [newComment.id], $position: 0 } },
         });
         const newPost = await this.postModel.findById(postId);
         return newPost;
     }
-    async editComment(newComment, commentId) {
+    async editComment(content, commentId) {
         await this.commentModel.findByIdAndUpdate(commentId, {
-            content: newComment,
+            content,
         });
-        const modifiedComment = await this.commentModel.findById(commentId);
-        const post = await this.postModel.findById(modifiedComment.post_id);
-        const newCommentArr = post.comment.map((comment) => {
-            if (String(comment._id) === commentId) {
-                comment.content = modifiedComment.content;
-            }
-            return comment;
-        });
-        await this.postModel.findByIdAndUpdate(modifiedComment.post_id, {
-            comment: newCommentArr,
-        });
+        const newComment = await this.commentModel.findById(commentId);
+        return newComment;
     }
     async deleteComment(commentId) {
         const comment = await this.commentModel.findById(commentId);
+        if (!comment) {
+            throw new common_1.HttpException('존재하지 않는 댓글입니다.', 400);
+        }
         const post = await this.postModel.findById(comment.post_id);
-        const newCommentArr = post.comment.filter((comment) => {
-            return String(comment._id) !== commentId;
+        await this.commentModel.findByIdAndDelete(commentId);
+        await this.postModel.findByIdAndUpdate(post.id, {
+            $pull: { comment: commentId },
         });
-        await this.postModel.findByIdAndUpdate(comment.post_id, {
-            comment: newCommentArr,
-        });
+        const updatedPost = await this.postModel.findById(post.id);
+        return updatedPost;
     }
     async findCommentById(commentId) {
         const comment = await this.commentModel.findById(commentId);

@@ -16,11 +16,16 @@ let PostsService = class PostsService {
     constructor(postsRepository) {
         this.postsRepository = postsRepository;
     }
+    async getOnePost(id) {
+        const post = this.postsRepository.getOnePost(id);
+        return post;
+    }
+    async getAllComments() { }
     async createPost(req) {
         const { title, content, tag, img } = req.body;
-        const { username } = req.user;
+        const { id } = req.user;
         const post = await this.postsRepository.create({
-            writer: username,
+            writer: id,
             title,
             content,
             tag,
@@ -65,21 +70,21 @@ let PostsService = class PostsService {
     }
     async createComment(req, param) {
         const { content } = req.body;
-        const { username } = req.user;
+        const { id } = req.user;
         const { postId } = param;
-        const post = await this.postsRepository.addComment(content, postId, username);
+        const post = await this.postsRepository.addComment(content, postId, id);
         return post;
     }
     async modifyComment(req, param) {
         const { content } = req.body;
         const { commentId } = param;
-        await this.postsRepository.editComment(content, commentId);
-        throw new common_1.HttpException('수정 완료!!!!!', 200);
+        const newComment = await this.postsRepository.editComment(content, commentId);
+        return newComment;
     }
     async deleteComment(param) {
         const { commentId } = param;
-        await this.postsRepository.deleteComment(commentId);
-        throw new common_1.HttpException('삭제 완료.....', 200);
+        const updatedPost = await this.postsRepository.deleteComment(commentId);
+        return updatedPost;
     }
     async uploadCommentImg(req, param, files) {
         const { user } = req;

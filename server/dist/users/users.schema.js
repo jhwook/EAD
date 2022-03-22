@@ -61,8 +61,8 @@ User = __decorate([
     (0, mongoose_1.Schema)(options)
 ], User);
 exports.User = User;
-exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
-exports.UserSchema.virtual('readOnlyData').get(function () {
+const _UserSchema = mongoose_1.SchemaFactory.createForClass(User);
+_UserSchema.virtual('readOnlyData').get(function () {
     return {
         id: this.id,
         email: this.email,
@@ -70,6 +70,20 @@ exports.UserSchema.virtual('readOnlyData').get(function () {
         stacks: this.stacks,
         oauth: this.oauth,
         imgUrl: this.imgUrl,
+        posts: this.posts,
     };
 });
+_UserSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'writer',
+});
+_UserSchema.virtual('comments', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'writer',
+});
+_UserSchema.set('toObject', { virtuals: true });
+_UserSchema.set('toJSON', { virtuals: true });
+exports.UserSchema = _UserSchema;
 //# sourceMappingURL=users.schema.js.map

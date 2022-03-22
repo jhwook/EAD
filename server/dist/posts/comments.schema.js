@@ -13,20 +13,20 @@ exports.CommentSchema = exports.Comment = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const class_validator_1 = require("class-validator");
-const posts_schema_1 = require("./posts.schema");
 const options = {
     timestamps: true,
 };
 let Comment = class Comment extends mongoose_2.Document {
 };
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Post' }),
-    __metadata("design:type", posts_schema_1.Post)
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, required: true, ref: 'Post' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Comment.prototype, "post_id", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, required: true, ref: 'User' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Comment.prototype, "writer", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
@@ -36,7 +36,7 @@ __decorate([
 ], Comment.prototype, "content", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: 0 }),
-    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsPositive)(),
     __metadata("design:type", Number)
 ], Comment.prototype, "up", void 0);
 __decorate([

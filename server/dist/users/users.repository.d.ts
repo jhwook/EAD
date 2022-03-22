@@ -1,17 +1,13 @@
-/// <reference types="mongoose/types/pipelinestage" />
-/// <reference types="mongoose/types/connection" />
-/// <reference types="mongoose/types/cursor" />
-/// <reference types="mongoose/types/document" />
-/// <reference types="mongoose/types/error" />
-/// <reference types="mongoose/types/schemaoptions" />
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
+import { Post } from 'src/posts/posts.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 import { User } from './users.schema';
 export declare class UsersRepository {
     private readonly userModel;
-    constructor(userModel: Model<User>);
-    existsByEmail(email: string): Promise<Pick<import("mongoose").Document<User, any, any>, "_id">>;
-    existsByUsername(username: string): Promise<Pick<import("mongoose").Document<User, any, any>, "_id">>;
+    private readonly postModel;
+    constructor(userModel: Model<User>, postModel: Model<Post>);
+    existsByEmail(email: string): Promise<Pick<mongoose.Document<User, any, any>, "_id">>;
+    existsByUsername(username: string): Promise<Pick<mongoose.Document<User, any, any>, "_id">>;
     findUserByIdWithoutPassword(userId: string): Promise<User | null>;
     findUserByEmail(email: string): Promise<User | null>;
     findUserByUsername(username: string): Promise<User | null>;
@@ -25,6 +21,9 @@ export declare class UsersRepository {
     findUserAndUpdate(user: any, body: any): Promise<User & {
         _id: any;
     }>;
+    findAll(): Promise<Omit<Post & {
+        _id: any;
+    }, never>[]>;
     findByIdAndUpdateImg(id: string, fileName: string): Promise<{
         id: string;
         email: string;
@@ -32,5 +31,6 @@ export declare class UsersRepository {
         stacks: object;
         oauth: any;
         imgUrl: string;
+        posts: Post[];
     }>;
 }

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import mongoose, { Document, Types } from 'mongoose';
+import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
 import { Post } from './posts.schema';
 
 const options: SchemaOptions = {
@@ -9,12 +9,13 @@ const options: SchemaOptions = {
 
 @Schema(options)
 export class Comment extends Document {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
-  post_id: Post;
+  @Prop({ type: Types.ObjectId, required: true, ref: 'Post' })
+  @IsNotEmpty()
+  post_id: Types.ObjectId;
 
-  @Prop()
-  @IsString()
-  writer: string;
+  @Prop({ type: Types.ObjectId, required: true, ref: 'User' })
+  @IsNotEmpty()
+  writer: Types.ObjectId;
 
   @Prop()
   @IsString()
@@ -22,7 +23,7 @@ export class Comment extends Document {
   content: string;
 
   @Prop({ default: 0 })
-  @IsNumber()
+  @IsPositive()
   up: number;
 
   @Prop()

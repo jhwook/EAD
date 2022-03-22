@@ -36,6 +36,10 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
+  //  @Get('/all')
+  //  getAll() {
+
+  //  }
   // eslint-disable-next-line class-methods-use-this
   @UseGuards(JwtAuthGuard)
   @Get('/auth')
@@ -47,7 +51,11 @@ export class UsersController {
   @UseGuards(NaverAuthGuard)
   @Get('auth/naver')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async naverlogin() {}
+  async naverlogin(@Req() req) {
+    console.log(req.user);
+    const { username } = req.user;
+    await this.usersService.findUserByUsername(username);
+  }
 
   // eslint-disable-next-line class-methods-use-this
   @UseGuards(NaverAuthGuard)
@@ -59,7 +67,7 @@ export class UsersController {
     } else {
       res.cookie('once_token', req.user.once_token);
     }
-    res.redirect('http://localhost:3000/');
+    // res.redirect('http://localhost:3000/');
     res.end();
     // 리다이렉트 해주는 페이지
   }
@@ -114,6 +122,13 @@ export class UsersController {
   @Post('/verify/username')
   verifyUsername(@Body() body) {
     return this.usersService.verifyUsername(body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('posts')
+  getAllPosts() {
+    console.log('hmm..........');
+    return this.usersService.getAllPosts();
   }
 
   // eslint-disable-next-line class-methods-use-this

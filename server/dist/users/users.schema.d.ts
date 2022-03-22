@@ -5,6 +5,7 @@
 /// <reference types="mongoose/types/error" />
 /// <reference types="mongoose/types/schemaoptions" />
 import { Document } from 'mongoose';
+import { Post } from 'src/posts/posts.schema';
 export declare class User extends Document {
     email: string;
     username: string;
@@ -19,6 +20,8 @@ export declare class User extends Document {
         stacks: object;
         oauth: any;
         imgUrl: string;
+        posts: Post[];
     };
+    readonly posts: Post[];
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any>, any, any>;

@@ -32,7 +32,11 @@ let UsersController = class UsersController {
     auth(req) {
         return req.user.readOnlyData;
     }
-    async naverlogin() { }
+    async naverlogin(req) {
+        console.log(req.user);
+        const { username } = req.user;
+        await this.usersService.findUserByUsername(username);
+    }
     async callback(req, res) {
         if (req.user.type === 'login') {
             res.cookie('access_token', req.user.access_token);
@@ -40,7 +44,6 @@ let UsersController = class UsersController {
         else {
             res.cookie('once_token', req.user.once_token);
         }
-        res.redirect('http://localhost:3000/');
         res.end();
     }
     async login(body) {
@@ -73,6 +76,10 @@ let UsersController = class UsersController {
     verifyUsername(body) {
         return this.usersService.verifyUsername(body);
     }
+    getAllPosts() {
+        console.log('hmm..........');
+        return this.usersService.getAllPosts();
+    }
     uploadImage(files, req) {
         return this.usersService.uploadImg(req, files);
     }
@@ -91,8 +98,9 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(naver_guard_1.NaverAuthGuard),
     (0, common_1.Get)('auth/naver'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "naverlogin", null);
 __decorate([
@@ -166,6 +174,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "verifyUsername", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('posts'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "getAllPosts", null);
 __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('users'))),
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),

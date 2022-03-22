@@ -6,13 +6,22 @@ export class PostsService {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly postsRepository: PostsRepository) {}
 
+  // 포스트 하나만 가져오기
+  async getOnePost(id) {
+    const post = this.postsRepository.getOnePost(id);
+    return post;
+  }
+
+  async getAllComments() {}
+
   // 포스트 작성
   async createPost(req) {
     const { title, content, tag, img } = req.body;
-    const { username } = req.user;
-
+    const { id } = req.user;
+    // console.log(req.user);
+    // console.log(id);
     const post = await this.postsRepository.create({
-      writer: username,
+      writer: id,
       title,
       content,
       tag,
@@ -76,13 +85,10 @@ export class PostsService {
   // 댓글 작성
   async createComment(req, param) {
     const { content } = req.body;
-    const { username } = req.user;
+    const { id } = req.user;
     const { postId } = param;
-    const post = await this.postsRepository.addComment(
-      content,
-      postId,
-      username,
-    );
+
+    const post = await this.postsRepository.addComment(content, postId, id);
     return post;
   }
 
@@ -90,15 +96,20 @@ export class PostsService {
   async modifyComment(req, param) {
     const { content } = req.body;
     const { commentId } = param;
-    await this.postsRepository.editComment(content, commentId);
-    throw new HttpException('수정 완료!!!!!', 200);
+    const newComment = await this.postsRepository.editComment(
+      content,
+      commentId,
+    );
+    return newComment;
+    // throw new HttpException('수정 완료!!!!!', 200);
   }
 
   // 댓글 삭제
   async deleteComment(param) {
     const { commentId } = param;
-    await this.postsRepository.deleteComment(commentId);
-    throw new HttpException('삭제 완료.....', 200);
+    const updatedPost = await this.postsRepository.deleteComment(commentId);
+    return updatedPost;
+    // throw new HttpException('삭제 완료.....', 200);
   }
 
   // 댓글에 이미지 저장

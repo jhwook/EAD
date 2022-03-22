@@ -11,6 +11,8 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mailer_1 = require("@nestjs-modules/mailer");
 const platform_express_1 = require("@nestjs/platform-express");
+const posts_schema_1 = require("../posts/posts.schema");
+const comments_schema_1 = require("../posts/comments.schema");
 const auth_module_1 = require("../auth/auth.module");
 const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
@@ -24,7 +26,11 @@ UsersModule = __decorate([
             platform_express_1.MulterModule.register({
                 dest: './upload',
             }),
-            mongoose_1.MongooseModule.forFeature([{ name: users_schema_1.User.name, schema: users_schema_1.UserSchema }]),
+            mongoose_1.MongooseModule.forFeature([
+                { name: users_schema_1.User.name, schema: users_schema_1.UserSchema },
+                { name: posts_schema_1.Post.name, schema: posts_schema_1.PostSchema },
+                { name: comments_schema_1.Comment.name, schema: comments_schema_1.CommentSchema },
+            ]),
             mailer_1.MailerModule.forRoot({
                 transport: {
                     host: 'smtp.naver.com',

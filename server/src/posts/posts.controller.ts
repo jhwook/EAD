@@ -33,9 +33,21 @@ export class PostsController {
   // 포스트 작성
   // eslint-disable-next-line class-methods-use-this
   @UseGuards(JwtAuthGuard)
-  @Post('/add')
+  @Post()
   createPost(@Req() req) {
     return this.postsService.createPost(req);
+  }
+
+  // 포스트 하나 가져오기
+  @Get('/:postId')
+  async getOnePost(@Param('postId') id: string) {
+    return this.postsService.getOnePost(id);
+  }
+
+  // 포스트에 적힌 댓글 전부 가져오기
+  @Get()
+  async getAllComments() {
+    return this.postsService.getAllComments();
   }
 
   // 포스트 수정

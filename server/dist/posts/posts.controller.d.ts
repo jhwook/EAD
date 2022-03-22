@@ -8,6 +8,10 @@ export declare class PostsController {
     createPost(req: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
+    getOnePost(id: string): Promise<Omit<import("./posts.schema").Post & {
+        _id: any;
+    }, never>[]>;
+    getAllComments(): Promise<void>;
     updatePost(req: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
@@ -17,8 +21,12 @@ export declare class PostsController {
     createComment(req: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
-    modifyComment(req: any, param: any): Promise<void>;
-    deleteComment(param: any): Promise<void>;
+    modifyComment(req: any, param: any): Promise<import("./comments.schema").Comment & {
+        _id: any;
+    }>;
+    deleteComment(param: any): Promise<import("./posts.schema").Post & {
+        _id: any;
+    }>;
     getPostTitle(): Promise<string[]>;
     uploadPostImage(files: Array<Express.Multer.File>, param: any, req: any): Promise<import("./posts.schema").Post & {
         _id: any;

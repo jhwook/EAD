@@ -9,7 +9,7 @@ export declare class UsersController {
     private readonly authService;
     constructor(usersService: UsersService, authService: AuthService);
     auth(req: any): any;
-    naverlogin(): Promise<void>;
+    naverlogin(req: any): Promise<void>;
     callback(req: any, res: Response): Promise<any>;
     login(body: LoginRequestDto): Promise<{
         isLogin: boolean;
@@ -23,6 +23,7 @@ export declare class UsersController {
         stacks: object;
         oauth: any;
         imgUrl: string;
+        posts: import("../posts/posts.schema").Post[];
     }>;
     logout(req: any, res: any): any;
     signout(req: any): Promise<string>;
@@ -38,6 +39,9 @@ export declare class UsersController {
     verifyUsername(body: any): Promise<{
         message: string;
     }>;
+    getAllPosts(): Promise<Omit<import("../posts/posts.schema").Post & {
+        _id: any;
+    }, never>[]>;
     uploadImage(files: Array<Express.Multer.File>, req: any): Promise<{
         id: string;
         email: string;
@@ -45,6 +49,7 @@ export declare class UsersController {
         stacks: object;
         oauth: any;
         imgUrl: string;
+        posts: import("../posts/posts.schema").Post[];
     }>;
     sendEmail(body: any): Promise<void>;
 }

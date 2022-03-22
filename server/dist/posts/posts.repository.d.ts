@@ -5,6 +5,9 @@ export declare class PostsRepository {
     private readonly postModel;
     private readonly commentModel;
     constructor(postModel: Model<Post>, commentModel: Model<Comment>);
+    getOnePost(id: any): Promise<Omit<Post & {
+        _id: any;
+    }, never>[]>;
     create(post: any): Promise<Post & {
         _id: any;
     }>;
@@ -19,11 +22,15 @@ export declare class PostsRepository {
     }>;
     searchPostInDB(keyword: any): Promise<any[]>;
     searchPostByTag(tag: any): Promise<any[]>;
-    addComment(content: any, postId: any, username: any): Promise<Post & {
+    addComment(content: any, postId: any, id: any): Promise<Post & {
         _id: any;
     }>;
-    editComment(newComment: any, commentId: any): Promise<void>;
-    deleteComment(commentId: any): Promise<void>;
+    editComment(content: any, commentId: any): Promise<Comment & {
+        _id: any;
+    }>;
+    deleteComment(commentId: any): Promise<Post & {
+        _id: any;
+    }>;
     findCommentById(commentId: any): Promise<Comment & {
         _id: any;
     }>;

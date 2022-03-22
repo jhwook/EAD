@@ -1,8 +1,7 @@
-import mongoose, { Document } from 'mongoose';
-import { Post } from './posts.schema';
+import mongoose, { Document, Types } from 'mongoose';
 export declare class Comment extends Document {
-    post_id: Post;
-    writer: string;
+    post_id: Types.ObjectId;
+    writer: Types.ObjectId;
     content: string;
     up: number;
     imgUrl: string;

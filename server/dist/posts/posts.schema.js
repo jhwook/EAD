@@ -19,9 +19,9 @@ const options = {
 let Post = class Post extends mongoose_2.Document {
 };
 __decorate([
-    (0, mongoose_1.Prop)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, required: true, ref: 'users' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Post.prototype, "writer", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ index: true }),
@@ -54,7 +54,14 @@ Post = __decorate([
     (0, mongoose_1.Schema)(options)
 ], Post);
 exports.Post = Post;
-const PostSchema = mongoose_1.SchemaFactory.createForClass(Post);
-exports.PostSchema = PostSchema;
-PostSchema.index({ title: 'text', content: 'text' });
+const _PostSchema = mongoose_1.SchemaFactory.createForClass(Post);
+_PostSchema.index({ title: 'text', content: 'text' });
+_PostSchema.virtual('comments', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'post_id',
+});
+_PostSchema.set('toObject', { virtuals: true });
+_PostSchema.set('toJSON', { virtuals: true });
+exports.PostSchema = _PostSchema;
 //# sourceMappingURL=posts.schema.js.map
