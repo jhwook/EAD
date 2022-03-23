@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import { HomeSearch } from 'index';
+import { HomeSearch, UserLogin } from 'index';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -172,7 +172,7 @@ function Home() {
   const [title, setTitle] = useState([]);
   const [select, setSelect] = useState('');
   const [index, setIndex] = useState(0);
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
 
@@ -187,47 +187,45 @@ function Home() {
         withCredentials: false,
       },
     );
-    setTitle(postTitle.data.data);
+    const title = postTitle.data.data.map((el: any) => el.title);
+    setTitle(title);
   };
 
   const getNaverToken = async () => {
-    if (location.hash) {
-      const token = location.hash.split('=')[1].split('&')[0];
-      // console.log(token);
-      // 프론트엔드로 리다이렉션시
-      const data = await axios.get(
-        `${process.env.REACT_APP_SERVER}/users/auth/naver/callback`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        },
-      );
-      dispatch({
-        type: 'Login',
-        userInfo: data.data.data.userInfo,
-        accessToken: data.data.data.token,
-        isLogin: data.data.data.isLogin,
-      });
-      navigate('/');
+    // if (location.hash) {
+    //   const token = location.hash.split('=')[1].split('&')[0];
+    //   // console.log(token);
+    //   // 프론트엔드로 리다이렉션시
+    //   const data = await axios.post(
+    //     `${process.env.REACT_APP_SERVER}/users/auth/naver/callback`,
+    //     {},
+    //     {
+    //       headers: {
+    //         Authorization: token,
+    //       },
+    //     },
+    //   );
+    //   dispatch({
+    //     type: 'Login',
+    //     userInfo: data.data.data.userInfo,
+    //     accessToken: data.data.data.token,
+    //     isLogin: data.data.data.isLogin,
+    //   });
+    //   navigate('/');
 
-      // 백엔드로 리다이렉션시
-      // const data = await axios.get(
-      //   `${process.env.REACT_APP_SERVER}/users/auth/naver/callback`,
-      //   {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     withCredentials: true,
-      //   },
-      // );
-      // dispatch({
-      //   type: 'Login',
-      //   userInfo: data.data.data.userInfo,
-      //   accessToken: data.data.data.token,
-      //   isLogin: data.data.data.isLogin,
-      // });
-    }
+    // 백엔드로 리다이렉션시
+    const data = await axios.get(
+      `${process.env.REACT_APP_SERVER}/users/auth/naver/callback`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    console.log(data);
+    dispatch(UserLogin(data.data.data));
+    // }
   };
 
   useEffect(() => {
@@ -240,7 +238,11 @@ function Home() {
   });
 
   const searchListOnClick = async (e: any) => {
-    setValue(e.target.innerText);
+    setValue((prev) => {
+      // eslint-disable-next-line no-param-reassign
+      prev = e.target.innerText;
+      return prev;
+    });
 
     await axios.post(
       `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
@@ -252,7 +254,7 @@ function Home() {
         withCredentials: true,
       },
     );
-    navigate(`/search?keyword=${value}`);
+    // navigate(`/search?keyword=${value}`);
   };
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {

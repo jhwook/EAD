@@ -186,7 +186,6 @@ function Search() {
     dispatch(inSearch(data.data.data));
     setPost(postData);
     setErrorMessage('여기에 입력해주세요!');
-    setValue('');
     navigate(`/search?keyword=${value}`);
   };
 
