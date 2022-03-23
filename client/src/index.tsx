@@ -40,7 +40,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     overflow-y: auto;
     line-height: 1;
-    font-family: 'Nanum Myeongjo', serif;
+    font-family: 'Fira Sans', sans-serif;
     background-color: ${(props) => props.theme.beige};
   }
   ol, ul {
@@ -78,6 +78,12 @@ interface ILoginState {
     __v?: number;
   };
   accessToken: string;
+}
+
+interface IPostActionState {
+  title: string;
+  content: string;
+  tag: string;
 }
 
 interface ILoginActionPros {
@@ -123,47 +129,98 @@ const userSlice = createSlice({
   },
 });
 
-// Redux
-// const userReducer = (state = userState, action: ILoginActionPros) => {
-//   switch (action.type) {
-//     case 'Login': {
-//       const copy = { ...state };
-//       copy.userInfo = action.userInfo;
-//       copy.accessToken = action.accessToken;
-//       copy.isLogin = action.isLogin;
-//       return copy;
-//     }
-//     case 'Logout': {
-//       const copy = { ...state };
-//       copy.userInfo = {};
-//       copy.accessToken = '';
-//       copy.isLogin = false;
-//       return copy;
-//     }
-//     case 'Modify': {
-//       const copy = { ...state };
-//       copy.userInfo = action.userInfo;
-//       copy.accessToken = action.accessToken;
-//       copy.isLogin = action.isLogin;
-//       return copy;
-//     }
-//     default: {
-//       return state;
-//     }
-//   }
-// };
+const postState: any[] = [
+  { title: 'react error', content: "I don't know why", tag: 'react' },
+  {
+    title: 'node type error',
+    content: 'how to solve this problem?',
+    tag: 'node',
+  },
+  {
+    title: 'use typescript in redux',
+    content: 'am i something wrong?',
+    tag: 'redux',
+  },
+  { title: 'react error', content: "I don't know why", tag: 'react' },
+  {
+    title: 'node type error',
+    content: 'how to solve this problem?',
+    tag: 'node',
+  },
+  {
+    title: 'use typescript in redux',
+    content: 'am i something wrong?',
+    tag: 'redux',
+  },
+  { title: 'react error', content: "I don't know why", tag: 'react' },
+  {
+    title: 'node type error',
+    content: 'how to solve this problem?',
+    tag: 'node',
+  },
+  {
+    title: 'use typescript in redux',
+    content: 'am i something wrong?',
+    tag: 'redux',
+  },
+  { title: 'react error', content: "I don't know why", tag: 'react' },
+  {
+    title: 'node type error',
+    content: 'how to solve this problem?',
+    tag: 'node',
+  },
+  {
+    title: 'use typescript in redux',
+    content: 'am i something wrong?',
+    tag: 'redux',
+  },
+  { title: 'react error', content: "I don't know why", tag: 'react' },
+  {
+    title: 'node type error',
+    content: 'how to solve this problem?',
+    tag: 'node',
+  },
+  {
+    title: 'use typescript in redux',
+    content: 'am i something wrong?',
+    tag: 'redux',
+  },
+  { title: 'react error', content: "I don't know why", tag: 'react' },
+  {
+    title: 'node type error',
+    content: 'how to solve this problem?',
+    tag: 'node',
+  },
+  {
+    title: 'use typescript in redux',
+    content: 'am i something wrong?',
+    tag: 'redux',
+  },
+];
+
+const postSlice = createSlice({
+  name: 'post',
+  initialState: postState,
+  reducers: {
+    HomeSearch(state, action: PayloadAction<any>) {
+      return [...action.payload];
+    },
+    inSearch(state, action: PayloadAction<any>) {
+      return [...action.payload];
+    },
+  },
+});
 
 const store = configureStore({
   reducer: {
     userData: userSlice.reducer,
+    postData: postSlice.reducer,
   },
 });
 
 export type AppDispatch = typeof store.dispatch;
 export const { UserLogin, UserLogout, UserModify } = userSlice.actions;
-
-// Redux
-// const store = createStore(combineReducers({ userReducer, postReducer }));
+export const { HomeSearch, inSearch } = postSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 

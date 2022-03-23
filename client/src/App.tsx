@@ -5,6 +5,8 @@ import Footer from 'Components/Footer';
 import Login from 'Routes/Login';
 import Signup from 'Routes/Signup';
 import Profile from 'Routes/Profile';
+import Search from 'Routes/Search';
+import Post from 'Routes/Post';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/posts" element={<Post />} />
+        <Route path="/search/*" element={<Search />} />
       </Routes>
       <Footer />
     </>
