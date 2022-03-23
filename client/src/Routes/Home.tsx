@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
+import { HomeSearch } from 'index';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -119,6 +120,7 @@ const SearchInput = styled.input`
   padding: 10px 10px 10px 15px;
   margin-right: 20px;
   font-size: ${(props) => props.theme.fontSize.small};
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
 `;
 
 const Form = styled.form`
@@ -173,8 +175,9 @@ function Home() {
   const dispatch: Dispatch = useDispatch();
 
   const getTitle = async () => {
-    const postTitle = await axios.get(
+    const postTitle = await axios.post(
       `${process.env.REACT_APP_SERVER}/posts/title`,
+      {},
       {
         headers: {
           'Content-Type': 'application/json',
@@ -275,9 +278,9 @@ function Home() {
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value) {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/posts/search`,
-        { keyword: value },
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
+        {},
         {
           headers: {
             'Content-Type': 'application/json',
@@ -285,9 +288,10 @@ function Home() {
           withCredentials: true,
         },
       );
+      dispatch(HomeSearch(data.data.data));
+      navigate(`/search?keyword=${value}`);
       setErrorMessage('여기에 입력해주세요!');
-      // navigate("/post/search?keyword=${value}");
-      // setValue('');
+      setValue('');
     } else {
       setErrorMessage('최소 1글자 이상은 입력해주세요!');
     }
