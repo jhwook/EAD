@@ -145,6 +145,11 @@ export class UsersController {
     return this.usersService.sendEmail(body);
   }
 
+  @Post('/sms')
+  sendPhoneMessage(@Body() body) {
+    return this.usersService.sendPhoneMessage(body);
+  }
+
   // @Post('/find/email')
   // findEmail(@Body() body) {
   //   return this.usersService.findEmail(body);

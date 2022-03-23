@@ -13,14 +13,13 @@ const mailer_1 = require("@nestjs-modules/mailer");
 const platform_express_1 = require("@nestjs/platform-express");
 const posts_schema_1 = require("../posts/posts.schema");
 const comments_schema_1 = require("../posts/comments.schema");
-const googleapis_1 = require("googleapis");
+const nestjs_twilio_1 = require("nestjs-twilio");
+const config_1 = require("@nestjs/config");
 const auth_module_1 = require("../auth/auth.module");
 const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
 const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
-const OAuth2Client = new googleapis_1.google.auth.OAuth2(process.env.OAUTH_CLIENT_ID, process.env.OAUTH_CLIENT_SECRET, process.env.REDIRECT_URI);
-OAuth2Client.setCredentials({ refresh_token: process.env.OAUTH_REFRESH_TOKEN });
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
@@ -40,13 +39,22 @@ UsersModule = __decorate([
                     host: 'smtp.gmail.com',
                     port: 587,
                     auth: {
-                        type: 'OAUTH2',
+                        type: 'OAuth2',
                         user: process.env.EMAIL_ID,
+                        pass: process.env.EMAIL_PASS,
                         clientId: process.env.OAUTH_CLIENT_ID,
                         clientSecret: process.env.OAUTH_CLIENT_SECRET,
                         refreshToken: process.env.OAUTH_REFRESH_TOKEN,
                     },
                 },
+            }),
+            nestjs_twilio_1.TwilioModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: async (cfg) => ({
+                    accountSid: cfg.get('TWILIO_ACCOUNT_SID'),
+                    authToken: cfg.get('TWILIO_AUTH_TOKEN'),
+                }),
+                inject: [config_1.ConfigService],
             }),
             (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
         ],

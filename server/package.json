@@ -38,13 +38,15 @@
     "googleapis": "^97.0.0",
     "handlebars": "^4.7.7",
     "mongoose": "^6.2.6",
-    "nodemailer": "^6.7.2",
+    "nestjs-twilio": "^2.1.0",
+    "nodemailer": "^6.7.3",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
     "passport-naver": "^1.0.6",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "twilio": "^3.75.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
