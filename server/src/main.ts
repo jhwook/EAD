@@ -27,15 +27,10 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
-  // app.use((req, res, next) => {
-  //   res.header('Access-Control-Allow-Origin', '*'); // 모든 도메인
-  //   // res.header('Access-Control-Allow-Origin', 'http://.com'); // 특정 도메인
-  // });
   app.enableCors({
     // origin: 'http://localhost:3000',
     origin: true,
     credentials: true,
-    allowedHeaders: '*',
   });
   // http://localhost:4000/media/users/aaa.png
   app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {

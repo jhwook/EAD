@@ -140,7 +140,7 @@ let UsersService = class UsersService {
         console.log(number);
         await this.mailerService.sendMail({
             to: email,
-            from: `${process.env.EMAIL_ID}@naver.com`,
+            from: `${process.env.EMAIL_ID}`,
             subject: 'Testing Nest MailerModule ✔',
             text: 'welcome',
             html: `6자리 인증 코드 :  <b> ${number}</b>`,

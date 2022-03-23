@@ -34,7 +34,9 @@ export declare class PostsRepository {
     findCommentById(commentId: any): Promise<Comment & {
         _id: any;
     }>;
-    getTitle(): Promise<string[]>;
+    getTitle(): Promise<(Post & {
+        _id: any;
+    })[]>;
     findPostAndUpdateImg(id: string, fileName: string): Promise<Post & {
         _id: any;
     }>;

@@ -66,7 +66,7 @@ export class PostsController {
   }
 
   // 검색
-  @Get('/search')
+  @Post('/search')
   searchPost(@Query('keyword') keyword) {
     return this.postsService.searchPost(keyword);
   }
@@ -99,7 +99,7 @@ export class PostsController {
   }
 
   // 포스트 제목만
-  @Get('/title')
+  @Post('/title')
   getPostTitle() {
     return this.postsService.getPostTitle();
   }

@@ -1,6 +1,6 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { Post } from './posts.schema';
 import { Comment, CommentSchema } from './comments.schema';
 
@@ -155,9 +155,11 @@ export class PostsRepository {
 
   // 전체 포스트 제목만 가져오기
   async getTitle() {
-    const titleArr = await this.postModel.find();
+    // console.log(';;;;;;;;;');
+    const titleArr = await this.postModel.find({});
+    // console.log(titleArr);
     return titleArr.map((post) => {
-      return post.title;
+      return post;
     });
   }
 
