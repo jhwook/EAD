@@ -26,9 +26,7 @@ export declare class PostsController {
     deleteComment(param: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
-    getPostTitle(): Promise<(import("./posts.schema").Post & {
-        _id: any;
-    })[]>;
+    getPostTitle(): Promise<string[]>;
     uploadPostImage(files: Array<Express.Multer.File>, param: any, req: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;

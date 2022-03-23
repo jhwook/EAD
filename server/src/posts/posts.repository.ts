@@ -159,7 +159,7 @@ export class PostsRepository {
     const titleArr = await this.postModel.find({});
     // console.log(titleArr);
     return titleArr.map((post) => {
-      return post;
+      return post.title;
     });
   }
 
