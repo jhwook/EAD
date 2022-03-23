@@ -98,7 +98,7 @@ let PostsRepository = class PostsRepository {
     async getTitle() {
         const titleArr = await this.postModel.find({});
         return titleArr.map((post) => {
-            return post;
+            return post.title;
         });
     }
     async findPostAndUpdateImg(id, fileName) {
