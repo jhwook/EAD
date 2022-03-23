@@ -32,5 +32,7 @@ export declare class PostsService {
     uploadCommentImg(req: any, param: any, files: Express.Multer.File[]): Promise<import("./comments.schema").Comment & {
         _id: any;
     }>;
-    getPostTitle(): Promise<string[]>;
+    getPostTitle(): Promise<(import("./posts.schema").Post & {
+        _id: any;
+    })[]>;
 }

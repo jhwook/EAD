@@ -5,12 +5,20 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { MulterModule } from '@nestjs/platform-express';
 import { Post, PostSchema } from 'src/posts/posts.schema';
 import { Comment, CommentSchema } from 'src/posts/comments.schema';
+import { google } from 'googleapis';
 import { AuthModule } from '../auth/auth.module';
 import { UsersRepository } from './users.repository';
 import { User, UserSchema } from './users.schema';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
+const OAuth2Client = new google.auth.OAuth2(
+  process.env.OAUTH_CLIENT_ID,
+  process.env.OAUTH_CLIENT_SECRET,
+  process.env.REDIRECT_URI,
+);
+OAuth2Client.setCredentials({ refresh_token: process.env.OAUTH_REFRESH_TOKEN });
+// const accessToken = OAuth2Client.getAccessToken();
 @Module({
   imports: [
     MulterModule.register({
@@ -23,11 +31,16 @@ import { UsersService } from './users.service';
     ]),
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.naver.com',
-        port: 465,
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
         auth: {
-          user: process.env.EMAIL_ID, // generated ethereal user
-          pass: process.env.EMAIL_PASS,
+          type: 'OAUTH2',
+          user: process.env.EMAIL_ID,
+          clientId: process.env.OAUTH_CLIENT_ID,
+          clientSecret: process.env.OAUTH_CLIENT_SECRET,
+          refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+          // accessToken,
         },
       },
       // template: {

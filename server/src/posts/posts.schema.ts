@@ -14,14 +14,6 @@ export class Post extends Document {
   @IsNotEmpty()
   writer: Types.ObjectId;
 
-  // @Prop({
-  //   type: Types.ObjectId,
-  //   required: true,
-  //   ref: 'users',
-  // })
-  // @IsNotEmpty()
-  // info: Types.ObjectId;
-
   @Prop({ index: true })
   @IsString()
   @IsNotEmpty()

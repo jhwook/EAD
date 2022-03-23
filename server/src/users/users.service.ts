@@ -166,7 +166,7 @@ export class UsersService {
     console.log(number);
     await this.mailerService.sendMail({
       to: email, // list of receivers
-      from: `${process.env.EMAIL_ID}@naver.com`, // sender address
+      from: `${process.env.EMAIL_ID}`, // sender address
       subject: 'Testing Nest MailerModule ✔', // Subject line
       text: 'welcome', // plaintext body
       html: `6자리 인증 코드 :  <b> ${number}</b>`, // HTML body content
