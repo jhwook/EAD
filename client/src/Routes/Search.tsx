@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
@@ -83,7 +83,7 @@ const DeleteBtn = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
   position: absolute;
-  top: 17px;
+  top: 12px;
   right: 35px;
   cursor: pointer;
 `;
@@ -98,15 +98,15 @@ const Lists = styled.ul`
   width: 50vw;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+  gap: 20px;
   text-align: center;
   place-items: center;
   margin-top: 50px;
   margin-bottom: 50px;
 `;
 const List = styled.li`
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
   display: flex;
@@ -119,17 +119,18 @@ const List = styled.li`
 
 const UpSide = styled.div`
   width: 100%;
-  height: 70%;
+  height: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const DownSide = styled.div`
   width: 100%;
-  height: 30%;
+  height: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const Title = styled.div`
@@ -140,13 +141,14 @@ const Tag = styled.div`
   color: ${(props) => props.theme.btnGreen};
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: bold;
+  padding: 3px 4px;
   border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
+  margin: 5px;
 `;
 
 function Search() {
   const [value, setValue] = useState('');
-  //   const [postList, setPostList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [html, setHtml] = useState(false);
   const [js, setJs] = useState(false);
@@ -159,22 +161,11 @@ function Search() {
   const [express, setExpress] = useState(false);
   const [aws, setAws] = useState(false);
   const [git, setGit] = useState(false);
+  const [all, setAll] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { postData } = useSelector((state: RootState) => state);
-
-  //   const getPostList = async () => {
-  //     const postList = await axios.get(
-  //       `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         withCredentials: false,
-  //       },
-  //     );
-  //     setPostList(postList.data.data);
-  //   };
+  const [post, setPost] = useState(postData);
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
@@ -182,33 +173,8 @@ function Search() {
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (value) {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
-        {},
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        },
-      );
-      navigate(`/search?keyword=${value}`);
-      setErrorMessage('여기에 입력해주세요!');
-      setValue('');
-    } else {
-      setErrorMessage('최소 1글자 이상은 입력해주세요!');
-    }
-  };
-
-  const deleteValueOnClick = () => {
-    setValue('');
-  };
-
-  const checkOnClick = async (el: string) => {
     const data = await axios.post(
-      `${process.env.REACT_APP_SERVER}/posts/search?keyword=${el}`,
+      `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
       {},
       {
         headers: {
@@ -218,56 +184,224 @@ function Search() {
       },
     );
     dispatch(inSearch(data.data.data));
+    setPost(postData);
+    setErrorMessage('여기에 입력해주세요!');
+    setValue('');
+    navigate(`/search?keyword=${value}`);
+  };
+
+  const deleteValueOnClick = () => {
+    setValue('');
+  };
+
+  const checkOnClick = async (el: string) => {
+    const filteredPost = postData.filter((post) => {
+      return post.tag.includes(el);
+    });
+
+    if (el === 'all') {
+      setPost(postData);
+    } else {
+      setPost(filteredPost);
+    }
 
     if (el === 'html') {
       setHtml(!html);
+      setAll(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'css') {
       setCss(!css);
+      setAll(false);
+      setHtml(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'javascript') {
       setJs(!js);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'react') {
       setReact(!react);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'redux') {
       setRedux(!redux);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'typescript') {
       setTs(!ts);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'styledcomponents') {
       setSc(!sc);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'node') {
       setNode(!node);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'express') {
       setExpress(!express);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setAws(false);
+      setGit(false);
     } else if (el === 'aws') {
       setAws(!aws);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setGit(false);
     } else if (el === 'git') {
       setGit(!git);
+      setAll(false);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+    } else if (el === 'all') {
+      setAll(false);
+      setAll(!all);
+      setHtml(false);
+      setCss(false);
+      setJs(false);
+      setReact(false);
+      setRedux(false);
+      setTs(false);
+      setSc(false);
+      setNode(false);
+      setExpress(false);
+      setAws(false);
+      setGit(false);
     }
   };
 
   const postOnClick = (id: number) => {
-    navigate(`/post/:${id}`);
+    navigate(`/post/${id}`);
   };
-
-  //   useEffect(() => {
-  //     getPostList();
-  //   }, []);
 
   return (
     <>
       <StackWrapper>
         <UpBox>
-          {html ? (
+          {all ? (
+            <Stack
+              bgColor="#5A9E7A"
+              color="white"
+              onClick={() => checkOnClick('all')}
+            >
+              All
+            </Stack>
+          ) : (
             <Stack
               bgColor="white"
               color="#5A9E7A"
+              onClick={() => checkOnClick('all')}
+            >
+              All
+            </Stack>
+          )}
+          {html ? (
+            <Stack
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('html')}
             >
               HTML
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              bgColor="white"
+              color="#5A9E7A"
               onClick={() => checkOnClick('html')}
             >
               HTML
@@ -275,16 +409,16 @@ function Search() {
           )}
           {css ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('css')}
             >
               CSS
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              bgColor="white"
+              color="#5A9E7A"
               onClick={() => checkOnClick('css')}
             >
               CSS
@@ -292,16 +426,16 @@ function Search() {
           )}
           {js ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('javascript')}
             >
               JavaScript
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('javascript')}
             >
               JavaScript
@@ -309,16 +443,16 @@ function Search() {
           )}
           {react ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('react')}
             >
               React
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('react')}
             >
               React
@@ -326,16 +460,16 @@ function Search() {
           )}
           {redux ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('redux')}
             >
               Redux
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('redux')}
             >
               Redux
@@ -345,16 +479,16 @@ function Search() {
         <DownBox>
           {ts ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('typescript')}
             >
               TypeScript
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('typescript')}
             >
               TypeScript
@@ -362,16 +496,16 @@ function Search() {
           )}
           {sc ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('styledcomponents')}
             >
               Styled-Component
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('styledcomponents')}
             >
               Styled-Component
@@ -379,16 +513,16 @@ function Search() {
           )}
           {node ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('node')}
             >
               Node.js
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('node')}
             >
               Node.js
@@ -396,16 +530,16 @@ function Search() {
           )}
           {express ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('express')}
             >
               Express
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('express')}
             >
               Express
@@ -413,16 +547,16 @@ function Search() {
           )}
           {aws ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('aws')}
             >
               AWS
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('aws')}
             >
               AWS
@@ -430,16 +564,16 @@ function Search() {
           )}
           {git ? (
             <Stack
-              bgColor="white"
-              color="#5A9E7A"
+              bgColor="#5A9E7A"
+              color="white"
               onClick={() => checkOnClick('git')}
             >
               Git
             </Stack>
           ) : (
             <Stack
-              color="white"
-              bgColor="#5A9E7A"
+              color="#5A9E7A"
+              bgColor="white"
               onClick={() => checkOnClick('git')}
             >
               Git
@@ -455,9 +589,7 @@ function Search() {
               value={value}
               placeholder={errorMessage || '여기에 입력해주세요!'}
             />
-            {value !== '' ? (
-              <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
-            ) : null}
+            <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
           </SearchBarWrapper>
           <Button type="submit">
             <FaSearch className="search" />
@@ -466,13 +598,15 @@ function Search() {
       </Searchbar>
       <ListWrapper>
         <Lists>
-          {postData.map((el, i) => (
-            <List key={nanoid()} onClick={() => postOnClick(i)}>
+          {post.map((el) => (
+            <List key={nanoid()} onClick={() => postOnClick(el.id)}>
               <UpSide>
                 <Title>{el.title}</Title>
               </UpSide>
               <DownSide>
-                <Tag>{el.tag}</Tag>
+                {el.tag.map((el: string) => (
+                  <Tag key={nanoid()}>{el}</Tag>
+                ))}
               </DownSide>
             </List>
           ))}

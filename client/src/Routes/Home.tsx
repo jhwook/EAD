@@ -19,11 +19,12 @@ import logo5 from '../Image/Logo/5.png';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   flex-direction: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 200px;
   .team {
     font-size: ${(props) => props.theme.fontSize.veryHuge};
     color: ${(props) => props.theme.green};
@@ -152,6 +153,7 @@ const SearchBarBox = styled.ul`
   background-color: ${(props) => props.theme.beige};
   position: absolute;
   top: 60px;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
 `;
 
 const DeleteBtn = styled.div`
@@ -239,9 +241,10 @@ function Home() {
 
   const searchListOnClick = async (e: any) => {
     setValue(e.target.innerText);
+
     await axios.post(
-      `${process.env.REACT_APP_SERVER}/posts/search`,
-      { keyword: value },
+      `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
+      {},
       {
         headers: {
           'Content-Type': 'application/json',
@@ -249,7 +252,7 @@ function Home() {
         withCredentials: true,
       },
     );
-    // navigate("/post/search?keyword=${value}");
+    navigate(`/search?keyword=${value}`);
   };
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -277,24 +280,20 @@ function Home() {
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (value) {
-      const data = await axios.post(
-        `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
-        {},
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
+    const data = await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
-      dispatch(HomeSearch(data.data.data));
-      navigate(`/search?keyword=${value}`);
-      setErrorMessage('여기에 입력해주세요!');
-      setValue('');
-    } else {
-      setErrorMessage('최소 1글자 이상은 입력해주세요!');
-    }
+        withCredentials: true,
+      },
+    );
+    dispatch(HomeSearch(data.data.data));
+    setErrorMessage('여기에 입력해주세요!');
+    setValue('');
+    navigate(`/search?keyword=${value}`);
   };
 
   const handleOnClick = () => {
@@ -331,9 +330,9 @@ function Home() {
                   value={value}
                   placeholder={errorMessage || '여기에 입력해주세요!'}
                 />
-                {value !== '' ? (
-                  <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
-                ) : null}
+
+                <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
+
                 {arr.length !== 0 && value !== '' ? (
                   <SearchBarBox>
                     <SearchList
