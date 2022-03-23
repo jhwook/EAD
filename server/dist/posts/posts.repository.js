@@ -48,11 +48,19 @@ let PostsRepository = class PostsRepository {
         return deletePost;
     }
     async searchPostInDB(keyword) {
-        let postArray = [];
-        postArray = await this.postModel
-            .find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
-            .sort({ score: { $meta: 'textScore' } });
-        return postArray;
+        if (keyword !== '') {
+            let postArray = [];
+            postArray = await this.postModel
+                .find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
+                .sort({ score: { $meta: 'textScore' } });
+            return postArray.map((post) => {
+                return { id: post.id, title: post.title, tag: post.tag };
+            });
+        }
+        const allPost = await this.postModel.find();
+        return allPost.map((post) => {
+            return { id: post.id, title: post.title, tag: post.tag };
+        });
     }
     async searchPostByTag(tag) {
         let postArray = [];
@@ -98,7 +106,7 @@ let PostsRepository = class PostsRepository {
     async getTitle() {
         const titleArr = await this.postModel.find({});
         return titleArr.map((post) => {
-            return post.title;
+            return { id: post.id, title: post.title, tag: post.tag };
         });
     }
     async findPostAndUpdateImg(id, fileName) {

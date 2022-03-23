@@ -50,11 +50,22 @@ export class PostsRepository {
 
   // 키워드로 포스트 찾기
   async searchPostInDB(keyword) {
-    let postArray = [];
-    postArray = await this.postModel
-      .find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
-      .sort({ score: { $meta: 'textScore' } });
-    return postArray;
+    if (keyword !== '') {
+      let postArray = [];
+      postArray = await this.postModel
+        .find(
+          { $text: { $search: keyword } },
+          { score: { $meta: 'textScore' } },
+        )
+        .sort({ score: { $meta: 'textScore' } });
+      return postArray.map((post) => {
+        return { id: post.id, title: post.title, tag: post.tag };
+      });
+    }
+    const allPost = await this.postModel.find();
+    return allPost.map((post) => {
+      return { id: post.id, title: post.title, tag: post.tag };
+    });
   }
 
   // 태그로 포스트 찾기
@@ -159,7 +170,7 @@ export class PostsRepository {
     const titleArr = await this.postModel.find({});
     // console.log(titleArr);
     return titleArr.map((post) => {
-      return post.title;
+      return { id: post.id, title: post.title, tag: post.tag };
     });
   }
 

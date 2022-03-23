@@ -20,7 +20,11 @@ export declare class PostsRepository {
     findPostByIdAndDelete(id: any): Promise<Post & {
         _id: any;
     }>;
-    searchPostInDB(keyword: any): Promise<any[]>;
+    searchPostInDB(keyword: any): Promise<{
+        id: any;
+        title: any;
+        tag: any;
+    }[]>;
     searchPostByTag(tag: any): Promise<any[]>;
     addComment(content: any, postId: any, id: any): Promise<Post & {
         _id: any;
@@ -34,7 +38,11 @@ export declare class PostsRepository {
     findCommentById(commentId: any): Promise<Comment & {
         _id: any;
     }>;
-    getTitle(): Promise<string[]>;
+    getTitle(): Promise<{
+        id: any;
+        title: string;
+        tag: string[];
+    }[]>;
     findPostAndUpdateImg(id: string, fileName: string): Promise<Post & {
         _id: any;
     }>;
