@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// Redux
-// import { combineReducers, createStore } from 'redux';
 import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -80,12 +78,6 @@ interface ILoginState {
   accessToken: string;
 }
 
-interface IPostActionState {
-  title: string;
-  content: string;
-  tag: string;
-}
-
 interface ILoginActionPros {
   userInfo: object;
   accessToken: string;
@@ -129,74 +121,7 @@ const userSlice = createSlice({
   },
 });
 
-const postState: any[] = [
-  { title: 'react error', content: "I don't know why", tag: 'react' },
-  {
-    title: 'node type error',
-    content: 'how to solve this problem?',
-    tag: 'node',
-  },
-  {
-    title: 'use typescript in redux',
-    content: 'am i something wrong?',
-    tag: 'redux',
-  },
-  { title: 'react error', content: "I don't know why", tag: 'react' },
-  {
-    title: 'node type error',
-    content: 'how to solve this problem?',
-    tag: 'node',
-  },
-  {
-    title: 'use typescript in redux',
-    content: 'am i something wrong?',
-    tag: 'redux',
-  },
-  { title: 'react error', content: "I don't know why", tag: 'react' },
-  {
-    title: 'node type error',
-    content: 'how to solve this problem?',
-    tag: 'node',
-  },
-  {
-    title: 'use typescript in redux',
-    content: 'am i something wrong?',
-    tag: 'redux',
-  },
-  { title: 'react error', content: "I don't know why", tag: 'react' },
-  {
-    title: 'node type error',
-    content: 'how to solve this problem?',
-    tag: 'node',
-  },
-  {
-    title: 'use typescript in redux',
-    content: 'am i something wrong?',
-    tag: 'redux',
-  },
-  { title: 'react error', content: "I don't know why", tag: 'react' },
-  {
-    title: 'node type error',
-    content: 'how to solve this problem?',
-    tag: 'node',
-  },
-  {
-    title: 'use typescript in redux',
-    content: 'am i something wrong?',
-    tag: 'redux',
-  },
-  { title: 'react error', content: "I don't know why", tag: 'react' },
-  {
-    title: 'node type error',
-    content: 'how to solve this problem?',
-    tag: 'node',
-  },
-  {
-    title: 'use typescript in redux',
-    content: 'am i something wrong?',
-    tag: 'redux',
-  },
-];
+const postState: any[] = [];
 
 const postSlice = createSlice({
   name: 'post',

@@ -3,10 +3,13 @@ import logo from '../Image/Logo/ead.png';
 
 const Wrapper = styled.div`
   height: 10vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.green};
   padding: 20px;
+  position: fixed;
+  bottom: 0;
 `;
 const UpBox = styled.div`
   display: flex;
