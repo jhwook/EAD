@@ -18,7 +18,11 @@ export declare class PostsService {
     uploadPostImg(req: any, param: any, files: Express.Multer.File[]): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
-    searchPost(keyword: any): Promise<any[]>;
+    searchPost(keyword: any): Promise<{
+        id: any;
+        title: any;
+        tag: any;
+    }[]>;
     searchPostByTag(body: any): Promise<any[]>;
     createComment(req: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;
@@ -32,5 +36,9 @@ export declare class PostsService {
     uploadCommentImg(req: any, param: any, files: Express.Multer.File[]): Promise<import("./comments.schema").Comment & {
         _id: any;
     }>;
-    getPostTitle(): Promise<string[]>;
+    getPostTitle(): Promise<{
+        id: any;
+        title: string;
+        tag: string[];
+    }[]>;
 }
