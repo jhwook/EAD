@@ -21,7 +21,6 @@ let User = class User extends mongoose_2.Document {
 __decorate([
     (0, mongoose_1.Prop)({
         required: true,
-        unique: true,
     }),
     (0, class_validator_1.IsEmail)(),
     (0, class_validator_1.IsNotEmpty)(),
