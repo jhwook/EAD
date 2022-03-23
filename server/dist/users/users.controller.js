@@ -39,11 +39,12 @@ let UsersController = class UsersController {
     }
     async callback(req, res) {
         if (req.user.type === 'login') {
-            res.cookie('access_token', req.user.access_token);
+            res.cookie('refresh_token', req.user.token);
         }
         else {
-            res.cookie('once_token', req.user.once_token);
+            res.cookie('once_token', req.user.token);
         }
+        res.redirect('http://localhost:3000/');
         res.end();
     }
     async login(body) {

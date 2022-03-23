@@ -56,20 +56,22 @@ let AuthService = class AuthService {
             user_provider: userProfile.user_provider,
             user_token: 'onceToken',
         };
-        return this.jwtService.sign(payload, {
+        const token = this.jwtService.sign(payload, {
             secret: process.env.JWT_SECRET,
             expiresIn: '10m',
         });
+        return token;
     }
     async createLoginToken(user) {
         const payload = {
             user_no: user.user_no,
             user_token: 'loginToken',
         };
-        return this.jwtService.sign(payload, {
+        const token = this.jwtService.sign(payload, {
             secret: process.env.JWT_SECRET,
             expiresIn: '6m',
         });
+        return token;
     }
 };
 AuthService = __decorate([

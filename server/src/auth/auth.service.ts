@@ -63,10 +63,12 @@ export class AuthService {
       user_provider: userProfile.user_provider,
       user_token: 'onceToken',
     };
-    return this.jwtService.sign(payload, {
+    const token = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
       expiresIn: '10m',
     });
+
+    return token;
   }
 
   async createLoginToken(user) {
@@ -75,10 +77,12 @@ export class AuthService {
       user_token: 'loginToken',
     };
 
-    return this.jwtService.sign(payload, {
+    const token = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
       expiresIn: '6m',
     });
+
+    return token;
   }
 
   // async createRefreshToken(user: User) {
