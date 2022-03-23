@@ -8,17 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const mailer_1 = require("@nestjs-modules/mailer");
+const nestjs_twilio_1 = require("nestjs-twilio");
 const users_repository_1 = require("./users.repository");
 let UsersService = class UsersService {
-    constructor(usersRepository, mailerService) {
+    constructor(usersRepository, mailerService, client) {
         this.usersRepository = usersRepository;
         this.mailerService = mailerService;
+        this.client = client;
     }
     async createUser(body) {
         const { email, username, password } = body;
@@ -140,17 +145,25 @@ let UsersService = class UsersService {
         console.log(number);
         await this.mailerService.sendMail({
             to: email,
-            from: `${process.env.EMAIL_ID}`,
+            from: process.env.EMAIL_ID,
             subject: 'Testing Nest MailerModule ✔',
             text: 'welcome',
             html: `6자리 인증 코드 :  <b> ${number}</b>`,
         });
     }
+    async sendPhoneMessage(body) {
+        return await this.client.messages.create({
+            body: 'SMS Body, sent to the phone!',
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: '+8201095844015',
+        });
+    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
+    __param(2, (0, nestjs_twilio_1.InjectTwilio)()),
     __metadata("design:paramtypes", [users_repository_1.UsersRepository,
-        mailer_1.MailerService])
+        mailer_1.MailerService, Object])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

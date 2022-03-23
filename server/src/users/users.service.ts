@@ -5,9 +5,16 @@ import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { NONAME } from 'dns';
+// import * as twilio from 'twilio';
+import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
+
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+// // eslint-disable-next-line @typescript-eslint/no-var-requires
+// const twilio = require('twilio')(accountSid, authToken);
 
 @Injectable()
 export class UsersService {
@@ -15,6 +22,7 @@ export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly mailerService: MailerService,
+    @InjectTwilio() private readonly client: TwilioClient,
   ) {}
 
   // 회원가입
@@ -166,10 +174,26 @@ export class UsersService {
     console.log(number);
     await this.mailerService.sendMail({
       to: email, // list of receivers
-      from: `${process.env.EMAIL_ID}`, // sender address
+      from: process.env.EMAIL_ID, // sender address
       subject: 'Testing Nest MailerModule ✔', // Subject line
       text: 'welcome', // plaintext body
       html: `6자리 인증 코드 :  <b> ${number}</b>`, // HTML body content
+    });
+  }
+
+  async sendPhoneMessage(body) {
+    // const randomNumber = Math.floor(Math.random() * 1000000) + 1;
+    // const { phone } = body;
+    // const result = await twilio.messages.create({
+    //   body: `SMS 인증 테스트 인증번호 [${randomNumber}]를 입력해주세요`,
+    //   from: process.env.TWILIO_PHONE_NUMBER,
+    //   to: phone,
+    // });
+    // console.log(result);
+    return await this.client.messages.create({
+      body: 'SMS Body, sent to the phone!',
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: '+8201095844015',
     });
   }
 }

@@ -1,12 +1,14 @@
 /// <reference types="multer" />
 import { MailerService } from '@nestjs-modules/mailer';
+import { TwilioClient } from 'nestjs-twilio';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
     private readonly usersRepository;
     private readonly mailerService;
-    constructor(usersRepository: UsersRepository, mailerService: MailerService);
+    private readonly client;
+    constructor(usersRepository: UsersRepository, mailerService: MailerService, client: TwilioClient);
     createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;
@@ -45,4 +47,5 @@ export declare class UsersService {
         posts: import("../posts/posts.schema").Post[];
     }>;
     sendEmail(body: any): Promise<void>;
+    sendPhoneMessage(body: any): Promise<import("twilio/lib/rest/api/v2010/account/message").MessageInstance>;
 }
