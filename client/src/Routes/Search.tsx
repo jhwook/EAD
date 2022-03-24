@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, inSearch, RootState } from 'index';
+import SearchList from 'Components/SearchList';
 
 interface IStackProps {
   bgColor: string;
@@ -95,10 +96,10 @@ const ListWrapper = styled.div`
 `;
 
 const Lists = styled.ul`
-  width: 50vw;
+  width: 60vw;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 30px;
   text-align: center;
   place-items: center;
   margin-top: 50px;
@@ -147,6 +148,20 @@ const Tag = styled.div`
   margin: 5px;
 `;
 
+const SearchBarBox = styled.ul`
+  display: flex;
+  flex-direction: column;
+  padding: 15px 5px 10px 15px;
+  width: 700px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  font-weight: bold;
+  border: 2px solid ${(props) => props.theme.green};
+  background-color: ${(props) => props.theme.beige};
+  position: absolute;
+  top: 60px;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+`;
+
 function Search() {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -162,13 +177,39 @@ function Search() {
   const [aws, setAws] = useState(false);
   const [git, setGit] = useState(false);
   const [all, setAll] = useState(false);
+  const [title, setTitle] = useState([]);
+  const [search, setSearch] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { postData } = useSelector((state: RootState) => state);
   const [post, setPost] = useState(postData);
 
+  const getTitle = async () => {
+    const postTitle = await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/title`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: false,
+      },
+    );
+    const title = postTitle.data.data.map((el: any) => el.title);
+    setTitle(title);
+  };
+
+  useEffect(() => {
+    getTitle();
+  }, []);
+
+  const arr = title.filter((el: string) => {
+    return el.toLowerCase().includes(value.toLowerCase());
+  });
+
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
+    setSearch(true);
   };
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -185,6 +226,7 @@ function Search() {
     );
     dispatch(inSearch(data.data.data));
     setPost(postData);
+    setSearch(false);
     setErrorMessage('여기에 입력해주세요!');
     navigate(`/search?keyword=${value}`);
   };
@@ -364,6 +406,14 @@ function Search() {
     }
   };
 
+  const searchListOnClick = async (e: any) => {
+    setValue((prev) => {
+      // eslint-disable-next-line no-param-reassign
+      prev = e.target.innerText;
+      return prev;
+    });
+    setSearch(false);
+  };
   const postOnClick = (id: number) => {
     navigate(`/post/${id}`);
   };
@@ -589,6 +639,16 @@ function Search() {
               placeholder={errorMessage || '여기에 입력해주세요!'}
             />
             <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
+            {arr.length !== 0 && value !== '' && search ? (
+              <SearchBarBox>
+                <SearchList
+                  type="submit"
+                  list={arr}
+                  chooseList={searchListOnClick}
+                  // onKey={handleKeyUp}
+                />
+              </SearchBarBox>
+            ) : null}
           </SearchBarWrapper>
           <Button type="submit">
             <FaSearch className="search" />

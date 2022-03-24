@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   background-color: ${(props) => props.theme.green};
   padding: 20px 0px;
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
 `;
 const UpBox = styled.div`
