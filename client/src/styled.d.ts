@@ -10,6 +10,7 @@ declare module 'styled-components' {
     lightGrey: string;
     white: string;
     black: string;
+    red: string;
     naver: string;
     google: string;
     kakao: string;

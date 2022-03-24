@@ -20,7 +20,7 @@ const LoginWrapper = styled.div`
 `;
 const Wrapper = styled.div`
   width: 370px;
-  height: 450px;
+  height: 480px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,6 +30,7 @@ const Wrapper = styled.div`
   border-radius: 30px;
   padding: 70px 35px;
   position: relative;
+  top: -100px;
 `;
 const Form = styled.form`
   display: flex;
@@ -217,11 +218,11 @@ function Login() {
               <Text>{errorMessage || null}</Text>
               <LoginBtn type="submit">로그인</LoginBtn>
             </Form>
-            <Text>--------------- 또는 --------------</Text>
+            <Text>------------------------ 또는 -----------------------</Text>
             <NaverBtn id="naverIdLogin" />
             <KaokoImg src={kakao} />
             <GoogleImg src={google} />
-            <Text>--------- 아직 회원이 아니시라면? --------</Text>
+            <Text>--------------- 아직 회원이 아니시라면? --------------</Text>
             <SignupBtn onClick={signUpOnClick}>회원가입</SignupBtn>
           </Wrapper>
         </LoginWrapper>

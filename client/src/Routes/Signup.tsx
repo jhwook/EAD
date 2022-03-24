@@ -7,6 +7,7 @@ import Home from './Home';
 const SignupWrapper = styled.div`
   width: 100%;
   height: 100%;
+  top: 0px;
   position: absolute;
   display: flex;
   justify-content: center;
@@ -15,7 +16,7 @@ const SignupWrapper = styled.div`
 `;
 const Wrapper = styled.div`
   width: 370px;
-  height: 450px;
+  height: 650px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,6 +72,70 @@ const CofirmPasswordInput = styled.input`
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 10px;
+`;
+
+const PhoneBox = styled.div`
+  display: flex;
+  margin-top: 10px;
+`;
+
+const NumberBox = styled.div`
+  display: flex;
+`;
+
+const PhoneInput = styled.input`
+  width: 220px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  font-weight: normal;
+  color: ${(props) => props.theme.lightGrey};
+  border: 2px solid ${(props) => props.theme.lightGrey};
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+`;
+
+const NumberInput = styled.input`
+  width: 240px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  font-weight: normal;
+  color: ${(props) => props.theme.lightGrey};
+  border: 2px solid ${(props) => props.theme.lightGrey};
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 15px;
+`;
+
+const SendPhoneBtn = styled.button`
+  height: 50px;
+  color: ${(props) => props.theme.lightGrey};
+  background-color: inherit;
+  border: 2px solid ${(props) => props.theme.lightGrey};
+  border-radius: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 1s;
+  &:hover {
+    background-color: ${(props) => props.theme.lightGrey};
+    color: ${(props) => props.theme.white};
+  }
+`;
+
+const ConfirmNumberBtn = styled.button`
+  height: 50px;
+  width: 60px;
+  color: ${(props) => props.theme.lightGrey};
+  background-color: inherit;
+  border: 2px solid ${(props) => props.theme.lightGrey};
+  border-radius: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 1s;
+  &:hover {
+    background-color: ${(props) => props.theme.lightGrey};
+    color: ${(props) => props.theme.white};
+  }
 `;
 
 const ExitBtn = styled.button`
@@ -132,18 +197,34 @@ const ErrorText = styled.div`
   margin-bottom: 10px;
 `;
 
+const ErrorDoneText = styled.div`
+  width: 340px;
+  color: ${(props) => props.theme.red};
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  text-align: center;
+  margin-bottom: 10px;
+`;
+
 function Signup() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
+  const [confirmNumber, setConfirmNumber] = useState('');
+  const [done, setDone] = useState(false);
   const [open, setOpen] = useState(true);
   const [show, setShow] = useState(false);
+  const [on, setOn] = useState(false);
   const [errorUsernameMessage, setErrorUsernameMessage] = useState('');
   const [errorEmailMessage, setEmailErrorMessage] = useState('');
   const [errorPasswordMessage, setPasswordErrorMessage] = useState('');
   const [errorConfrimPasswordMessage, setConfirmPasswordErrorMessage] =
     useState('');
+  const [errorConfrimNumberMessage, setConfirmNumberErrorMessage] =
+    useState('');
+  const [errorDoneMessage, setErrorDoneMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -178,7 +259,7 @@ function Signup() {
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (username && email && password && confirmPassword) {
+    if (username && email && password && confirmPassword && done) {
       try {
         await axios.post(
           `${process.env.REACT_APP_SERVER}/users/signup`,
@@ -193,10 +274,14 @@ function Signup() {
         setEmail('');
         setPassword('');
         setUsername('');
+        setDone(false);
         navigate('/login');
       } catch (err) {
         console.log(err);
       }
+    }
+    if (done === false) {
+      setErrorDoneMessage('본인 인증이 필요합니다.');
     }
   };
 
@@ -265,12 +350,48 @@ function Signup() {
     setConfirmPassword(e.currentTarget.value);
   };
 
+  const phoneOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setPhone(e.currentTarget.value);
+  };
+
+  const numberOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setNumber(e.currentTarget.value);
+  };
+
+  const phoneOnClick = async () => {
+    const randomNumber = await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/sms`,
+      { phone: `+82${phone}` },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    setConfirmNumber(randomNumber.data.data);
+    setConfirmNumberErrorMessage('인증번호가 발송 되었습니다.');
+  };
+
+  const NumberOnclick = () => {
+    if (Number(number) === Number(confirmNumber)) {
+      setConfirmNumberErrorMessage('인증번호가 확인 되었습니다.');
+      setOn(false);
+      setDone(true);
+    } else {
+      setOn(true);
+      setConfirmNumberErrorMessage('인증번호가 일치하지 않습니다.');
+    }
+  };
+
   const showPasswordOnClick = () => {
     setShow(!show);
   };
 
   const exitOnClick = () => {
     setOpen(false);
+    setPhone('');
+    setNumber('');
     navigate('/');
   };
 
@@ -361,6 +482,31 @@ function Signup() {
                   ) : null}
                 </>
               )}
+              <Text>휴대전화</Text>
+              <PhoneBox>
+                <PhoneInput
+                  value={phone}
+                  onChange={phoneOnChange}
+                  placeholder="전화번호를 입력하세요"
+                  required
+                />
+                <SendPhoneBtn type="button" onClick={phoneOnClick}>
+                  인증번호 받기
+                </SendPhoneBtn>
+              </PhoneBox>
+              <NumberBox>
+                <NumberInput
+                  value={number}
+                  onChange={numberOnChange}
+                  placeholder="인증번호를 입력하세요"
+                  required
+                />
+                <ConfirmNumberBtn type="button" onClick={NumberOnclick}>
+                  확인
+                </ConfirmNumberBtn>
+              </NumberBox>
+              <ErrorText>{errorConfrimNumberMessage}</ErrorText>
+              {on ? <ErrorDoneText>{errorDoneMessage}</ErrorDoneText> : null}
               <SignupBtn type="submit">회원가입</SignupBtn>
             </Form>
           </Wrapper>
