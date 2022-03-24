@@ -15,6 +15,7 @@ export const theme: DefaultTheme = {
   lightGrey: '#C0C6BA',
   white: 'white',
   black: 'black',
+  red: '#ff1744',
   naver: '#5EC53A',
   google: '#CF543D',
   kakao: '#FADF4B',

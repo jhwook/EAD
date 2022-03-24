@@ -7,7 +7,6 @@ import axios from 'axios';
 import Team from 'Components/Team';
 import SearchList from 'Components/SearchList';
 import { useNavigate } from 'react-router';
-import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { HomeSearch, UserLogin } from 'index';
