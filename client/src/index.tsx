@@ -59,6 +59,9 @@ const GlobalStyle = createGlobalStyle`
   a{
     text-decoration: none;
     color: ${(props) => props.theme.black};
+    &:hover {
+    color: ${(props) => props.theme.pink};
+  }
   }
 `;
 
