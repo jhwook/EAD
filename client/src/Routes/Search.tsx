@@ -7,6 +7,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, inSearch, RootState } from 'index';
 import SearchList from 'Components/SearchList';
+import AddBtn from '../Image/Search/add.png';
 
 interface IStackProps {
   bgColor: string;
@@ -160,6 +161,22 @@ const SearchBarBox = styled.ul`
   position: absolute;
   top: 60px;
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+`;
+
+const AddPostBtn = styled.img`
+  width: 90px;
+  height: 90px;
+  position: fixed;
+  right: 160px;
+  bottom: 700px;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  transition: all 1s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  &:hover {
+    background-color: ${(props) => props.theme.btnGreen};
+  }
 `;
 
 function Search() {
@@ -418,6 +435,10 @@ function Search() {
     navigate(`/post/${id}`);
   };
 
+  const AddPostOnClick = () => {
+    navigate('/post');
+  };
+
   return (
     <>
       <StackWrapper>
@@ -671,6 +692,7 @@ function Search() {
           ))}
         </Lists>
       </ListWrapper>
+      <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
     </>
   );
 }
