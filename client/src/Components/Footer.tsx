@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import logo from '../Image/Logo/ead.png';
 
 const Wrapper = styled.div`
-  height: 10vh;
+  height: 10.5vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.green};
-  padding: 20px;
+  padding: 20px 0px;
   position: fixed;
   bottom: 0;
 `;
@@ -41,16 +41,20 @@ const Logo = styled.img`
   width: 200px;
 `;
 const Service = styled.div`
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 5px;
 `;
 const Contact = styled.div`
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 5px;
 `;
 
 const Title = styled.div`
