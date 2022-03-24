@@ -44,6 +44,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('/auth')
   auth(@Req() req) {
+    console.log(req.user);
     return req.user.readOnlyData;
   }
 

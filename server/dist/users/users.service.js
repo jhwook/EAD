@@ -20,10 +20,10 @@ const mailer_1 = require("@nestjs-modules/mailer");
 const nestjs_twilio_1 = require("nestjs-twilio");
 const users_repository_1 = require("./users.repository");
 let UsersService = class UsersService {
-    constructor(usersRepository, mailerService, client) {
+    constructor(usersRepository, mailerService, twilio) {
         this.usersRepository = usersRepository;
         this.mailerService = mailerService;
-        this.client = client;
+        this.twilio = twilio;
     }
     async createUser(body) {
         const { email, username, password } = body;
@@ -151,12 +151,16 @@ let UsersService = class UsersService {
             html: `6자리 인증 코드 :  <b> ${number}</b>`,
         });
     }
-    async sendPhoneMessage(body) {
-        return await this.client.messages.create({
-            body: 'SMS Body, sent to the phone!',
+    sendPhoneMessage(body) {
+        const randomNumber = Math.floor(Math.random() * 1000000) + 1;
+        const { phone } = body;
+        console.log(randomNumber);
+        this.twilio.messages.create({
+            body: `SMS 인증 테스트 인증번호 [${randomNumber}]를 입력해주세요`,
             from: process.env.TWILIO_PHONE_NUMBER,
-            to: '+8201095844015',
+            to: phone,
         });
+        return randomNumber;
     }
 };
 UsersService = __decorate([

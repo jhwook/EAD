@@ -22,7 +22,7 @@ export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly mailerService: MailerService,
-    @InjectTwilio() private readonly client: TwilioClient,
+    @InjectTwilio() private readonly twilio: TwilioClient,
   ) {}
 
   // 회원가입
@@ -181,19 +181,21 @@ export class UsersService {
     });
   }
 
-  async sendPhoneMessage(body) {
-    // const randomNumber = Math.floor(Math.random() * 1000000) + 1;
-    // const { phone } = body;
+  sendPhoneMessage(body) {
+    const randomNumber = Math.floor(Math.random() * 1000000) + 1;
+    const { phone } = body;
+    console.log(randomNumber);
     // const result = await twilio.messages.create({
     //   body: `SMS 인증 테스트 인증번호 [${randomNumber}]를 입력해주세요`,
     //   from: process.env.TWILIO_PHONE_NUMBER,
     //   to: phone,
     // });
     // console.log(result);
-    return await this.client.messages.create({
-      body: 'SMS Body, sent to the phone!',
+    this.twilio.messages.create({
+      body: `SMS 인증 테스트 인증번호 [${randomNumber}]를 입력해주세요`,
       from: process.env.TWILIO_PHONE_NUMBER,
-      to: '+8201095844015',
+      to: phone,
     });
+    return randomNumber;
   }
 }

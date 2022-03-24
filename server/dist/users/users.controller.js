@@ -30,6 +30,7 @@ let UsersController = class UsersController {
         this.authService = authService;
     }
     auth(req) {
+        console.log(req.user);
         return req.user.readOnlyData;
     }
     async naverlogin(req) {
