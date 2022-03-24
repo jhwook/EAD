@@ -7,8 +7,8 @@ import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
     private readonly usersRepository;
     private readonly mailerService;
-    private readonly client;
-    constructor(usersRepository: UsersRepository, mailerService: MailerService, client: TwilioClient);
+    private readonly twilio;
+    constructor(usersRepository: UsersRepository, mailerService: MailerService, twilio: TwilioClient);
     createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;
@@ -47,5 +47,5 @@ export declare class UsersService {
         posts: import("../posts/posts.schema").Post[];
     }>;
     sendEmail(body: any): Promise<void>;
-    sendPhoneMessage(body: any): Promise<import("twilio/lib/rest/api/v2010/account/message").MessageInstance>;
+    sendPhoneMessage(body: any): number;
 }
