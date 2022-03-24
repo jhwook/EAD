@@ -36,7 +36,6 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-    overflow-y: auto;
     line-height: 1;
     font-family: 'Fira Sans', sans-serif;
     background-color: ${(props) => props.theme.beige};
