@@ -5,6 +5,7 @@ import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
+import { FiChevronsUp } from 'react-icons/fi';
 import { AppDispatch, inSearch, RootState } from 'index';
 import SearchList from 'Components/SearchList';
 import AddBtn from '../Image/Search/add.png';
@@ -176,6 +177,23 @@ const AddPostBtn = styled.img`
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   &:hover {
     background-color: ${(props) => props.theme.btnGreen};
+  }
+`;
+
+const UpScrollBtn = styled.div`
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  right: 160px;
+  bottom: 170px;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  transition: all 1s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  .upscroll {
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -439,6 +457,17 @@ function Search() {
     navigate('/post');
   };
 
+  const UpScrollOnClick = () => {
+    if (!window.scrollY) {
+      return;
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <>
       <StackWrapper>
@@ -693,6 +722,15 @@ function Search() {
         </Lists>
       </ListWrapper>
       <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
+      <UpScrollBtn>
+        <FiChevronsUp
+          className="upscroll"
+          type="button"
+          onClick={UpScrollOnClick}
+        >
+          위로가기
+        </FiChevronsUp>
+      </UpScrollBtn>
     </>
   );
 }
