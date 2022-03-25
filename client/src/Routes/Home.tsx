@@ -7,9 +7,9 @@ import axios from 'axios';
 import Team from 'Components/Team';
 import SearchList from 'Components/SearchList';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { HomeSearch, UserLogin } from 'index';
+import { HomeSearch, RootState, UserLogin } from 'index';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -174,6 +174,8 @@ function Home() {
   // const location = useLocation();
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
+  // const { userData } = useSelector((state: RootState) => state);
+  // console.log(userData);
 
   const getTitle = async () => {
     const postTitle = await axios.post(

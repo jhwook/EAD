@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { AppDispatch, RootState } from 'index';
+import Payment from 'Components/Payment';
 import Button from '../Components/Button';
 import hiLogo from '../Image/Logo/profile.png';
 
@@ -360,6 +361,8 @@ const WitModalBtn = styled.button`
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 `;
+
+const CostInput = styled.input``;
 
 // `${process.env.REACT_APP_SERVER}/search`
 function Profile() {
@@ -785,8 +788,23 @@ function Profile() {
     }
   };
 
+  // 결제 부분
+  const [cost, setCost] = useState(0);
+
+  const costOnChange = (e: any) => {
+    setCost(e.target.value);
+  };
+
   return (
     <Wrapper>
+      {/* 결제 부분 */}
+      <div>충전금</div>
+      <div>{userInfo.money}원</div>
+      <span>충전할 금액</span>
+      <input type="text" value={cost} onChange={costOnChange} />
+      <Payment cost={cost} setCost={setCost} />
+      {/* 결제 부분 */}
+
       <LeftBox>
         {/* {userInfo?.photo !== '' ? (
           <UserPhoto src={userInfo.photo} />

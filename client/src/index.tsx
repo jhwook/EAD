@@ -72,6 +72,7 @@ interface ILoginState {
     username?: string;
     email?: string;
     oauth?: boolean;
+    money?: number;
     stacks?: boolean[];
     createdAt?: string;
     updateAt?: string;
@@ -82,8 +83,20 @@ interface ILoginState {
 
 interface ILoginActionPros {
   userInfo: object;
-  accessToken: string;
+  token: string;
   isLogin: boolean;
+}
+
+interface IPaymentProps {
+  id?: string;
+  username?: string;
+  email?: string;
+  oauth?: boolean;
+  money?: number;
+  stacks?: boolean[];
+  createdAt?: string;
+  updateAt?: string;
+  __v?: number;
 }
 
 const userState: ILoginState = {
@@ -93,6 +106,7 @@ const userState: ILoginState = {
     username: 'kim',
     email: 'sad@naver.com',
     oauth: false,
+    money: 12,
     stacks: [false],
     createdAt: '1',
     updateAt: '2',
@@ -107,7 +121,7 @@ const userSlice = createSlice({
   reducers: {
     UserLogin(state, action: PayloadAction<ILoginActionPros>) {
       state.userInfo = action.payload.userInfo;
-      state.accessToken = action.payload.accessToken;
+      state.accessToken = action.payload.token;
       state.isLogin = action.payload.isLogin;
     },
     UserLogout(state) {
@@ -117,8 +131,11 @@ const userSlice = createSlice({
     },
     UserModify(state, action: PayloadAction<ILoginActionPros>) {
       state.userInfo = action.payload.userInfo;
-      state.accessToken = action.payload.accessToken;
+      state.accessToken = action.payload.token;
       state.isLogin = action.payload.isLogin;
+    },
+    UserPayment(state, action: PayloadAction<IPaymentProps>) {
+      state.userInfo = action.payload;
     },
   },
 });
@@ -146,7 +163,8 @@ const store = configureStore({
 });
 
 export type AppDispatch = typeof store.dispatch;
-export const { UserLogin, UserLogout, UserModify } = userSlice.actions;
+export const { UserLogin, UserLogout, UserModify, UserPayment } =
+  userSlice.actions;
 export const { HomeSearch, inSearch } = postSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
