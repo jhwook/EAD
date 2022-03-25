@@ -33,5 +33,7 @@ export declare class UsersRepository {
         imgUrl: string;
         posts: Post[];
     }>;
-    usersPayment(id: any, cost: any): Promise<void>;
+    usersPayment(id: any, cost: any): Promise<User & {
+        _id: any;
+    }>;
 }
