@@ -165,7 +165,8 @@ let UsersService = class UsersService {
     async usersPayment(req, body) {
         const { id } = req.user;
         const { cost } = body;
-        return await this.usersRepository.usersPayment(id, cost);
+        const userinfo = await this.usersRepository.usersPayment(id, cost);
+        return userinfo;
     }
 };
 UsersService = __decorate([

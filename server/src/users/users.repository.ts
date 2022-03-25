@@ -107,5 +107,7 @@ export class UsersRepository {
     await this.userModel.findByIdAndUpdate(id, {
       money: user.money + Number(cost),
     });
+    const userinfo = await this.userModel.findById(id);
+    return userinfo;
   }
 }

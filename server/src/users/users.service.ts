@@ -204,9 +204,10 @@ export class UsersService {
     const { cost } = body;
 
     // eslint-disable-next-line no-return-await
-    return await this.usersRepository.usersPayment(id, cost);
+    const userinfo = await this.usersRepository.usersPayment(id, cost);
     // imp_uid: rsp.imp_uid,
     // merchant_uid: rsp.merchant_uid,
     // cost,
+    return userinfo;
   }
 }
