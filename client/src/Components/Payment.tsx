@@ -112,7 +112,7 @@ function Payment({ cost, setCost }: IPaymentProps) {
     // imp_uid : 결제정보
     // merchant_uid : 주문정보
     // eslint-disable-next-line camelcase
-    const { success, error_msg } = rsp;
+    const { success } = rsp;
 
     if (success) {
       const data = await axios.post(

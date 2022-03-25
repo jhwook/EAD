@@ -95,6 +95,7 @@ const ListWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 60vh;
 `;
 
 const Lists = styled.ul`
@@ -282,7 +283,7 @@ function Search() {
     }
 
     if (el === 'html') {
-      setHtml(!html);
+      setHtml(true);
       setAll(false);
       setCss(false);
       setJs(false);
@@ -295,7 +296,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'css') {
-      setCss(!css);
+      setCss(true);
       setAll(false);
       setHtml(false);
       setJs(false);
@@ -308,7 +309,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'javascript') {
-      setJs(!js);
+      setJs(true);
       setAll(false);
       setHtml(false);
       setCss(false);
@@ -321,7 +322,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'react') {
-      setReact(!react);
+      setReact(true);
       setAll(false);
       setHtml(false);
       setCss(false);
@@ -334,7 +335,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'redux') {
-      setRedux(!redux);
+      setRedux(true);
       setAll(false);
       setHtml(false);
       setCss(false);
@@ -347,7 +348,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'typescript') {
-      setTs(!ts);
+      setTs(true);
       setAll(false);
       setHtml(false);
       setCss(false);
@@ -360,7 +361,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'styledcomponents') {
-      setSc(!sc);
+      setSc(true);
       setAll(false);
       setHtml(false);
       setCss(false);
@@ -373,7 +374,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'node') {
-      setNode(!node);
+      setNode(true);
       setAll(false);
       setHtml(false);
       setCss(false);
@@ -386,7 +387,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'express') {
-      setExpress(!express);
+      setExpress(true);
       setAll(false);
       setHtml(false);
       setCss(false);
@@ -399,7 +400,7 @@ function Search() {
       setAws(false);
       setGit(false);
     } else if (el === 'aws') {
-      setAws(!aws);
+      setAws(true);
       setAll(false);
       setHtml(false);
       setCss(false);
@@ -412,7 +413,7 @@ function Search() {
       setExpress(false);
       setGit(false);
     } else if (el === 'git') {
-      setGit(!git);
+      setGit(true);
       setAll(false);
       setHtml(false);
       setCss(false);
