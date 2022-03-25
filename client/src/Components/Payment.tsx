@@ -2,6 +2,7 @@ import axios from 'axios';
 import { AppDispatch, RootState, UserPayment } from 'index';
 import { Dispatch, SetStateAction } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 type RequestPayResponseCallback = (response: RequestPayResponse) => void;
 
@@ -78,12 +79,30 @@ interface IPaymentProps {
   setCost: Dispatch<SetStateAction<number>>;
 }
 
+const PaymentBtn = styled.button`
+  width: 110px;
+  height: 35px;
+  padding: 5px;
+  background-color: ${(props) => props.theme.beige};
+  color: ${(props) => props.theme.btnGreen};
+  font-size: ${(props) => props.theme.fontSize.mini};
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 1s;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
+  &:hover {
+    background-color: ${(props) => props.theme.btnGreen};
+    color: ${(props) => props.theme.beige};
+  }
+`;
+
 function Payment({ cost, setCost }: IPaymentProps) {
   const { userData } = useSelector((state: RootState) => state);
   const { accessToken, userInfo } = userData;
   const dispatch = useDispatch<AppDispatch>();
 
-  function onClickPayment() {
+  const onClickPayment = () => {
     /* 1. 가맹점 식별하기 */
     const { IMP } = window;
     IMP?.init('imp42587291');
@@ -105,7 +124,7 @@ function Payment({ cost, setCost }: IPaymentProps) {
 
     /* 4. 결제 창 호출하기 */
     IMP?.request_pay(data, callback);
-  }
+  };
 
   /* 3. 콜백 함수 정의하기 */
   async function callback(rsp: RequestPayResponse) {
@@ -135,9 +154,9 @@ function Payment({ cost, setCost }: IPaymentProps) {
   }
 
   return (
-    <button type="button" onClick={onClickPayment}>
+    <PaymentBtn type="button" onClick={onClickPayment}>
       결제하기
-    </button>
+    </PaymentBtn>
   );
 }
 
