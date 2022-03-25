@@ -154,8 +154,6 @@ function Login() {
             withCredentials: true,
           },
         );
-        console.log(data.data.data);
-
         dispatch(UserLogin(data.data.data));
         setEmail('');
         setPassword('');
