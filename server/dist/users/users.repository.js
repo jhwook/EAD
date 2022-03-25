@@ -90,6 +90,12 @@ let UsersRepository = class UsersRepository {
         console.log(newUser);
         return newUser.readOnlyData;
     }
+    async usersPayment(id, cost) {
+        const user = await this.userModel.findById(id);
+        await this.userModel.findByIdAndUpdate(id, {
+            money: user.money + Number(cost),
+        });
+    }
 };
 UsersRepository = __decorate([
     (0, common_1.Injectable)(),

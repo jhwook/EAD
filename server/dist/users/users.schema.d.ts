@@ -13,6 +13,8 @@ export declare class User extends Document {
     stacks: boolean[];
     oauth: boolean;
     imgUrl: string;
+    deposit: number;
+    money: number;
     readonly readOnlyData: {
         id: string;
         email: string;

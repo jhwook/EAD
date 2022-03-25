@@ -78,7 +78,7 @@ let UsersService = class UsersService {
             password: 'None',
             username,
             stacks,
-            oauth: false,
+            oauth: true,
         });
     }
     async deleteUser(userInfo) {
@@ -161,6 +161,11 @@ let UsersService = class UsersService {
             to: phone,
         });
         return randomNumber;
+    }
+    async usersPayment(req, body) {
+        const { id } = req.user;
+        const { cost } = body;
+        return await this.usersRepository.usersPayment(id, cost);
     }
 };
 UsersService = __decorate([
