@@ -44,8 +44,8 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('/auth')
   auth(@Req() req) {
-    console.log(req.user);
-    return req.user.readOnlyData;
+    console.log(typeof req.user.money);
+    return req.user;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -148,6 +148,12 @@ export class UsersController {
   @Post('/sms')
   sendPhoneMessage(@Body() body) {
     return this.usersService.sendPhoneMessage(body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/payment')
+  usersPayment(@Req() req, @Body() body) {
+    return this.usersService.usersPayment(req, body);
   }
 
   // @Post('/find/email')

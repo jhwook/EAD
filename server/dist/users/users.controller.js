@@ -30,8 +30,8 @@ let UsersController = class UsersController {
         this.authService = authService;
     }
     auth(req) {
-        console.log(req.user);
-        return req.user.readOnlyData;
+        console.log(typeof req.user.money);
+        return req.user;
     }
     async naverlogin(req) {
         console.log(req.user);
@@ -89,6 +89,9 @@ let UsersController = class UsersController {
     }
     sendPhoneMessage(body) {
         return this.usersService.sendPhoneMessage(body);
+    }
+    usersPayment(req, body) {
+        return this.usersService.usersPayment(req, body);
     }
 };
 __decorate([
@@ -210,6 +213,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "sendPhoneMessage", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('/payment'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "usersPayment", null);
 UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),

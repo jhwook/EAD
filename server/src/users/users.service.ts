@@ -87,7 +87,7 @@ export class UsersService {
       password: 'None',
       username,
       stacks,
-      oauth: false,
+      oauth: true,
     });
   }
 
@@ -197,5 +197,16 @@ export class UsersService {
       to: phone,
     });
     return randomNumber;
+  }
+
+  async usersPayment(req, body) {
+    const { id } = req.user;
+    const { cost } = body;
+
+    // eslint-disable-next-line no-return-await
+    return await this.usersRepository.usersPayment(id, cost);
+    // imp_uid: rsp.imp_uid,
+    // merchant_uid: rsp.merchant_uid,
+    // cost,
   }
 }

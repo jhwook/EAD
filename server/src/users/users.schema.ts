@@ -48,6 +48,12 @@ export class User extends Document {
   @IsString()
   imgUrl: string;
 
+  @Prop()
+  deposit: number;
+
+  @Prop({ default: 0 })
+  money: number;
+
   readonly readOnlyData: {
     id: string;
     email: string;

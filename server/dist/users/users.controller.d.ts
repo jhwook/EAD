@@ -53,4 +53,5 @@ export declare class UsersController {
     }>;
     sendEmail(body: any): Promise<void>;
     sendPhoneMessage(body: any): number;
+    usersPayment(req: any, body: any): Promise<void>;
 }
