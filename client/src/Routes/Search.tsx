@@ -9,6 +9,7 @@ import { FiChevronsUp } from 'react-icons/fi';
 import { AppDispatch, inSearch, RootState } from 'index';
 import SearchList from 'Components/SearchList';
 import AddBtn from '../Image/Search/add.png';
+import Logo from '../Image/Logo/search.png';
 
 interface IStackProps {
   bgColor: string;
@@ -95,7 +96,7 @@ const ListWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60vh;
+  min-height: 57vh;
 `;
 
 const Lists = styled.ul`
@@ -163,6 +164,7 @@ const SearchBarBox = styled.ul`
   position: absolute;
   top: 60px;
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  z-index: 3;
 `;
 
 const AddPostBtn = styled.img`
@@ -196,6 +198,22 @@ const UpScrollBtn = styled.div`
     width: 100%;
     height: 100%;
   }
+`;
+
+const Box = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const NoneLogo = styled.img``;
+
+const NoneText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.medium};
+  font-weight: bold;
+  color: ${(props) => props.theme.btnGreen};
 `;
 
 function Search() {
@@ -242,6 +260,17 @@ function Search() {
   const arr = title.filter((el: string) => {
     return el.toLowerCase().includes(value.toLowerCase());
   });
+
+  const filteredArr: string[] = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    if (filteredArr.length >= 10) {
+      break;
+    }
+    const isIn = filteredArr.includes(arr[i]);
+    if (!isIn) {
+      filteredArr.push(arr[i]);
+    }
+  }
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
@@ -694,7 +723,7 @@ function Search() {
               <SearchBarBox>
                 <SearchList
                   type="submit"
-                  list={arr}
+                  list={filteredArr}
                   chooseList={searchListOnClick}
                   // onKey={handleKeyUp}
                 />
@@ -707,20 +736,27 @@ function Search() {
         </Form>
       </Searchbar>
       <ListWrapper>
-        <Lists>
-          {post.map((el) => (
-            <List key={nanoid()} onClick={() => postOnClick(el.id)}>
-              <UpSide>
-                <Title>{el.title}</Title>
-              </UpSide>
-              <DownSide>
-                {el.tag.map((el: string) => (
-                  <Tag key={nanoid()}>{el}</Tag>
-                ))}
-              </DownSide>
-            </List>
-          ))}
-        </Lists>
+        {post.length !== 0 ? (
+          <Lists>
+            {post.map((el) => (
+              <List key={nanoid()} onClick={() => postOnClick(el.id)}>
+                <UpSide>
+                  <Title>{el.title}</Title>
+                </UpSide>
+                <DownSide>
+                  {el.tag.map((el: string) => (
+                    <Tag key={nanoid()}>{el}</Tag>
+                  ))}
+                </DownSide>
+              </List>
+            ))}
+          </Lists>
+        ) : (
+          <Box>
+            <NoneLogo src={Logo} />
+            <NoneText>검색결과가 없습니다.</NoneText>
+          </Box>
+        )}
       </ListWrapper>
       <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
       <UpScrollBtn>

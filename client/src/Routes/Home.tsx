@@ -7,9 +7,9 @@ import axios from 'axios';
 import Team from 'Components/Team';
 import SearchList from 'Components/SearchList';
 import { useNavigate } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import { HomeSearch, RootState, UserLogin } from 'index';
+import { HomeSearch, UserLogin } from 'index';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -238,6 +238,17 @@ function Home() {
     return el.toLowerCase().includes(value.toLowerCase());
   });
 
+  const filteredArr: string[] = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    if (filteredArr.length >= 10) {
+      break;
+    }
+    const isIn = filteredArr.includes(arr[i]);
+    if (!isIn) {
+      filteredArr.push(arr[i]);
+    }
+  }
+
   const searchListOnClick = async (e: any) => {
     setValue((prev) => {
       // eslint-disable-next-line no-param-reassign
@@ -340,7 +351,7 @@ function Home() {
                   <SearchBarBox>
                     <SearchList
                       type="submit"
-                      list={arr}
+                      list={filteredArr}
                       chooseList={searchListOnClick}
                       // onKey={handleKeyUp}
                     />
