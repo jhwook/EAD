@@ -76,6 +76,7 @@ interface ILoginState {
     stacks?: boolean[];
     createdAt?: string;
     updateAt?: string;
+    imgUrl?: string;
     __v?: number;
   };
   accessToken: string;
@@ -84,6 +85,11 @@ interface ILoginState {
 interface ILoginActionPros {
   userInfo: object;
   token: string;
+  isLogin: boolean;
+}
+
+interface IModifyActionPros {
+  userInfo: object;
   isLogin: boolean;
 }
 
@@ -129,9 +135,8 @@ const userSlice = createSlice({
       state.accessToken = '';
       state.isLogin = false;
     },
-    UserModify(state, action: PayloadAction<ILoginActionPros>) {
+    UserModify(state, action: PayloadAction<IModifyActionPros>) {
       state.userInfo = action.payload.userInfo;
-      state.accessToken = action.payload.token;
       state.isLogin = action.payload.isLogin;
     },
     UserPayment(state, action: PayloadAction<IPaymentProps>) {

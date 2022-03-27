@@ -93,7 +93,6 @@ let UsersService = class UsersService {
     }
     async updateUser(req) {
         const userInfo = req.user;
-        console.log(req.user);
         const newUserInfo = await this.usersRepository.findUserAndUpdate(userInfo, req.body);
         return {
             isLogin: true,

@@ -4,11 +4,12 @@ import React, {
   MouseEventHandler,
   useEffect,
   useState,
+  useRef,
 } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { AppDispatch, RootState } from 'index';
+import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
 import Payment from 'Components/Payment';
 import Button from '../Components/Button';
 import hiLogo from '../Image/Logo/profile.png';
@@ -24,7 +25,7 @@ const Wrapper = styled.div`
 
 const LeftBox = styled.div`
   width: 700px;
-  height: 650px;
+  height: 700px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -32,18 +33,34 @@ const LeftBox = styled.div`
 
 // 유저의 등록된 사진으로 변경 예정
 const UserPhoto = styled.img`
-  width: 240px;
-  height: 170px;
+  width: 200px;
+  height: 140px;
+`;
+
+const ImgInput = styled.input`
+  display: none;
+`;
+
+const ImgLabel = styled.label`
+  background-color: ${(props) => props.theme.btnGreen};
+  color: ${(props) => props.theme.white};
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  border-radius: 5px;
+  cursor: pointer;
 `;
 
 const StackName = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 `;
 
 const StackText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 300px;
+  margin-top: 20px;
 `;
 
 const StackLine = styled.hr`
@@ -56,14 +73,45 @@ const StackBox = styled.div`
   width: 50%;
   height: 245px;
   display: flex;
-  padding-top: 3vh;
+  //padding-top: 10px;
   justify-content: space-evenly;
   flex-wrap: wrap;
 `;
 
+const CostBox = styled.div`
+  /* width: 50%;
+  height: 245px;
+  display: flex;
+  padding-top: 1vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column; */
+  width: 50%;
+  height: 110px;
+  display: flex;
+  padding-top: 10px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+`;
+
+const CostText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.mini};
+  width: 120px;
+  margin-left: 15px;
+  height: 20px;
+`;
+
+const CostInput = styled.input`
+  font-size: ${(props) => props.theme.fontSize.mini};
+  width: 115px;
+  //margin-rignt: 30px;
+  //padding-right: 20px;
+  height: 23px;
+`;
+
 const RightBox = styled.div`
   width: 700px;
-  height: 650px;
+  height: 700px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -71,7 +119,7 @@ const RightBox = styled.div`
 
 const InfoBox = styled.div`
   width: 375px;
-  height: 520px;
+  height: 600px;
   margin-top: 10px;
   padding-top: 25px;
   border-radius: 30px;
@@ -111,17 +159,8 @@ const NameText = styled.div`
 const PasswordText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 290px;
-  margin-top: 5px;
+  margin-top: 10px;
   margin-bottom: 15px;
-`;
-
-const InfoWarn = styled.div`
-  font-size: ${(props) => props.theme.fontSize.micro};
-  color: ${(props) => props.theme.grey};
-  width: 290px;
-  margin-bottom: 5px;
-  text-align: right;
-  cursor: default;
 `;
 
 const InfoDistrict = styled.div`
@@ -143,7 +182,7 @@ const EmailInput = styled.input`
   width: 290px;
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
-  padding: 8px;
+  padding: 12px;
   padding-left: 15px;
   margin-bottom: 10px;
   cursor: no-drop;
@@ -155,7 +194,7 @@ const InfoInput = styled.input`
   width: 290px;
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
-  padding: 8px;
+  padding: 12px;
   padding-left: 15px;
   margin-bottom: 5px;
 `;
@@ -164,8 +203,8 @@ const InfoNameBtn = styled.button`
   font-size: ${(props) => props.theme.fontSize.tiny};
   background-color: ${(props) => props.theme.btnGreen};
   color: ${(props) => props.theme.white};
-  width: 130px;
-  height: 30px;
+  width: 140px;
+  height: 40px;
   margin-top: 2px;
   margin-bottom: 20px;
   border: 1px solid ${(props) => props.theme.btnGreen};
@@ -180,10 +219,10 @@ const InfoPwBtn = styled.button`
   font-size: ${(props) => props.theme.fontSize.tiny};
   background-color: ${(props) => props.theme.btnGreen};
   color: ${(props) => props.theme.white};
-  width: 130px;
-  height: 30px;
+  width: 140px;
+  height: 40px;
   margin-top: 6px;
-  margin-bottom: 14px;
+  margin-bottom: 24px;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
@@ -243,6 +282,7 @@ const InfoModalBtn = styled.button`
   width: 80px;
   height: 30px;
   cursor: pointer;
+  transition: all 0.5s;
   &:hover {
     color: ${(props) => props.theme.pink};
     font-weight: bold;
@@ -292,6 +332,7 @@ const PwModalBtn = styled.button`
   width: 80px;
   height: 30px;
   cursor: pointer;
+  transition: all 0.5s;
   &:hover {
     color: ${(props) => props.theme.pink};
     font-weight: bold;
@@ -362,8 +403,6 @@ const WitModalBtn = styled.button`
   }
 `;
 
-const CostInput = styled.input``;
-
 // `${process.env.REACT_APP_SERVER}/search`
 function Profile() {
   const [witModalView, setWitModalView] = useState(false);
@@ -373,7 +412,8 @@ function Profile() {
   const { userData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken, isLogin } = userData;
 
-  // const [userData, setUserData] = useState<any>('');
+  console.log(userInfo);
+  const [userImg, setUserImg] = useState<string>('');
   const [js, setJs] = useState(userInfo.stacks?.[0]);
   const [ts, setTs] = useState(userInfo.stacks?.[1]);
   const [css, setCss] = useState(userInfo.stacks?.[2]);
@@ -490,7 +530,7 @@ function Profile() {
   const onClickJs = async () => {
     setJs(!js);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/0`,
         { js },
         {
@@ -508,7 +548,7 @@ function Profile() {
   const onClickTs = async () => {
     setTs(!ts);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/1`,
         { ts },
         {
@@ -526,7 +566,7 @@ function Profile() {
   const onClickCss = async () => {
     setCss(!css);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/2`,
         { css },
         {
@@ -544,7 +584,7 @@ function Profile() {
   const onClickReact = async () => {
     setReact(!react);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/3`,
         { react },
         {
@@ -562,7 +602,7 @@ function Profile() {
   const onClickVue = async () => {
     setVue(!vue);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/4`,
         { vue },
         {
@@ -580,7 +620,7 @@ function Profile() {
   const onClickNoSql = async () => {
     setNoSql(!noSql);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/5`,
         { noSql },
         {
@@ -598,7 +638,7 @@ function Profile() {
   const onClickSql = async () => {
     setSql(!sql);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/6`,
         { sql },
         {
@@ -616,7 +656,7 @@ function Profile() {
   const onClickExpress = async () => {
     setExpress(!express);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/7`,
         { express },
         {
@@ -634,7 +674,7 @@ function Profile() {
   const onClickAws = async () => {
     setAws(!aws);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/8`,
         { aws },
         {
@@ -652,7 +692,7 @@ function Profile() {
   const onClickOther = async () => {
     setOther(!other);
     try {
-      const data = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER}/users/stacks/9`,
         { other },
         {
@@ -682,22 +722,14 @@ function Profile() {
 
   const handleWitDelClick = async () => {
     try {
-      const data = await axios.delete(
-        `${process.env.REACT_APP_SERVER}/users/signout`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-          withCredentials: true,
+      await axios.delete(`${process.env.REACT_APP_SERVER}/users/signout`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-      dispatch({
-        type: 'Logout',
-        userInfo,
-        accessToken,
-        isLogin,
+        withCredentials: true,
       });
+      dispatch(UserLogout());
     } catch (err) {
       console.log(err);
     }
@@ -725,12 +757,7 @@ function Profile() {
           },
         );
         console.log('data', data);
-        dispatch({
-          type: 'Modify',
-          userInfo: data.data.data,
-          accessToken,
-          isLogin,
-        });
+        dispatch(UserModify(data.data.data));
         setUsername(username);
         setNametag(username);
         setErrNameMessage('');
@@ -757,12 +784,7 @@ function Profile() {
             withCredentials: true,
           },
         );
-        dispatch({
-          type: 'Logout',
-          userInfo,
-          accessToken,
-          isLogin,
-        });
+        dispatch(UserLogout());
         setPwModalView(!pwModalView);
       }
     } catch (err) {
@@ -788,6 +810,32 @@ function Profile() {
     }
   };
 
+  // const uploadOnClick = (e: any) => {
+  //   event?.preventDefault();
+  //   userImgInput.current.click();
+  // };
+
+  const uploadImgOnChange = async (event: any) => {
+    const formData = new FormData();
+    formData.append('file', event?.target.files[0]);
+    console.log('formdata', formData);
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/upload`,
+        { formData },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        },
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // 결제 부분
   const [cost, setCost] = useState(0);
 
@@ -795,23 +843,24 @@ function Profile() {
     setCost(e.target.value);
   };
 
+  // const userImgInput = useRef<HTMLInputElement>('');
+
   return (
     <Wrapper>
-      {/* 결제 부분 */}
-      <div>충전금</div>
-      <div>{userInfo.money}원</div>
-      <span>충전할 금액</span>
-      <input type="text" value={cost} onChange={costOnChange} />
-      <Payment cost={cost} setCost={setCost} />
-      {/* 결제 부분 */}
-
       <LeftBox>
-        {/* {userInfo?.photo !== '' ? (
-          <UserPhoto src={userInfo.photo} />
+        {userInfo?.imgUrl ? (
+          <UserPhoto src={userInfo.imgUrl} />
         ) : (
           <UserPhoto src={hiLogo} />
-        )} */}
-        <UserPhoto src={hiLogo} />
+        )}
+        <ImgLabel htmlFor="imgInput">프로필 사진 등록</ImgLabel>
+        <ImgInput
+          // ref={userImgInput}
+          id="imgInput"
+          type="file"
+          accept="image/*"
+          onChange={uploadImgOnChange}
+        />
         <StackName>어서오세요, {userInfo.username}님!</StackName>
         <StackText>내가 사용하는 스택</StackText>
         <StackLine />
@@ -927,6 +976,20 @@ function Profile() {
             />
           )}
         </StackBox>
+        <StackText>내 충전 금액</StackText>
+        <StackLine />
+        <CostBox>
+          <CostText>충전된 금액</CostText>
+          <CostText>{userInfo.money}원</CostText>
+          {/* <CostText>충전할 금액</CostText> */}
+          <CostInput
+            placeholder="충전할 금액"
+            type="number"
+            // value={cost}
+            onChange={costOnChange}
+          />
+          <Payment cost={cost} setCost={setCost} />
+        </CostBox>
       </LeftBox>
       <RightBox>
         <InfoBox>
@@ -939,7 +1002,7 @@ function Profile() {
             <InfoInput
               type="text"
               value={username}
-              // placeholder={username}
+              placeholder={username}
               onChange={usernameOnChange}
             />
             <InfoErrorText>{errNameMessage}</InfoErrorText>

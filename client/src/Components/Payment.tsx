@@ -89,8 +89,8 @@ const PaymentBtn = styled.button`
   border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
   cursor: pointer;
-  transition: all 1s;
-  box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
+  transition: all 0.5s;
+  //box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
   &:hover {
     background-color: ${(props) => props.theme.btnGreen};
     color: ${(props) => props.theme.beige};
