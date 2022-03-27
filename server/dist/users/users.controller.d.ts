@@ -27,8 +27,11 @@ export declare class UsersController {
     }>;
     logout(req: any, res: any): any;
     signout(req: any): Promise<string>;
-    updateUser(req: any): Promise<import("./users.schema").User & {
-        _id: any;
+    updateUser(req: any): Promise<{
+        isLogin: boolean;
+        userInfo: import("./users.schema").User & {
+            _id: any;
+        };
     }>;
     updateStacks(param: any, req: any): Promise<{
         message: string;

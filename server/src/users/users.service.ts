@@ -111,7 +111,14 @@ export class UsersService {
   async updateUser(req) {
     const userInfo = req.user;
     // eslint-disable-next-line no-return-await
-    return await this.usersRepository.findUserAndUpdate(userInfo, req.body);
+    const newUserInfo = await this.usersRepository.findUserAndUpdate(
+      userInfo,
+      req.body,
+    );
+    return {
+      isLogin: true,
+      userInfo: newUserInfo,
+    };
   }
 
   // 스택 버튼 누를 시 수정
