@@ -17,10 +17,11 @@ const Btn = styled.button<IStackButton>`
   color: ${(props) => props.color};
   font-size: ${(props) => props.theme.fontSize.tiny};
   width: 120px;
-  height: 37px;
+  height: 32px;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
   cursor: pointer;
+  transition: all 0.5s;
   &:hover {
     font-weight: bold;
     //box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
