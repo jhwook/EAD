@@ -115,9 +115,9 @@ function Payment({ cost, setCost }: IPaymentProps) {
       amount: cost, // 결제금액
       name: '개발자의 모든것 충전금', // 주문명
       buyer_name: userInfo.username, // 구매자 이름
-      buyer_tel: '01095844015', // 구매자 전화번호
+      buyer_tel: '01000000000', // 구매자 전화번호
       buyer_email: userInfo.email, // 구매자 이메일
-      buyer_addr: '경기도 김포시 고촌읍', // 구매자 주소
+      buyer_addr: '경기도 김포시', // 구매자 주소
       buyer_postcode: '01023', // 구매자 우편번호
       m_redirect_url: 'http://localhost:3000', // 결제완료 후 리다이렉션 될 주소
     };
