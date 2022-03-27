@@ -22,8 +22,11 @@ export declare class UsersService {
     deleteUser(userInfo: UserRequestDto): Promise<string>;
     findUserByEmail(email: any): Promise<User>;
     findUserByUsername(username: any): Promise<User>;
-    updateUser(req: any): Promise<User & {
-        _id: any;
+    updateUser(req: any): Promise<{
+        isLogin: boolean;
+        userInfo: User & {
+            _id: any;
+        };
     }>;
     changeStacksBoolean(param: any, req: any): Promise<{
         message: string;
