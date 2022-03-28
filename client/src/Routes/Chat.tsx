@@ -1,127 +1,303 @@
-// import React, { useEffect, useState } from 'react';
-// import styled from 'styled-components';
-// import io from 'socket.io-client';
-// import { nanoid } from 'nanoid';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import io from 'socket.io-client';
+import { nanoid } from 'nanoid';
+import { useNavigate } from 'react-router';
+import { FiSend } from 'react-icons/fi';
+import logo from '../Image/Logo/1.png';
 
-// const ENDPOINT = 'http://localhost:4000';
-// const socket = io(ENDPOINT);
+const ENDPOINT = 'http://localhost:4000';
+const socket = io(ENDPOINT);
 
-// const Box = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+  height: 71.2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 45px;
+  margin-bottom: 5px;
+`;
 
-// const ChatWrapper = styled.div``;
-// const ChatInfo = styled.div`
-//   display: flex;
-//   justify-content: space-evenly;
-// `;
-// const ChatMain = styled.div`
-//   width: 100%;
-//   height: 70vh;
-//   margin-top: 100px;
-//   display: flex;
-// `;
-// const Chatting = styled.div`
-//   width: 100%;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-end;
-//   align-items: center;
-// `;
+const PostWrapper = styled.div`
+  width: 600px;
+  height: 750px;
+  border: 2px dotted red;
+  margin-left: 50px;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  border-radius: 10px;
+`;
 
-// const List = styled.ul`
-//   width: 100%;
-//   display: flex;
-//   flex-direction: column;
-// `;
+const ChatWrapper = styled.div`
+  width: 40%;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  border-radius: 10px;
+`;
+const ChatInfo = styled.div`
+  width: 100%;
+  height: 7.3%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+  padding-left: 20px;
+  border-bottom: 2px solid ${(props) => props.theme.btnGreen};
+`;
 
-// const ChatRoomList = styled.ul`
-//   width: 30%;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   padding-left: 0;
-// `;
+const Nickname = styled.div`
+  max-width: 100%;
+  font-size: ${(props) => props.theme.fontSize.small};
+  font-weight: bold;
+`;
 
-// const ChatForm = styled.form`
-//   width: 50%;
-//   display: flex;
-//   flex-direction: column;
-// `;
+const ChatMain = styled.div`
+  width: 100%;
+  height: 70vh;
+  display: flex;
+`;
+const Chatting = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const List = styled.ul`
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 30px 30px 30px;
+  box-sizing: border-box;
+`;
+
+const ChatRoomList = styled.ul`
+  max-width: 100%;
+  height: 93%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+`;
+
+const RoomWrapper = styled.div`
+  height: 100%;
+  width: 30%;
+  border-right: 2px solid ${(props) => props.theme.btnGreen};
+`;
+
+const RoomBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Picture = styled.img`
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+`;
+
+const ListTitle = styled.div`
+  height: 7%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 20px;
+  font-size: ${(props) => props.theme.fontSize.mini};
+  font-weight: bold;
+  border-bottom: 2px solid ${(props) => props.theme.btnGreen};
+`;
+
+const ChatForm = styled.form`
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  .send {
+    color: ${(props) => props.theme.btnGreen};
+    font-size: ${(props) => props.theme.fontSize.small};
+    font-weight: bold;
+    position: absolute;
+    top: 28px;
+    right: 135px;
+    cursor: pointer;
+  }
+`;
+
+const MsgInput = styled.input`
+  width: 450px;
+  height: 40px;
+  font-size: ${(props) => props.theme.fontSize.mini};
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  border-radius: 10px;
+  padding-left: 10px;
+`;
+
+const MsgBtn = styled.button`
+  border: none;
+  background-color: inherit;
+`;
+
+const BackBtn = styled.button`
+  background-color: ${(props) => props.theme.beige};
+  color: ${(props) => props.theme.btnGreen};
+  font-size: ${(props) => props.theme.fontSize.mini};
+  font-weight: bold;
+  border: none;
+  position: absolute;
+  top: 125px;
+  left: 80px;
+  cursor: pointer;
+`;
+
+const RoomList = styled.li`
+  width: 150px;
+  height: 65px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: ${(props) => props.theme.fontSize.mini};
+  font-weight: bold;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  border-radius: 10px;
+  padding-left: 10px;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+`;
+const ChatList = styled.li`
+  width: 300px;
+  height: 50px;
+  font-size: ${(props) => props.theme.fontSize.mini};
+  font-weight: bold;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const MsgBox = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 15px;
+`;
 
 function Join() {
-  //   const [room, setRoom] = useState('');
-  //   const [message, setMessage] = useState('');
-  //   const [chat, setChat] = useState<string[]>([]);
-  //   const [roomList, setRoomList] = useState<string[]>([]);
+  const [room, setRoom] = useState('');
+  const [message, setMessage] = useState('');
+  const [chat, setChat] = useState<string[]>([
+    'sdfdsfsdfsdf',
+    'sdffdgdfg',
+    'sdfgdfgfdg',
+    'sdfgfdg',
+  ]);
+  const [roomList, setRoomList] = useState<string[]>([
+    '김대윤',
+    '전현욱',
+    '윤의빈',
+  ]);
+  const navigate = useNavigate();
 
-  //   const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
-  //     setMessage(e.currentTarget.value);
-  //   };
+  const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setMessage(e.currentTarget.value);
+  };
 
-  //   const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
-  //     e.preventDefault();
-  //     socket.emit('new_message', message, room, () => {
-  //       setChat([...chat, `You: ${message}`]);
-  //     });
-  //     setMessage('');
-  //   };
+  const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    socket.emit('new_message', message, room, () => {
+      setChat([...chat, `You: ${message}`]);
+    });
+    setMessage('');
+  };
 
-  //   useEffect(() => {
-  //     socket.on('enter_room', (username, done) => {
-  //       setRoom(username);
-  //       done();
-  //     });
+  const goBackOnClick = () => {
+    navigate('/post');
+  };
 
-  //     socket.on('welcome', (user) => {
-  //       setChat([...chat, `${user} joined!`]);
-  //     });
+  useEffect(() => {
+    socket.on('enter_room', (username, done) => {
+      setRoom(username);
+      done();
+    });
 
-  //     socket.on('bye', (user) => {
-  //       setChat([...chat, `${user} left :(`]);
-  //     });
+    socket.on('welcome', (user) => {
+      setChat([...chat, `${user} joined!`]);
+    });
 
-  //     socket.on('new_message', (msg: string) => {
-  //       setChat([...chat, msg]);
-  //     });
+    socket.on('bye', (user) => {
+      setChat([...chat, `${user} left :(`]);
+    });
 
-  //     socket.on('room_change', (rooms: string[]) => {
-  //       setRoomList([...rooms]);
-  //     });
-  //   }, [chat]);
+    socket.on('new_message', (msg: string) => {
+      setChat([...chat, msg]);
+    });
 
-  return null;
-  //     <Box>
-  //       <ChatWrapper>
-  //         <ChatInfo>
-  //           <div>{`${room}`}</div>
-  //         </ChatInfo>
-  //         <div>목록으로 돌아가기</div>
-  //         <ChatMain>
-  //           <ChatRoomList>
-  //             {roomList.map((el: string) => (
-  //               <li key={nanoid()}>{el}</li>
-  //             ))}
-  //           </ChatRoomList>
-  //           <Chatting>
-  //             <List>
-  //               {chat.map((el: string) => (
-  //                 <li key={nanoid()}>{el}</li>
-  //               ))}
-  //             </List>
-  //             <ChatForm>
-  //               <input
-  //                 placeholder="Write a msg"
-  //                 value={message}
-  //                 onChange={onMessageChange}
-  //               />
-  //               <button type="submit" onClick={onMessageClick}>
-  //                 Send
-  //               </button>
-  //             </ChatForm>
-  //           </Chatting>
-  //         </ChatMain>
-  //       </ChatWrapper>
-  //     </Box>
-  //   );
+    socket.on('room_change', (rooms: string[]) => {
+      setRoomList([...rooms]);
+    });
+  }, [chat]);
+
+  return (
+    <Wrapper>
+      <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
+      <ChatWrapper>
+        <ChatMain>
+          <RoomWrapper>
+            <ListTitle>채팅목록</ListTitle>
+            <ChatRoomList>
+              {roomList.map((el: string) => (
+                <RoomList key={nanoid()}>
+                  <RoomBox>
+                    <Picture src={logo} />
+                    {el}
+                  </RoomBox>
+                </RoomList>
+              ))}
+            </ChatRoomList>
+          </RoomWrapper>
+          <Chatting>
+            <ChatInfo>
+              <Nickname>{`${room}Viktor`}</Nickname>
+            </ChatInfo>
+            <List>
+              {chat.map((el: string) => (
+                <ChatList key={nanoid()}>
+                  <MsgBox>
+                    <Picture src={logo} />
+                    {el}
+                  </MsgBox>
+                </ChatList>
+              ))}
+            </List>
+            <ChatForm>
+              <MsgInput
+                placeholder="메세지를 입력해주세요."
+                value={message}
+                onChange={onMessageChange}
+              />
+              <MsgBtn type="submit" onClick={onMessageClick}>
+                <FiSend className="send" />
+              </MsgBtn>
+            </ChatForm>
+          </Chatting>
+        </ChatMain>
+      </ChatWrapper>
+      <PostWrapper />
+    </Wrapper>
+  );
 }
 
 export default Join;
