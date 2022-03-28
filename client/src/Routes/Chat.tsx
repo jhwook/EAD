@@ -1,127 +1,127 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import io from 'socket.io-client';
-import { nanoid } from 'nanoid';
+// import React, { useEffect, useState } from 'react';
+// import styled from 'styled-components';
+// import io from 'socket.io-client';
+// import { nanoid } from 'nanoid';
 
-const ENDPOINT = 'http://localhost:4000';
-const socket = io(ENDPOINT);
+// const ENDPOINT = 'http://localhost:4000';
+// const socket = io(ENDPOINT);
 
-const Box = styled.div``;
+// const Box = styled.div``;
 
-const ChatWrapper = styled.div``;
-const ChatInfo = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-`;
-const ChatMain = styled.div`
-  width: 100%;
-  height: 70vh;
-  margin-top: 100px;
-  display: flex;
-`;
-const Chatting = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-`;
+// const ChatWrapper = styled.div``;
+// const ChatInfo = styled.div`
+//   display: flex;
+//   justify-content: space-evenly;
+// `;
+// const ChatMain = styled.div`
+//   width: 100%;
+//   height: 70vh;
+//   margin-top: 100px;
+//   display: flex;
+// `;
+// const Chatting = styled.div`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-end;
+//   align-items: center;
+// `;
 
-const List = styled.ul`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
+// const List = styled.ul`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+// `;
 
-const ChatRoomList = styled.ul`
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-left: 0;
-`;
+// const ChatRoomList = styled.ul`
+//   width: 30%;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-start;
+//   padding-left: 0;
+// `;
 
-const ChatForm = styled.form`
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-`;
+// const ChatForm = styled.form`
+//   width: 50%;
+//   display: flex;
+//   flex-direction: column;
+// `;
 
 function Join() {
-  const [room, setRoom] = useState('');
-  const [message, setMessage] = useState('');
-  const [chat, setChat] = useState<string[]>([]);
-  const [roomList, setRoomList] = useState<string[]>([]);
+  //   const [room, setRoom] = useState('');
+  //   const [message, setMessage] = useState('');
+  //   const [chat, setChat] = useState<string[]>([]);
+  //   const [roomList, setRoomList] = useState<string[]>([]);
 
-  const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setMessage(e.currentTarget.value);
-  };
+  //   const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
+  //     setMessage(e.currentTarget.value);
+  //   };
 
-  const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    socket.emit('new_message', message, room, () => {
-      setChat([...chat, `You: ${message}`]);
-    });
-    setMessage('');
-  };
+  //   const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
+  //     e.preventDefault();
+  //     socket.emit('new_message', message, room, () => {
+  //       setChat([...chat, `You: ${message}`]);
+  //     });
+  //     setMessage('');
+  //   };
 
-  useEffect(() => {
-    socket.on('enter_room', (username, done) => {
-      setRoom(username);
-      done();
-    });
+  //   useEffect(() => {
+  //     socket.on('enter_room', (username, done) => {
+  //       setRoom(username);
+  //       done();
+  //     });
 
-    socket.on('welcome', (user) => {
-      setChat([...chat, `${user} joined!`]);
-    });
+  //     socket.on('welcome', (user) => {
+  //       setChat([...chat, `${user} joined!`]);
+  //     });
 
-    socket.on('bye', (user) => {
-      setChat([...chat, `${user} left :(`]);
-    });
+  //     socket.on('bye', (user) => {
+  //       setChat([...chat, `${user} left :(`]);
+  //     });
 
-    socket.on('new_message', (msg: string) => {
-      setChat([...chat, msg]);
-    });
+  //     socket.on('new_message', (msg: string) => {
+  //       setChat([...chat, msg]);
+  //     });
 
-    socket.on('room_change', (rooms: string[]) => {
-      setRoomList([...rooms]);
-    });
-  }, [chat]);
+  //     socket.on('room_change', (rooms: string[]) => {
+  //       setRoomList([...rooms]);
+  //     });
+  //   }, [chat]);
 
-  return (
-    <Box>
-      <ChatWrapper>
-        <ChatInfo>
-          <div>{`${room}`}</div>
-        </ChatInfo>
-        <div>목록으로 돌아가기</div>
-        <ChatMain>
-          <ChatRoomList>
-            {roomList.map((el: string) => (
-              <li key={nanoid()}>{el}</li>
-            ))}
-          </ChatRoomList>
-          <Chatting>
-            <List>
-              {chat.map((el: string) => (
-                <li key={nanoid()}>{el}</li>
-              ))}
-            </List>
-            <ChatForm>
-              <input
-                placeholder="Write a msg"
-                value={message}
-                onChange={onMessageChange}
-              />
-              <button type="submit" onClick={onMessageClick}>
-                Send
-              </button>
-            </ChatForm>
-          </Chatting>
-        </ChatMain>
-      </ChatWrapper>
-    </Box>
-  );
+  return null;
+  //     <Box>
+  //       <ChatWrapper>
+  //         <ChatInfo>
+  //           <div>{`${room}`}</div>
+  //         </ChatInfo>
+  //         <div>목록으로 돌아가기</div>
+  //         <ChatMain>
+  //           <ChatRoomList>
+  //             {roomList.map((el: string) => (
+  //               <li key={nanoid()}>{el}</li>
+  //             ))}
+  //           </ChatRoomList>
+  //           <Chatting>
+  //             <List>
+  //               {chat.map((el: string) => (
+  //                 <li key={nanoid()}>{el}</li>
+  //               ))}
+  //             </List>
+  //             <ChatForm>
+  //               <input
+  //                 placeholder="Write a msg"
+  //                 value={message}
+  //                 onChange={onMessageChange}
+  //               />
+  //               <button type="submit" onClick={onMessageClick}>
+  //                 Send
+  //               </button>
+  //             </ChatForm>
+  //           </Chatting>
+  //         </ChatMain>
+  //       </ChatWrapper>
+  //     </Box>
+  //   );
 }
 
 export default Join;

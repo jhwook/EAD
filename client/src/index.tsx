@@ -1,9 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  configureStore,
+  PayloadAction,
+  getDefaultMiddleware,
+} from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { persistReducer, persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import storage from 'redux-persist/lib/storage';
 import App from './App';
 import { theme } from './theme';
 
@@ -160,29 +169,47 @@ const postSlice = createSlice({
   },
 });
 
-const store = configureStore({
-  reducer: {
-    userData: userSlice.reducer,
-    postData: postSlice.reducer,
-  },
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const reducers = combineReducers({
+  userData: userSlice.reducer,
+  postData: postSlice.reducer,
 });
 
-export type AppDispatch = typeof store.dispatch;
+const persistedReducer = persistReducer(persistConfig, reducers);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: ['persist/PERSIST'],
+    },
+  }),
+});
+
+const persistor = persistStore(store);
+
 export const { UserLogin, UserLogout, UserModify, UserPayment } =
   userSlice.actions;
 export const { HomeSearch, inSearch } = postSlice.actions;
 
+export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <GlobalStyle />
-          <App />
-        </BrowserRouter>
-      </ThemeProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <GlobalStyle />
+            <App />
+          </BrowserRouter>
+        </ThemeProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
