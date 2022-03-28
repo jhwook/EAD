@@ -7,7 +7,7 @@ import Signup from 'Routes/Signup';
 import Profile from 'Routes/Profile';
 import Search from 'Routes/Search';
 import Post from 'Routes/Post';
-import Chat from 'Routes/Chat';
+// import Chat from 'Routes/Chat';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/post/*" element={<Post />} />
         <Route path="/search/*" element={<Search />} />
-        <Route path="/chat" element={<Chat />} />
+        {/* <Route path="/chat" element={<Chat />} /> */}
       </Routes>
       <Footer />
     </>
