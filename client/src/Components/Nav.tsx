@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, UserLogout } from 'index';
@@ -14,6 +15,25 @@ const Wrapper = styled.div`
   .dot {
     font-size: ${(props) => props.theme.fontSize.large};
     cursor: pointer;
+    @media ${(props) => props.theme.mobile} {
+      display: none;
+      font-size: ${(props) => props.theme.fontSize.medium};
+    }
+  }
+  .burger {
+    font-size: ${(props) => props.theme.fontSize.large};
+    cursor: pointer;
+    display: none;
+    @media ${(props) => props.theme.mobile} {
+      display: block;
+      position: fixed;
+      top: 32px;
+      right: 40px;
+      font-size: ${(props) => props.theme.fontSize.medium};
+    }
+  }
+  @media ${(props) => props.theme.mobile} {
+    padding: 10px 20px;
   }
 `;
 const LeftBox = styled.div``;
@@ -21,6 +41,9 @@ const RightBox = styled.div``;
 const Logo = styled.img`
   width: 250px;
   cursor: pointer;
+  @media ${(props) => props.theme.mobile} {
+    width: 200px;
+  }
 `;
 const Menus = styled.ul`
   width: 250px;
@@ -29,6 +52,10 @@ const Menus = styled.ul`
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
   color: ${(props) => props.theme.black};
+  @media ${(props) => props.theme.mobile} {
+    width: 170px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 const Menu = styled.li`
   transition: all 0.5s ease-in-out;
@@ -50,6 +77,10 @@ const Modal = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
   z-index: 3;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    right: 0px;
+  }
 `;
 
 const ModalMenus = styled.ul`
@@ -58,18 +89,51 @@ const ModalMenus = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding-left: 10px;
+  padding-left: 15px;
+  @media ${(props) => props.theme.mobile} {
+    align-items: center;
+    text-align: center;
+    padding: 0px;
+  }
+  a {
+    cursor: pointer;
+    @media ${(props) => props.theme.mobile} {
+      width: 100%;
+      &:hover {
+        background-color: ${(props) => props.theme.pink};
+        color: ${(props) => props.theme.black};
+      }
+    }
+  }
 `;
 const ModalMenu = styled.li`
   cursor: pointer;
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    transition: all 0.5s ease-in-out;
+    &:hover {
+      padding: 3px 0px;
+      background-color: ${(props) => props.theme.pink};
+      color: ${(props) => props.theme.black};
+    }
+  }
 `;
 
 function Nav() {
-  const [show, isShow] = useState(false);
+  const [show, isShow] = useState(true);
   const dispatch = useDispatch<AppDispatch>();
   const { userData } = useSelector((state: RootState) => state);
   const { isLogin } = userData;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    isShow(false);
+  }, []);
+
   const ModalOnClick = () => {
     isShow(!show);
   };
@@ -81,6 +145,7 @@ function Nav() {
   const LogoutOnClick = () => {
     dispatch(UserLogout());
     isShow(false);
+    localStorage.removeItem('persist:root');
     navigate('/');
   };
   return (
@@ -88,8 +153,15 @@ function Nav() {
       {show ? (
         <Modal>
           <ModalMenus>
-            <ModalMenu onClick={closeModal}>내가 쓴 글</ModalMenu>
-            <ModalMenu onClick={closeModal}>내가 쓴 댓글</ModalMenu>
+            <Link to="/myposts">
+              <ModalMenu onClick={closeModal}>내가 쓴 글</ModalMenu>
+            </Link>
+            <Link to="/mycomments">
+              <ModalMenu onClick={closeModal}>내가 쓴 댓글</ModalMenu>
+            </Link>
+            <Link to="/chat">
+              <ModalMenu onClick={closeModal}>내 채팅방</ModalMenu>
+            </Link>
             <Link to="/profile">
               <ModalMenu onClick={closeModal}>내 정보</ModalMenu>
             </Link>
@@ -111,6 +183,7 @@ function Nav() {
                   onClick={ModalOnClick}
                   className="dot"
                 />
+                <GiHamburgerMenu onClick={ModalOnClick} className="burger" />
               </Menu>
             </Menus>
           </RightBox>
