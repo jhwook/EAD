@@ -34,6 +34,9 @@ export class ChatsGateway
     this.logger.log(`connected : ${socket.id} ${socket.nsp.name}`);
   }
 
+  @SubscribeMessage('enter_room')
+  handleEnterRoom() {}
+
   @SubscribeMessage('submit_chat')
   handleSubmitChat(
     @MessageBody() chat: string,

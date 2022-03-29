@@ -32,16 +32,13 @@ let NaverStrategy = class NaverStrategy extends (0, passport_1.PassportStrategy)
             userNick,
             userProvider,
         };
-        console.log(userProfile.userNick);
-        const username = `${userProfile.userNick}/${userProfile.userProvider}`;
-        console.log(username);
-        const user = await this.authService.validateUser(username);
+        const user = await this.authService.validateUser(userProfile);
         if (user === null) {
             console.log('일회용 토큰 발급');
             console.log(`userProfile: ${userProfile.userEmail} ${userProfile.userNick} ${userProfile.userProvider}`);
             const once_token = this.authService.onceToken(userProfile);
             console.log(`once_token: ${once_token}`);
-            const oauthUser = await this.authService.createOauthUser(username);
+            const oauthUser = await this.authService.validateUser(userProfile);
             return {
                 isLogin: true,
                 userInfo: oauthUser,

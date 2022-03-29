@@ -16,7 +16,7 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe());
     app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
     app.enableCors({
-        origin: ['http://localhost:3000'],
+        origin: true,
         credentials: true,
     });
     app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {

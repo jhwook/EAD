@@ -28,8 +28,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors({
-    origin: ['http://localhost:3000'],
-    // origin: ['*'],
+    // origin: ['http://localhost:3000'],
+    origin: true,
     credentials: true,
   });
   // http://localhost:4000/media/users/aaa.png

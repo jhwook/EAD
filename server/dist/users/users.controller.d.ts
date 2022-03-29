@@ -8,8 +8,12 @@ export declare class UsersController {
     private readonly usersService;
     private readonly authService;
     constructor(usersService: UsersService, authService: AuthService);
-    auth(req: any): any;
-    naverlogin(req: any): Promise<void>;
+    auth(req: any): {
+        isLogin: boolean;
+        userInfo: any;
+        token: any;
+    };
+    naverlogin(): Promise<void>;
     callback(req: any, res: Response): Promise<any>;
     login(body: LoginRequestDto): Promise<{
         isLogin: boolean;

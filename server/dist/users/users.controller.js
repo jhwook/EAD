@@ -30,22 +30,18 @@ let UsersController = class UsersController {
         this.authService = authService;
     }
     auth(req) {
-        console.log(typeof req.user.money);
-        return req.user;
+        const token = req.rawHeaders[1].slice(7);
+        return { isLogin: true, userInfo: req.user, token };
     }
-    async naverlogin(req) {
-        console.log(req.user);
-        const { username } = req.user;
-        await this.usersService.findUserByUsername(username);
-    }
+    async naverlogin() { }
     async callback(req, res) {
         if (req.user.type === 'login') {
-            res.cookie('refresh_token', req.user.token);
+            res.cookie('access_token', req.user.token);
         }
         else {
             res.cookie('once_token', req.user.token);
         }
-        res.redirect('http://localhost:3000/');
+        res.redirect('http://localhost:3000/auth/naver');
         res.end();
     }
     async login(body) {
@@ -105,9 +101,8 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(naver_guard_1.NaverAuthGuard),
     (0, common_1.Get)('auth/naver'),
-    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "naverlogin", null);
 __decorate([

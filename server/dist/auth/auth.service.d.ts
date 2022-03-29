@@ -12,8 +12,7 @@ export declare class AuthService {
         userInfo: User;
         token: string;
     }>;
-    validateUser(username: string): Promise<any>;
-    createOauthUser(username: string): Promise<void>;
+    validateUser(userProfile: any): Promise<any>;
     onceToken(userProfile: any): string;
     createLoginToken(user: any): Promise<string>;
 }

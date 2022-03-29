@@ -215,8 +215,9 @@ function Home() {
     //   navigate('/');
 
     // 백엔드로 리다이렉션시
+
     const data = await axios.get(
-      `${process.env.REACT_APP_SERVER}/users/auth/naver/callback`,
+      `${process.env.REACT_APP_SERVER}/users/auth/naver`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -225,6 +226,7 @@ function Home() {
       },
     );
     console.log(data);
+    console.log(document.cookie);
     dispatch(UserLogin(data.data.data));
     // }
   };

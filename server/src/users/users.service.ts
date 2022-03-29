@@ -68,7 +68,7 @@ export class UsersService {
     return user.readOnlyData;
   }
 
-  // NAVER 유저 회원가입
+  // Oauth 유저 회원가입
   async oauthSignUp(username) {
     const stacks = [
       false,
