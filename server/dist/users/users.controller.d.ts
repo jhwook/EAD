@@ -25,6 +25,7 @@ export declare class UsersController {
     }>;
     naverlogin(query: any): Promise<any>;
     kakaoLogin(query: any): Promise<any>;
+    googleLogin(query: any): Promise<any>;
     login(body: LoginRequestDto): Promise<{
         isLogin: boolean;
         userInfo: import("./users.schema").User;

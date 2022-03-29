@@ -39,9 +39,7 @@ let UsersController = class UsersController {
     }
     async oauth(req) {
         const refreshToken = req.rawHeaders[9];
-        console.log(refreshToken);
         const user = await this.usersRepository.findByToken(refreshToken);
-        console.log(user);
         return { isLogin: true, userInfo: user, token: refreshToken };
     }
     async naverlogin(query) {
@@ -85,6 +83,22 @@ let UsersController = class UsersController {
         });
         await this.authService.validateUser(userData.data.id, refreshToken, provider);
         return refreshToken;
+    }
+    async googleLogin(query) {
+        const provider = 'google';
+        const { code } = query;
+        const googleUrl = `https://oauth2.googleapis.com/token?grant_type=authorization_code&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_PASSWORD}&redirect_uri=${process.env.GOOGLE_CALLBACK_URL}&code=${code}`;
+        const googleToken = await axios_2.default.post(googleUrl, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            withCredentials: true,
+        });
+        const { access_token, id_token } = googleToken.data;
+        const userData = await axios_2.default.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`);
+        const { iat } = userData.data;
+        await this.authService.validateUser(iat, access_token, provider);
+        return access_token;
     }
     async login(body) {
         return this.authService.jwtLogIn(body);
@@ -161,6 +175,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "kakaoLogin", null);
+__decorate([
+    (0, common_1.Get)('auth/google'),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "googleLogin", null);
 __decorate([
     (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),
