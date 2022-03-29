@@ -8,7 +8,6 @@ import { nanoid } from '@reduxjs/toolkit';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
-// import PostView from '../Components/Viewer';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -24,7 +23,7 @@ const Wrapper = styled.div`
 
 const PostBox = styled.div`
   width: 800px;
-  height: 590px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   margin-bottom: 0px;
@@ -32,7 +31,7 @@ const PostBox = styled.div`
   box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
 `;
 
-const PostHeadBox = styled.div`
+const PostTopBox = styled.div`
   width: 100%;
   height: 60px;
   display: flex;
@@ -54,8 +53,6 @@ const PostMidBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: flex;
-  // justify-content: center;
-  // align-items: flex-start;
   margin: 0 0 0px 15px;
 `;
 
@@ -73,21 +70,14 @@ const PostTitle = styled.input`
 
 const PostBountyBox = styled.div`
   display: flex;
-  // flex-direction: flex;
-  // justify-content: center;
-  // height: auto;
-  // width: 600px;
   align-items: flex-start;
-  // flex-wrap: wrap;
   margin: 10px 0 0 0;
 `;
 
 const PostText = styled.span`
   font-size: ${(props) => props.theme.fontSize.mini};
   width: 65px;
-  // height: 30px;
   margin-top: 5px;
-  // margin-bottom: 15px;
 `;
 
 const PostBounty = styled.select`
@@ -97,30 +87,35 @@ const PostBounty = styled.select`
   border: 2px solid ${(props) => props.theme.grey};
   border-radius: 10px;
   padding: 3px;
-  // padding-left: 15px;
-  // margin-bottom: 5px;
 `;
 
 const PostBotBox = styled.div`
   width: 100%;
-  height: 380px;
+  height: 420px;
   display: flex;
   flex-direction: column;
-  //justify-content: center;
   align-items: center;
 `;
 
 const PostBtn = styled.button`
-  width: 120px;
-  height: 40px;
-  background-color: ${(props) => props.theme.btnGreen};
-  color: ${(props) => props.theme.beige};
-  margin-top: 10px;
+  background-color: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.black};
+  border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 11px;
+  margin: 20px;
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  width: 80px;
+  height: 30px;
   cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+    font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
 `;
 
 const TagBox = styled.div`
-  // width: 100%;
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
@@ -129,7 +124,6 @@ const TagBox = styled.div`
 `;
 
 const TagList = styled.ul`
-  // width: auto;
   display: flex;
   flex-wrap: wrap;
   margin: 0 0 0 0;
@@ -140,7 +134,6 @@ const TagItem = styled.li`
   height: 30px;
   display: flex;
   align-items: center;
-  //justify-content: center;
   color: ${(props) => props.theme.beige};
   padding: 0 8px 0 8px;
   font-size: ${(props) => props.theme.fontSize.tiny};
@@ -170,13 +163,11 @@ const TagCloseIcon = styled.span`
 
 const TagInput = styled.input`
   width: 80px;
-  //height: 20px;
   background-color: ${(props) => props.theme.beige};
   color: ${(props) => props.theme.black};
   border: 2px solid ${(props) => props.theme.grey};
   padding: 6px;
   border-radius: 10px;
-  //margin-top: 20px;
 `;
 const PostModalBack = styled.div`
   position: fixed;
@@ -305,7 +296,6 @@ function Post() {
       })
       .then((res) => {
         const user = res.data.data;
-        // console.log('user', user);
         setWriter(user.username);
       });
   }, []);
@@ -333,13 +323,6 @@ function Post() {
   const registOnClick = async () => {
     const editorInstance = editRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
-    const getHtml = editorInstance?.getHTML();
-    // console.log(editorInstance);
-    console.log(content);
-    // console.log(getHtml);
-    console.log(tag);
-    console.log(title);
-    console.log(bounty);
     try {
       if (tag.length !== 0 && title !== '' && content !== '') {
         await axios.post(
@@ -360,14 +343,11 @@ function Post() {
         );
         setPostModalView(!postModalView);
       } else if (tag.length === 0 || title === '' || content === '') {
-        console.log('제목 또는 태그 또는 내용이 없습니다');
         setFailModalView(!failModalView);
       }
     } catch (err) {
       console.log(err);
     }
-    // setTag([]);
-    // setTitle('');
   };
 
   const postModalOnClick = () => {
@@ -375,20 +355,17 @@ function Post() {
   };
 
   const failModalOnClick = () => {
-    // navigate('/post');
     setFailModalView(!failModalView);
     navigate('/post');
   };
-  // console.log('bou', bounty);
-  // console.log(tag);
 
   return (
     <Wrapper>
       <PostBox>
-        <PostHeadBox>
+        <PostTopBox>
           <PostWriter>{writer}</PostWriter>
-          {/* <HiOutlineDotsHorizontal className="dot" /> */}
-        </PostHeadBox>
+          <PostBtn onClick={registOnClick}>등록</PostBtn>
+        </PostTopBox>
         <PostMidBox>
           <PostTitle
             type="text"
@@ -431,14 +408,13 @@ function Post() {
         <PostBotBox>
           <Editor
             // previewStyle="vertical"
-            height="390px"
+            height="420px"
             initialEditType="markdown"
             ref={editRef}
             // usageStatistics={false}
           />
         </PostBotBox>
       </PostBox>
-      <PostBtn onClick={registOnClick}>등록</PostBtn>
       {postModalView ? (
         <PostModalBack>
           <PostModalBox>
