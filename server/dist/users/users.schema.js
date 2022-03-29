@@ -29,7 +29,6 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         required: true,
-        unique: true,
     }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),

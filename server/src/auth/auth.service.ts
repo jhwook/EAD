@@ -43,12 +43,11 @@ export class AuthService {
   }
 
   // eslint-disable-next-line camelcase
-  async validateUser(userData: any, refreshToken): Promise<any> {
-    const { nickname } = userData;
-    const username = `${nickname}/naver`;
+  async validateUser(userData: any, refreshToken, provider): Promise<any> {
+    const username = `${userData}/${provider}`;
     // DB에서 oauth 유저 정보 찾기
-    const user = await this.usersService.findUserByToken(refreshToken);
-
+    const user = await this.usersService.findUserByUsername(username);
+    // console.log(user);
     // DB에 oauth 유저 정보 없을 시 생성
     if (!user) {
       this.usersService.oauthSignUp(username, refreshToken);
