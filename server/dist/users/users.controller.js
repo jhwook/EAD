@@ -39,10 +39,13 @@ let UsersController = class UsersController {
     }
     async oauth(req) {
         const refreshToken = req.rawHeaders[9];
+        console.log(refreshToken);
         const user = await this.usersRepository.findByToken(refreshToken);
+        console.log(user);
         return { isLogin: true, userInfo: user, token: refreshToken };
     }
     async naverlogin(query) {
+        const provider = 'naver';
         const { code, state } = query;
         const naverUrl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_CLIENT_ID}&client_secret=${process.env.NAVER_CLIENT_SECRET}&code=${code}&state=${state}`;
         const naverToken = await axios_2.default.get(naverUrl, {
@@ -59,7 +62,28 @@ let UsersController = class UsersController {
             },
             withCredentials: true,
         });
-        this.authService.validateUser(userData.data.response, refreshToken);
+        await this.authService.validateUser(userData.data.response.nickname, refreshToken, provider);
+        return refreshToken;
+    }
+    async kakaoLogin(query) {
+        const provider = 'kakao';
+        const { code } = query;
+        const kakaoUrl = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_CALLBACK_URL}&code=${code}`;
+        const kakaoToken = await axios_2.default.post(kakaoUrl, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            withCredentials: true,
+        });
+        const accessToken = kakaoToken.data.access_token;
+        const refreshToken = kakaoToken.data.refresh_token;
+        const userData = await axios_2.default.get('https://kapi.kakao.com/v2/user/me', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+        });
+        await this.authService.validateUser(userData.data.id, refreshToken, provider);
         return refreshToken;
     }
     async login(body) {
@@ -130,6 +154,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "naverlogin", null);
+__decorate([
+    (0, common_1.Get)('auth/kakao'),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "kakaoLogin", null);
 __decorate([
     (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),

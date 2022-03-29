@@ -38,10 +38,9 @@ let AuthService = class AuthService {
             token: this.jwtService.sign(payload),
         };
     }
-    async validateUser(userData, refreshToken) {
-        const { nickname } = userData;
-        const username = `${nickname}/naver`;
-        const user = await this.usersService.findUserByToken(refreshToken);
+    async validateUser(userData, refreshToken, provider) {
+        const username = `${userData}/${provider}`;
+        const user = await this.usersService.findUserByUsername(username);
         if (!user) {
             this.usersService.oauthSignUp(username, refreshToken);
         }

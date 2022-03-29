@@ -65,16 +65,17 @@ export class UsersController {
   @Get('/oauth')
   async oauth(@Req() req) {
     const refreshToken = req.rawHeaders[9];
+    console.log(refreshToken);
     const user = await this.usersRepository.findByToken(refreshToken);
-
+    console.log(user);
     return { isLogin: true, userInfo: user, token: refreshToken };
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  // @UseGuards(NaverAuthGuard)
+  // Naver 로그인
   @Get('auth/naver')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async naverlogin(@Query() query) {
+    const provider = 'naver';
     const { code, state } = query;
     const naverUrl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_CLIENT_ID}&client_secret=${process.env.NAVER_CLIENT_SECRET}&code=${code}&state=${state}`;
     const naverToken = await axios.get(naverUrl, {
@@ -94,7 +95,44 @@ export class UsersController {
       withCredentials: true,
     });
 
-    this.authService.validateUser(userData.data.response, refreshToken);
+    await this.authService.validateUser(
+      userData.data.response.nickname,
+      refreshToken,
+      provider,
+    );
+
+    return refreshToken;
+  }
+
+  // Kakao 로그인
+  @Get('auth/kakao')
+  async kakaoLogin(@Query() query) {
+    const provider = 'kakao';
+    const { code } = query;
+    const kakaoUrl = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_CALLBACK_URL}&code=${code}`;
+
+    const kakaoToken = await axios.post(kakaoUrl, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      withCredentials: true,
+    });
+
+    const accessToken = kakaoToken.data.access_token;
+    const refreshToken = kakaoToken.data.refresh_token;
+
+    const userData = await axios.get('https://kapi.kakao.com/v2/user/me', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    });
+
+    await this.authService.validateUser(
+      userData.data.id,
+      refreshToken,
+      provider,
+    );
 
     return refreshToken;
   }

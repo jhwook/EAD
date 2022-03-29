@@ -17,7 +17,6 @@ const options: SchemaOptions = {
 export class User extends Document {
   @Prop({
     required: true,
-    // unique: true,
   })
   @IsEmail()
   @IsNotEmpty()
@@ -25,7 +24,6 @@ export class User extends Document {
 
   @Prop({
     required: true,
-    unique: true,
   })
   @IsString()
   @IsNotEmpty()
