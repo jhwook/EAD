@@ -35,9 +35,9 @@ function Google() {
 
   useEffect(() => {
     getGoogleToken();
-    // setTimeout(() => {
-    //   navigate('/login');
-    // }, 1000);
+    setTimeout(() => {
+      navigate('/login');
+    }, 1000);
   }, []);
   return null;
 }
