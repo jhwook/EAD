@@ -22,4 +22,6 @@ export class UserRequestDto {
   stacks: object;
 
   oauth: boolean;
+
+  refreshToken: string;
 }

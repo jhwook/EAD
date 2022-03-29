@@ -13,6 +13,7 @@ import { UsersRepository } from './users.repository';
 import { User, UserSchema } from './users.schema';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
+import { HttpModule } from '@nestjs/axios';
 
 // const tokenFunc = async () => {
 // const OAuth2Client = new google.auth.OAuth2(
@@ -66,6 +67,7 @@ import { UsersService } from './users.service';
       inject: [ConfigService],
     }),
     forwardRef(() => AuthModule),
+    HttpModule,
   ],
   controllers: [UsersController],
   providers: [UsersService, UsersRepository],

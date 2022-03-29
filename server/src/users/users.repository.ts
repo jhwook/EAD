@@ -14,6 +14,18 @@ export class UsersRepository {
     @InjectModel(User.name) private readonly postModel: Model<Post>,
   ) {}
 
+  async findByToken(refreshToken) {
+    const user = await this.userModel.findOne({ refreshToken });
+
+    return user;
+  }
+
+  async oauthTokenUpdate(user, refreshToken) {
+    await this.userModel.findByIdAndUpdate(user.id, { refreshToken });
+    const updatedUser = await this.userModel.findById(user.id);
+    return updatedUser;
+  }
+
   async existsByEmail(email: string) {
     const result = await this.userModel.exists({ email });
     return result;
@@ -39,7 +51,7 @@ export class UsersRepository {
     return user;
   }
 
-  async create(user: UserRequestDto) {
+  async create(user) {
     // eslint-disable-next-line no-return-await
     return await this.userModel.create(user);
   }

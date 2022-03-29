@@ -15,6 +15,7 @@ export declare class User extends Document {
     imgUrl: string;
     deposit: number;
     money: number;
+    refreshToken: string;
     readonly readOnlyData: {
         id: string;
         email: string;
@@ -23,6 +24,7 @@ export declare class User extends Document {
         oauth: any;
         imgUrl: string;
         posts: Post[];
+        refreshToken: string;
     };
     readonly posts: Post[];
 }

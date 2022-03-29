@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
+/* eslint-disable no-return-await */
+/* eslint-disable lines-between-class-members */
 import { Injectable, HttpException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { MailerService } from '@nestjs-modules/mailer';
-import { NONAME } from 'dns';
 // import * as twilio from 'twilio';
 import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { UsersRepository } from './users.repository';
@@ -20,6 +22,7 @@ import { UserRequestDto } from './dto/users.request.dto';
 export class UsersService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
+    @InjectModel(User.name) private readonly userModel: Model<User>,
     private readonly usersRepository: UsersRepository,
     private readonly mailerService: MailerService,
     @InjectTwilio() private readonly twilio: TwilioClient,
@@ -69,7 +72,7 @@ export class UsersService {
   }
 
   // Oauth 유저 회원가입
-  async oauthSignUp(username) {
+  async oauthSignUp(username, refreshToken) {
     const stacks = [
       false,
       false,
@@ -88,7 +91,15 @@ export class UsersService {
       username,
       stacks,
       oauth: true,
+      refreshToken,
     });
+  }
+  async findUserByToken(refreshToken) {
+    const user = this.userModel.findOne({ refreshToken });
+    return user;
+  }
+  async oauthTokenUpdate(user, refreshToken) {
+    await this.usersRepository.oauthTokenUpdate(user, refreshToken);
   }
 
   // 회원탈퇴
@@ -98,19 +109,17 @@ export class UsersService {
   }
 
   async findUserByEmail(email) {
-    // eslint-disable-next-line no-return-await
     return await this.usersRepository.findUserByEmail(email);
   }
 
   async findUserByUsername(username) {
-    // eslint-disable-next-line no-return-await
     return await this.usersRepository.findUserByUsername(username);
   }
 
   // 회원정보 수정
   async updateUser(req) {
     const userInfo = req.user;
-    // eslint-disable-next-line no-return-await
+
     const newUserInfo = await this.usersRepository.findUserAndUpdate(
       userInfo,
       req.body,
@@ -176,9 +185,8 @@ export class UsersService {
 
   async sendEmail(body) {
     const { email } = body;
-    console.log(email);
     const number: number = crypto.randomBytes(8).readUInt32LE(0);
-    console.log(number);
+
     await this.mailerService.sendMail({
       to: email, // list of receivers
       from: process.env.EMAIL_ID, // sender address
@@ -191,13 +199,7 @@ export class UsersService {
   sendPhoneMessage(body) {
     const randomNumber = Math.floor(Math.random() * 1000000) + 1;
     const { phone } = body;
-    console.log(randomNumber);
-    // const result = await twilio.messages.create({
-    //   body: `SMS 인증 테스트 인증번호 [${randomNumber}]를 입력해주세요`,
-    //   from: process.env.TWILIO_PHONE_NUMBER,
-    //   to: phone,
-    // });
-    // console.log(result);
+
     this.twilio.messages.create({
       body: `SMS 인증 테스트 인증번호 [${randomNumber}]를 입력해주세요`,
       from: process.env.TWILIO_PHONE_NUMBER,
@@ -210,11 +212,8 @@ export class UsersService {
     const { id } = req.user;
     const { cost } = body;
 
-    // eslint-disable-next-line no-return-await
     const userinfo = await this.usersRepository.usersPayment(id, cost);
-    // imp_uid: rsp.imp_uid,
-    // merchant_uid: rsp.merchant_uid,
-    // cost,
+
     return userinfo;
   }
 }

@@ -1,14 +1,16 @@
 /// <reference types="multer" />
+import { Model } from 'mongoose';
 import { MailerService } from '@nestjs-modules/mailer';
 import { TwilioClient } from 'nestjs-twilio';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
+    private readonly userModel;
     private readonly usersRepository;
     private readonly mailerService;
     private readonly twilio;
-    constructor(usersRepository: UsersRepository, mailerService: MailerService, twilio: TwilioClient);
+    constructor(userModel: Model<User>, usersRepository: UsersRepository, mailerService: MailerService, twilio: TwilioClient);
     createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;
@@ -17,8 +19,13 @@ export declare class UsersService {
         oauth: any;
         imgUrl: string;
         posts: import("../posts/posts.schema").Post[];
+        refreshToken: string;
     }>;
-    oauthSignUp(username: any): Promise<void>;
+    oauthSignUp(username: any, refreshToken: any): Promise<void>;
+    findUserByToken(refreshToken: any): Promise<User & {
+        _id: any;
+    }>;
+    oauthTokenUpdate(user: any, refreshToken: any): Promise<void>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
     findUserByEmail(email: any): Promise<User>;
     findUserByUsername(username: any): Promise<User>;
@@ -48,6 +55,7 @@ export declare class UsersService {
         oauth: any;
         imgUrl: string;
         posts: import("../posts/posts.schema").Post[];
+        refreshToken: string;
     }>;
     sendEmail(body: any): Promise<void>;
     sendPhoneMessage(body: any): number;

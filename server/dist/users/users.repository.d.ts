@@ -6,12 +6,18 @@ export declare class UsersRepository {
     private readonly userModel;
     private readonly postModel;
     constructor(userModel: Model<User>, postModel: Model<Post>);
+    findByToken(refreshToken: any): Promise<User & {
+        _id: any;
+    }>;
+    oauthTokenUpdate(user: any, refreshToken: any): Promise<User & {
+        _id: any;
+    }>;
     existsByEmail(email: string): Promise<Pick<mongoose.Document<User, any, any>, "_id">>;
     existsByUsername(username: string): Promise<Pick<mongoose.Document<User, any, any>, "_id">>;
     findUserByIdWithoutPassword(userId: string): Promise<User | null>;
     findUserByEmail(email: string): Promise<User | null>;
     findUserByUsername(username: string): Promise<User | null>;
-    create(user: UserRequestDto): Promise<User & {
+    create(user: any): Promise<User & {
         _id: any;
     }>;
     delete(user: UserRequestDto): Promise<import("mongodb").DeleteResult>;
@@ -32,6 +38,7 @@ export declare class UsersRepository {
         oauth: any;
         imgUrl: string;
         posts: Post[];
+        refreshToken: string;
     }>;
     usersPayment(id: any, cost: any): Promise<User & {
         _id: any;

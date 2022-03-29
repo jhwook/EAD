@@ -4,4 +4,5 @@ export declare class UserRequestDto {
     username: string;
     stacks: object;
     oauth: boolean;
+    refreshToken: string;
 }
