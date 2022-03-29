@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
@@ -8,8 +7,8 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { PostsController } from './posts/posts.controller';
 import { PostsModule } from './posts/posts.module';
+import { ChatsModule } from './chats/chats.module';
 
 @Module({
   imports: [
@@ -21,6 +20,7 @@ import { PostsModule } from './posts/posts.module';
     UsersModule,
     AuthModule,
     PostsModule,
+    ChatsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
