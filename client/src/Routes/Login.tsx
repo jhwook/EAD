@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -7,6 +7,7 @@ import { AppDispatch } from 'index';
 import { UserLogin } from '../index';
 import kakao from '../Image/Btn/kakao.png';
 import google from '../Image/Btn/google.png';
+import naver from '../Image/Btn/naver.png';
 import Home from './Home';
 
 const LoginWrapper = styled.div`
@@ -103,18 +104,23 @@ const SignupBtn = styled.div`
   }
 `;
 
-const NaverBtn = styled.div``;
-
-const NaverImg = styled.img`
+const Naver = styled.a`
   width: 225px;
   height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  background-image: url(${naver});
+  background-position: center;
+  background-size: cover;
   margin-bottom: 1px;
   cursor: pointer;
 `;
 
-const KaokoImg = styled(NaverImg)``;
+const Kaoko = styled(Naver)``;
 
-const GoogleImg = styled(NaverImg)`
+const Google = styled(Naver)`
   margin-bottom: 15px;
 `;
 
@@ -123,14 +129,6 @@ const Text = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   margin-bottom: 15px;
 `;
-
-declare global {
-  interface Window {
-    naver: any;
-  }
-}
-
-const { naver } = window;
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -154,7 +152,6 @@ function Login() {
             withCredentials: true,
           },
         );
-        // console.log('data', data);
         dispatch(UserLogin(data.data.data));
         setEmail('');
         setPassword('');
@@ -182,27 +179,8 @@ function Login() {
     navigate('/signup');
   };
 
-  // const initializeNaverLogin = () => {
-  //   const naverLogin = new naver.LoginWithNaverId({
-  //     clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-  //     callbackUrl: process.env.REACT_APP_NAVER_CALLBACK_URL,
-  //     isPopup: false,
-  //     loginButton: { color: 'green', type: 3, height: '48' },
-  //   });
-  //   naverLogin.init();
-  // };
   const state = window.localStorage.getItem('com.naver.nid.oauth.state_token');
-  console.log(state);
-
-  // const NaverOnClick = async () => {
-  //   await axios.post(
-  //     `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${state}&redirect_uri=${process.env.REACT_APP_NAVER_CALLBACK_URL}`,
-  //   );
-  // };
-
-  useEffect(() => {
-    // initializeNaverLogin();
-  }, []);
+  const naverUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${state}&redirect_uri=${process.env.REACT_APP_NAVER_CALLBACK_URL}`;
 
   return (
     <>
@@ -228,14 +206,9 @@ function Login() {
               <LoginBtn type="submit">로그인</LoginBtn>
             </Form>
             <Text>------------------------ 또는 -----------------------</Text>
-            <NaverBtn id="naverIdLogin" />
-            <a
-              href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${state}&redirect_uri=${process.env.REACT_APP_NAVER_CALLBACK_URL}`}
-            >
-              네이버로그인
-            </a>
-            <KaokoImg src={kakao} />
-            <GoogleImg src={google} />
+            <Naver href={naverUrl} />
+            <Kaoko />
+            <Google />
             <Text>--------------- 아직 회원이 아니시라면? --------------</Text>
             <SignupBtn onClick={signUpOnClick}>회원가입</SignupBtn>
           </Wrapper>
