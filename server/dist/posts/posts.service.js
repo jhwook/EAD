@@ -23,13 +23,13 @@ let PostsService = class PostsService {
         return post;
     }
     async createPost(req) {
-        const { title, content, tag, img } = req.body;
+        const { title, content, tags, bounty } = req.body;
         const post = await this.postsRepository.create({
             writer: req.user._id,
             title,
             content,
-            tag,
-            img,
+            tags,
+            bounty,
         });
         return post;
     }
