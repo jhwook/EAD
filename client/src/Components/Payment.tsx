@@ -80,14 +80,14 @@ interface IPaymentProps {
 }
 
 const PaymentBtn = styled.button`
-  width: 110px;
-  height: 35px;
+  width: 120px;
+  height: 37px;
   padding: 5px;
   background-color: ${(props) => props.theme.beige};
   color: ${(props) => props.theme.btnGreen};
   font-size: ${(props) => props.theme.fontSize.mini};
-  border: 2px solid ${(props) => props.theme.btnGreen};
-  border-radius: 15px;
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.5s;
   //box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
