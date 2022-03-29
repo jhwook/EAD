@@ -10,6 +10,7 @@ import Post from 'Routes/Post';
 import PostView from 'Routes/PostView';
 import Chat from 'Routes/Chat';
 import Naver from 'Auth/Naver';
+import Kakao from 'Auth/Kakao';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/search/*" element={<Search />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/auth/naver" element={<Naver />} />
+        <Route path="/auth/kakao" element={<Kakao />} />
       </Routes>
       <Footer />
     </>

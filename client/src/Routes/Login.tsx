@@ -114,11 +114,13 @@ const Naver = styled.a`
   background-image: url(${naver});
   background-position: center;
   background-size: cover;
-  margin-bottom: 1px;
+  margin-bottom: 3px;
   cursor: pointer;
 `;
 
-const Kaoko = styled(Naver)``;
+const Kaoko = styled(Naver)`
+  background-image: url(${kakao});
+`;
 
 const Google = styled(Naver)`
   margin-bottom: 15px;
@@ -181,6 +183,7 @@ function Login() {
 
   const state = window.localStorage.getItem('com.naver.nid.oauth.state_token');
   const naverUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${state}&redirect_uri=${process.env.REACT_APP_NAVER_CALLBACK_URL}`;
+  const kakaoUrl = process.env.REACT_APP_KAKAO_AUTH_URL;
 
   return (
     <>
@@ -207,7 +210,7 @@ function Login() {
             </Form>
             <Text>------------------------ 또는 -----------------------</Text>
             <Naver href={naverUrl} />
-            <Kaoko />
+            <Kaoko href={kakaoUrl} />
             <Google />
             <Text>--------------- 아직 회원이 아니시라면? --------------</Text>
             <SignupBtn onClick={signUpOnClick}>회원가입</SignupBtn>
