@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, UserLogin } from 'index';
+import Loading from 'Components/Loading';
 
 function Google() {
   const navigate = useNavigate();
@@ -36,10 +37,10 @@ function Google() {
   useEffect(() => {
     getGoogleToken();
     setTimeout(() => {
-      navigate('/login');
-    }, 1000);
+      navigate('/');
+    }, 300);
   }, []);
-  return null;
+  return <Loading />;
 }
 
 export default Google;
