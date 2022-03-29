@@ -191,6 +191,14 @@ function Login() {
     });
     naverLogin.init();
   };
+  // const NaverOnClick = async () => {
+  //   await axios.get(`${process.env.REACT_APP_SERVER}/users/auth/naver`, {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     withCredentials: true,
+  //   });
+  // };
 
   useEffect(() => {
     initializeNaverLogin();
@@ -221,6 +229,9 @@ function Login() {
             </Form>
             <Text>------------------------ 또는 -----------------------</Text>
             <NaverBtn id="naverIdLogin" />
+            {/* <button type="button" onClick={NaverOnClick}>
+              네이버로그인
+            </button> */}
             <KaokoImg src={kakao} />
             <GoogleImg src={google} />
             <Text>--------------- 아직 회원이 아니시라면? --------------</Text>
