@@ -54,6 +54,9 @@ export class User extends Document {
   @Prop({ default: 0 })
   money: number;
 
+  @Prop()
+  refreshToken: string;
+
   readonly readOnlyData: {
     id: string;
     email: string;
@@ -62,6 +65,7 @@ export class User extends Document {
     oauth;
     imgUrl: string;
     posts: Post[];
+    refreshToken: string;
   };
 
   readonly posts: Post[];

@@ -14,13 +14,17 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("mongoose");
+const mongoose_2 = require("@nestjs/mongoose");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const mailer_1 = require("@nestjs-modules/mailer");
 const nestjs_twilio_1 = require("nestjs-twilio");
 const users_repository_1 = require("./users.repository");
+const users_schema_1 = require("./users.schema");
 let UsersService = class UsersService {
-    constructor(usersRepository, mailerService, twilio) {
+    constructor(userModel, usersRepository, mailerService, twilio) {
+        this.userModel = userModel;
         this.usersRepository = usersRepository;
         this.mailerService = mailerService;
         this.twilio = twilio;
@@ -60,7 +64,7 @@ let UsersService = class UsersService {
         });
         return user.readOnlyData;
     }
-    async oauthSignUp(username) {
+    async oauthSignUp(username, refreshToken) {
         const stacks = [
             false,
             false,
@@ -79,7 +83,15 @@ let UsersService = class UsersService {
             username,
             stacks,
             oauth: true,
+            refreshToken,
         });
+    }
+    async findUserByToken(refreshToken) {
+        const user = this.userModel.findOne({ refreshToken });
+        return user;
+    }
+    async oauthTokenUpdate(user, refreshToken) {
+        await this.usersRepository.oauthTokenUpdate(user, refreshToken);
     }
     async deleteUser(userInfo) {
         await this.usersRepository.delete(userInfo);
@@ -144,9 +156,7 @@ let UsersService = class UsersService {
     }
     async sendEmail(body) {
         const { email } = body;
-        console.log(email);
         const number = crypto.randomBytes(8).readUInt32LE(0);
-        console.log(number);
         await this.mailerService.sendMail({
             to: email,
             from: process.env.EMAIL_ID,
@@ -158,7 +168,6 @@ let UsersService = class UsersService {
     sendPhoneMessage(body) {
         const randomNumber = Math.floor(Math.random() * 1000000) + 1;
         const { phone } = body;
-        console.log(randomNumber);
         this.twilio.messages.create({
             body: `SMS 인증 테스트 인증번호 [${randomNumber}]를 입력해주세요`,
             from: process.env.TWILIO_PHONE_NUMBER,
@@ -175,8 +184,10 @@ let UsersService = class UsersService {
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(2, (0, nestjs_twilio_1.InjectTwilio)()),
-    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
+    __param(0, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
+    __param(3, (0, nestjs_twilio_1.InjectTwilio)()),
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        users_repository_1.UsersRepository,
         mailer_1.MailerService, Object])
 ], UsersService);
 exports.UsersService = UsersService;

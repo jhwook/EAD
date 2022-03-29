@@ -23,6 +23,15 @@ let UsersRepository = class UsersRepository {
         this.userModel = userModel;
         this.postModel = postModel;
     }
+    async findByToken(refreshToken) {
+        const user = await this.userModel.findOne({ refreshToken });
+        return user;
+    }
+    async oauthTokenUpdate(user, refreshToken) {
+        await this.userModel.findByIdAndUpdate(user.id, { refreshToken });
+        const updatedUser = await this.userModel.findById(user.id);
+        return updatedUser;
+    }
     async existsByEmail(email) {
         const result = await this.userModel.exists({ email });
         return result;

@@ -20,6 +20,7 @@ const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
 const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
+const axios_1 = require("@nestjs/axios");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
@@ -57,6 +58,7 @@ UsersModule = __decorate([
                 inject: [config_1.ConfigService],
             }),
             (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
+            axios_1.HttpModule,
         ],
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UsersService, users_repository_1.UsersRepository],

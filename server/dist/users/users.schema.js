@@ -64,6 +64,10 @@ __decorate([
     (0, mongoose_1.Prop)({ default: 0 }),
     __metadata("design:type", Number)
 ], User.prototype, "money", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], User.prototype, "refreshToken", void 0);
 User = __decorate([
     (0, mongoose_1.Schema)(options)
 ], User);

@@ -1,11 +1,18 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-console */
+/* eslint-disable no-return-await */
+/* eslint-disable lines-between-class-members */
+import { UsersRepository } from 'src/users/users.repository';
 import {
   Body,
   Controller,
   Delete,
   Get,
   Param,
+  ParseArrayPipe,
   Patch,
   Post,
+  Query,
   Req,
   Res,
   UploadedFiles,
@@ -16,6 +23,9 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { NaverAuthGuard } from 'src/auth/naver/naver.guard';
 import { Response } from 'express';
+import { HttpService } from '@nestjs/axios';
+import LocalStorage from 'node-localstorage';
+import axios from 'axios';
 import { multerOptions } from '../common/utils/multer.options';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
@@ -34,6 +44,8 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
+    private readonly usersRepository: UsersRepository,
+    private httpService: HttpService,
   ) {}
 
   //  @Get('/all')
@@ -49,26 +61,57 @@ export class UsersController {
     return { isLogin: true, userInfo: req.user, token };
   }
 
+  // @UseGuards(JwtAuthGuard)
+  @Get('/oauth')
+  async oauth(@Req() req) {
+    const refreshToken = req.rawHeaders[9];
+    const user = await this.usersRepository.findByToken(refreshToken);
+
+    return { isLogin: true, userInfo: user, token: refreshToken };
+  }
+
   // eslint-disable-next-line class-methods-use-this
-  @UseGuards(NaverAuthGuard)
+  // @UseGuards(NaverAuthGuard)
   @Get('auth/naver')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async naverlogin() {}
+  async naverlogin(@Query() query) {
+    const { code, state } = query;
+    const naverUrl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_CLIENT_ID}&client_secret=${process.env.NAVER_CLIENT_SECRET}&code=${code}&state=${state}`;
+    const naverToken = await axios.get(naverUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
 
-  // eslint-disable-next-line class-methods-use-this
-  @UseGuards(NaverAuthGuard)
-  @Get('auth/naver/callback')
-  async callback(@Req() req, @Res() res: Response): Promise<any> {
-    if (req.user.type === 'login') {
-      res.cookie('access_token', req.user.token);
-    } else {
-      res.cookie('once_token', req.user.token);
-    }
-    res.redirect('http://localhost:3000/auth/naver');
+    const accessToken = naverToken.data.access_token;
+    const refreshToken = naverToken.data.refresh_token;
 
-    res.end();
-    // 리다이렉트 해주는 페이지
+    const userData = await axios.get('https://openapi.naver.com/v1/nid/me', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    });
+
+    this.authService.validateUser(userData.data.response, refreshToken);
+
+    return refreshToken;
   }
+
+  // @UseGuards(NaverAuthGuard)
+  // @Get('auth/naver/callback')
+  // async callback(@Req() req, @Res() res: Response): Promise<any> {
+  //   if (req.user.type === 'login') {
+  //     res.cookie('access_token', req.user.token);
+  //   } else {
+  //     res.cookie('once_token', req.user.token);
+  //   }
+  //   res.redirect('http://localhost:3000');
+
+  //   res.end();
+  //   // 리다이렉트 해주는 페이지
+  // }
 
   @Post('/login')
   async login(@Body() body: LoginRequestDto) {

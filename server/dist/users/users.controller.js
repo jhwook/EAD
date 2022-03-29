@@ -13,9 +13,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
+const users_repository_1 = require("./users.repository");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
-const naver_guard_1 = require("../auth/naver/naver.guard");
+const axios_1 = require("@nestjs/axios");
+const axios_2 = require("axios");
 const multer_options_1 = require("../common/utils/multer.options");
 const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 const login_request_dto_1 = require("../auth/dto/login.request.dto");
@@ -25,24 +27,40 @@ const success_interceptor_1 = require("../common/interceptors/success.intercepto
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const users_service_1 = require("./users.service");
 let UsersController = class UsersController {
-    constructor(usersService, authService) {
+    constructor(usersService, authService, usersRepository, httpService) {
         this.usersService = usersService;
         this.authService = authService;
+        this.usersRepository = usersRepository;
+        this.httpService = httpService;
     }
     auth(req) {
         const token = req.rawHeaders[1].slice(7);
         return { isLogin: true, userInfo: req.user, token };
     }
-    async naverlogin() { }
-    async callback(req, res) {
-        if (req.user.type === 'login') {
-            res.cookie('access_token', req.user.token);
-        }
-        else {
-            res.cookie('once_token', req.user.token);
-        }
-        res.redirect('http://localhost:3000/auth/naver');
-        res.end();
+    async oauth(req) {
+        const refreshToken = req.rawHeaders[9];
+        const user = await this.usersRepository.findByToken(refreshToken);
+        return { isLogin: true, userInfo: user, token: refreshToken };
+    }
+    async naverlogin(query) {
+        const { code, state } = query;
+        const naverUrl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_CLIENT_ID}&client_secret=${process.env.NAVER_CLIENT_SECRET}&code=${code}&state=${state}`;
+        const naverToken = await axios_2.default.get(naverUrl, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        });
+        const accessToken = naverToken.data.access_token;
+        const refreshToken = naverToken.data.refresh_token;
+        const userData = await axios_2.default.get('https://openapi.naver.com/v1/nid/me', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+        });
+        this.authService.validateUser(userData.data.response, refreshToken);
+        return refreshToken;
     }
     async login(body) {
         return this.authService.jwtLogIn(body);
@@ -99,21 +117,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "auth", null);
 __decorate([
-    (0, common_1.UseGuards)(naver_guard_1.NaverAuthGuard),
-    (0, common_1.Get)('auth/naver'),
+    (0, common_1.Get)('/oauth'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "oauth", null);
+__decorate([
+    (0, common_1.Get)('auth/naver'),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "naverlogin", null);
-__decorate([
-    (0, common_1.UseGuards)(naver_guard_1.NaverAuthGuard),
-    (0, common_1.Get)('auth/naver/callback'),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "callback", null);
 __decorate([
     (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),
@@ -222,7 +238,9 @@ UsersController = __decorate([
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
     __metadata("design:paramtypes", [users_service_1.UsersService,
-        auth_service_1.AuthService])
+        auth_service_1.AuthService,
+        users_repository_1.UsersRepository,
+        axios_1.HttpService])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.controller.js.map
