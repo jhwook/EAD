@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, UserLogin } from 'index';
+import Loading from 'Components/Loading';
 
 function Naver() {
   const navigate = useNavigate();
@@ -39,10 +40,10 @@ function Naver() {
   useEffect(() => {
     getNaverToken();
     setTimeout(() => {
-      navigate('/login');
-    }, 1000);
+      navigate('/');
+    }, 300);
   }, []);
-  return null;
+  return <Loading />;
 }
 
 export default Naver;

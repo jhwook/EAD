@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, UserLogin } from 'index';
+import Loading from 'Components/Loading';
 
 function Kakao() {
   const navigate = useNavigate();
@@ -30,17 +31,16 @@ function Kakao() {
         withCredentials: true,
       },
     );
-    console.log(data.data.data);
     dispatch(UserLogin(data.data.data));
   };
 
   useEffect(() => {
     getKakaoToken();
     setTimeout(() => {
-      navigate('/login');
-    }, 1000);
+      navigate('/');
+    }, 300);
   }, []);
-  return null;
+  return <Loading />;
 }
 
 export default Kakao;
