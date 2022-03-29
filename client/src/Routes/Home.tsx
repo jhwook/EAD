@@ -9,7 +9,7 @@ import SearchList from 'Components/SearchList';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import { HomeSearch, UserLogin } from 'index';
+import { HomeSearch } from 'index';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -192,48 +192,8 @@ function Home() {
     setTitle(title);
   };
 
-  const getNaverToken = async () => {
-    // if (location.hash) {
-    //   const token = location.hash.split('=')[1].split('&')[0];
-    //   // console.log(token);
-    //   // 프론트엔드로 리다이렉션시
-    //   const data = await axios.post(
-    //     `${process.env.REACT_APP_SERVER}/users/auth/naver/callback`,
-    //     {},
-    //     {
-    //       headers: {
-    //         Authorization: token,
-    //       },
-    //     },
-    //   );
-    //   dispatch({
-    //     type: 'Login',
-    //     userInfo: data.data.data.userInfo,
-    //     accessToken: data.data.data.token,
-    //     isLogin: data.data.data.isLogin,
-    //   });
-    //   navigate('/');
-
-    // 백엔드로 리다이렉션시
-
-    const data = await axios.get(
-      `${process.env.REACT_APP_SERVER}/users/auth/naver`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      },
-    );
-    console.log(data);
-    console.log(document.cookie);
-    dispatch(UserLogin(data.data.data));
-    // }
-  };
-
   useEffect(() => {
     getTitle();
-    getNaverToken();
   }, []);
 
   const arr = title.filter((el: string) => {

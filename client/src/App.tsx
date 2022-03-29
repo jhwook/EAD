@@ -8,6 +8,7 @@ import Profile from 'Routes/Profile';
 import Search from 'Routes/Search';
 import Post from 'Routes/Post';
 import Chat from 'Routes/Chat';
+import Naver from 'Auth/Naver';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/post/*" element={<Post />} />
         <Route path="/search/*" element={<Search />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/auth/naver" element={<Naver />} />
       </Routes>
       <Footer />
     </>
