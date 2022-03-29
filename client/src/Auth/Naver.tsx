@@ -25,26 +25,29 @@ function Naver() {
     //   dispatch(UserLogin(data.data.data));
     //   navigate('/');
 
-    // 쿠키로 들어오면 내가 쿠키에서 엑세스토큰을 또 저장하면서 다시 서버의 어떤주소로 엑세스토큰을 넘겨주면
-    // 그곳이서 유저데이터 받고
-    // 로그인페이지로 리다이렉트(그건은 내가 네비게이트로 하면돰)
-    // 백엔드로 리다이렉션시
-    await axios.get(`${process.env.REACT_APP_SERVER}/users/auth/naver`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    });
+    const naverCode = new URL(window.location.href).searchParams.get('code');
+    const naverState = new URL(window.location.href).searchParams.get('state');
 
-    const cookies = Object.fromEntries(
-      document.cookie.split(';').map((cookie) => cookie.trim().split('=')),
+    const response = await axios.get(
+      `${process.env.REACT_APP_SERVER}/users/auth/naver?code=${naverCode}&state=${naverState}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
     );
-    console.log(cookies);
+    // const { accessToken } = response;
+
+    // const cookies = Object.fromEntries(
+    //   document.cookie.split(';').map((cookie) => cookie.trim().split('=')),
+    // );
+    // console.log(cookies);
 
     const data = await axios.get(`${process.env.REACT_APP_SERVER}/users/auth`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: cookies,
+        // Authorization: accessToken,
       },
       withCredentials: true,
     });

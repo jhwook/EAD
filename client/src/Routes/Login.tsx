@@ -182,26 +182,26 @@ function Login() {
     navigate('/signup');
   };
 
-  const initializeNaverLogin = () => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-      callbackUrl: process.env.REACT_APP_NAVER_CALLBACK_URL,
-      isPopup: false,
-      loginButton: { color: 'green', type: 3, height: '48' },
-    });
-    naverLogin.init();
-  };
-  // const NaverOnClick = async () => {
-  //   await axios.get(`${process.env.REACT_APP_SERVER}/users/auth/naver`, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     withCredentials: true,
+  // const initializeNaverLogin = () => {
+  //   const naverLogin = new naver.LoginWithNaverId({
+  //     clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+  //     callbackUrl: process.env.REACT_APP_NAVER_CALLBACK_URL,
+  //     isPopup: false,
+  //     loginButton: { color: 'green', type: 3, height: '48' },
   //   });
+  //   naverLogin.init();
+  // };
+  const state = window.localStorage.getItem('com.naver.nid.oauth.state_token');
+  console.log(state);
+
+  // const NaverOnClick = async () => {
+  //   await axios.post(
+  //     `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${state}&redirect_uri=${process.env.REACT_APP_NAVER_CALLBACK_URL}`,
+  //   );
   // };
 
   useEffect(() => {
-    initializeNaverLogin();
+    // initializeNaverLogin();
   }, []);
 
   return (
@@ -229,9 +229,11 @@ function Login() {
             </Form>
             <Text>------------------------ 또는 -----------------------</Text>
             <NaverBtn id="naverIdLogin" />
-            {/* <button type="button" onClick={NaverOnClick}>
+            <a
+              href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${state}&redirect_uri=${process.env.REACT_APP_NAVER_CALLBACK_URL}`}
+            >
               네이버로그인
-            </button> */}
+            </a>
             <KaokoImg src={kakao} />
             <GoogleImg src={google} />
             <Text>--------------- 아직 회원이 아니시라면? --------------</Text>
