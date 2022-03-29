@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 /* eslint-disable no-return-await */
@@ -65,9 +66,9 @@ export class UsersController {
   @Get('/oauth')
   async oauth(@Req() req) {
     const refreshToken = req.rawHeaders[9];
-    console.log(refreshToken);
+
     const user = await this.usersRepository.findByToken(refreshToken);
-    console.log(user);
+
     return { isLogin: true, userInfo: user, token: refreshToken };
   }
 
@@ -136,7 +137,33 @@ export class UsersController {
 
     return refreshToken;
   }
+  // Google 로그인
+  @Get('auth/google')
+  async googleLogin(@Query() query) {
+    const provider = 'google';
+    const { code } = query;
 
+    const googleUrl = `https://oauth2.googleapis.com/token?grant_type=authorization_code&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_PASSWORD}&redirect_uri=${process.env.GOOGLE_CALLBACK_URL}&code=${code}`;
+    const googleToken = await axios.post(googleUrl, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      withCredentials: true,
+    });
+
+    const { access_token, id_token } = googleToken.data;
+    // console.log(access_token);
+    // console.log(refresh_token);
+    // console.log(id_token);
+    const userData = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`,
+    );
+    const { iat } = userData.data;
+
+    await this.authService.validateUser(iat, access_token, provider);
+
+    return access_token;
+  }
   // @UseGuards(NaverAuthGuard)
   // @Get('auth/naver/callback')
   // async callback(@Req() req, @Res() res: Response): Promise<any> {
