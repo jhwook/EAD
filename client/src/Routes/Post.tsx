@@ -8,7 +8,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
-import PostView from '../Components/Viewer';
+// import PostView from '../Components/Viewer';
 
 const Wrapper = styled.div`
   width: 100%;
