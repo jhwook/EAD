@@ -17,6 +17,7 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const users_module_1 = require("./users/users.module");
 const posts_module_1 = require("./posts/posts.module");
+const chats_module_1 = require("./chats/chats.module");
 let AppModule = class AppModule {
     constructor() {
         this.isDev = process.env.MODE === 'dev';
@@ -37,6 +38,7 @@ AppModule = __decorate([
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             posts_module_1.PostsModule,
+            chats_module_1.ChatsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

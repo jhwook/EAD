@@ -20,7 +20,7 @@ export class PostsService {
 
   // 포스트 작성
   async createPost(req) {
-    const { title, content, tag, img } = req.body;
+    const { title, content, tags, bounty } = req.body;
     // const { id } = req.user;
     // console.log(req.user);
     // console.log(id);
@@ -29,8 +29,8 @@ export class PostsService {
       writer: req.user._id,
       title,
       content,
-      tag,
-      img,
+      tags,
+      bounty,
     });
 
     return post;

@@ -18,7 +18,7 @@ async function bootstrap() {
   //   key: fs.readFileSync('./key.pem'),
   //   cert: fs.readFileSync('./cert.pem'),
   // };
-  console.trace();
+  // console.trace();
   const server = express();
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
@@ -28,8 +28,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors({
-    // origin: 'http://localhost:3000',
-    origin: true,
+    origin: ['http://localhost:3000'],
+    // origin: ['*'],
     credentials: true,
   });
   // http://localhost:4000/media/users/aaa.png
