@@ -44,30 +44,28 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('/auth')
   auth(@Req() req) {
-    console.log(typeof req.user.money);
-    return req.user;
+    const token = req.rawHeaders[1].slice(7);
+
+    return { isLogin: true, userInfo: req.user, token };
   }
 
   // eslint-disable-next-line class-methods-use-this
   @UseGuards(NaverAuthGuard)
   @Get('auth/naver')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async naverlogin(@Req() req) {
-    console.log(req.user);
-    const { username } = req.user;
-    await this.usersService.findUserByUsername(username);
-  }
+  async naverlogin() {}
 
   // eslint-disable-next-line class-methods-use-this
   @UseGuards(NaverAuthGuard)
   @Get('auth/naver/callback')
   async callback(@Req() req, @Res() res: Response): Promise<any> {
     if (req.user.type === 'login') {
-      res.cookie('refresh_token', req.user.token);
+      res.cookie('access_token', req.user.token);
     } else {
       res.cookie('once_token', req.user.token);
     }
-    res.redirect('http://localhost:3000/');
+    res.redirect('http://localhost:3000/auth/naver');
+
     res.end();
     // 리다이렉트 해주는 페이지
   }

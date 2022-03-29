@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Strategy } from 'passport-naver';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
@@ -30,10 +31,8 @@ export class NaverStrategy extends PassportStrategy(Strategy) {
       userNick,
       userProvider,
     };
-    console.log(userProfile.userNick);
-    const username = `${userProfile.userNick}/${userProfile.userProvider}`;
-    console.log(username);
-    const user = await this.authService.validateUser(username);
+    const user = await this.authService.validateUser(userProfile);
+
     if (user === null) {
       // 유저가 없을때
       console.log('일회용 토큰 발급');
@@ -42,7 +41,7 @@ export class NaverStrategy extends PassportStrategy(Strategy) {
       );
       const once_token = this.authService.onceToken(userProfile);
       console.log(`once_token: ${once_token}`);
-      const oauthUser = await this.authService.createOauthUser(username);
+      const oauthUser = await this.authService.validateUser(userProfile);
       // eslint-disable-next-line camelcase
       return {
         isLogin: true,
@@ -62,13 +61,7 @@ export class NaverStrategy extends PassportStrategy(Strategy) {
       token: access_token,
       type: 'login',
     };
+
+    // done(null, user);
   }
-
-  // const user = await this.authService.validateUser(userEmail);
-  // if (user === null) {
-  //   return fail;
-  // }
-
-  // return done(null, user);
-  // }
 }

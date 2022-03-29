@@ -38,16 +38,14 @@ let AuthService = class AuthService {
             token: this.jwtService.sign(payload),
         };
     }
-    async validateUser(username) {
+    async validateUser(userProfile) {
+        const { userEmail, userNick, userProvider } = userProfile;
+        const username = `${userNick}/${userProvider}`;
         const user = await this.usersService.findUserByUsername(username);
-        console.log(`validateUser: ${user}`);
         if (!user) {
-            return null;
+            this.usersService.oauthSignUp(username);
         }
         return user;
-    }
-    async createOauthUser(username) {
-        this.usersService.oauthSignUp(username);
     }
     onceToken(userProfile) {
         const payload = {

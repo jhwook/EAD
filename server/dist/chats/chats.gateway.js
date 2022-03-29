@@ -30,6 +30,7 @@ let ChatsGateway = class ChatsGateway {
     handleConnection(socket) {
         this.logger.log(`connected : ${socket.id} ${socket.nsp.name}`);
     }
+    handleEnterRoom() { }
     handleSubmitChat(chat, socket) {
         socket.broadcast.emit('new_message', {
             chat,
@@ -49,6 +50,12 @@ __decorate([
     __metadata("design:paramtypes", [socket_io_1.Socket]),
     __metadata("design:returntype", void 0)
 ], ChatsGateway.prototype, "handleConnection", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('enter_room'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ChatsGateway.prototype, "handleEnterRoom", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('submit_chat'),
     __param(0, (0, websockets_1.MessageBody)()),
