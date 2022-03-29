@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, UserLogin } from 'index';
 
-function Kakao() {
+function Google() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const getKakaoToken = async () => {
-    const kakaoCode = new URL(window.location.href).searchParams.get('code');
+  const getGoogleToken = async () => {
+    const googleCode = new URL(window.location.href).searchParams.get('code');
     const response = await axios.get(
-      `${process.env.REACT_APP_SERVER}/users/auth/kakao?code=${kakaoCode}`,
+      `${process.env.REACT_APP_SERVER}/users/auth/google?code=${googleCode}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -34,12 +34,12 @@ function Kakao() {
   };
 
   useEffect(() => {
-    getKakaoToken();
-    setTimeout(() => {
-      navigate('/login');
-    }, 1000);
+    getGoogleToken();
+    // setTimeout(() => {
+    //   navigate('/login');
+    // }, 1000);
   }, []);
   return null;
 }
 
-export default Kakao;
+export default Google;

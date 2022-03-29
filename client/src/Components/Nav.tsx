@@ -124,7 +124,7 @@ const ModalMenu = styled.li`
 `;
 
 function Nav() {
-  const [show, isShow] = useState(true);
+  const [show, isShow] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { userData } = useSelector((state: RootState) => state);
   const { isLogin } = userData;

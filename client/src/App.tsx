@@ -11,6 +11,7 @@ import PostView from 'Routes/PostView';
 import Chat from 'Routes/Chat';
 import Naver from 'Auth/Naver';
 import Kakao from 'Auth/Kakao';
+import Google from 'Auth/Google';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/auth/naver" element={<Naver />} />
         <Route path="/auth/kakao" element={<Kakao />} />
+        <Route path="/auth/google" element={<Google />} />
       </Routes>
       <Footer />
     </>
