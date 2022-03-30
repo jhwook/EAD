@@ -11,8 +11,8 @@ import { Editor, Viewer, ViewerProps } from '@toast-ui/react-editor';
 // import ReactMarkdown from 'react-markdown';
 // import remarkGfm from 'remark-gfm';
 import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
-import { json } from 'stream/consumers';
 // import Viewer from '@toast-ui/editor/dist/toastui-editor-viewer';
+import Nav from 'Components/Nav';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -126,31 +126,34 @@ function PostView() {
   `;
 
   return (
-    <Wrapper>
-      <PostBox>
-        <PostTopBox>
-          <PostWriter>{writer}</PostWriter>
-          <HiOutlineDotsHorizontal className="dot" />
-        </PostTopBox>
-        <PostMidBox>
-          <PostTitle>{title}</PostTitle>
-          <PostBounty>Bounty</PostBounty>
-          <PostTags>{tag}</PostTags>
-        </PostMidBox>
-        <PostBotBox>
-          {/* <ReactMarkdown>{content}</ReactMarkdown> */}
-          <Viewer initialValue={content} />
-        </PostBotBox>
-      </PostBox>
-      <CommentBox>
-        {comments.map((com, idx) => (
-          <CommentItem key={nanoid()}>
-            <CommentWriter>{com.writer}</CommentWriter>
-            <CommentContent>{com.content}</CommentContent>
-          </CommentItem>
-        ))}
-      </CommentBox>
-    </Wrapper>
+    <>
+      <Nav />
+      <Wrapper>
+        <PostBox>
+          <PostTopBox>
+            <PostWriter>{writer}</PostWriter>
+            <HiOutlineDotsHorizontal className="dot" />
+          </PostTopBox>
+          <PostMidBox>
+            <PostTitle>{title}</PostTitle>
+            <PostBounty>Bounty</PostBounty>
+            <PostTags>{tag}</PostTags>
+          </PostMidBox>
+          <PostBotBox>
+            {/* <ReactMarkdown>{content}</ReactMarkdown> */}
+            <Viewer initialValue={content} />
+          </PostBotBox>
+        </PostBox>
+        <CommentBox>
+          {comments.map((com, idx) => (
+            <CommentItem key={nanoid()}>
+              <CommentWriter>{com.writer}</CommentWriter>
+              <CommentContent>{com.content}</CommentContent>
+            </CommentItem>
+          ))}
+        </CommentBox>
+      </Wrapper>
+    </>
   );
 }
 
