@@ -1,18 +1,17 @@
 import styled from 'styled-components';
-import react, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
-import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
+import { RootState } from 'index';
 import Nav from 'Components/Nav';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 71vh; // 80vh;
+  height: 71vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -272,7 +271,7 @@ const FailModalBtn = styled.button`
 
 function Post() {
   const { userData } = useSelector((state: RootState) => state);
-  const { userInfo, accessToken, isLogin } = userData;
+  const { accessToken } = userData;
   const [writer, setWriter] = useState('');
   const initialTag: string[] = [];
   const [tag, setTag] = useState(initialTag);
@@ -280,10 +279,7 @@ function Post() {
   const [bounty, setBounty] = useState(0);
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
-
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-
   const editRef = useRef<Editor>(null);
 
   useEffect(() => {
@@ -324,30 +320,26 @@ function Post() {
   const registOnClick = async () => {
     const editorInstance = editRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
-    try {
-      if (tag.length !== 0 && title !== '' && content !== '') {
-        await axios.post(
-          `${process.env.REACT_APP_SERVER}/posts`,
-          {
-            title,
-            tag,
-            bounty,
-            content,
+    if (tag.length !== 0 && title !== '' && content !== '') {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER}/posts`,
+        {
+          title,
+          tag,
+          bounty,
+          content,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
           },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
-          },
-        );
-        setPostModalView(!postModalView);
-      } else if (tag.length === 0 || title === '' || content === '') {
-        setFailModalView(!failModalView);
-      }
-    } catch (err) {
-      console.log(err);
+          withCredentials: true,
+        },
+      );
+      setPostModalView(!postModalView);
+    } else if (tag.length === 0 || title === '' || content === '') {
+      setFailModalView(!failModalView);
     }
   };
 
@@ -408,13 +400,7 @@ function Post() {
             />
           </TagBox>
           <PostBotBox>
-            <Editor
-              // previewStyle="vertical"
-              height="420px"
-              initialEditType="markdown"
-              ref={editRef}
-              // usageStatistics={false}
-            />
+            <Editor height="420px" initialEditType="markdown" ref={editRef} />
           </PostBotBox>
         </PostBox>
         {postModalView ? (

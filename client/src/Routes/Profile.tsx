@@ -1,12 +1,5 @@
 import styled from 'styled-components';
-import React, {
-  FormEvent,
-  MouseEventHandler,
-  useEffect,
-  useState,
-  useRef,
-  ChangeEvent,
-} from 'react';
+import { FormEvent, useEffect, useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -411,8 +404,8 @@ function Profile() {
   const [infoModalView, setInfoModalView] = useState(false);
   const [changeModalView, setChangeModalView] = useState(false);
   const { userData } = useSelector((state: RootState) => state);
-  const { userInfo, accessToken, isLogin } = userData;
-  const [userImg, setUserImg] = useState<string>('');
+  const { userInfo, accessToken } = userData;
+  console.log('in', userData);
   const [js, setJs] = useState(userInfo.stacks?.[0]);
   const [ts, setTs] = useState(userInfo.stacks?.[1]);
   const [css, setCss] = useState(userInfo.stacks?.[2]);
@@ -424,7 +417,6 @@ function Profile() {
   const [aws, setAws] = useState(userInfo.stacks?.[8]);
   const [other, setOther] = useState(userInfo.stacks?.[9]);
   const [username, setUsername] = useState(userInfo.username);
-  const [nametag, setNametag] = useState(userInfo.username);
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
   const [errNameMessage, setErrNameMessage] = useState('');
@@ -445,9 +437,7 @@ function Profile() {
       })
       .then((res) => {
         const userinfo = res.data.data.userInfo;
-        // console.log(userinfo);
         setUsername(userinfo.username);
-        setNametag(userinfo.username);
         setJs(userinfo.stacks[0]);
         setTs(userinfo.stacks[1]);
         setCss(userinfo.stacks[2]);
@@ -487,197 +477,154 @@ function Profile() {
 
   const usernameOnChange = (e: FormEvent<HTMLInputElement>) => {
     setUsername(e.currentTarget.value);
-    // console.log(username);
   };
 
   const passwordOnChange = (e: FormEvent<HTMLInputElement>) => {
     setPassword(e.currentTarget.value);
-    // console.log(password);
   };
 
   const confirmPwOnChange = (e: FormEvent<HTMLInputElement>) => {
     setConfirmPw(e.currentTarget.value);
-    // console.log(confirmPw);
   };
 
   const onClickJs = async () => {
     setJs(!js);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/0`,
-        { js },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/0`,
+      { js, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickTs = async () => {
     setTs(!ts);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/1`,
-        { ts },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/1`,
+      { ts, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickCss = async () => {
     setCss(!css);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/2`,
-        { css },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/2`,
+      { css, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickReact = async () => {
     setReact(!react);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/3`,
-        { react },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/3`,
+      { react, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickVue = async () => {
     setVue(!vue);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/4`,
-        { vue },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/4`,
+      { vue, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickNoSql = async () => {
     setNoSql(!noSql);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/5`,
-        { noSql },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/5`,
+      { noSql, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickSql = async () => {
     setSql(!sql);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/6`,
-        { sql },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/6`,
+      { sql, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickExpress = async () => {
     setExpress(!express);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/7`,
-        { express },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/7`,
+      { express, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickAws = async () => {
     setAws(!aws);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/8`,
-        { aws },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/8`,
+      { aws, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const onClickOther = async () => {
     setOther(!other);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/stacks/9`,
-        { other },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/users/stacks/9`,
+      { other, username },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    );
   };
 
   const handleInfoModalClick = () => {
@@ -694,70 +641,56 @@ function Profile() {
   };
 
   const handleWitDelClick = async () => {
-    try {
-      await axios.delete(`${process.env.REACT_APP_SERVER}/users/signout`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      });
-      dispatch(UserLogout());
-    } catch (err) {
-      console.log(err);
-    }
+    await axios.delete(`${process.env.REACT_APP_SERVER}/users/signout`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    });
+    dispatch(UserLogout());
     navigate('/');
     setWitModalView(!witModalView);
   };
 
   const handleNameSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      if (username !== userInfo.username) {
-        setUsername(username);
-        const data = await axios.patch(
-          `${process.env.REACT_APP_SERVER}/users/profile`,
-          { username },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
+    if (username !== userInfo.username) {
+      setUsername(username);
+      const data = await axios.patch(
+        `${process.env.REACT_APP_SERVER}/users/profile`,
+        { username: userInfo.username, newUsername: username },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
-        console.log('data', data);
-        dispatch(UserModify(data.data.data));
-        setUsername(username);
-        setNametag(username);
-        setErrNameMessage('');
-        setInfoModalView(!infoModalView);
-      }
-    } catch (err) {
-      console.log(err);
+          withCredentials: true,
+        },
+      );
+      dispatch(UserModify(data.data));
+      setUsername(username);
+      setErrNameMessage('');
+      setInfoModalView(!infoModalView);
     }
   };
 
   const handlePasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      if (password === confirmPw && password !== '') {
-        await axios.patch(
-          `${process.env.REACT_APP_SERVER}/users/profile`,
-          { password },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
+    if (password === confirmPw && password !== '') {
+      await axios.patch(
+        `${process.env.REACT_APP_SERVER}/users/profile`,
+        { username: userInfo.username, newPassword: password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
-        dispatch(UserLogout());
-        setChangeModalView(!changeModalView);
-      }
-    } catch (err) {
-      console.log(err);
+          withCredentials: true,
+        },
+      );
+      dispatch(UserLogout());
+      setChangeModalView(!changeModalView);
     }
   };
 
@@ -791,23 +724,19 @@ function Profile() {
       const uploadImg = e.target.files[0];
       const formData = new FormData();
       formData.append('image', uploadImg);
-      try {
-        await axios.post(
-          `${process.env.REACT_APP_SERVER}/users/upload`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
+      await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/upload`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
-        dispatch(UserLogout());
-        setChangeModalView(!changeModalView);
-      } catch (err) {
-        console.log(err);
-      }
+          withCredentials: true,
+        },
+      );
+      dispatch(UserLogout());
+      setChangeModalView(!changeModalView);
     }
   };
 

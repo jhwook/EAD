@@ -1,22 +1,21 @@
 import styled from 'styled-components';
-import react, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
+import { RootState } from 'index';
+
 import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor, Viewer, ViewerProps } from '@toast-ui/react-editor';
-// import ReactMarkdown from 'react-markdown';
-// import remarkGfm from 'remark-gfm';
-import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
-// import Viewer from '@toast-ui/editor/dist/toastui-editor-viewer';
+import { Editor, Viewer } from '@toast-ui/react-editor';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import Nav from 'Components/Nav';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 71vh; // 80vh;
+  height: 71vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,25 +75,16 @@ const CommentContent = styled.div``;
 
 function PostView() {
   const { userData } = useSelector((state: RootState) => state);
-  const { userInfo, accessToken, isLogin } = userData;
-  // const [post, setPost] = useState<any>(null);
+  const { accessToken } = userData;
   const [writer, setWriter] = useState('');
   const [title, setTitle] = useState('');
   const [tag, setTag] = useState<string[]>([]);
-  const [bounty, setBounty] = useState(0);
+  // const [bounty, setBounty] = useState(0);
   const [content, setContent] = useState('');
-  const [postModalView, setPostModalView] = useState(false);
-  const [failModalView, setFailModalView] = useState(false);
   const [comments, setComments] = useState<any[]>([]);
-
-  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const editRef = useRef<Editor>(null);
 
   useEffect(() => {
-    console.log('id', id);
     axios
       .get(`${process.env.REACT_APP_SERVER}/posts/${id}`, {
         headers: {
@@ -104,7 +94,7 @@ function PostView() {
       })
       .then((res) => {
         const item = res.data.data;
-        console.log('item', item);
+        // console.log('item', item);
         // setWriter(item.username);
         setWriter(item.writer);
         setTitle(item.title);
@@ -114,7 +104,6 @@ function PostView() {
         setComments(item.comments);
       });
   }, []);
-  // console.log(comments);
 
   const test = `
   # mk1
@@ -140,12 +129,12 @@ function PostView() {
             <PostTags>{tag}</PostTags>
           </PostMidBox>
           <PostBotBox>
-            {/* <ReactMarkdown>{content}</ReactMarkdown> */}
-            <Viewer initialValue={content} />
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{test}</ReactMarkdown>
+            {/* <Viewer initialValue={content} /> */}
           </PostBotBox>
         </PostBox>
         <CommentBox>
-          {comments.map((com, idx) => (
+          {comments.map((com) => (
             <CommentItem key={nanoid()}>
               <CommentWriter>{com.writer}</CommentWriter>
               <CommentContent>{com.content}</CommentContent>
