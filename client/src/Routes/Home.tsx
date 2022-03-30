@@ -11,11 +11,27 @@ import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { HomeSearch } from 'index';
 import Nav from 'Components/Nav';
+import Footer from 'Components/Footer';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
 import logo4 from '../Image/Logo/4.png';
 import logo5 from '../Image/Logo/5.png';
+
+const HomeWrapper = styled.div`
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 10.5vh;
+`;
+
+const FooterWrapper = styled.div`
+  height: 10.5vh;
+  position: relative;
+  transform: translateY(-34%);
+  @media ${(props) => props.theme.mobile} {
+    transform: translateY(-16%);
+  }
+`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -283,133 +299,143 @@ function Home() {
 
   return (
     <>
-      <Nav />
-      {open ? (
-        <TeamWrapper>
-          <Team setOpen={setOpen} />
-        </TeamWrapper>
-      ) : null}
-      <Wrapper>
-        <Fade delay={500}>
-          <IoMdArrowDropleft className="team" onClick={handleOnClick} />
-          <Logo src={logo1} />
-        </Fade>
-        <SearchBox>
-          <Fade direction="down">
-            <Text>개발하면서 궁금했던 점을</Text>
-            <Text>검색해보세요!</Text>
+      <HomeWrapper>
+        <Nav />
+        {open ? (
+          <TeamWrapper>
+            <Team setOpen={setOpen} />
+          </TeamWrapper>
+        ) : null}
+        <Wrapper>
+          <Fade delay={500}>
+            <IoMdArrowDropleft className="team" onClick={handleOnClick} />
+            <Logo src={logo1} />
           </Fade>
-          <Searchbar>
-            <Form onSubmit={handleOnSubmit}>
-              <SearchBarWrapper>
-                <SearchInput
-                  onChange={handleOnChange}
-                  // onKeyUp={handleKeyUp}
-                  value={value}
-                  placeholder={errorMessage || '여기에 입력해주세요!'}
-                />
+          <SearchBox>
+            <Fade direction="down">
+              <Text>개발하면서 궁금했던 점을</Text>
+              <Text>검색해보세요!</Text>
+            </Fade>
+            <Searchbar>
+              <Form onSubmit={handleOnSubmit}>
+                <SearchBarWrapper>
+                  <SearchInput
+                    onChange={handleOnChange}
+                    // onKeyUp={handleKeyUp}
+                    value={value}
+                    placeholder={errorMessage || '여기에 입력해주세요!'}
+                  />
 
-                <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
+                  <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
 
-                {arr.length !== 0 && value !== '' ? (
-                  <SearchBarBox>
-                    <SearchList
-                      type="submit"
-                      list={filteredArr}
-                      chooseList={searchListOnClick}
-                      // onKey={handleKeyUp}
-                    />
-                  </SearchBarBox>
-                ) : null}
-              </SearchBarWrapper>
-              <Button type="submit">
-                <FaSearch className="search" />
-              </Button>
-            </Form>
-          </Searchbar>
-        </SearchBox>
-      </Wrapper>
-      <Box>
-        <LeftBox>
-          <Fade cascade>
-            <Logo src={logo2} />
-          </Fade>
-          <Fade delay={500}>
-            <TextBox>
-              <Number>01</Number>
-              <Title>공식문서들 봐도 이해가 안되셨나요?</Title>
-              <Fade delay={700}>
-                <Descriprtion>
-                  이해가 안된 부분만 발취해서 질문해보세요.
-                </Descriprtion>
-                <Descriprtion>
-                  다양한 분야의 전문가들이 여러분들을 기다리고 있습니다.
-                </Descriprtion>
-              </Fade>
-            </TextBox>
-          </Fade>
-        </LeftBox>
-      </Box>
-      <Box>
-        <RightBox>
-          <Fade delay={500}>
-            <TextBox>
-              <Number>02</Number>
-              <Title>알고리즘에 고민이 많으신가요?</Title>
-              <Fade delay={700}>
-                <Descriprtion>
-                  문제를 풀다가 막히는 부분이 생기면 질문해보세요.
-                </Descriprtion>
-                <Descriprtion>
-                  알고리즘의 전문가들이 여러분들을 기다리고 있습니다.
-                </Descriprtion>
-              </Fade>
-            </TextBox>
-          </Fade>
-          <Fade direction="bottom-right">
-            <Logo src={logo3} />
-          </Fade>
-        </RightBox>
-      </Box>
-      <Box>
-        <LeftBox>
-          <Fade direction="top-left">
-            <Logo src={logo4} />
-          </Fade>
-          <Fade delay={500}>
-            <TextBox>
-              <Number>03</Number>
-              <Title>개발하면서 오류를 만나셨나요?</Title>
-              <Fade delay={700}>
-                <Descriprtion>여러분이 겪은 오류를 공유해주세요.</Descriprtion>
-                <Descriprtion>
-                  수많은 오류를 해결한 전문가들이 여러분들을 기다리고 있습니다.
-                </Descriprtion>
-              </Fade>
-            </TextBox>
-          </Fade>
-        </LeftBox>
-      </Box>
-      <Box>
-        <RightBox>
-          <Fade delay={500}>
-            <TextBox>
-              <Number>04</Number>
-              <Title>협업 시에 해결되지 않은 문제가 있으신가요?</Title>
-              <Fade delay={700}>
-                <Descriprtion>해결되지 않은 문제를 공유해주세요.</Descriprtion>
-                <Descriprtion>
-                  수많은 협업을 진행해 온 전문가들이 여러분들을 기다리고
-                  있습니다.
-                </Descriprtion>
-              </Fade>
-            </TextBox>
-          </Fade>
-          <Fade direction="right">
-            <Logo src={logo5} />
-          </Fade>
-        </RightBox>
-      </Box>
+                  {arr.length !== 0 && value !== '' ? (
+                    <SearchBarBox>
+                      <SearchList
+                        type="submit"
+                        list={filteredArr}
+                        chooseList={searchListOnClick}
+                        // onKey={handleKeyUp}
+                      />
+                    </SearchBarBox>
+                  ) : null}
+                </SearchBarWrapper>
+                <Button type="submit">
+                  <FaSearch className="search" />
+                </Button>
+              </Form>
+            </Searchbar>
+          </SearchBox>
+        </Wrapper>
+        <Box>
+          <LeftBox>
+            <Fade cascade>
+              <Logo src={logo2} />
+            </Fade>
+            <Fade delay={500}>
+              <TextBox>
+                <Number>01</Number>
+                <Title>공식문서들 봐도 이해가 안되셨나요?</Title>
+                <Fade delay={700}>
+                  <Descriprtion>
+                    이해가 안된 부분만 발취해서 질문해보세요.
+                  </Descriprtion>
+                  <Descriprtion>
+                    다양한 분야의 전문가들이 여러분들을 기다리고 있습니다.
+                  </Descriprtion>
+                </Fade>
+              </TextBox>
+            </Fade>
+          </LeftBox>
+        </Box>
+        <Box>
+          <RightBox>
+            <Fade delay={500}>
+              <TextBox>
+                <Number>02</Number>
+                <Title>알고리즘에 고민이 많으신가요?</Title>
+                <Fade delay={700}>
+                  <Descriprtion>
+                    문제를 풀다가 막히는 부분이 생기면 질문해보세요.
+                  </Descriprtion>
+                  <Descriprtion>
+                    알고리즘의 전문가들이 여러분들을 기다리고 있습니다.
+                  </Descriprtion>
+                </Fade>
+              </TextBox>
+            </Fade>
+            <Fade direction="bottom-right">
+              <Logo src={logo3} />
+            </Fade>
+          </RightBox>
+        </Box>
+        <Box>
+          <LeftBox>
+            <Fade direction="top-left">
+              <Logo src={logo4} />
+            </Fade>
+            <Fade delay={500}>
+              <TextBox>
+                <Number>03</Number>
+                <Title>개발하면서 오류를 만나셨나요?</Title>
+                <Fade delay={700}>
+                  <Descriprtion>
+                    여러분이 겪은 오류를 공유해주세요.
+                  </Descriprtion>
+                  <Descriprtion>
+                    수많은 오류를 해결한 전문가들이 여러분들을 기다리고
+                    있습니다.
+                  </Descriprtion>
+                </Fade>
+              </TextBox>
+            </Fade>
+          </LeftBox>
+        </Box>
+        <Box>
+          <RightBox>
+            <Fade delay={500}>
+              <TextBox>
+                <Number>04</Number>
+                <Title>협업 시에 해결되지 않은 문제가 있으신가요?</Title>
+                <Fade delay={700}>
+                  <Descriprtion>
+                    해결되지 않은 문제를 공유해주세요.
+                  </Descriprtion>
+                  <Descriprtion>
+                    수많은 협업을 진행해 온 전문가들이 여러분들을 기다리고
+                    있습니다.
+                  </Descriprtion>
+                </Fade>
+              </TextBox>
+            </Fade>
+            <Fade direction="right">
+              <Logo src={logo5} />
+            </Fade>
+          </RightBox>
+        </Box>
+      </HomeWrapper>
+      <FooterWrapper>
+        <Footer />
+      </FooterWrapper>
     </>
   );
 }

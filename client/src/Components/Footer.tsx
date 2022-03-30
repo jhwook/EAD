@@ -54,7 +54,7 @@ const DownBox = styled.div`
   }
   @media ${(props) => props.theme.tablet} {
     font-size: ${(props) => props.theme.fontSize.micro};
-    margin-top: 5px;
+    margin-top: 13px;
   }
 `;
 
