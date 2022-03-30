@@ -120,39 +120,31 @@ export class UsersService {
 
   // 회원정보 수정
   async updateUser(body) {
-    const { username, newUsername, newPassword } = body;
+    const { id, newUsername, newPassword } = body;
 
     if (!newPassword || newPassword === '') {
-      await this.userModel.findOneAndUpdate(
-        { username },
-        { username: newUsername },
-      );
+      await this.userModel.findByIdAndUpdate(id, { username: newUsername });
     } else {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-      await this.userModel.findOneAndUpdate(
-        { username },
-        {
-          username: newUsername,
-          password: hashedPassword,
-        },
-      );
+      await this.userModel.findByIdAndUpdate(id, {
+        username: newUsername,
+        password: hashedPassword,
+      });
     }
-    const modifiedUser = await this.userModel.findOne({
-      username: newUsername,
-    });
+    const modifiedUser = await this.userModel.findById(id);
     return modifiedUser;
   }
 
   // 스택 버튼 누를 시 수정
   async changeStacksBoolean(param, body) {
-    const { username } = body;
-    const user = await this.userModel.findOne({ username });
+    const { id } = body;
+    const user = await this.userModel.findById(id);
     const idx = param.id;
     const newStacks = user.stacks;
     newStacks.splice(idx, 1, !newStacks[idx]);
-    await this.userModel.findOneAndUpdate({ username }, { stacks: newStacks });
+    await this.userModel.findByIdAndUpdate(id, { stacks: newStacks });
     return { message: 'ok' };
   }
 
@@ -185,31 +177,31 @@ export class UsersService {
     }
   }
 
-  async uploadImg(req, files: Express.Multer.File[]) {
-    const { user } = req;
-    console.log(`user: ${user}`);
+  async uploadImg(body, files: Express.Multer.File[]) {
+    const { id } = body;
+
     const fileName = `users/${files[0].filename}`;
     console.log(`fileName: ${fileName}`);
     const newUser = await this.usersRepository.findByIdAndUpdateImg(
-      user.id,
+      id,
       fileName,
     );
-    console.log(newUser);
+
     return newUser;
   }
 
-  async sendEmail(body) {
-    const { email } = body;
-    const number: number = crypto.randomBytes(8).readUInt32LE(0);
+  // async sendEmail(body) {
+  //   const { email } = body;
+  //   const number: number = crypto.randomBytes(8).readUInt32LE(0);
 
-    await this.mailerService.sendMail({
-      to: email, // list of receivers
-      from: process.env.EMAIL_ID, // sender address
-      subject: 'Testing Nest MailerModule ✔', // Subject line
-      text: 'welcome', // plaintext body
-      html: `6자리 인증 코드 :  <b> ${number}</b>`, // HTML body content
-    });
-  }
+  //   await this.mailerService.sendMail({
+  //     to: email, // list of receivers
+  //     from: process.env.EMAIL_ID, // sender address
+  //     subject: 'Testing Nest MailerModule ✔', // Subject line
+  //     text: 'welcome', // plaintext body
+  //     html: `6자리 인증 코드 :  <b> ${number}</b>`, // HTML body content
+  //   });
+  // }
 
   sendPhoneMessage(body) {
     const randomNumber = Math.floor(Math.random() * 1000000) + 1;
@@ -223,11 +215,15 @@ export class UsersService {
     return randomNumber;
   }
 
-  async usersPayment(req, body) {
-    const { id } = req.user;
-    const { cost } = body;
+  async usersPayment(body) {
+    const { id, cost } = body;
+    // const userinfo = await this.usersRepository.usersPayment(id, cost);
+    const user = await this.userModel.findById(id);
 
-    const userinfo = await this.usersRepository.usersPayment(id, cost);
+    await this.userModel.findByIdAndUpdate(id, {
+      money: user.money + Number(cost),
+    });
+    const userinfo = await this.userModel.findById(id);
 
     return userinfo;
   }

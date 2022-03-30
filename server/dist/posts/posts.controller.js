@@ -26,17 +26,17 @@ let PostsController = class PostsController {
         this.postsService = postsService;
         this.authService = authService;
     }
-    createPost(req) {
-        return this.postsService.createPost(req);
+    createPost(body) {
+        return this.postsService.createPost(body);
     }
     async getOnePost(id) {
         return this.postsService.getOnePost(id);
     }
-    updatePost(req, param) {
-        return this.postsService.updatePost(req, param);
+    updatePost(body, param) {
+        return this.postsService.updatePost(body, param);
     }
-    deletePost(param) {
-        return this.postsService.deletePost(param);
+    deletePost(param, body) {
+        return this.postsService.deletePost(param, body);
     }
     searchPost(keyword) {
         return this.postsService.searchPost(keyword);
@@ -44,11 +44,11 @@ let PostsController = class PostsController {
     searchPostByTag(body) {
         return this.postsService.searchPostByTag(body);
     }
-    createComment(req, param) {
-        return this.postsService.createComment(req, param);
+    createComment(body, param) {
+        return this.postsService.createComment(body, param);
     }
-    modifyComment(req, param) {
-        return this.postsService.modifyComment(req, param);
+    modifyComment(body, param) {
+        return this.postsService.modifyComment(body, param);
     }
     deleteComment(param) {
         return this.postsService.deleteComment(param);
@@ -56,19 +56,18 @@ let PostsController = class PostsController {
     getPostTitle() {
         return this.postsService.getPostTitle();
     }
-    uploadPostImage(files, param, req) {
+    uploadPostImage(files, param, body) {
         console.log(files);
-        return this.postsService.uploadPostImg(req, param, files);
+        return this.postsService.uploadPostImg(body, param, files);
     }
-    uploadCommentImage(files, param, req) {
+    uploadCommentImage(files, param, body) {
         console.log(files);
-        return this.postsService.uploadCommentImg(req, param, files);
+        return this.postsService.uploadCommentImg(body, param, files);
     }
 };
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
-    __param(0, (0, common_1.Req)()),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
@@ -81,20 +80,19 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "getOnePost", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Patch)('/:postId'),
-    __param(0, (0, common_1.Req)()),
+    __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "updatePost", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Delete)('/:postId'),
     __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "deletePost", null);
 __decorate([
@@ -112,9 +110,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "searchPostByTag", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/:postId/add/comment'),
-    __param(0, (0, common_1.Req)()),
+    __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
@@ -123,7 +120,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Patch)('/:commentId/modify/comment'),
-    __param(0, (0, common_1.Req)()),
+    __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
@@ -145,22 +142,20 @@ __decorate([
 ], PostsController.prototype, "getPostTitle", null);
 __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('posts'))),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/upload-post/:postId'),
     __param(0, (0, common_1.UploadedFiles)()),
     __param(1, (0, common_1.Param)()),
-    __param(2, (0, common_1.Req)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array, Object, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "uploadPostImage", null);
 __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('comments'))),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/upload-comment/:commentId'),
     __param(0, (0, common_1.UploadedFiles)()),
     __param(1, (0, common_1.Param)()),
-    __param(2, (0, common_1.Req)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array, Object, Object]),
     __metadata("design:returntype", void 0)

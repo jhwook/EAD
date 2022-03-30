@@ -203,7 +203,7 @@ export class UsersController {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Delete('/signout')
   signout(@Req() req) {
     return this.usersService.deleteUser(req.user);
@@ -242,15 +242,18 @@ export class UsersController {
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('users')))
   @UseGuards(JwtAuthGuard)
   @Post('upload')
-  uploadImage(@UploadedFiles() files: Array<Express.Multer.File>, @Req() req) {
+  uploadImage(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Body() body,
+  ) {
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.usersService.uploadImg(req, files);
+    return this.usersService.uploadImg(body, files);
   }
 
-  @Post('/send-email')
-  sendEmail(@Body() body) {
-    return this.usersService.sendEmail(body);
-  }
+  // @Post('/send-email')
+  // sendEmail(@Body() body) {
+  //   return this.usersService.sendEmail(body);
+  // }
 
   @Post('/sms')
   sendPhoneMessage(@Body() body) {
@@ -259,8 +262,8 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/payment')
-  usersPayment(@Req() req, @Body() body) {
-    return this.usersService.usersPayment(req, body);
+  usersPayment(@Body() body) {
+    return this.usersService.usersPayment(body);
   }
 
   // @Post('/find/email')

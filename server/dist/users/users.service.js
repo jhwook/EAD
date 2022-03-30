@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
 const mailer_1 = require("@nestjs-modules/mailer");
 const nestjs_twilio_1 = require("nestjs-twilio");
 const users_repository_1 = require("./users.repository");
@@ -105,30 +104,28 @@ let UsersService = class UsersService {
         return await this.usersRepository.findUserByUsername(username);
     }
     async updateUser(body) {
-        const { username, newUsername, newPassword } = body;
+        const { id, newUsername, newPassword } = body;
         if (!newPassword || newPassword === '') {
-            await this.userModel.findOneAndUpdate({ username }, { username: newUsername });
+            await this.userModel.findByIdAndUpdate(id, { username: newUsername });
         }
         else {
             const salt = await bcrypt.genSalt();
             const hashedPassword = await bcrypt.hash(newPassword, salt);
-            await this.userModel.findOneAndUpdate({ username }, {
+            await this.userModel.findByIdAndUpdate(id, {
                 username: newUsername,
                 password: hashedPassword,
             });
         }
-        const modifiedUser = await this.userModel.findOne({
-            username: newUsername,
-        });
+        const modifiedUser = await this.userModel.findById(id);
         return modifiedUser;
     }
     async changeStacksBoolean(param, body) {
-        const { username } = body;
-        const user = await this.userModel.findOne({ username });
+        const { id } = body;
+        const user = await this.userModel.findById(id);
         const idx = param.id;
         const newStacks = user.stacks;
         newStacks.splice(idx, 1, !newStacks[idx]);
-        await this.userModel.findOneAndUpdate({ username }, { stacks: newStacks });
+        await this.userModel.findByIdAndUpdate(id, { stacks: newStacks });
         return { message: 'ok' };
     }
     async getUsersPosts(req) {
@@ -156,25 +153,12 @@ let UsersService = class UsersService {
             return { message: 'ok' };
         }
     }
-    async uploadImg(req, files) {
-        const { user } = req;
-        console.log(`user: ${user}`);
+    async uploadImg(body, files) {
+        const { id } = body;
         const fileName = `users/${files[0].filename}`;
         console.log(`fileName: ${fileName}`);
-        const newUser = await this.usersRepository.findByIdAndUpdateImg(user.id, fileName);
-        console.log(newUser);
+        const newUser = await this.usersRepository.findByIdAndUpdateImg(id, fileName);
         return newUser;
-    }
-    async sendEmail(body) {
-        const { email } = body;
-        const number = crypto.randomBytes(8).readUInt32LE(0);
-        await this.mailerService.sendMail({
-            to: email,
-            from: process.env.EMAIL_ID,
-            subject: 'Testing Nest MailerModule ✔',
-            text: 'welcome',
-            html: `6자리 인증 코드 :  <b> ${number}</b>`,
-        });
     }
     sendPhoneMessage(body) {
         const randomNumber = Math.floor(Math.random() * 1000000) + 1;
@@ -186,10 +170,13 @@ let UsersService = class UsersService {
         });
         return randomNumber;
     }
-    async usersPayment(req, body) {
-        const { id } = req.user;
-        const { cost } = body;
-        const userinfo = await this.usersRepository.usersPayment(id, cost);
+    async usersPayment(body) {
+        const { id, cost } = body;
+        const user = await this.userModel.findById(id);
+        await this.userModel.findByIdAndUpdate(id, {
+            money: user.money + Number(cost),
+        });
+        const userinfo = await this.userModel.findById(id);
         return userinfo;
     }
 };

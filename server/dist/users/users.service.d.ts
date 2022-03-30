@@ -46,7 +46,7 @@ export declare class UsersService {
     verifyUsername(body: any): Promise<{
         message: string;
     }>;
-    uploadImg(req: any, files: Express.Multer.File[]): Promise<{
+    uploadImg(body: any, files: Express.Multer.File[]): Promise<{
         id: string;
         email: string;
         username: string;
@@ -56,9 +56,8 @@ export declare class UsersService {
         posts: Post[];
         refreshToken: string;
     }>;
-    sendEmail(body: any): Promise<void>;
     sendPhoneMessage(body: any): number;
-    usersPayment(req: any, body: any): Promise<User & {
+    usersPayment(body: any): Promise<User & {
         _id: any;
     }>;
 }

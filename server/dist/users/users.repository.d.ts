@@ -37,7 +37,4 @@ export declare class UsersRepository {
         posts: Post[];
         refreshToken: string;
     }>;
-    usersPayment(id: any, cost: any): Promise<User & {
-        _id: any;
-    }>;
 }

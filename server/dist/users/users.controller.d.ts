@@ -58,7 +58,7 @@ export declare class UsersController {
     getUsersPosts(req: any): Promise<import("./users.schema").User & {
         _id: any;
     }>;
-    uploadImage(files: Array<Express.Multer.File>, req: any): Promise<{
+    uploadImage(files: Array<Express.Multer.File>, body: any): Promise<{
         id: string;
         email: string;
         username: string;
@@ -68,9 +68,8 @@ export declare class UsersController {
         posts: import("../posts/posts.schema").Post[];
         refreshToken: string;
     }>;
-    sendEmail(body: any): Promise<void>;
     sendPhoneMessage(body: any): number;
-    usersPayment(req: any, body: any): Promise<import("./users.schema").User & {
+    usersPayment(body: any): Promise<import("./users.schema").User & {
         _id: any;
     }>;
 }

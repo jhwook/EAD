@@ -33,10 +33,10 @@ export class PostsController {
 
   // 포스트 작성
   // eslint-disable-next-line class-methods-use-this
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
-  createPost(@Req() req) {
-    return this.postsService.createPost(req);
+  createPost(@Body() body) {
+    return this.postsService.createPost(body);
   }
 
   // 포스트 하나 가져오기
@@ -45,24 +45,18 @@ export class PostsController {
     return this.postsService.getOnePost(id);
   }
 
-  // 포스트에 적힌 댓글 전부 가져오기
-  // @Get()
-  // async getAllComments() {
-  //   return this.postsService.getAllComments();
-  // }
-
   // 포스트 수정
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Patch('/:postId')
-  updatePost(@Req() req, @Param() param) {
-    return this.postsService.updatePost(req, param);
+  updatePost(@Body() body, @Param() param) {
+    return this.postsService.updatePost(body, param);
   }
 
   // 포스트 삭제
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Delete('/:postId')
-  deletePost(@Param() param) {
-    return this.postsService.deletePost(param);
+  deletePost(@Param() param, @Body() body) {
+    return this.postsService.deletePost(param, body);
   }
 
   // 검색
@@ -78,17 +72,17 @@ export class PostsController {
   }
 
   // 댓글 작성
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('/:postId/add/comment')
-  createComment(@Req() req, @Param() param) {
-    return this.postsService.createComment(req, param);
+  createComment(@Body() body, @Param() param) {
+    return this.postsService.createComment(body, param);
   }
 
   // 댓글 수정
   @UseGuards(JwtAuthGuard)
   @Patch('/:commentId/modify/comment')
-  modifyComment(@Req() req, @Param() param) {
-    return this.postsService.modifyComment(req, param);
+  modifyComment(@Body() body, @Param() param) {
+    return this.postsService.modifyComment(body, param);
   }
 
   // 댓글 삭제
@@ -106,29 +100,29 @@ export class PostsController {
 
   // 포스트 이미지 업로드
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('posts')))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('/upload-post/:postId')
   uploadPostImage(
     @UploadedFiles() files: Array<Express.Multer.File>,
     @Param() param,
-    @Req() req,
+    @Body() body,
   ) {
     console.log(files);
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.postsService.uploadPostImg(req, param, files);
+    return this.postsService.uploadPostImg(body, param, files);
   }
 
   // 댓글 이미지 업로드
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('comments')))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('/upload-comment/:commentId')
   uploadCommentImage(
     @UploadedFiles() files: Array<Express.Multer.File>,
     @Param() param,
-    @Req() req,
+    @Body() body,
   ) {
     console.log(files);
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.postsService.uploadCommentImg(req, param, files);
+    return this.postsService.uploadCommentImg(body, param, files);
   }
 }

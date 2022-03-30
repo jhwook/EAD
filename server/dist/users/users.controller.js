@@ -135,17 +135,14 @@ let UsersController = class UsersController {
     getUsersPosts(req) {
         return this.usersService.getUsersPosts(req);
     }
-    uploadImage(files, req) {
-        return this.usersService.uploadImg(req, files);
-    }
-    sendEmail(body) {
-        return this.usersService.sendEmail(body);
+    uploadImage(files, body) {
+        return this.usersService.uploadImg(body, files);
     }
     sendPhoneMessage(body) {
         return this.usersService.sendPhoneMessage(body);
     }
-    usersPayment(req, body) {
-        return this.usersService.usersPayment(req, body);
+    usersPayment(body) {
+        return this.usersService.usersPayment(body);
     }
 };
 __decorate([
@@ -208,7 +205,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "logout", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Delete)('/signout'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -257,18 +253,11 @@ __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('upload'),
     __param(0, (0, common_1.UploadedFiles)()),
-    __param(1, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array, Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "uploadImage", null);
-__decorate([
-    (0, common_1.Post)('/send-email'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "sendEmail", null);
 __decorate([
     (0, common_1.Post)('/sms'),
     __param(0, (0, common_1.Body)()),
@@ -279,10 +268,9 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/payment'),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Body)()),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "usersPayment", null);
 UsersController = __decorate([

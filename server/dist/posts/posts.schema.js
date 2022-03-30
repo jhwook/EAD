@@ -50,6 +50,11 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], Post.prototype, "imgUrl", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], Post.prototype, "bounty", void 0);
 Post = __decorate([
     (0, mongoose_1.Schema)(options)
 ], Post);
