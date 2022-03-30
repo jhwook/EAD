@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { HomeSearch } from 'index';
+import Nav from 'Components/Nav';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -282,6 +283,7 @@ function Home() {
 
   return (
     <>
+      <Nav />
       {open ? (
         <TeamWrapper>
           <Team setOpen={setOpen} />

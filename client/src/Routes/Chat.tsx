@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router';
 import { FiSend } from 'react-icons/fi';
+import Nav from 'Components/Nav';
 import logo from '../Image/Logo/1.png';
 
 const ENDPOINT = 'http://localhost:4000';
@@ -251,52 +252,55 @@ function Join() {
   }, [chat]);
 
   return (
-    <Wrapper>
-      <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
-      <ChatWrapper>
-        <ChatMain>
-          <RoomWrapper>
-            <ListTitle>채팅목록</ListTitle>
-            <ChatRoomList>
-              {roomList.map((el: string) => (
-                <RoomList key={nanoid()}>
-                  <RoomBox>
-                    <Picture src={logo} />
-                    {el}
-                  </RoomBox>
-                </RoomList>
-              ))}
-            </ChatRoomList>
-          </RoomWrapper>
-          <Chatting>
-            <ChatInfo>
-              <Nickname>{`${room}Viktor`}</Nickname>
-            </ChatInfo>
-            <List>
-              {chat.map((el: string) => (
-                <ChatList key={nanoid()}>
-                  <MsgBox>
-                    <Picture src={logo} />
-                    {el}
-                  </MsgBox>
-                </ChatList>
-              ))}
-            </List>
-            <ChatForm>
-              <MsgInput
-                placeholder="메세지를 입력해주세요."
-                value={message}
-                onChange={onMessageChange}
-              />
-              <MsgBtn type="submit" onClick={onMessageClick}>
-                <FiSend className="send" />
-              </MsgBtn>
-            </ChatForm>
-          </Chatting>
-        </ChatMain>
-      </ChatWrapper>
-      <PostWrapper />
-    </Wrapper>
+    <>
+      <Nav />
+      <Wrapper>
+        <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
+        <ChatWrapper>
+          <ChatMain>
+            <RoomWrapper>
+              <ListTitle>채팅목록</ListTitle>
+              <ChatRoomList>
+                {roomList.map((el: string) => (
+                  <RoomList key={nanoid()}>
+                    <RoomBox>
+                      <Picture src={logo} />
+                      {el}
+                    </RoomBox>
+                  </RoomList>
+                ))}
+              </ChatRoomList>
+            </RoomWrapper>
+            <Chatting>
+              <ChatInfo>
+                <Nickname>{`${room}Viktor`}</Nickname>
+              </ChatInfo>
+              <List>
+                {chat.map((el: string) => (
+                  <ChatList key={nanoid()}>
+                    <MsgBox>
+                      <Picture src={logo} />
+                      {el}
+                    </MsgBox>
+                  </ChatList>
+                ))}
+              </List>
+              <ChatForm>
+                <MsgInput
+                  placeholder="메세지를 입력해주세요."
+                  value={message}
+                  onChange={onMessageChange}
+                />
+                <MsgBtn type="submit" onClick={onMessageClick}>
+                  <FiSend className="send" />
+                </MsgBtn>
+              </ChatForm>
+            </Chatting>
+          </ChatMain>
+        </ChatWrapper>
+        <PostWrapper />
+      </Wrapper>
+    </>
   );
 }
 
