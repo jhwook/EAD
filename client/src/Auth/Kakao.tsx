@@ -32,13 +32,11 @@ function Kakao() {
       },
     );
     dispatch(UserLogin(data.data.data));
+    navigate('/');
   };
 
   useEffect(() => {
     getKakaoToken();
-    setTimeout(() => {
-      navigate('/');
-    }, 300);
   }, []);
   return <Loading />;
 }

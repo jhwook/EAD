@@ -32,13 +32,11 @@ function Google() {
       },
     );
     dispatch(UserLogin(data.data.data));
+    navigate('/');
   };
 
   useEffect(() => {
     getGoogleToken();
-    setTimeout(() => {
-      navigate('/');
-    }, 300);
   }, []);
   return <Loading />;
 }

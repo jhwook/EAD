@@ -35,13 +35,11 @@ function Naver() {
       },
     );
     dispatch(UserLogin(data.data.data));
+    navigate('/');
   };
 
   useEffect(() => {
     getNaverToken();
-    setTimeout(() => {
-      navigate('/');
-    }, 300);
   }, []);
   return <Loading />;
 }
