@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   border-radius: 30px;
   padding: 70px 35px;
   position: relative;
-  top: -100px;
+  top: 50px;
 `;
 const Form = styled.form`
   display: flex;
