@@ -67,12 +67,28 @@ const Wrapper = styled.div`
     @media ${(props) => props.theme.mobile} {
       top: 650px;
       right: 5px;
+      font-size: ${(props) => props.theme.fontSize.huge};
+      &:hover {
+        font-size: ${(props) => props.theme.fontSize.xLarge};
+      }
     }
     @media ${(props) => props.theme.tablet} {
       top: 600px;
       right: 10px;
+      font-size: ${(props) => props.theme.fontSize.huge};
+      &:hover {
+        font-size: ${(props) => props.theme.fontSize.xLarge};
+      }
     }
     @media ${(props) => props.theme.desktop} {
+      top: 600px;
+      right: 10px;
+    }
+    @media ${(props) => props.theme.desktop1} {
+      top: 600px;
+      right: 10px;
+    }
+    @media ${(props) => props.theme.desktop2} {
       top: 600px;
       right: 10px;
     }

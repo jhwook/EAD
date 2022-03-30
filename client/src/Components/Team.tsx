@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-// import logo from '../Image/Logo/ead.png';
 import yeb from '../Image/member/yeb.png';
 import jhw from '../Image/member/jhw.png';
 import kdy from '../Image/member/kdy.png';
@@ -9,6 +8,9 @@ const Wrapper = styled.div`
   height: 100vh;
   padding: 30px;
   background-color: ${(props) => props.theme.green};
+  @media ${(props) => props.theme.mobile} {
+    padding: 20px 10px;
+  }
 `;
 const UpBox = styled.div`
   display: flex;
@@ -21,22 +23,35 @@ const DownBox = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-top: 250px;
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+    margin-top: 190px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    flex-direction: column;
+    margin-top: 190px;
+  }
 `;
-
-// const Logo = styled.img`
-//   width: 250px;
-// `;
 
 const TeamText = styled.div`
   font-size: ${(props) => props.theme.fontSize.large};
   font-weight: bold;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.large};
+  }
 `;
 const Btn = styled.button`
   background-color: inherit;
   border: none;
   font-size: ${(props) => props.theme.fontSize.medium};
   position: absolute;
-  top: 120px;
+  top: 10px;
   right: 50px;
   height: 100px;
   z-index: 11;
@@ -45,10 +60,25 @@ const Btn = styled.button`
     transform: rotate(90deg);
     transition: transform 0.5s;
   }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
 `;
 const Member = styled.img`
   width: 300px;
   cursor: pointer;
+  @media ${(props) => props.theme.mobile} {
+    width: 150px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 150px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 230px;
+  }
 `;
 
 const MemberOne = styled.div`
@@ -57,6 +87,15 @@ const MemberOne = styled.div`
   justify-content: center;
   align-items: center;
   font-size: ${(props) => props.theme.fontSize.small};
+  @media ${(props) => props.theme.mobile} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 400px;
+  }
 `;
 const MemberTwo = styled.div`
   display: flex;
@@ -68,6 +107,32 @@ const MemberTwo = styled.div`
   border-left: 2px solid black;
   width: 700px;
   height: 600px;
+  @media ${(props) => props.theme.mobile} {
+    width: 300px;
+    border-left: none;
+    border-right: none;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 300px;
+    border-left: none;
+    border-right: none;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 495px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 600px;
+  }
 `;
 const MemberThree = styled.div`
   display: flex;
@@ -75,17 +140,54 @@ const MemberThree = styled.div`
   justify-content: center;
   align-items: center;
   font-size: ${(props) => props.theme.fontSize.small};
+  @media ${(props) => props.theme.mobile} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 400px;
+  }
 `;
 
 const Title = styled.div`
   margin-top: 30px;
   font-size: ${(props) => props.theme.fontSize.large};
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
 `;
 const Role = styled.div`
   margin-bottom: 30px;
   font-weight: bold;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
 `;
-const Description = styled.div``;
+const Description = styled.div`
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+`;
 
 interface ITeamProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -99,7 +201,6 @@ function Team(props: ITeamProps) {
   return (
     <Wrapper>
       <UpBox>
-        {/* <Logo src={logo} /> */}
         <TeamText>Team Introdution</TeamText>
         <Btn onClick={handleOnClick}>X</Btn>
       </UpBox>
