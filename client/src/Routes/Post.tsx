@@ -295,7 +295,7 @@ function Post() {
         withCredentials: true,
       })
       .then((res) => {
-        const user = res.data.data;
+        const user = res.data.data.userInfo;
         setWriter(user.username);
       });
   }, []);
@@ -351,7 +351,7 @@ function Post() {
   };
 
   const postModalOnClick = () => {
-    navigate('/');
+    navigate('/search');
   };
 
   const failModalOnClick = () => {
@@ -369,7 +369,6 @@ function Post() {
         <PostMidBox>
           <PostTitle
             type="text"
-            // initialValue={title}
             placeholder="제목은 여기에"
             onChange={titleOnChange}
           />

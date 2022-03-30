@@ -433,6 +433,7 @@ function Profile() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
+    // console.log(userInfo);
     axios
       .get(`${process.env.REACT_APP_SERVER}/users/auth`, {
         headers: {
@@ -442,19 +443,20 @@ function Profile() {
         withCredentials: true,
       })
       .then((res) => {
-        const userinfo = res.data;
-        setUsername(userinfo.data.username);
-        setNametag(userinfo.data.username);
-        setJs(userinfo.data.stacks[0]);
-        setTs(userinfo.data.stacks[1]);
-        setCss(userinfo.data.stacks[2]);
-        setReact(userinfo.data.stacks[3]);
-        setVue(userinfo.data.stacks[4]);
-        setNoSql(userinfo.data.stacks[5]);
-        setSql(userinfo.data.stacks[6]);
-        setExpress(userinfo.data.stacks[7]);
-        setAws(userinfo.data.stacks[8]);
-        setOther(userinfo.data.stacks[9]);
+        const userinfo = res.data.data.userInfo;
+        // console.log(userinfo);
+        setUsername(userinfo.username);
+        setNametag(userinfo.username);
+        setJs(userinfo.stacks[0]);
+        setTs(userinfo.stacks[1]);
+        setCss(userinfo.stacks[2]);
+        setReact(userinfo.stacks[3]);
+        setVue(userinfo.stacks[4]);
+        setNoSql(userinfo.stacks[5]);
+        setSql(userinfo.stacks[6]);
+        setExpress(userinfo.stacks[7]);
+        setAws(userinfo.stacks[8]);
+        setOther(userinfo.stacks[9]);
       });
   }, []);
 

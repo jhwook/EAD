@@ -7,8 +7,12 @@ import { useNavigate } from 'react-router';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor, Viewer } from '@toast-ui/react-editor';
+import { Editor, Viewer, ViewerProps } from '@toast-ui/react-editor';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
+import { json } from 'stream/consumers';
+// import Viewer from '@toast-ui/editor/dist/toastui-editor-viewer';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,13 +24,10 @@ const Wrapper = styled.div`
     font-size: ${(props) => props.theme.fontSize.medium};
     cursor: pointer;
   }
-  .viewer {
-    font-size: ${(props) => props.theme.fontSize.mini};
-  }
 `;
 
 const PostBox = styled.div`
-  width: 800px;
+  width: 835px;
   height: 600px;
   display: flex;
   flex-direction: column;
@@ -35,11 +36,15 @@ const PostBox = styled.div`
   box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
 `;
 
-const PostTopBox = styled.div``;
+const PostTopBox = styled.div`
+  border: 2px solid ${(props) => props.theme.grey};
+`;
 
 const PostWriter = styled.div``;
 
-const PostMidBox = styled.div``;
+const PostMidBox = styled.div`
+  border: 2px solid ${(props) => props.theme.grey};
+`;
 
 const PostTitle = styled.div``;
 
@@ -47,7 +52,11 @@ const PostBounty = styled.div``;
 
 const PostTags = styled.div``;
 
-const PostBotBox = styled.div``;
+const PostBotBox = styled.div`
+  width: 830px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  border: 2px solid ${(props) => props.theme.grey};
+`;
 
 const CommentBox = styled.div`
   width: 800px;
@@ -59,9 +68,16 @@ const CommentBox = styled.div`
   box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
 `;
 
+const CommentItem = styled.div``;
+
+const CommentWriter = styled.div``;
+
+const CommentContent = styled.div``;
+
 function PostView() {
   const { userData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken, isLogin } = userData;
+  // const [post, setPost] = useState<any>(null);
   const [writer, setWriter] = useState('');
   const [title, setTitle] = useState('');
   const [tag, setTag] = useState<string[]>([]);
@@ -69,6 +85,7 @@ function PostView() {
   const [content, setContent] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
+  const [comments, setComments] = useState<any[]>([]);
 
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -86,16 +103,27 @@ function PostView() {
         withCredentials: true,
       })
       .then((res) => {
-        const post = res.data.data;
-        console.log('post', post);
-        // setWriter(post.username);
-        setWriter(post.writer);
-        setTitle(post.title);
-        setTag(post.tag);
-        // setBounty(post.bounty)
-        setContent(post.content);
+        const item = res.data.data;
+        console.log('item', item);
+        // setWriter(item.username);
+        setWriter(item.writer);
+        setTitle(item.title);
+        setTag(item.tag);
+        // setBounty(item.bounty)
+        setContent(item.content);
+        setComments(item.comments);
       });
   }, []);
+  // console.log(comments);
+
+  const test = `
+  # mk1
+  ## mk2
+  ### mk3
+  \`\`\`
+    asd
+  \`\`\`
+  `;
 
   return (
     <Wrapper>
@@ -110,10 +138,18 @@ function PostView() {
           <PostTags>{tag}</PostTags>
         </PostMidBox>
         <PostBotBox>
+          {/* <ReactMarkdown>{content}</ReactMarkdown> */}
           <Viewer initialValue={content} />
         </PostBotBox>
       </PostBox>
-      <CommentBox>comment</CommentBox>
+      <CommentBox>
+        {comments.map((com, idx) => (
+          <CommentItem key={nanoid()}>
+            <CommentWriter>{com.writer}</CommentWriter>
+            <CommentContent>{com.content}</CommentContent>
+          </CommentItem>
+        ))}
+      </CommentBox>
     </Wrapper>
   );
 }
