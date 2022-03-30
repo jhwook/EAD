@@ -234,6 +234,7 @@ function Search() {
   const [all, setAll] = useState(false);
   const [title, setTitle] = useState([]);
   const [search, setSearch] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { postData } = useSelector((state: RootState) => state);
@@ -253,6 +254,20 @@ function Search() {
     const title = postTitle.data.data.map((el: any) => el.title);
     setTitle(title);
   };
+
+  const handleFollow = () => {
+    setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
+  };
+
+  useEffect(() => {
+    const watch = () => {
+      window.addEventListener('scroll', handleFollow);
+    };
+    watch(); // addEventListener 함수를 실행
+    return () => {
+      window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
+    };
+  });
 
   useEffect(() => {
     getTitle();
@@ -761,15 +776,17 @@ function Search() {
         )}
       </ListWrapper>
       <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
-      <UpScrollBtn>
-        <FiChevronsUp
-          className="upscroll"
-          type="button"
-          onClick={UpScrollOnClick}
-        >
-          위로가기
-        </FiChevronsUp>
-      </UpScrollBtn>
+      {scrollY > 500 ? (
+        <UpScrollBtn>
+          <FiChevronsUp
+            className="upscroll"
+            type="button"
+            onClick={UpScrollOnClick}
+          >
+            위로가기
+          </FiChevronsUp>
+        </UpScrollBtn>
+      ) : null}
     </>
   );
 }

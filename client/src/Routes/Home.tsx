@@ -252,7 +252,6 @@ function Home() {
 
   const handleFollow = () => {
     setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
-    console.log(scrollY);
   };
 
   useEffect(() => {
