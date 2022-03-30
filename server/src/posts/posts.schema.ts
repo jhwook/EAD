@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import mongoose, { Types, Document } from 'mongoose';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 import { Comment } from './comments.schema';
 
 const options: SchemaOptions = {
@@ -35,6 +35,10 @@ export class Post extends Document {
   @Prop()
   @IsString()
   imgUrl: string;
+
+  @Prop()
+  @IsNumber()
+  bounty: number;
 }
 // eslint-disable-next-line no-underscore-dangle
 const _PostSchema = SchemaFactory.createForClass(Post);

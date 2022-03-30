@@ -1,6 +1,13 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-else-return */
 import { Injectable, HttpException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { UsersRepository } from 'src/users/users.repository';
+import { Model } from 'mongoose';
+import { User } from 'src/users/users.schema';
 import { PostsRepository } from './posts.repository';
+import { Post } from './posts.schema';
+import { Comment } from './comments.schema';
 
 @Injectable()
 export class PostsService {
@@ -8,28 +15,29 @@ export class PostsService {
   constructor(
     private readonly postsRepository: PostsRepository,
     private readonly usersRepository: UsersRepository,
+    @InjectModel(Post.name) private readonly postModel: Model<Post>,
+    @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
   // 포스트 하나만 가져오기
   async getOnePost(id) {
-    const post = this.postsRepository.getOnePost(id);
+    const post = await this.postModel.findById(id).populate('comments');
     return post;
   }
 
   // async getAllComments() {}
 
   // 포스트 작성
-  async createPost(req) {
-    const { title, content, tags, bounty } = req.body;
-    // const { id } = req.user;
-    // console.log(req.user);
-    // console.log(id);
-    const post = await this.postsRepository.create({
+  async createPost(body) {
+    const { id, title, content, tags, bounty } = body;
+
+    const post = await this.postModel.create({
       // eslint-disable-next-line no-underscore-dangle
-      writer: req.user._id,
+      writer: id,
       title,
       content,
-      tags,
+      tag: tags,
       bounty,
     });
 
@@ -37,108 +45,156 @@ export class PostsService {
   }
 
   // 포스트 수정
-  async updatePost(req, param) {
+  async updatePost(body, param) {
+    const { id, title, content, tag, img } = body;
     const { postId } = param;
-    await this.postsRepository.findPostByIdAndUpdate(postId, req.body);
-    const updatedPost = await this.postsRepository.findPostById(postId);
+    const post = await this.postModel.findById(postId);
+
+    if (post.writer !== id) {
+      throw new HttpException('you are not post owner', 401);
+    }
+    await this.postModel.findByIdAndUpdate(postId, {
+      title,
+      content,
+      img,
+      tag,
+    });
+
+    const updatedPost = await this.postModel.findById(postId);
+
     return updatedPost;
   }
 
   // 포스트 삭제
-  async deletePost(param) {
+  async deletePost(param, body) {
     const { postId } = param;
-    const isExistPost = await this.postsRepository.findPostById(postId);
-    if (isExistPost) {
-      await this.postsRepository.findPostByIdAndDelete(postId);
+    const { id } = body;
+    const post = await this.postsRepository.findPostById(postId);
+
+    if (post.writer !== id) {
+      throw new HttpException('it is not your post', 401);
+    }
+
+    if (post) {
+      await this.postModel.findByIdAndDelete(postId);
+      return { message: 'successfully deleted' };
     } else {
       throw new HttpException('존재하지 않는 포스트입니다', 400);
     }
   }
 
   // 포스트 이미지 저장
-  async uploadPostImg(req, param, files: Express.Multer.File[]) {
-    const { user } = req;
+  async uploadPostImg(body, param, files: Express.Multer.File[]) {
+    const { id } = body;
     const { postId } = param;
-    const post = await this.postsRepository.findPostById(postId);
+    const post = await this.postModel.findById(postId);
 
-    if (user.username === post.writer) {
+    if (id === post.writer) {
       const fileName = `posts/${files[0].filename}`;
-      const newPost = await this.postsRepository.findPostAndUpdateImg(
-        postId,
-        fileName,
-      );
-
+      post.imgUrl = `http://localhost:4000/media/${fileName}`;
+      const newPost = await post.save();
+      console.log(newPost);
       return newPost;
     }
     throw new HttpException('작성자가 일치하지 않습니다.', 401);
   }
 
-  // 검색
+  // 검색 (키워드)
   async searchPost(keyword) {
-    // eslint-disable-next-line no-return-await
-    return await this.postsRepository.searchPostInDB(keyword);
+    if (keyword !== '') {
+      let postArray = [];
+      postArray = await this.postModel
+        .find(
+          { $text: { $search: keyword } },
+          { score: { $meta: 'textScore' } },
+        )
+        .sort({ score: { $meta: 'textScore' } });
+      return postArray.map((post) => {
+        return { id: post.id, title: post.title, tag: post.tag };
+      });
+    }
+    const allPost = await this.postModel.find();
+    return allPost.map((post) => {
+      return { id: post.id, title: post.title, tag: post.tag };
+    });
   }
 
   // 검색 (태그)
   async searchPostByTag(body) {
     const { tag } = body;
-    // eslint-disable-next-line no-return-await
-    return await this.postsRepository.searchPostByTag(tag);
+
+    let postArray = [];
+    postArray = await this.postModel.find({ tag: { $all: tag } });
+
+    return postArray;
   }
 
   // 댓글 작성
-  async createComment(req, param) {
-    const { content } = req.body;
-    const { username } = req.user;
+  async createComment(body, param) {
+    const { id, content } = body;
     const { postId } = param;
 
-    const validatedWriter = await this.usersRepository.findUserByUsername(
-      username,
-    );
-
-    const validatedPost = await this.postsRepository.findPostById(postId);
-
-    const post = await this.postsRepository.addComment(
+    const newComment = await this.commentModel.create({
+      post_id: postId,
+      writer: id,
       content,
-      // eslint-disable-next-line no-underscore-dangle
-      validatedPost._id,
-      // eslint-disable-next-line no-underscore-dangle
-      validatedWriter._id,
-    );
-    return post;
+    });
+
+    await this.postModel.findByIdAndUpdate(postId, {
+      $push: { comment: { $each: [newComment._id], $position: 0 } },
+    });
+
+    const newPost = await this.postModel.findById(postId);
+
+    return newPost;
   }
 
   // 댓글 수정
-  async modifyComment(req, param) {
-    const { content } = req.body;
+  async modifyComment(body, param) {
+    const { id, content } = body;
     const { commentId } = param;
-    const newComment = await this.postsRepository.editComment(
+
+    await this.commentModel.findByIdAndUpdate(commentId, {
       content,
-      commentId,
-    );
+    });
+    const newComment = await this.commentModel.findById(commentId);
     return newComment;
-    // throw new HttpException('수정 완료!!!!!', 200);
   }
 
   // 댓글 삭제
   async deleteComment(param) {
     const { commentId } = param;
-    const updatedPost = await this.postsRepository.deleteComment(commentId);
+    const comment = await this.commentModel.findById(commentId);
+    const post = await this.postModel.findById(comment.post_id);
+
+    if (!comment) {
+      throw new HttpException('존재하지 않는 댓글입니다.', 400);
+    }
+    // 댓글 삭제
+    await this.commentModel.findByIdAndDelete(commentId);
+
+    // 포스트에 있는 댓글 삭제
+    await this.postModel.findByIdAndUpdate(post.id, {
+      $pull: { comment: commentId },
+    });
+
+    const updatedPost = await this.postModel.findById(post.id);
+
     return updatedPost;
-    // throw new HttpException('삭제 완료.....', 200);
   }
 
   // 댓글에 이미지 저장
-  async uploadCommentImg(req, param, files: Express.Multer.File[]) {
-    const { user } = req;
+  async uploadCommentImg(body, param, files: Express.Multer.File[]) {
+    const { id } = body;
     const { commentId } = param;
-    const comment = await this.postsRepository.findCommentById(commentId);
-    if (user.username === comment.writer) {
+    const comment = await this.commentModel.findById(commentId);
+
+    if (id === comment.writer) {
       const fileName = `comments/${files[0].filename}`;
-      const newComment = await this.postsRepository.findCommentAndUpdateImg(
-        commentId,
-        fileName,
-      );
+      const comment = await this.commentModel.findById(id);
+      comment.imgUrl = `http://localhost:4000/media/${fileName}`;
+      const newComment = await comment.save();
+      console.log(newComment);
       return newComment;
     }
     throw new HttpException('작성자가 일치하지 않습니다.', 401);

@@ -10,6 +10,7 @@ import { PostsController } from './posts.controller';
 import { PostsService } from './posts.service';
 import { PostSchema, Post } from './posts.schema';
 import { CommentSchema, Comment } from './comments.schema';
+import { UserSchema, User } from '../users/users.schema';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CommentSchema, Comment } from './comments.schema';
     MongooseModule.forFeature([
       { name: Post.name, schema: PostSchema },
       { name: Comment.name, schema: CommentSchema },
+      { name: User.name, schema: UserSchema },
     ]),
     AuthModule,
     UsersModule,

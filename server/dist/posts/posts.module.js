@@ -17,6 +17,7 @@ const posts_controller_1 = require("./posts.controller");
 const posts_service_1 = require("./posts.service");
 const posts_schema_1 = require("./posts.schema");
 const comments_schema_1 = require("./comments.schema");
+const users_schema_1 = require("../users/users.schema");
 let PostsModule = class PostsModule {
 };
 PostsModule = __decorate([
@@ -28,6 +29,7 @@ PostsModule = __decorate([
             mongoose_1.MongooseModule.forFeature([
                 { name: posts_schema_1.Post.name, schema: posts_schema_1.PostSchema },
                 { name: comments_schema_1.Comment.name, schema: comments_schema_1.CommentSchema },
+                { name: users_schema_1.User.name, schema: users_schema_1.UserSchema },
             ]),
             auth_module_1.AuthModule,
             users_module_1.UsersModule,

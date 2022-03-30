@@ -70,16 +70,7 @@ let UsersRepository = class UsersRepository {
         const user = await this.userModel.findById(id);
         user.imgUrl = `http://localhost:4000/media/${fileName}`;
         const newUser = await user.save();
-        console.log(newUser);
         return newUser.readOnlyData;
-    }
-    async usersPayment(id, cost) {
-        const user = await this.userModel.findById(id);
-        await this.userModel.findByIdAndUpdate(id, {
-            money: user.money + Number(cost),
-        });
-        const userinfo = await this.userModel.findById(id);
-        return userinfo;
     }
 };
 UsersRepository = __decorate([

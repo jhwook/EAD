@@ -6,5 +6,6 @@ export declare class Post extends Document {
     tag: string[];
     comment: [];
     imgUrl: string;
+    bounty: number;
 }
 export declare const PostSchema: mongoose.Schema<Post, mongoose.Model<Post, any, any, any>, any, any>;

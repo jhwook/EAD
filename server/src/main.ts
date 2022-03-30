@@ -14,11 +14,6 @@ import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  // const httpsOptions = {
-  //   key: fs.readFileSync('./key.pem'),
-  //   cert: fs.readFileSync('./cert.pem'),
-  // };
-  // console.trace();
   const server = express();
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
@@ -39,8 +34,5 @@ async function bootstrap() {
   await app.init();
   const { PORT } = process.env;
   http.createServer(server).listen(PORT);
-  // https.createServer(httpsOptions, server).listen(443);
-
-  // await app.listen(PORT);
 }
 bootstrap();

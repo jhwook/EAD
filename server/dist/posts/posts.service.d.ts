@@ -1,21 +1,30 @@
 /// <reference types="multer" />
 import { UsersRepository } from 'src/users/users.repository';
+import { Model } from 'mongoose';
+import { User } from 'src/users/users.schema';
 import { PostsRepository } from './posts.repository';
+import { Post } from './posts.schema';
+import { Comment } from './comments.schema';
 export declare class PostsService {
     private readonly postsRepository;
     private readonly usersRepository;
-    constructor(postsRepository: PostsRepository, usersRepository: UsersRepository);
-    getOnePost(id: any): Promise<import("./posts.schema").Post & {
+    private readonly postModel;
+    private readonly commentModel;
+    private readonly userModel;
+    constructor(postsRepository: PostsRepository, usersRepository: UsersRepository, postModel: Model<Post>, commentModel: Model<Comment>, userModel: Model<User>);
+    getOnePost(id: any): Promise<Post & {
         _id: any;
     }>;
-    createPost(req: any): Promise<import("./posts.schema").Post & {
+    createPost(body: any): Promise<Post & {
         _id: any;
     }>;
-    updatePost(req: any, param: any): Promise<import("./posts.schema").Post & {
+    updatePost(body: any, param: any): Promise<Post & {
         _id: any;
     }>;
-    deletePost(param: any): Promise<void>;
-    uploadPostImg(req: any, param: any, files: Express.Multer.File[]): Promise<import("./posts.schema").Post & {
+    deletePost(param: any, body: any): Promise<{
+        message: string;
+    }>;
+    uploadPostImg(body: any, param: any, files: Express.Multer.File[]): Promise<Post & {
         _id: any;
     }>;
     searchPost(keyword: any): Promise<{
@@ -24,16 +33,16 @@ export declare class PostsService {
         tag: any;
     }[]>;
     searchPostByTag(body: any): Promise<any[]>;
-    createComment(req: any, param: any): Promise<import("./posts.schema").Post & {
+    createComment(body: any, param: any): Promise<Post & {
         _id: any;
     }>;
-    modifyComment(req: any, param: any): Promise<import("./comments.schema").Comment & {
+    modifyComment(body: any, param: any): Promise<Comment & {
         _id: any;
     }>;
-    deleteComment(param: any): Promise<import("./posts.schema").Post & {
+    deleteComment(param: any): Promise<Post & {
         _id: any;
     }>;
-    uploadCommentImg(req: any, param: any, files: Express.Multer.File[]): Promise<import("./comments.schema").Comment & {
+    uploadCommentImg(body: any, param: any, files: Express.Multer.File[]): Promise<Comment & {
         _id: any;
     }>;
     getPostTitle(): Promise<{
