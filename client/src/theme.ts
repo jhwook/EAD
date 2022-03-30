@@ -4,6 +4,8 @@ const size = {
   mobile: '768px',
   tablet: '1200px',
   desktop: '1201px',
+  desktop1: '1600px',
+  desktop2: '2000px',
 };
 
 export const theme: DefaultTheme = {
@@ -21,7 +23,9 @@ export const theme: DefaultTheme = {
   kakao: '#FADF4B',
   mobile: `(max-width: ${size.mobile})`,
   tablet: `(min-width: ${size.mobile}) and (max-width: ${size.tablet})`,
-  desktop: `(min-width: ${size.desktop})`,
+  desktop: `(min-width: ${size.desktop}) and (max-width: 1599px)`,
+  desktop1: `(min-width: ${size.desktop1}) and (max-width: 1999px)`,
+  desktop2: `(min-width: ${size.desktop2})`,
   fontSize: {
     micro: '12px',
     tiny: '15px',

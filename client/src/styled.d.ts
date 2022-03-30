@@ -17,6 +17,8 @@ declare module 'styled-components' {
     mobile: string;
     tablet: string;
     desktop: string;
+    desktop1: string;
+    desktop2: string;
     fontSize: {
       micro: string;
       tiny: string;
