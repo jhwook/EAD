@@ -216,6 +216,7 @@ const UpScrollBtn = styled.div`
     width: 40px;
     height: 40px;
     right: 40px;
+    bottom: 200px;
   }
   @media ${(props) => props.theme.tablet} {
     width: 50px;
