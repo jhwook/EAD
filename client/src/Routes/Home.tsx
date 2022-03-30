@@ -21,22 +21,22 @@ import logo5 from '../Image/Logo/5.png';
 const HomeWrapper = styled.div`
   height: auto;
   min-height: 100%;
-  padding-bottom: 10.5vh;
+  padding-bottom: 12.1vh;
   @media ${(props) => props.theme.mobile} {
     height: auto;
     min-height: 100%;
-    padding-bottom: 15vh;
+    padding-bottom: 16.4vh;
   }
 `;
 
 const FooterWrapper = styled.div`
-  height: 10.5vh;
+  height: 12.1vh;
   position: relative;
-  margin-top: -10.5vh;
+  margin-top: -12.1vh;
   @media ${(props) => props.theme.mobile} {
-    height: 10.5vh;
+    height: 16.4vh;
     position: relative;
-    margin-top: -15vh;
+    margin-top: -16.4vh;
   }
 `;
 
@@ -431,7 +431,7 @@ function Home() {
             <Fade delay={500}>
               <TextBox>
                 <Number>04</Number>
-                <Title>협업 시에 해결되지 않은 문제가 있으신가요?</Title>
+                {/* <Title>협업 시에 해결되지 않은 문제가 있으신가요?</Title> */}
                 <Fade delay={700}>
                   {/* <Descriprtion>
                     해결되지 않은 문제를 공유해주세요.
