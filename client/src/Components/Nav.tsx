@@ -76,7 +76,7 @@ const Modal = styled.div`
   border-radius: 15px;
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
-  z-index: 3;
+  z-index: 10;
   @media ${(props) => props.theme.mobile} {
     width: 100%;
     right: 0px;
