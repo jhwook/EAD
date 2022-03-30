@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   height: 100vh;
   padding: 30px;
   background-color: ${(props) => props.theme.green};
-  z-index: 2;
 `;
 const UpBox = styled.div`
   display: flex;
@@ -21,7 +20,7 @@ const DownBox = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 150px;
+  margin-top: 250px;
 `;
 
 // const Logo = styled.img`
@@ -36,7 +35,12 @@ const Btn = styled.button`
   background-color: inherit;
   border: none;
   font-size: ${(props) => props.theme.fontSize.medium};
-  height: 50px;
+  position: absolute;
+  top: 120px;
+  right: 50px;
+  height: 100px;
+  z-index: 11;
+  cursor: pointer;
   &:hover {
     transform: rotate(90deg);
     transition: transform 0.5s;
