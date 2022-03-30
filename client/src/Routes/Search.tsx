@@ -9,6 +9,7 @@ import { FiChevronsUp } from 'react-icons/fi';
 import { AppDispatch, inSearch, RootState } from 'index';
 import SearchList from 'Components/SearchList';
 import Nav from 'Components/Nav';
+import Footer from 'Components/Footer';
 import AddBtn from '../Image/Search/add.png';
 import Logo from '../Image/Logo/search.png';
 
@@ -16,6 +17,28 @@ interface IStackProps {
   bgColor: string;
   color: string;
 }
+
+const SearchWrapper = styled.div`
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 150px;
+  @media ${(props) => props.theme.mobile} {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 200px;
+  }
+`;
+
+const FooterWrapper = styled.div`
+  height: 150px;
+  position: relative;
+  margin-top: -150px;
+  @media ${(props) => props.theme.mobile} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  }
+`;
 
 const StackWrapper = styled.div`
   width: 70%;
@@ -97,7 +120,7 @@ const ListWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 57vh;
+  min-height: 638px;
 `;
 
 const Lists = styled.ul`
@@ -517,264 +540,267 @@ function Search() {
   return (
     <>
       <Nav />
-      <StackWrapper>
-        <UpBox>
-          {all ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('all')}
-            >
-              All
-            </Stack>
+      <SearchWrapper>
+        <StackWrapper>
+          <UpBox>
+            {all ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('all')}
+              >
+                All
+              </Stack>
+            ) : (
+              <Stack
+                bgColor="white"
+                color="#5A9E7A"
+                onClick={() => checkOnClick('all')}
+              >
+                All
+              </Stack>
+            )}
+            {html ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('html')}
+              >
+                HTML
+              </Stack>
+            ) : (
+              <Stack
+                bgColor="white"
+                color="#5A9E7A"
+                onClick={() => checkOnClick('html')}
+              >
+                HTML
+              </Stack>
+            )}
+            {css ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('css')}
+              >
+                CSS
+              </Stack>
+            ) : (
+              <Stack
+                bgColor="white"
+                color="#5A9E7A"
+                onClick={() => checkOnClick('css')}
+              >
+                CSS
+              </Stack>
+            )}
+            {js ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('javascript')}
+              >
+                JavaScript
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('javascript')}
+              >
+                JavaScript
+              </Stack>
+            )}
+            {react ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('react')}
+              >
+                React
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('react')}
+              >
+                React
+              </Stack>
+            )}
+            {redux ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('redux')}
+              >
+                Redux
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('redux')}
+              >
+                Redux
+              </Stack>
+            )}
+          </UpBox>
+          <DownBox>
+            {ts ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('typescript')}
+              >
+                TypeScript
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('typescript')}
+              >
+                TypeScript
+              </Stack>
+            )}
+            {sc ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('styledcomponents')}
+              >
+                Styled-Component
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('styledcomponents')}
+              >
+                Styled-Component
+              </Stack>
+            )}
+            {node ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('node')}
+              >
+                Node.js
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('node')}
+              >
+                Node.js
+              </Stack>
+            )}
+            {express ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('express')}
+              >
+                Express
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('express')}
+              >
+                Express
+              </Stack>
+            )}
+            {aws ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('aws')}
+              >
+                AWS
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('aws')}
+              >
+                AWS
+              </Stack>
+            )}
+            {git ? (
+              <Stack
+                bgColor="#5A9E7A"
+                color="white"
+                onClick={() => checkOnClick('git')}
+              >
+                Git
+              </Stack>
+            ) : (
+              <Stack
+                color="#5A9E7A"
+                bgColor="white"
+                onClick={() => checkOnClick('git')}
+              >
+                Git
+              </Stack>
+            )}
+          </DownBox>
+        </StackWrapper>
+        <Searchbar>
+          <Form onSubmit={handleOnSubmit}>
+            <SearchBarWrapper>
+              <SearchInput
+                onChange={handleOnChange}
+                value={value}
+                placeholder={errorMessage || '여기에 입력해주세요!'}
+              />
+              <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
+              {arr.length !== 0 && value !== '' && search ? (
+                <SearchBarBox>
+                  <SearchList
+                    type="submit"
+                    list={filteredArr}
+                    chooseList={searchListOnClick}
+                    // onKey={handleKeyUp}
+                  />
+                </SearchBarBox>
+              ) : null}
+            </SearchBarWrapper>
+            <Button type="submit">
+              <FaSearch className="search" />
+            </Button>
+          </Form>
+        </Searchbar>
+        <ListWrapper>
+          {post.length !== 0 ? (
+            <Lists>
+              {post.map((el) => (
+                <List key={nanoid()} onClick={() => postOnClick(el.id)}>
+                  <UpSide>
+                    <Title>{el.title}</Title>
+                  </UpSide>
+                  <DownSide>
+                    {el.tag.map((el: string) => (
+                      <Tag key={nanoid()}>{el}</Tag>
+                    ))}
+                  </DownSide>
+                </List>
+              ))}
+            </Lists>
           ) : (
-            <Stack
-              bgColor="white"
-              color="#5A9E7A"
-              onClick={() => checkOnClick('all')}
-            >
-              All
-            </Stack>
+            <Box>
+              <NoneLogo src={Logo} />
+              <NoneText>검색결과가 없습니다.</NoneText>
+            </Box>
           )}
-          {html ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('html')}
-            >
-              HTML
-            </Stack>
-          ) : (
-            <Stack
-              bgColor="white"
-              color="#5A9E7A"
-              onClick={() => checkOnClick('html')}
-            >
-              HTML
-            </Stack>
-          )}
-          {css ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('css')}
-            >
-              CSS
-            </Stack>
-          ) : (
-            <Stack
-              bgColor="white"
-              color="#5A9E7A"
-              onClick={() => checkOnClick('css')}
-            >
-              CSS
-            </Stack>
-          )}
-          {js ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('javascript')}
-            >
-              JavaScript
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('javascript')}
-            >
-              JavaScript
-            </Stack>
-          )}
-          {react ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('react')}
-            >
-              React
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('react')}
-            >
-              React
-            </Stack>
-          )}
-          {redux ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('redux')}
-            >
-              Redux
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('redux')}
-            >
-              Redux
-            </Stack>
-          )}
-        </UpBox>
-        <DownBox>
-          {ts ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('typescript')}
-            >
-              TypeScript
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('typescript')}
-            >
-              TypeScript
-            </Stack>
-          )}
-          {sc ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('styledcomponents')}
-            >
-              Styled-Component
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('styledcomponents')}
-            >
-              Styled-Component
-            </Stack>
-          )}
-          {node ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('node')}
-            >
-              Node.js
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('node')}
-            >
-              Node.js
-            </Stack>
-          )}
-          {express ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('express')}
-            >
-              Express
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('express')}
-            >
-              Express
-            </Stack>
-          )}
-          {aws ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('aws')}
-            >
-              AWS
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('aws')}
-            >
-              AWS
-            </Stack>
-          )}
-          {git ? (
-            <Stack
-              bgColor="#5A9E7A"
-              color="white"
-              onClick={() => checkOnClick('git')}
-            >
-              Git
-            </Stack>
-          ) : (
-            <Stack
-              color="#5A9E7A"
-              bgColor="white"
-              onClick={() => checkOnClick('git')}
-            >
-              Git
-            </Stack>
-          )}
-        </DownBox>
-      </StackWrapper>
-      <Searchbar>
-        <Form onSubmit={handleOnSubmit}>
-          <SearchBarWrapper>
-            <SearchInput
-              onChange={handleOnChange}
-              value={value}
-              placeholder={errorMessage || '여기에 입력해주세요!'}
-            />
-            <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
-            {arr.length !== 0 && value !== '' && search ? (
-              <SearchBarBox>
-                <SearchList
-                  type="submit"
-                  list={filteredArr}
-                  chooseList={searchListOnClick}
-                  // onKey={handleKeyUp}
-                />
-              </SearchBarBox>
-            ) : null}
-          </SearchBarWrapper>
-          <Button type="submit">
-            <FaSearch className="search" />
-          </Button>
-        </Form>
-      </Searchbar>
-      <ListWrapper>
-        {post.length !== 0 ? (
-          <Lists>
-            {post.map((el) => (
-              <List key={nanoid()} onClick={() => postOnClick(el.id)}>
-                <UpSide>
-                  <Title>{el.title}</Title>
-                </UpSide>
-                <DownSide>
-                  {el.tag.map((el: string) => (
-                    <Tag key={nanoid()}>{el}</Tag>
-                  ))}
-                </DownSide>
-              </List>
-            ))}
-          </Lists>
-        ) : (
-          <Box>
-            <NoneLogo src={Logo} />
-            <NoneText>검색결과가 없습니다.</NoneText>
-          </Box>
-        )}
-      </ListWrapper>
+        </ListWrapper>
+      </SearchWrapper>
+
       <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
       {scrollY > 500 ? (
         <UpScrollBtn>
@@ -787,6 +813,9 @@ function Search() {
           </FiChevronsUp>
         </UpScrollBtn>
       ) : null}
+      <FooterWrapper>
+        <Footer />
+      </FooterWrapper>
     </>
   );
 }
