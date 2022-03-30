@@ -33,6 +33,7 @@ export const theme: DefaultTheme = {
     small: '23px',
     medium: '30px',
     large: '40px',
+    xLarge: '50px',
     huge: '60px',
     veryHuge: '70px',
   },
