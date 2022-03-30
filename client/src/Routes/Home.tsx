@@ -22,22 +22,22 @@ import logo5 from '../Image/Logo/5.png';
 const HomeWrapper = styled.div`
   height: auto;
   min-height: 100%;
-  padding-bottom: 12.1vh;
+  padding-bottom: 150px;
   @media ${(props) => props.theme.mobile} {
     height: auto;
     min-height: 100%;
-    padding-bottom: 16.4vh;
+    padding-bottom: 200px;
   }
 `;
 
 const FooterWrapper = styled.div`
-  height: 12.1vh;
+  height: 150px;
   position: relative;
-  margin-top: -12.1vh;
+  margin-top: -150px;
   @media ${(props) => props.theme.mobile} {
-    height: 16.4vh;
+    height: 200px;
     position: relative;
-    margin-top: -16.4vh;
+    margin-top: -200px;
   }
 `;
 
@@ -216,7 +216,7 @@ const UpScrollBtn = styled.div`
     width: 40px;
     height: 40px;
     right: 40px;
-    bottom: 200px;
+    bottom: 220px;
   }
   @media ${(props) => props.theme.tablet} {
     width: 50px;
