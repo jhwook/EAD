@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FiChevronsUp } from 'react-icons/fi';
 import { AppDispatch, inSearch, RootState } from 'index';
 import SearchList from 'Components/SearchList';
+import Nav from 'Components/Nav';
 import AddBtn from '../Image/Search/add.png';
 import Logo from '../Image/Logo/search.png';
 
@@ -500,6 +501,7 @@ function Search() {
 
   return (
     <>
+      <Nav />
       <StackWrapper>
         <UpBox>
           {all ? (
