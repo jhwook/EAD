@@ -5,14 +5,37 @@ import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router';
 import { FiSend } from 'react-icons/fi';
 import Nav from 'Components/Nav';
+import Footer from 'Components/Footer';
 import logo from '../Image/Logo/1.png';
 
 const ENDPOINT = 'http://localhost:4000';
 const socket = io(ENDPOINT);
 
+const ChattingWrapper = styled.div`
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 150px;
+  @media ${(props) => props.theme.mobile} {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 200px;
+  }
+`;
+
+const FooterWrapper = styled.div`
+  height: 150px;
+  position: relative;
+  margin-top: -150px;
+  @media ${(props) => props.theme.mobile} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  }
+`;
+
 const Wrapper = styled.div`
   width: 100%;
-  height: 71.2vh;
+  height: 798px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -254,52 +277,57 @@ function Join() {
   return (
     <>
       <Nav />
-      <Wrapper>
-        <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
-        <ChatWrapper>
-          <ChatMain>
-            <RoomWrapper>
-              <ListTitle>채팅목록</ListTitle>
-              <ChatRoomList>
-                {roomList.map((el: string) => (
-                  <RoomList key={nanoid()}>
-                    <RoomBox>
-                      <Picture src={logo} />
-                      {el}
-                    </RoomBox>
-                  </RoomList>
-                ))}
-              </ChatRoomList>
-            </RoomWrapper>
-            <Chatting>
-              <ChatInfo>
-                <Nickname>{`${room}Viktor`}</Nickname>
-              </ChatInfo>
-              <List>
-                {chat.map((el: string) => (
-                  <ChatList key={nanoid()}>
-                    <MsgBox>
-                      <Picture src={logo} />
-                      {el}
-                    </MsgBox>
-                  </ChatList>
-                ))}
-              </List>
-              <ChatForm>
-                <MsgInput
-                  placeholder="메세지를 입력해주세요."
-                  value={message}
-                  onChange={onMessageChange}
-                />
-                <MsgBtn type="submit" onClick={onMessageClick}>
-                  <FiSend className="send" />
-                </MsgBtn>
-              </ChatForm>
-            </Chatting>
-          </ChatMain>
-        </ChatWrapper>
-        <PostWrapper />
-      </Wrapper>
+      <ChattingWrapper>
+        <Wrapper>
+          <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
+          <ChatWrapper>
+            <ChatMain>
+              <RoomWrapper>
+                <ListTitle>채팅목록</ListTitle>
+                <ChatRoomList>
+                  {roomList.map((el: string) => (
+                    <RoomList key={nanoid()}>
+                      <RoomBox>
+                        <Picture src={logo} />
+                        {el}
+                      </RoomBox>
+                    </RoomList>
+                  ))}
+                </ChatRoomList>
+              </RoomWrapper>
+              <Chatting>
+                <ChatInfo>
+                  <Nickname>{`${room}Viktor`}</Nickname>
+                </ChatInfo>
+                <List>
+                  {chat.map((el: string) => (
+                    <ChatList key={nanoid()}>
+                      <MsgBox>
+                        <Picture src={logo} />
+                        {el}
+                      </MsgBox>
+                    </ChatList>
+                  ))}
+                </List>
+                <ChatForm>
+                  <MsgInput
+                    placeholder="메세지를 입력해주세요."
+                    value={message}
+                    onChange={onMessageChange}
+                  />
+                  <MsgBtn type="submit" onClick={onMessageClick}>
+                    <FiSend className="send" />
+                  </MsgBtn>
+                </ChatForm>
+              </Chatting>
+            </ChatMain>
+          </ChatWrapper>
+          <PostWrapper />
+        </Wrapper>
+      </ChattingWrapper>
+      <FooterWrapper>
+        <Footer />
+      </FooterWrapper>
     </>
   );
 }

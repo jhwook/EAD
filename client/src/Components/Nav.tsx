@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     display: none;
     @media ${(props) => props.theme.mobile} {
       display: block;
-      position: fixed;
+      position: absolute;
       top: 32px;
       right: 40px;
       font-size: ${(props) => props.theme.fontSize.medium};

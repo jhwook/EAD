@@ -41,14 +41,6 @@ const FooterWrapper = styled.div`
   }
 `;
 
-const NavWrapper = styled.div`
-  background-color: ${(props) => props.theme.beige};
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 10;
-`;
-
 const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -365,10 +357,8 @@ function Home() {
 
   return (
     <>
+      <Nav />
       <HomeWrapper>
-        <NavWrapper>
-          <Nav />
-        </NavWrapper>
         {open ? (
           <TeamWrapper>
             <Team setOpen={setOpen} />
