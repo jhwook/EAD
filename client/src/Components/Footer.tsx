@@ -7,8 +7,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.green};
-  bottom: 0;
-  box-sizing: border-box;
   @media ${(props) => props.theme.mobile} {
     height: 16.4vh;
     padding-left: 20px;
