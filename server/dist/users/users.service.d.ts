@@ -2,15 +2,17 @@
 import { Model } from 'mongoose';
 import { MailerService } from '@nestjs-modules/mailer';
 import { TwilioClient } from 'nestjs-twilio';
+import { Post } from 'src/posts/posts.schema';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
-    private readonly userModel;
     private readonly usersRepository;
     private readonly mailerService;
     private readonly twilio;
-    constructor(userModel: Model<User>, usersRepository: UsersRepository, mailerService: MailerService, twilio: TwilioClient);
+    private readonly userModel;
+    private readonly postModel;
+    constructor(usersRepository: UsersRepository, mailerService: MailerService, twilio: TwilioClient, userModel: Model<User>, postModel: Model<Post>);
     createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;
@@ -18,7 +20,7 @@ export declare class UsersService {
         stacks: object;
         oauth: any;
         imgUrl: string;
-        posts: import("../posts/posts.schema").Post[];
+        posts: Post[];
         refreshToken: string;
     }>;
     oauthSignUp(username: any, refreshToken: any): Promise<void>;
@@ -29,13 +31,10 @@ export declare class UsersService {
     deleteUser(userInfo: UserRequestDto): Promise<string>;
     findUserByEmail(email: any): Promise<User>;
     findUserByUsername(username: any): Promise<User>;
-    updateUser(req: any): Promise<{
-        isLogin: boolean;
-        userInfo: User & {
-            _id: any;
-        };
+    updateUser(body: any): Promise<User & {
+        _id: any;
     }>;
-    changeStacksBoolean(param: any, req: any): Promise<{
+    changeStacksBoolean(param: any, body: any): Promise<{
         message: string;
     }>;
     getUsersPosts(req: any): Promise<User & {
@@ -54,7 +53,7 @@ export declare class UsersService {
         stacks: object;
         oauth: any;
         imgUrl: string;
-        posts: import("../posts/posts.schema").Post[];
+        posts: Post[];
         refreshToken: string;
     }>;
     sendEmail(body: any): Promise<void>;

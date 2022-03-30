@@ -24,9 +24,6 @@ export declare class UsersRepository {
     changeStacks(id: any, newStacks: any): Promise<User & {
         _id: any;
     }>;
-    findUserAndUpdate(user: any, body: any): Promise<User & {
-        _id: any;
-    }>;
     findUserPosts(id: any): Promise<User & {
         _id: any;
     }>;

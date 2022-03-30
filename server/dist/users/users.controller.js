@@ -48,12 +48,14 @@ let UsersController = class UsersController {
         const naverUrl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_CLIENT_ID}&client_secret=${process.env.NAVER_CLIENT_SECRET}&code=${code}&state=${state}`;
         const naverToken = await axios_2.default.get(naverUrl, {
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             withCredentials: true,
         });
         const accessToken = naverToken.data.access_token;
         const refreshToken = naverToken.data.refresh_token;
+        console.log(accessToken);
+        console.log(refreshToken);
         const userData = await axios_2.default.get('https://openapi.naver.com/v1/nid/me', {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -118,11 +120,11 @@ let UsersController = class UsersController {
     signout(req) {
         return this.usersService.deleteUser(req.user);
     }
-    updateUser(req) {
-        return this.usersService.updateUser(req);
+    updateUser(body) {
+        return this.usersService.updateUser(body);
     }
-    updateStacks(param, req) {
-        return this.usersService.changeStacksBoolean(param, req);
+    updateStacks(param, body) {
+        return this.usersService.changeStacksBoolean(param, body);
     }
     verifyEmail(body) {
         return this.usersService.verifyUserEmail(body);
@@ -214,18 +216,16 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "signout", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Patch)('/profile'),
-    __param(0, (0, common_1.Req)()),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateUser", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/stacks/:id'),
     __param(0, (0, common_1.Param)()),
-    __param(1, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)

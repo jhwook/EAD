@@ -16,7 +16,6 @@ exports.UsersRepository = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("mongoose");
-const bcrypt = require("bcrypt");
 const users_schema_1 = require("./users.schema");
 let UsersRepository = class UsersRepository {
     constructor(userModel, postModel) {
@@ -62,31 +61,6 @@ let UsersRepository = class UsersRepository {
         return await this.userModel.findByIdAndUpdate(id, {
             stacks: newStacks,
         });
-    }
-    async findUserAndUpdate(user, body) {
-        const { id } = user;
-        const { username: newUsername, password: newPassword } = body;
-        const isExistUsername = await this.userModel.findOne({
-            username: newUsername,
-        });
-        if (isExistUsername) {
-            throw new common_1.HttpException('이미 존재하는 닉네임입니다.', 400);
-        }
-        if (!newPassword) {
-            await this.userModel.findByIdAndUpdate(id, {
-                username: newUsername,
-            });
-        }
-        if (newPassword) {
-            const salt = await bcrypt.genSalt();
-            const hashedPassword = await bcrypt.hash(newPassword, salt);
-            await this.userModel.findByIdAndUpdate(id, {
-                username: newUsername,
-                password: hashedPassword,
-            });
-        }
-        const modifiedUserInfo = await this.userModel.findById(id);
-        return modifiedUserInfo;
     }
     async findUserPosts(id) {
         const result = await this.userModel.findById(id).populate('posts');

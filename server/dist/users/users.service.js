@@ -23,11 +23,12 @@ const nestjs_twilio_1 = require("nestjs-twilio");
 const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
 let UsersService = class UsersService {
-    constructor(userModel, usersRepository, mailerService, twilio) {
-        this.userModel = userModel;
+    constructor(usersRepository, mailerService, twilio, userModel, postModel) {
         this.usersRepository = usersRepository;
         this.mailerService = mailerService;
         this.twilio = twilio;
+        this.userModel = userModel;
+        this.postModel = postModel;
     }
     async createUser(body) {
         const { email, username, password } = body;
@@ -103,21 +104,31 @@ let UsersService = class UsersService {
     async findUserByUsername(username) {
         return await this.usersRepository.findUserByUsername(username);
     }
-    async updateUser(req) {
-        const userInfo = req.user;
-        const newUserInfo = await this.usersRepository.findUserAndUpdate(userInfo, req.body);
-        return {
-            isLogin: true,
-            userInfo: newUserInfo,
-        };
+    async updateUser(body) {
+        const { username, newUsername, newPassword } = body;
+        if (!newPassword || newPassword === '') {
+            await this.userModel.findOneAndUpdate({ username }, { username: newUsername });
+        }
+        else {
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(newPassword, salt);
+            await this.userModel.findOneAndUpdate({ username }, {
+                username: newUsername,
+                password: hashedPassword,
+            });
+        }
+        const modifiedUser = await this.userModel.findOne({
+            username: newUsername,
+        });
+        return modifiedUser;
     }
-    async changeStacksBoolean(param, req) {
-        const { id, email } = req.user;
-        const user = await this.usersRepository.findUserByEmail(email);
+    async changeStacksBoolean(param, body) {
+        const { username } = body;
+        const user = await this.userModel.findOne({ username });
         const idx = param.id;
         const newStacks = user.stacks;
         newStacks.splice(idx, 1, !newStacks[idx]);
-        await this.usersRepository.changeStacks(id, newStacks);
+        await this.userModel.findOneAndUpdate({ username }, { stacks: newStacks });
         return { message: 'ok' };
     }
     async getUsersPosts(req) {
@@ -184,11 +195,12 @@ let UsersService = class UsersService {
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
-    __param(3, (0, nestjs_twilio_1.InjectTwilio)()),
-    __metadata("design:paramtypes", [mongoose_1.Model,
-        users_repository_1.UsersRepository,
-        mailer_1.MailerService, Object])
+    __param(2, (0, nestjs_twilio_1.InjectTwilio)()),
+    __param(3, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
+    __param(4, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
+    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
+        mailer_1.MailerService, Object, mongoose_1.Model,
+        mongoose_1.Model])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map
