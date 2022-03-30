@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import logo from '../Image/Logo/ead.png';
 
 const Wrapper = styled.div`
-  height: 12.1vh;
+  height: 150px;
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
   background-color: ${(props) => props.theme.green};
   @media ${(props) => props.theme.mobile} {
-    height: 16.4vh;
+    height: 200px;
     padding-left: 20px;
   }
 `;
