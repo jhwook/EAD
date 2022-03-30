@@ -9,6 +9,7 @@ import * as crypto from 'crypto';
 import { MailerService } from '@nestjs-modules/mailer';
 // import * as twilio from 'twilio';
 import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
+import { Post } from 'src/posts/posts.schema';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
@@ -22,10 +23,11 @@ import { UserRequestDto } from './dto/users.request.dto';
 export class UsersService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    @InjectModel(User.name) private readonly userModel: Model<User>,
     private readonly usersRepository: UsersRepository,
     private readonly mailerService: MailerService,
     @InjectTwilio() private readonly twilio: TwilioClient,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    @InjectModel(User.name) private readonly postModel: Model<Post>,
   ) {}
 
   // 회원가입
@@ -117,27 +119,40 @@ export class UsersService {
   }
 
   // 회원정보 수정
-  async updateUser(req) {
-    const userInfo = req.user;
+  async updateUser(body) {
+    const { username, newUsername, newPassword } = body;
 
-    const newUserInfo = await this.usersRepository.findUserAndUpdate(
-      userInfo,
-      req.body,
-    );
-    return {
-      isLogin: true,
-      userInfo: newUserInfo,
-    };
+    if (!newPassword || newPassword === '') {
+      await this.userModel.findOneAndUpdate(
+        { username },
+        { username: newUsername },
+      );
+    } else {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+      await this.userModel.findOneAndUpdate(
+        { username },
+        {
+          username: newUsername,
+          password: hashedPassword,
+        },
+      );
+    }
+    const modifiedUser = await this.userModel.findOne({
+      username: newUsername,
+    });
+    return modifiedUser;
   }
 
   // 스택 버튼 누를 시 수정
-  async changeStacksBoolean(param, req) {
-    const { id, email } = req.user;
-    const user = await this.usersRepository.findUserByEmail(email);
+  async changeStacksBoolean(param, body) {
+    const { username } = body;
+    const user = await this.userModel.findOne({ username });
     const idx = param.id;
     const newStacks = user.stacks;
     newStacks.splice(idx, 1, !newStacks[idx]);
-    await this.usersRepository.changeStacks(id, newStacks);
+    await this.userModel.findOneAndUpdate({ username }, { stacks: newStacks });
     return { message: 'ok' };
   }
 

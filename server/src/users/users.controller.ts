@@ -81,14 +81,15 @@ export class UsersController {
     const naverUrl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_CLIENT_ID}&client_secret=${process.env.NAVER_CLIENT_SECRET}&code=${code}&state=${state}`;
     const naverToken = await axios.get(naverUrl, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       withCredentials: true,
     });
 
     const accessToken = naverToken.data.access_token;
     const refreshToken = naverToken.data.refresh_token;
-
+    console.log(accessToken);
+    console.log(refreshToken);
     const userData = await axios.get('https://openapi.naver.com/v1/nid/me', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -208,16 +209,16 @@ export class UsersController {
     return this.usersService.deleteUser(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Patch('/profile')
-  updateUser(@Req() req) {
-    return this.usersService.updateUser(req);
+  updateUser(@Body() body) {
+    return this.usersService.updateUser(body);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('/stacks/:id')
-  updateStacks(@Param() param, @Req() req) {
-    return this.usersService.changeStacksBoolean(param, req);
+  updateStacks(@Param() param, @Body() body) {
+    return this.usersService.changeStacksBoolean(param, body);
   }
 
   @Post('/verify/email')

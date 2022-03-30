@@ -68,37 +68,6 @@ export class UsersRepository {
     });
   }
 
-  async findUserAndUpdate(user, body) {
-    const { id } = user;
-    const { username: newUsername, password: newPassword } = body;
-    const isExistUsername = await this.userModel.findOne({
-      username: newUsername,
-    });
-
-    if (isExistUsername) {
-      throw new HttpException('이미 존재하는 닉네임입니다.', 400);
-    }
-
-    if (!newPassword) {
-      await this.userModel.findByIdAndUpdate(id, {
-        username: newUsername,
-      });
-    }
-
-    if (newPassword) {
-      const salt = await bcrypt.genSalt();
-      const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-      await this.userModel.findByIdAndUpdate(id, {
-        username: newUsername,
-        password: hashedPassword,
-      });
-    }
-
-    const modifiedUserInfo = await this.userModel.findById(id);
-    return modifiedUserInfo;
-  }
-
   async findUserPosts(id) {
     const result = await this.userModel.findById(id).populate('posts');
 
