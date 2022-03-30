@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
+import Nav from 'Components/Nav';
 import Payment from 'Components/Payment';
 import Button from '../Components/Button';
 import hiLogo from '../Image/Logo/profile.png';
@@ -811,215 +812,220 @@ function Profile() {
   };
 
   return (
-    <Wrapper>
-      <LeftBox>
-        {userInfo?.imgUrl ? (
-          <UserPhoto src={userInfo.imgUrl} />
-        ) : (
-          <UserPhoto src={hiLogo} />
-        )}
-        <ImgForm>
-          <ImgLabel htmlFor="imgInput">프로필 사진 등록</ImgLabel>
-          <ImgInput
-            id="imgInput"
-            type="file"
-            accept="image/*"
-            onChange={onChangeImg}
-          />
-        </ImgForm>
-        <StackName>어서오세요, {userInfo.username}님!</StackName>
-        <StackText>내가 사용하는 스택</StackText>
-        <StackLine />
-        <StackBox>
-          {js ? (
-            <Button
-              onClick={onClickJs}
-              bg="#5A9E7A"
-              cl="white"
-              name="Javascript"
-            />
+    <>
+      <Nav />
+      <Wrapper>
+        <LeftBox>
+          {userInfo?.imgUrl ? (
+            <UserPhoto src={userInfo.imgUrl} />
           ) : (
-            <Button
-              onClick={onClickJs}
-              bg="white"
-              cl="#5A9E7A"
-              name="Javascript"
-            />
+            <UserPhoto src={hiLogo} />
           )}
-          {ts ? (
-            <Button
-              onClick={onClickTs}
-              bg="#5A9E7A"
-              cl="white"
-              name="Typescript"
+          <ImgForm>
+            <ImgLabel htmlFor="imgInput">프로필 사진 등록</ImgLabel>
+            <ImgInput
+              id="imgInput"
+              type="file"
+              accept="image/*"
+              onChange={onChangeImg}
             />
-          ) : (
-            <Button
-              onClick={onClickTs}
-              bg="white"
-              cl="#5A9E7A"
-              name="Typescript"
-            />
-          )}
-          {css ? (
-            <Button onClick={onClickCss} bg="#5A9E7A" cl="white" name="CSS" />
-          ) : (
-            <Button onClick={onClickCss} bg="white" cl="#5A9E7A" name="CSS" />
-          )}
-          {react ? (
-            <Button
-              onClick={onClickReact}
-              bg="#5A9E7A"
-              cl="white"
-              name="React"
-            />
-          ) : (
-            <Button
-              onClick={onClickReact}
-              bg="white"
-              cl="#5A9E7A"
-              name="React"
-            />
-          )}
-          {vue ? (
-            <Button onClick={onClickVue} bg="#5A9E7A" cl="white" name="Vue" />
-          ) : (
-            <Button onClick={onClickVue} bg="white" cl="#5A9E7A" name="Vue" />
-          )}
-          {noSql ? (
-            <Button
-              onClick={onClickNoSql}
-              bg="#5A9E7A"
-              cl="white"
-              name="NoSql"
-            />
-          ) : (
-            <Button
-              onClick={onClickNoSql}
-              bg="white"
-              cl="#5A9E7A"
-              name="NoSql"
-            />
-          )}
-          {sql ? (
-            <Button onClick={onClickSql} bg="#5A9E7A" cl="white" name="SQL" />
-          ) : (
-            <Button onClick={onClickSql} bg="white" cl="#5A9E7A" name="SQL" />
-          )}
-          {express ? (
-            <Button
-              onClick={onClickExpress}
-              bg="#5A9E7A"
-              cl="white"
-              name="Express"
-            />
-          ) : (
-            <Button
-              onClick={onClickExpress}
-              bg="white"
-              cl="#5A9E7A"
-              name="Express"
-            />
-          )}
-          {aws ? (
-            <Button onClick={onClickAws} bg="#5A9E7A" cl="white" name="AWS" />
-          ) : (
-            <Button onClick={onClickAws} bg="white" cl="#5A9E7A" name="AWS" />
-          )}
-          {other ? (
-            <Button
-              onClick={onClickOther}
-              bg="#5A9E7A"
-              cl="white"
-              name="Others"
-            />
-          ) : (
-            <Button
-              onClick={onClickOther}
-              bg="white"
-              cl="#5A9E7A"
-              name="Others"
-            />
-          )}
-        </StackBox>
-        <StackText>내 충전 금액</StackText>
-        <StackLine />
-        <CostBox>
-          <CostText>충전된 금액</CostText>
-          <CostText>{userInfo.money}원</CostText>
-          <CostInput
-            placeholder="충전할 금액"
-            type="text"
-            onChange={costOnChange}
-          />
-          <Payment cost={cost} setCost={setCost} />
-        </CostBox>
-      </LeftBox>
-      <RightBox>
-        <InfoBox>
-          <InfoNameForm onSubmit={handleNameSubmit}>
-            <InfoText>이메일</InfoText>
-            <EmailInput value={userInfo.email} readOnly />
-            <NameText>닉네임</NameText>
-            <InfoDistrict onClick={checkUernameOnClick}>중복검사</InfoDistrict>
-            <InfoInput
+          </ImgForm>
+          <StackName>어서오세요, {userInfo.username}님!</StackName>
+          <StackText>내가 사용하는 스택</StackText>
+          <StackLine />
+          <StackBox>
+            {js ? (
+              <Button
+                onClick={onClickJs}
+                bg="#5A9E7A"
+                cl="white"
+                name="Javascript"
+              />
+            ) : (
+              <Button
+                onClick={onClickJs}
+                bg="white"
+                cl="#5A9E7A"
+                name="Javascript"
+              />
+            )}
+            {ts ? (
+              <Button
+                onClick={onClickTs}
+                bg="#5A9E7A"
+                cl="white"
+                name="Typescript"
+              />
+            ) : (
+              <Button
+                onClick={onClickTs}
+                bg="white"
+                cl="#5A9E7A"
+                name="Typescript"
+              />
+            )}
+            {css ? (
+              <Button onClick={onClickCss} bg="#5A9E7A" cl="white" name="CSS" />
+            ) : (
+              <Button onClick={onClickCss} bg="white" cl="#5A9E7A" name="CSS" />
+            )}
+            {react ? (
+              <Button
+                onClick={onClickReact}
+                bg="#5A9E7A"
+                cl="white"
+                name="React"
+              />
+            ) : (
+              <Button
+                onClick={onClickReact}
+                bg="white"
+                cl="#5A9E7A"
+                name="React"
+              />
+            )}
+            {vue ? (
+              <Button onClick={onClickVue} bg="#5A9E7A" cl="white" name="Vue" />
+            ) : (
+              <Button onClick={onClickVue} bg="white" cl="#5A9E7A" name="Vue" />
+            )}
+            {noSql ? (
+              <Button
+                onClick={onClickNoSql}
+                bg="#5A9E7A"
+                cl="white"
+                name="NoSql"
+              />
+            ) : (
+              <Button
+                onClick={onClickNoSql}
+                bg="white"
+                cl="#5A9E7A"
+                name="NoSql"
+              />
+            )}
+            {sql ? (
+              <Button onClick={onClickSql} bg="#5A9E7A" cl="white" name="SQL" />
+            ) : (
+              <Button onClick={onClickSql} bg="white" cl="#5A9E7A" name="SQL" />
+            )}
+            {express ? (
+              <Button
+                onClick={onClickExpress}
+                bg="#5A9E7A"
+                cl="white"
+                name="Express"
+              />
+            ) : (
+              <Button
+                onClick={onClickExpress}
+                bg="white"
+                cl="#5A9E7A"
+                name="Express"
+              />
+            )}
+            {aws ? (
+              <Button onClick={onClickAws} bg="#5A9E7A" cl="white" name="AWS" />
+            ) : (
+              <Button onClick={onClickAws} bg="white" cl="#5A9E7A" name="AWS" />
+            )}
+            {other ? (
+              <Button
+                onClick={onClickOther}
+                bg="#5A9E7A"
+                cl="white"
+                name="Others"
+              />
+            ) : (
+              <Button
+                onClick={onClickOther}
+                bg="white"
+                cl="#5A9E7A"
+                name="Others"
+              />
+            )}
+          </StackBox>
+          <StackText>내 충전 금액</StackText>
+          <StackLine />
+          <CostBox>
+            <CostText>충전된 금액</CostText>
+            <CostText>{userInfo.money}원</CostText>
+            <CostInput
+              placeholder="충전할 금액"
               type="text"
-              value={username}
-              placeholder={username}
-              onChange={usernameOnChange}
+              onChange={costOnChange}
             />
-            <InfoErrorText>{errNameMessage}</InfoErrorText>
-            <InfoNameBtn type="submit">닉네임 변경하기</InfoNameBtn>
-          </InfoNameForm>
-          <InfoPasswordForm onSubmit={handlePasswordSubmit}>
-            <PasswordText>비밀번호</PasswordText>
-            <InfoInput
-              type="password"
-              placeholder="비밀번호를 입력하세요"
-              onChange={passwordOnChange}
-            />
-            <InfoErrorText>{errPwMessage}</InfoErrorText>
-            <InfoInput
-              type="password"
-              placeholder="비밀번호를 한번 더 입력하세요"
-              onChange={confirmPwOnChange}
-            />
-            <InfoErrorText>{errConfirmPwMessage}</InfoErrorText>
-            <InfoPwBtn type="submit">비밀번호 변경하기</InfoPwBtn>
-            <WitInfo onClick={handleWitModalClick}>회원탈퇴</WitInfo>
-          </InfoPasswordForm>
-        </InfoBox>
-      </RightBox>
-      {witModalView ? (
-        <WitModalBack>
-          <WitModalBox>
-            <WitText>정말로 탈퇴하실 건가요?</WitText>
-            <WitModalBtnBox>
-              <WitModalBtn onClick={handleWitDelClick}>네</WitModalBtn>
-              <WitModalBtn onClick={handleWitModalClick}>아니요</WitModalBtn>
-            </WitModalBtnBox>
-          </WitModalBox>
-        </WitModalBack>
-      ) : null}
-      {infoModalView ? (
-        <InfoModalBack>
-          <InfoModalBox>
-            <InfoModalText>닉네임이 변경되었습니다</InfoModalText>
-            <InfoModalBtn onClick={handleInfoModalClick}>확인</InfoModalBtn>
-          </InfoModalBox>
-        </InfoModalBack>
-      ) : null}
-      {changeModalView ? (
-        <ChangeModalBack>
-          <ChangeModalBox>
-            <ChangeModalText>
-              성공적으로 변경을 하였습니다 다시 로그인 해주세요
-            </ChangeModalText>
-            <ChangeModalBtn onClick={handlePwModalClick}>확인</ChangeModalBtn>
-          </ChangeModalBox>
-        </ChangeModalBack>
-      ) : null}
-    </Wrapper>
+            <Payment cost={cost} setCost={setCost} />
+          </CostBox>
+        </LeftBox>
+        <RightBox>
+          <InfoBox>
+            <InfoNameForm onSubmit={handleNameSubmit}>
+              <InfoText>이메일</InfoText>
+              <EmailInput value={userInfo.email} readOnly />
+              <NameText>닉네임</NameText>
+              <InfoDistrict onClick={checkUernameOnClick}>
+                중복검사
+              </InfoDistrict>
+              <InfoInput
+                type="text"
+                value={username}
+                placeholder={username}
+                onChange={usernameOnChange}
+              />
+              <InfoErrorText>{errNameMessage}</InfoErrorText>
+              <InfoNameBtn type="submit">닉네임 변경하기</InfoNameBtn>
+            </InfoNameForm>
+            <InfoPasswordForm onSubmit={handlePasswordSubmit}>
+              <PasswordText>비밀번호</PasswordText>
+              <InfoInput
+                type="password"
+                placeholder="비밀번호를 입력하세요"
+                onChange={passwordOnChange}
+              />
+              <InfoErrorText>{errPwMessage}</InfoErrorText>
+              <InfoInput
+                type="password"
+                placeholder="비밀번호를 한번 더 입력하세요"
+                onChange={confirmPwOnChange}
+              />
+              <InfoErrorText>{errConfirmPwMessage}</InfoErrorText>
+              <InfoPwBtn type="submit">비밀번호 변경하기</InfoPwBtn>
+              <WitInfo onClick={handleWitModalClick}>회원탈퇴</WitInfo>
+            </InfoPasswordForm>
+          </InfoBox>
+        </RightBox>
+        {witModalView ? (
+          <WitModalBack>
+            <WitModalBox>
+              <WitText>정말로 탈퇴하실 건가요?</WitText>
+              <WitModalBtnBox>
+                <WitModalBtn onClick={handleWitDelClick}>네</WitModalBtn>
+                <WitModalBtn onClick={handleWitModalClick}>아니요</WitModalBtn>
+              </WitModalBtnBox>
+            </WitModalBox>
+          </WitModalBack>
+        ) : null}
+        {infoModalView ? (
+          <InfoModalBack>
+            <InfoModalBox>
+              <InfoModalText>닉네임이 변경되었습니다</InfoModalText>
+              <InfoModalBtn onClick={handleInfoModalClick}>확인</InfoModalBtn>
+            </InfoModalBox>
+          </InfoModalBack>
+        ) : null}
+        {changeModalView ? (
+          <ChangeModalBack>
+            <ChangeModalBox>
+              <ChangeModalText>
+                성공적으로 변경을 하였습니다 다시 로그인 해주세요
+              </ChangeModalText>
+              <ChangeModalBtn onClick={handlePwModalClick}>확인</ChangeModalBtn>
+            </ChangeModalBox>
+          </ChangeModalBack>
+        ) : null}
+      </Wrapper>
+    </>
   );
 }
 
