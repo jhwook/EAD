@@ -22,25 +22,39 @@ const HomeWrapper = styled.div`
   height: auto;
   min-height: 100%;
   padding-bottom: 10.5vh;
+  @media ${(props) => props.theme.mobile} {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 15vh;
+  }
 `;
 
 const FooterWrapper = styled.div`
   height: 10.5vh;
   position: relative;
-  transform: translateY(-34%);
+  margin-top: -10.5vh;
   @media ${(props) => props.theme.mobile} {
-    transform: translateY(-16%);
+    height: 10.5vh;
+    position: relative;
+    margin-top: -15vh;
   }
+`;
+
+const NavWrapper = styled.div`
+  background-color: ${(props) => props.theme.beige};
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
 `;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 80vh;
+  height: 100vh;
   display: flex;
   flex-direction: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 200px;
   .team {
     font-size: ${(props) => props.theme.fontSize.veryHuge};
     color: ${(props) => props.theme.green};
@@ -300,7 +314,9 @@ function Home() {
   return (
     <>
       <HomeWrapper>
-        <Nav />
+        <NavWrapper>
+          <Nav />
+        </NavWrapper>
         {open ? (
           <TeamWrapper>
             <Team setOpen={setOpen} />
@@ -417,13 +433,13 @@ function Home() {
                 <Number>04</Number>
                 <Title>협업 시에 해결되지 않은 문제가 있으신가요?</Title>
                 <Fade delay={700}>
-                  <Descriprtion>
+                  {/* <Descriprtion>
                     해결되지 않은 문제를 공유해주세요.
                   </Descriprtion>
                   <Descriprtion>
                     수많은 협업을 진행해 온 전문가들이 여러분들을 기다리고
                     있습니다.
-                  </Descriprtion>
+                  </Descriprtion> */}
                 </Fade>
               </TextBox>
             </Fade>
