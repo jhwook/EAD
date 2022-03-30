@@ -9,6 +9,7 @@ import SearchList from 'Components/SearchList';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
+import { FiChevronsUp } from 'react-icons/fi';
 import { HomeSearch } from 'index';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
@@ -73,7 +74,7 @@ const TeamWrapper = styled.div`
   width: 100%;
   transform: translateX(0%);
   transition: all 1s;
-  z-index: 3;
+  z-index: 6;
 `;
 
 const Box = styled.div`
@@ -195,18 +196,44 @@ const DeleteBtn = styled.div`
   cursor: pointer;
 `;
 
+const UpScrollBtn = styled.div`
+  width: 55px;
+  height: 55px;
+  position: fixed;
+  right: 160px;
+  bottom: 170px;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  transition: all 1s;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  .upscroll {
+    width: 100%;
+    height: 100%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 40px;
+    height: 40px;
+    right: 40px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 50px;
+    height: 50px;
+    right: 60px;
+  }
+`;
+
 function Home() {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [title, setTitle] = useState([]);
   const [select, setSelect] = useState('');
   const [index, setIndex] = useState(0);
-  // const location = useLocation();
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
-  // const { userData } = useSelector((state: RootState) => state);
-  // console.log(userData);
 
   const getTitle = async () => {
     const postTitle = await axios.post(
@@ -222,6 +249,21 @@ function Home() {
     const title = postTitle.data.data.map((el: any) => el.title);
     setTitle(title);
   };
+
+  const handleFollow = () => {
+    setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
+    console.log(scrollY);
+  };
+
+  useEffect(() => {
+    const watch = () => {
+      window.addEventListener('scroll', handleFollow);
+    };
+    watch(); // addEventListener 함수를 실행
+    return () => {
+      window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
+    };
+  });
 
   useEffect(() => {
     getTitle();
@@ -309,6 +351,16 @@ function Home() {
 
   const deleteValueOnClick = () => {
     setValue('');
+  };
+
+  const UpScrollOnClick = () => {
+    if (!window.scrollY) {
+      return;
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   return (
@@ -449,6 +501,17 @@ function Home() {
           </RightBox>
         </Box>
       </HomeWrapper>
+      {scrollY >= 500 ? (
+        <UpScrollBtn>
+          <FiChevronsUp
+            className="upscroll"
+            type="button"
+            onClick={UpScrollOnClick}
+          >
+            위로가기
+          </FiChevronsUp>
+        </UpScrollBtn>
+      ) : null}
       <FooterWrapper>
         <Footer />
       </FooterWrapper>
