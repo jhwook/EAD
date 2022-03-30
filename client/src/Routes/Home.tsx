@@ -346,6 +346,12 @@ const UpScrollBtn = styled.div`
   }
 `;
 
+interface IElProps {
+  id: string;
+  title: string;
+  tag: string[];
+}
+
 function Home() {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
@@ -368,7 +374,7 @@ function Home() {
         withCredentials: false,
       },
     );
-    const title = postTitle.data.data.map((el: any) => el.title);
+    const title = postTitle.data.data.map((el: IElProps) => el.title);
     setTitle(title);
   };
 

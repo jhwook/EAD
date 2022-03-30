@@ -154,16 +154,30 @@ const userSlice = createSlice({
   },
 });
 
-const postState: any[] = [];
+type TPayloadAction = [
+  {
+    id: number;
+    title: string;
+    tag: string[];
+  },
+];
+
+type TPostState = {
+  id: number;
+  title: string;
+  tag: string[];
+};
+
+const postState: TPostState[] = [];
 
 const postSlice = createSlice({
   name: 'post',
   initialState: postState,
   reducers: {
-    HomeSearch(state, action: PayloadAction<any>) {
+    HomeSearch(state, action: PayloadAction<TPayloadAction>) {
       return [...action.payload];
     },
-    inSearch(state, action: PayloadAction<any>) {
+    inSearch(state, action: PayloadAction<TPayloadAction>) {
       return [...action.payload];
     },
   },
