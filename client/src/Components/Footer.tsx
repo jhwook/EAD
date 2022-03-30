@@ -2,15 +2,15 @@ import styled from 'styled-components';
 import logo from '../Image/Logo/ead.png';
 
 const Wrapper = styled.div`
-  height: 10.5vh;
+  height: 12.1vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.green};
-  padding: 20px 0px;
   bottom: 0;
+  box-sizing: border-box;
   @media ${(props) => props.theme.mobile} {
-    height: 15vh;
+    height: 16.4vh;
     padding-left: 20px;
   }
 `;
@@ -50,7 +50,7 @@ const DownBox = styled.div`
   font-weight: bold;
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
-    margin-top: 5px;
+    margin-top: 2px;
   }
   @media ${(props) => props.theme.tablet} {
     font-size: ${(props) => props.theme.fontSize.micro};

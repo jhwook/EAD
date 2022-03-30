@@ -2,8 +2,8 @@ import { DefaultTheme } from 'styled-components';
 
 const size = {
   mobile: '768px',
-  tablet: '1023px',
-  desktop: '1024px',
+  tablet: '1200px',
+  desktop: '1201px',
 };
 
 export const theme: DefaultTheme = {
@@ -20,7 +20,7 @@ export const theme: DefaultTheme = {
   google: '#CF543D',
   kakao: '#FADF4B',
   mobile: `(max-width: ${size.mobile})`,
-  tablet: `(min-width: ${size.mobile}) and (max-width: ${size.tablet})`,
+  tablet: `(min-width: ${size.mobile} + 1) and (max-width: ${size.tablet})`,
   desktop: `(min-width: ${size.desktop})`,
   fontSize: {
     micro: '12px',
