@@ -45,9 +45,15 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
-  flex-direction: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+  }
+  @media ${(props) => props.theme.tablet} {
+    flex-direction: column;
+  }
   .team {
     font-size: ${(props) => props.theme.fontSize.veryHuge};
     color: ${(props) => props.theme.green};
@@ -57,6 +63,18 @@ const Wrapper = styled.div`
     z-index: 2;
     &:hover {
       font-size: ${(props) => props.theme.fontSize.huge};
+    }
+    @media ${(props) => props.theme.mobile} {
+      top: 650px;
+      right: 5px;
+    }
+    @media ${(props) => props.theme.tablet} {
+      top: 600px;
+      right: 10px;
+    }
+    @media ${(props) => props.theme.desktop} {
+      top: 600px;
+      right: 10px;
     }
   }
 `;
@@ -76,6 +94,23 @@ const Box = styled.div`
 
 const Logo = styled.img`
   width: 700px;
+  @media ${(props) => props.theme.mobile} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 470px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 470px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 600px;
+  }
+  .logo5 {
+    @media ${(props) => props.theme.desktop} {
+      width: 400px;
+    }
+  }
 `;
 const SearchBox = styled.div`
   display: flex;
@@ -91,6 +126,15 @@ const LeftBox = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.pink};
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+  }
+  @media ${(props) => props.theme.tablet} {
+    flex-direction: column;
+  }
+  .three {
+    padding: 0px 40px;
+  }
 `;
 
 const RightBox = styled.div`
@@ -100,6 +144,15 @@ const RightBox = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.beige};
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+  }
+  @media ${(props) => props.theme.tablet} {
+    flex-direction: column;
+  }
+  .four {
+    padding: 0px 60px;
+  }
 `;
 
 const TextBox = styled.div`
@@ -113,18 +166,49 @@ const TextBox = styled.div`
 const Text = styled.div`
   font-size: ${(props) => props.theme.fontSize.huge};
   margin-bottom: 10px;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.large};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.large};
+  }
 `;
 
 const Number = styled.div`
   font-size: ${(props) => props.theme.fontSize.huge};
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.large};
+  }
 `;
+
 const Title = styled.div`
   font-size: ${(props) => props.theme.fontSize.huge};
   margin-bottom: 50px;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.large};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.large};
+  }
 `;
 const Descriprtion = styled.div`
   font-size: ${(props) => props.theme.fontSize.medium};
   margin-bottom: 5px;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
 `;
 
 const Searchbar = styled.div`
@@ -135,6 +219,9 @@ const Searchbar = styled.div`
   z-index: 0;
   .search {
     font-size: ${(props) => props.theme.fontSize.huge};
+    @media ${(props) => props.theme.mobile} {
+      font-size: ${(props) => props.theme.fontSize.large};
+    }
   }
 `;
 const SearchInput = styled.input`
@@ -145,6 +232,16 @@ const SearchInput = styled.input`
   margin-right: 20px;
   font-size: ${(props) => props.theme.fontSize.small};
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  @media ${(props) => props.theme.mobile} {
+    width: 350px;
+    margin-right: 5px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 450px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 450px;
+  }
 `;
 
 const Form = styled.form`
@@ -177,6 +274,16 @@ const SearchBarBox = styled.ul`
   position: absolute;
   top: 60px;
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  @media ${(props) => props.theme.mobile} {
+    width: 350px;
+    margin-right: 5px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 450px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 450px;
+  }
 `;
 
 const DeleteBtn = styled.div`
@@ -214,6 +321,12 @@ const UpScrollBtn = styled.div`
     width: 50px;
     height: 50px;
     right: 60px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    right: 70px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    right: 110px;
   }
 `;
 
@@ -453,13 +566,13 @@ function Home() {
             </Fade>
             <Fade delay={500}>
               <TextBox>
-                <Number>03</Number>
-                <Title>개발하면서 오류를 만나셨나요?</Title>
+                <Number className="three">03</Number>
+                <Title className="three">개발하면서 오류를 만나셨나요?</Title>
                 <Fade delay={700}>
-                  <Descriprtion>
+                  <Descriprtion className="three">
                     여러분이 겪은 오류를 공유해주세요.
                   </Descriprtion>
-                  <Descriprtion>
+                  <Descriprtion className="three">
                     수많은 오류를 해결한 전문가들이 여러분들을 기다리고
                     있습니다.
                   </Descriprtion>
@@ -472,21 +585,21 @@ function Home() {
           <RightBox>
             <Fade delay={500}>
               <TextBox>
-                <Number>04</Number>
-                {/* <Title>협업 시에 해결되지 않은 문제가 있으신가요?</Title> */}
+                <Number className="four">04</Number>
+                <Title className="four">협업 시 문제가 있으신가요?</Title>
                 <Fade delay={700}>
-                  {/* <Descriprtion>
+                  <Descriprtion className="four">
                     해결되지 않은 문제를 공유해주세요.
                   </Descriprtion>
-                  <Descriprtion>
+                  <Descriprtion className="four">
                     수많은 협업을 진행해 온 전문가들이 여러분들을 기다리고
                     있습니다.
-                  </Descriprtion> */}
+                  </Descriprtion>
                 </Fade>
               </TextBox>
             </Fade>
             <Fade direction="right">
-              <Logo src={logo5} />
+              <Logo className="logo5" src={logo5} />
             </Fade>
           </RightBox>
         </Box>
