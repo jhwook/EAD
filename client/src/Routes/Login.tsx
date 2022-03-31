@@ -18,6 +18,9 @@ const LoginWrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 2;
+  @media ${(props) => props.theme.mobile} {
+    top: 20px;
+  }
 `;
 const Wrapper = styled.div`
   width: 370px;
