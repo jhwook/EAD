@@ -93,7 +93,7 @@ export class PostsController {
   }
 
   @Get('/comments/:commentId')
-  getOneComment(@Param() Param) {
+  getOneComment(@Param() param) {
     return this.postsService.getOneComment(param);
   }
 

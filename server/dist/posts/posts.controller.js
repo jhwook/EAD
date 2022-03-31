@@ -52,6 +52,9 @@ let PostsController = class PostsController {
     deleteComment(param) {
         return this.postsService.deleteComment(param);
     }
+    getOneComment(param) {
+        return this.postsService.getOneComment(param);
+    }
     getPostTitle() {
         return this.postsService.getPostTitle();
     }
@@ -131,6 +134,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "deleteComment", null);
+__decorate([
+    (0, common_1.Get)('/comments/:commentId'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getOneComment", null);
 __decorate([
     (0, common_1.Post)('/title'),
     __metadata("design:type", Function),

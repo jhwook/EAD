@@ -5,22 +5,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
 import Nav from 'Components/Nav';
+import Footer from 'Components/Footer';
 import Payment from 'Components/Payment';
 import Button from '../Components/Button';
 import hiLogo from '../Image/Logo/profile.png';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 71vh;
+  height: 818px;
   display: flex;
   flex-direction: flex;
   justify-content: center;
   align-items: center;
 `;
 
+const FooterWrapper = styled.div`
+  height: 150px;
+  position: relative;
+  margin-top: -150px;
+  @media ${(props) => props.theme.mobile} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  }
+`;
+
 const LeftBox = styled.div`
   width: 700px;
-  height: 700px;
+  height: 818px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -107,7 +119,7 @@ const CostInput = styled.input`
 
 const RightBox = styled.div`
   width: 700px;
-  height: 700px;
+  height: 818px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -405,7 +417,7 @@ function Profile() {
   const [changeModalView, setChangeModalView] = useState(false);
   const { userData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken } = userData;
-  console.log('in', userData);
+  console.log(userInfo);
   const [js, setJs] = useState(userInfo.stacks?.[0]);
   const [ts, setTs] = useState(userInfo.stacks?.[1]);
   const [css, setCss] = useState(userInfo.stacks?.[2]);
@@ -416,6 +428,8 @@ function Profile() {
   const [express, setExpress] = useState(userInfo.stacks?.[7]);
   const [aws, setAws] = useState(userInfo.stacks?.[8]);
   const [other, setOther] = useState(userInfo.stacks?.[9]);
+  const [userId, setUserId] = useState(userInfo.id);
+  console.log(userId);
   const [username, setUsername] = useState(userInfo.username);
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
@@ -426,7 +440,6 @@ function Profile() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    // console.log(userInfo);
     axios
       .get(`${process.env.REACT_APP_SERVER}/users/auth`, {
         headers: {
@@ -436,6 +449,33 @@ function Profile() {
         withCredentials: true,
       })
       .then((res) => {
+        console.log('au', res);
+        const userinfo = res.data.data.userInfo;
+        setUsername(userinfo.username);
+        setJs(userinfo.stacks[0]);
+        setTs(userinfo.stacks[1]);
+        setCss(userinfo.stacks[2]);
+        setReact(userinfo.stacks[3]);
+        setVue(userinfo.stacks[4]);
+        setNoSql(userinfo.stacks[5]);
+        setSql(userinfo.stacks[6]);
+        setExpress(userinfo.stacks[7]);
+        setAws(userinfo.stacks[8]);
+        setOther(userinfo.stacks[9]);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER}/users/oauth`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log('oa', res);
         const userinfo = res.data.data.userInfo;
         setUsername(userinfo.username);
         setJs(userinfo.stacks[0]);
@@ -491,7 +531,7 @@ function Profile() {
     setJs(!js);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/0`,
-      { js, username },
+      { js, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -505,7 +545,7 @@ function Profile() {
     setTs(!ts);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/1`,
-      { ts, username },
+      { ts, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -519,7 +559,7 @@ function Profile() {
     setCss(!css);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/2`,
-      { css, username },
+      { css, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -533,7 +573,7 @@ function Profile() {
     setReact(!react);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/3`,
-      { react, username },
+      { react, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -547,7 +587,7 @@ function Profile() {
     setVue(!vue);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/4`,
-      { vue, username },
+      { vue, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -561,7 +601,7 @@ function Profile() {
     setNoSql(!noSql);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/5`,
-      { noSql, username },
+      { noSql, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -575,7 +615,7 @@ function Profile() {
     setSql(!sql);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/6`,
-      { sql, username },
+      { sql, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -589,7 +629,7 @@ function Profile() {
     setExpress(!express);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/7`,
-      { express, username },
+      { express, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -603,7 +643,7 @@ function Profile() {
     setAws(!aws);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/8`,
-      { aws, username },
+      { aws, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -617,7 +657,7 @@ function Profile() {
     setOther(!other);
     await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/9`,
-      { other, username },
+      { other, id: userId },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -659,7 +699,7 @@ function Profile() {
       setUsername(username);
       const data = await axios.patch(
         `${process.env.REACT_APP_SERVER}/users/profile`,
-        { username: userInfo.username, newUsername: username },
+        { id: userId, newUsername: username },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -668,6 +708,7 @@ function Profile() {
           withCredentials: true,
         },
       );
+      console.log(data.data);
       dispatch(UserModify(data.data));
       setUsername(username);
       setErrNameMessage('');
@@ -680,7 +721,7 @@ function Profile() {
     if (password === confirmPw && password !== '') {
       await axios.patch(
         `${process.env.REACT_APP_SERVER}/users/profile`,
-        { username: userInfo.username, newPassword: password },
+        { id: userId, newPassword: password },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -726,7 +767,8 @@ function Profile() {
       formData.append('image', uploadImg);
       await axios.post(
         `${process.env.REACT_APP_SERVER}/users/upload`,
-        formData,
+        // body에 id: userId를 추가함
+        { formData, id: userId },
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -954,6 +996,9 @@ function Profile() {
           </ChangeModalBack>
         ) : null}
       </Wrapper>
+      <FooterWrapper>
+        <Footer />
+      </FooterWrapper>
     </>
   );
 }

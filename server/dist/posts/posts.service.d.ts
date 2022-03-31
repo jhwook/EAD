@@ -42,6 +42,9 @@ export declare class PostsService {
     deleteComment(param: any): Promise<Post & {
         _id: any;
     }>;
+    getOneComment(param: any): Promise<Comment & {
+        _id: any;
+    }>;
     uploadCommentImg(body: any, param: any, files: Express.Multer.File[]): Promise<Comment & {
         _id: any;
     }>;

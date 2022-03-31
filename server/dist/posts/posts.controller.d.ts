@@ -32,6 +32,9 @@ export declare class PostsController {
     deleteComment(param: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
+    getOneComment(param: any): Promise<import("./comments.schema").Comment & {
+        _id: any;
+    }>;
     getPostTitle(): Promise<{
         id: any;
         title: string;
