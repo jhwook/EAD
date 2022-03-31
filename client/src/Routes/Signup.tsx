@@ -7,7 +7,7 @@ import Home from './Home';
 const SignupWrapper = styled.div`
   width: 100%;
   height: 100%;
-  top: 0px;
+  top: 65px;
   position: absolute;
   display: flex;
   justify-content: center;
