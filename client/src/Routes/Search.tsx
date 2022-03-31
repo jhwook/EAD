@@ -177,7 +177,7 @@ const Lists = styled.ul`
   margin-bottom: 50px;
   @media ${(props) => props.theme.iPhone12Pro} {
     grid-template-columns: repeat(1, 1fr);
-    width: 500px;
+    width: 300px;
     gap: 20px;
   }
   @media ${(props) => props.theme.mobile} {
@@ -283,7 +283,7 @@ const AddPostBtn = styled.img`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 45px;
     height: 45px;
-    top: 400px;
+    top: 390px;
     right: 10px;
   }
   @media ${(props) => props.theme.mobile} {
