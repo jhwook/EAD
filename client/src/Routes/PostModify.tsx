@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { nanoid } from '@reduxjs/toolkit';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
@@ -280,33 +281,43 @@ const FailModalBtn = styled.button`
   }
 `;
 
-function Post() {
+function PostModify() {
   const { userData } = useSelector((state: RootState) => state);
   const { accessToken, userInfo } = userData;
   const [writer, setWriter] = useState(userInfo?.username);
+  const [writerId, setWriterId] = useState('');
   const initialTag: string[] = [];
   const [tag, setTag] = useState(initialTag);
   const [title, setTitle] = useState('');
   const [bounty, setBounty] = useState(0);
+  const [content, setContent] = useState('');
+  const [comments, setComments] = useState<any[]>([]);
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`${process.env.REACT_APP_SERVER}/users/auth`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       const user = res.data.data.userInfo;
-  //       setWriter(user.username);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER}/posts/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const item = res.data.data;
+        console.log('item', item);
+        setWriterId(item.writer);
+        setWriter(item.writerName);
+        setTitle(item.title);
+        setTag(item.tag);
+        setBounty(item.bounty);
+        setContent(item.content);
+        setComments(item.comments);
+      });
+  }, []);
 
   const delTag = (targetIdx: any) => {
     setTag(tag.filter((_: string, idx: number) => idx !== targetIdx));
@@ -328,17 +339,17 @@ function Post() {
     setTitle(e.target.value);
   };
 
-  const registOnClick = async () => {
+  const modifyOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
     if (tag.length !== 0 && title !== '' && content !== '') {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER}/posts`,
+      await axios.patch(
+        `${process.env.REACT_APP_SERVER}/posts/${id}`,
         {
           id: userInfo.id,
           title,
           tag,
-          bounty,
+          // bounty, // 추가해야함
           content,
         },
         {
@@ -356,7 +367,7 @@ function Post() {
   };
 
   const postModalOnClick = () => {
-    navigate('/search');
+    navigate('/');
   };
 
   const failModalOnClick = () => {
@@ -371,12 +382,12 @@ function Post() {
         <PostBox>
           <PostTopBox>
             <PostWriter>{writer}</PostWriter>
-            <PostBtn onClick={registOnClick}>등록</PostBtn>
+            <PostBtn onClick={modifyOnClick}>수정</PostBtn>
           </PostTopBox>
           <PostMidBox>
             <PostTitle
               type="text"
-              placeholder="제목은 여기에"
+              // initialValue={title}
               onChange={titleOnChange}
             />
             <PostBountyBox>
@@ -415,6 +426,7 @@ function Post() {
             <Editor
               height="420px"
               initialEditType="markdown"
+              initialValue=""
               ref={editorRef}
               placeholder="마크다운 양식으로 작성하세요"
               toolbarItems={[
@@ -430,7 +442,7 @@ function Post() {
         {postModalView ? (
           <PostModalBack>
             <PostModalBox>
-              <PostModalText>게시글이 등록되었습니다</PostModalText>
+              <PostModalText>게시글이 수정되었습니다</PostModalText>
               <PostModalBtn onClick={postModalOnClick}>확인</PostModalBtn>
             </PostModalBox>
           </PostModalBack>
@@ -453,4 +465,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default PostModify;

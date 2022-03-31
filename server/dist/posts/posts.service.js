@@ -151,6 +151,11 @@ let PostsService = class PostsService {
         const updatedPost = await this.postModel.findById(post.id);
         return updatedPost;
     }
+    async getOneComment(param) {
+        const { commentId } = param;
+        const comment = await this.commentModel.findById(commentId);
+        return comment;
+    }
     async uploadCommentImg(body, param, files) {
         const { id } = body;
         const { commentId } = param;
