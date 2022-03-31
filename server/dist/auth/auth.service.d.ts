@@ -12,7 +12,7 @@ export declare class AuthService {
         userInfo: User;
         token: string;
     }>;
-    validateUser(userData: any, refreshToken: any, provider: any): Promise<any>;
+    validateUser(id: any, name: any, refreshToken: any, provider: any): Promise<any>;
     onceToken(userProfile: any): string;
     createLoginToken(user: any): Promise<string>;
 }

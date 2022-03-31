@@ -23,14 +23,20 @@ export declare class UsersService {
         posts: Post[];
         refreshToken: string;
     }>;
-    oauthSignUp(username: any, refreshToken: any): Promise<void>;
+    oauthSignUp(username: any, password: any, refreshToken: any): Promise<User & {
+        _id: any;
+    }>;
     findUserByToken(refreshToken: any): Promise<User & {
         _id: any;
     }>;
-    oauthTokenUpdate(user: any, refreshToken: any): Promise<void>;
+    oauthTokenUpdate(password: any, refreshToken: any): Promise<User & {
+        _id: any;
+    }>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
     findUserByEmail(email: any): Promise<User>;
-    findUserByUsername(username: any): Promise<User>;
+    findOauthUser(password: any): Promise<User & {
+        _id: any;
+    }>;
     updateUser(body: any): Promise<User & {
         _id: any;
     }>;

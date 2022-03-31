@@ -16,16 +16,25 @@ export declare class UsersController {
         userInfo: any;
         token: any;
     };
-    oauth(req: any): Promise<{
+    oauth(req: any, body: any): Promise<{
         isLogin: boolean;
         userInfo: import("./users.schema").User & {
             _id: any;
         };
         token: any;
     }>;
-    naverlogin(query: any): Promise<any>;
-    kakaoLogin(query: any): Promise<any>;
-    googleLogin(query: any): Promise<any>;
+    naverlogin(query: any): Promise<{
+        token: any;
+        password: any;
+    }>;
+    kakaoLogin(query: any): Promise<{
+        token: any;
+        password: any;
+    }>;
+    googleLogin(query: any): Promise<{
+        token: any;
+        password: any;
+    }>;
     login(body: LoginRequestDto): Promise<{
         isLogin: boolean;
         userInfo: import("./users.schema").User;

@@ -37,9 +37,10 @@ let UsersController = class UsersController {
         const token = req.rawHeaders[1].slice(7);
         return { isLogin: true, userInfo: req.user, token };
     }
-    async oauth(req) {
+    async oauth(req, body) {
         const refreshToken = req.rawHeaders[9];
-        const user = await this.usersRepository.findByToken(refreshToken);
+        const { password } = body;
+        const user = await this.usersService.findOauthUser(password);
         return { isLogin: true, userInfo: user, token: refreshToken };
     }
     async naverlogin(query) {
@@ -62,8 +63,9 @@ let UsersController = class UsersController {
             },
             withCredentials: true,
         });
-        await this.authService.validateUser(userData.data.response.nickname, refreshToken, provider);
-        return refreshToken;
+        const user = await this.authService.validateUser(userData.data.response.id, userData.data.response.name, refreshToken, provider);
+        console.log(user);
+        return { token: refreshToken, password: user.password };
     }
     async kakaoLogin(query) {
         const provider = 'kakao';
@@ -83,8 +85,10 @@ let UsersController = class UsersController {
             },
             withCredentials: true,
         });
-        await this.authService.validateUser(userData.data.id, refreshToken, provider);
-        return refreshToken;
+        console.log(userData.data.properties.nickname);
+        const user = await this.authService.validateUser(userData.data.id, userData.data.properties.nickname, refreshToken, provider);
+        console.log(user);
+        return { token: refreshToken, password: user.password };
     }
     async googleLogin(query) {
         const provider = 'google';
@@ -98,9 +102,11 @@ let UsersController = class UsersController {
         });
         const { access_token, id_token } = googleToken.data;
         const userData = await axios_2.default.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`);
-        const { iat } = userData.data;
-        await this.authService.validateUser(iat, access_token, provider);
-        return access_token;
+        const { sub, name } = userData.data;
+        console.log(userData);
+        const user = await this.authService.validateUser(sub, name, access_token, provider);
+        console.log(user);
+        return { token: access_token, password: user.password };
     }
     async login(body) {
         return this.authService.jwtLogIn(body);
@@ -156,8 +162,9 @@ __decorate([
 __decorate([
     (0, common_1.Get)('/oauth'),
     __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "oauth", null);
 __decorate([

@@ -43,18 +43,20 @@ export class AuthService {
   }
 
   // eslint-disable-next-line camelcase
-  async validateUser(userData: any, refreshToken, provider): Promise<any> {
-    const username = `${userData}/${provider}`;
+  async validateUser(id: any, name, refreshToken, provider): Promise<any> {
+    const username = Math.random().toString(36).substr(2, 11);
+    const oauthId = `${id}/${name}/${provider}`; // oauth 유저의 고유한 값
     // DB에서 oauth 유저 정보 찾기
-    const user = await this.usersService.findUserByUsername(username);
+    const user = await this.usersService.findOauthUser(oauthId);
+    let newUser;
     // console.log(user);
     // DB에 oauth 유저 정보 없을 시 생성
     if (!user) {
-      this.usersService.oauthSignUp(username, refreshToken);
+      newUser = this.usersService.oauthSignUp(username, oauthId, refreshToken);
     } else {
-      this.usersService.oauthTokenUpdate(user, refreshToken);
+      newUser = this.usersService.oauthTokenUpdate(oauthId, refreshToken);
     }
-    return user;
+    return newUser;
   }
 
   onceToken(userProfile: any) {
