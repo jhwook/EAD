@@ -190,6 +190,14 @@ export class PostsService {
     return updatedPost;
   }
 
+  // 댓글 하나 가져오기
+  async getOneComment(param) {
+    const { commentId } = param;
+    const comment = await this.commentModel.findById(commentId);
+
+    return comment;
+  }
+
   // 댓글에 이미지 저장
   async uploadCommentImg(body, param, files: Express.Multer.File[]) {
     const { id } = body;
