@@ -92,6 +92,11 @@ export class PostsController {
     return this.postsService.deleteComment(param);
   }
 
+  @Get('/comments/:commentId')
+  getOneComment(@Param() Param) {
+    return this.postsService.getOneComment(param);
+  }
+
   // 포스트 제목만
   @Post('/title')
   getPostTitle() {
