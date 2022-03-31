@@ -296,6 +296,11 @@ function Search() {
     getTitle();
   }, []);
 
+  useEffect(() => {
+    setPost(postData);
+    navigate(`/search?keyword=${value}`);
+  }, [postData]);
+
   const arr = title.filter((el: string) => {
     return el.toLowerCase().includes(value.toLowerCase());
   });
@@ -329,10 +334,8 @@ function Search() {
       },
     );
     dispatch(inSearch(data.data.data));
-    setPost(postData);
     setSearch(false);
     setErrorMessage('여기에 입력해주세요!');
-    navigate(`/search?keyword=${value}`);
   };
 
   const deleteValueOnClick = () => {
