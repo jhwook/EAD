@@ -2,6 +2,7 @@ import mongoose, { Document, Types } from 'mongoose';
 export declare class Comment extends Document {
     post_id: Types.ObjectId;
     writer: Types.ObjectId;
+    writerName: string;
     content: string;
     up: number;
     imgUrl: string;

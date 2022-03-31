@@ -18,6 +18,9 @@ export class Comment extends Document {
   writer: Types.ObjectId;
 
   @Prop()
+  writerName: string;
+
+  @Prop()
   @IsString()
   @IsNotEmpty()
   content: string;

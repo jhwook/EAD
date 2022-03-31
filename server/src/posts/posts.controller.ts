@@ -79,14 +79,14 @@ export class PostsController {
   }
 
   // 댓글 수정
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Patch('/:commentId/modify/comment')
   modifyComment(@Body() body, @Param() param) {
     return this.postsService.modifyComment(body, param);
   }
 
   // 댓글 삭제
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Delete('/:commentId/delete/comment')
   deleteComment(@Param() param) {
     return this.postsService.deleteComment(param);

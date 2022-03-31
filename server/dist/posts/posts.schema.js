@@ -24,6 +24,10 @@ __decorate([
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Post.prototype, "writer", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Post.prototype, "writerName", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ index: true }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
@@ -41,8 +45,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Post.prototype, "tag", void 0);
 __decorate([
-    (0, mongoose_1.Prop)([Object]),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, mongoose_1.Prop)([String]),
     __metadata("design:type", Array)
 ], Post.prototype, "comment", void 0);
 __decorate([

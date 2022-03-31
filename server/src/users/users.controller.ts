@@ -63,7 +63,7 @@ export class UsersController {
   }
 
   // @UseGuards(JwtAuthGuard)
-  @Get('/oauth')
+  @Post('/oauth')
   async oauth(@Req() req, @Body() body) {
     const refreshToken = req.rawHeaders[9];
     const { oauthId } = body;

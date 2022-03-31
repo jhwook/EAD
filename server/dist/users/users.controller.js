@@ -39,8 +39,8 @@ let UsersController = class UsersController {
     }
     async oauth(req, body) {
         const refreshToken = req.rawHeaders[9];
-        const { password } = body;
-        const user = await this.usersService.findOauthUser(password);
+        const { oauthId } = body;
+        const user = await this.usersService.findOauthUser(oauthId);
         return { isLogin: true, userInfo: user, token: refreshToken };
     }
     async naverlogin(query) {
@@ -65,7 +65,7 @@ let UsersController = class UsersController {
         });
         const user = await this.authService.validateUser(userData.data.response.id, userData.data.response.name, refreshToken, provider);
         console.log(user);
-        return { token: refreshToken, password: user.password };
+        return { token: refreshToken, oauthId: user.oauthId };
     }
     async kakaoLogin(query) {
         const provider = 'kakao';
@@ -88,7 +88,7 @@ let UsersController = class UsersController {
         console.log(userData.data.properties.nickname);
         const user = await this.authService.validateUser(userData.data.id, userData.data.properties.nickname, refreshToken, provider);
         console.log(user);
-        return { token: refreshToken, password: user.password };
+        return { token: refreshToken, oauthId: user.oauthId };
     }
     async googleLogin(query) {
         const provider = 'google';
@@ -106,7 +106,7 @@ let UsersController = class UsersController {
         console.log(userData);
         const user = await this.authService.validateUser(sub, name, access_token, provider);
         console.log(user);
-        return { token: access_token, password: user.password };
+        return { token: access_token, oauthId: user.oauthId };
     }
     async login(body) {
         return this.authService.jwtLogIn(body);
@@ -160,7 +160,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "auth", null);
 __decorate([
-    (0, common_1.Get)('/oauth'),
+    (0, common_1.Post)('/oauth'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),

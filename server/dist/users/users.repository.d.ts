@@ -36,5 +36,6 @@ export declare class UsersRepository {
         imgUrl: string;
         posts: Post[];
         refreshToken: string;
+        oauthId: string;
     }>;
 }

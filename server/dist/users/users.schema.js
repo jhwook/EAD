@@ -67,6 +67,10 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], User.prototype, "refreshToken", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 'none' }),
+    __metadata("design:type", String)
+], User.prototype, "oauthId", void 0);
 User = __decorate([
     (0, mongoose_1.Schema)(options)
 ], User);
