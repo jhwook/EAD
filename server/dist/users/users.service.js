@@ -64,7 +64,7 @@ let UsersService = class UsersService {
         });
         return user.readOnlyData;
     }
-    async oauthSignUp(username, password, refreshToken) {
+    async oauthSignUp(username, oauthId, refreshToken) {
         const stacks = [
             false,
             false,
@@ -79,22 +79,22 @@ let UsersService = class UsersService {
         ];
         await this.usersRepository.create({
             email: 'None',
-            password,
+            oauthId,
             username,
             stacks,
             oauth: true,
             refreshToken,
         });
-        const createdUser = await this.userModel.findOne({ password });
+        const createdUser = await this.userModel.findOne({ oauthId });
         return createdUser;
     }
     async findUserByToken(refreshToken) {
         const user = this.userModel.findOne({ refreshToken });
         return user;
     }
-    async oauthTokenUpdate(password, refreshToken) {
-        await this.userModel.findOneAndUpdate({ password }, { refreshToken });
-        const updatedUser = await this.userModel.findOne({ password });
+    async oauthTokenUpdate(oauthId, refreshToken) {
+        await this.userModel.findOneAndUpdate({ oauthId }, { refreshToken });
+        const updatedUser = await this.userModel.findOne({ oauthId });
         return updatedUser;
     }
     async deleteUser(userInfo) {
@@ -104,8 +104,8 @@ let UsersService = class UsersService {
     async findUserByEmail(email) {
         return await this.usersRepository.findUserByEmail(email);
     }
-    async findOauthUser(password) {
-        return await this.userModel.findOne({ password });
+    async findOauthUser(oauthId) {
+        return await this.userModel.findOne({ oauthId });
     }
     async updateUser(body) {
         const { id, newUsername, newPassword } = body;

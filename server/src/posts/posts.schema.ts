@@ -14,6 +14,9 @@ export class Post extends Document {
   @IsNotEmpty()
   writer: Types.ObjectId;
 
+  @Prop()
+  writerName: string;
+
   @Prop({ index: true })
   @IsString()
   @IsNotEmpty()
@@ -28,8 +31,7 @@ export class Post extends Document {
   @IsNotEmpty()
   tag: string[];
 
-  @Prop([Object])
-  @IsNotEmpty()
+  @Prop([String])
   comment: [];
 
   @Prop()

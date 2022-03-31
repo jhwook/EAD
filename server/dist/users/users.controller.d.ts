@@ -25,15 +25,15 @@ export declare class UsersController {
     }>;
     naverlogin(query: any): Promise<{
         token: any;
-        password: any;
+        oauthId: any;
     }>;
     kakaoLogin(query: any): Promise<{
         token: any;
-        password: any;
+        oauthId: any;
     }>;
     googleLogin(query: any): Promise<{
         token: any;
-        password: any;
+        oauthId: any;
     }>;
     login(body: LoginRequestDto): Promise<{
         isLogin: boolean;
@@ -49,6 +49,7 @@ export declare class UsersController {
         imgUrl: string;
         posts: import("../posts/posts.schema").Post[];
         refreshToken: string;
+        oauthId: string;
     }>;
     logout(req: any, res: any): any;
     signout(req: any): Promise<string>;
@@ -76,6 +77,7 @@ export declare class UsersController {
         imgUrl: string;
         posts: import("../posts/posts.schema").Post[];
         refreshToken: string;
+        oauthId: string;
     }>;
     sendPhoneMessage(body: any): number;
     usersPayment(body: any): Promise<import("./users.schema").User & {

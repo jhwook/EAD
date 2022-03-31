@@ -32,9 +32,12 @@ export class PostsService {
   async createPost(body) {
     const { id, title, content, tags, bounty } = body;
 
+    const user = await this.userModel.findById(id);
+
     const post = await this.postModel.create({
       // eslint-disable-next-line no-underscore-dangle
-      writer: id,
+      writer: user.id,
+      writerName: user.username,
       title,
       content,
       tag: tags,
@@ -134,9 +137,13 @@ export class PostsService {
     const { id, content } = body;
     const { postId } = param;
 
+    const user = await this.userModel.findById(id);
+    const post = await this.postModel.findById(postId);
+
     const newComment = await this.commentModel.create({
-      post_id: postId,
-      writer: id,
+      writerName: user.username,
+      post_id: post._id,
+      writer: user.id,
       content,
     });
 

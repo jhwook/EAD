@@ -16,7 +16,6 @@ exports.PostsController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const auth_service_1 = require("../auth/auth.service");
-const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const success_interceptor_1 = require("../common/interceptors/success.interceptor");
 const multer_options_1 = require("../common/utils/multer.options");
@@ -118,7 +117,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "createComment", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Patch)('/:commentId/modify/comment'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)()),
@@ -127,7 +125,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "modifyComment", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Delete)('/:commentId/delete/comment'),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),

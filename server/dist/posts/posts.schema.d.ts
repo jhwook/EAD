@@ -1,6 +1,7 @@
 import mongoose, { Types, Document } from 'mongoose';
 export declare class Post extends Document {
     writer: Types.ObjectId;
+    writerName: string;
     title: string;
     content: string;
     tag: string[];

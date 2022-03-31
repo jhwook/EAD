@@ -40,14 +40,14 @@ let AuthService = class AuthService {
     }
     async validateUser(id, name, refreshToken, provider) {
         const username = Math.random().toString(36).substr(2, 11);
-        const password = `${id}/${name}/${provider}`;
-        const user = await this.usersService.findOauthUser(password);
+        const oauthId = `${id}/${name}/${provider}`;
+        const user = await this.usersService.findOauthUser(oauthId);
         let newUser;
         if (!user) {
-            newUser = this.usersService.oauthSignUp(username, password, refreshToken);
+            newUser = this.usersService.oauthSignUp(username, oauthId, refreshToken);
         }
         else {
-            newUser = this.usersService.oauthTokenUpdate(password, refreshToken);
+            newUser = this.usersService.oauthTokenUpdate(oauthId, refreshToken);
         }
         return newUser;
     }

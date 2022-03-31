@@ -22,19 +22,20 @@ export declare class UsersService {
         imgUrl: string;
         posts: Post[];
         refreshToken: string;
+        oauthId: string;
     }>;
-    oauthSignUp(username: any, password: any, refreshToken: any): Promise<User & {
+    oauthSignUp(username: any, oauthId: any, refreshToken: any): Promise<User & {
         _id: any;
     }>;
     findUserByToken(refreshToken: any): Promise<User & {
         _id: any;
     }>;
-    oauthTokenUpdate(password: any, refreshToken: any): Promise<User & {
+    oauthTokenUpdate(oauthId: any, refreshToken: any): Promise<User & {
         _id: any;
     }>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
     findUserByEmail(email: any): Promise<User>;
-    findOauthUser(password: any): Promise<User & {
+    findOauthUser(oauthId: any): Promise<User & {
         _id: any;
     }>;
     updateUser(body: any): Promise<User & {
@@ -61,6 +62,7 @@ export declare class UsersService {
         imgUrl: string;
         posts: Post[];
         refreshToken: string;
+        oauthId: string;
     }>;
     sendPhoneMessage(body: any): number;
     usersPayment(body: any): Promise<User & {
