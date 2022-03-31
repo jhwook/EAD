@@ -305,6 +305,7 @@ function Search() {
       setValue('');
       setClicked(false);
     }
+    setPost(postData);
   }, [postData]);
 
   useEffect(() => {

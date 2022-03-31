@@ -22,14 +22,14 @@ function Naver() {
         withCredentials: true,
       },
     );
-    const accessToken = response.data.data;
-
-    const data = await axios.get(
+    const { token, oauthId } = response.data.data;
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/oauth`,
+      { oauthId },
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: accessToken,
+          Authorization: token,
         },
         withCredentials: true,
       },
