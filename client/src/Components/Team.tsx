@@ -22,14 +22,14 @@ const DownBox = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 250px;
+  margin-top: 120px;
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
-    margin-top: 190px;
+    margin-top: 145px;
   }
   @media ${(props) => props.theme.tablet} {
     flex-direction: column;
-    margin-top: 190px;
+    margin-top: 145px;
   }
 `;
 
@@ -71,10 +71,10 @@ const Member = styled.img`
   width: 300px;
   cursor: pointer;
   @media ${(props) => props.theme.mobile} {
-    width: 150px;
+    width: 100px;
   }
   @media ${(props) => props.theme.tablet} {
-    width: 150px;
+    width: 120px;
   }
   @media ${(props) => props.theme.desktop} {
     width: 230px;
@@ -91,7 +91,7 @@ const MemberOne = styled.div`
     width: 400px;
   }
   @media ${(props) => props.theme.tablet} {
-    width: 400px;
+    width: 300px;
   }
   @media ${(props) => props.theme.desktop} {
     width: 400px;
@@ -155,10 +155,10 @@ const Title = styled.div`
   margin-top: 30px;
   font-size: ${(props) => props.theme.fontSize.large};
   @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.medium};
+    font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.tablet} {
-    font-size: ${(props) => props.theme.fontSize.medium};
+    font-size: ${(props) => props.theme.fontSize.small};
   }
   @media ${(props) => props.theme.desktop} {
     font-size: ${(props) => props.theme.fontSize.medium};
@@ -168,10 +168,10 @@ const Role = styled.div`
   margin-bottom: 30px;
   font-weight: bold;
   @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.small};
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.tablet} {
-    font-size: ${(props) => props.theme.fontSize.small};
+    font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.desktop} {
     font-size: ${(props) => props.theme.fontSize.small};
@@ -179,10 +179,10 @@ const Role = styled.div`
 `;
 const Description = styled.div`
   @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.mini};
+    font-size: ${(props) => props.theme.fontSize.micro};
   }
   @media ${(props) => props.theme.tablet} {
-    font-size: ${(props) => props.theme.fontSize.mini};
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.desktop} {
     font-size: ${(props) => props.theme.fontSize.mini};
