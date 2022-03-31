@@ -46,19 +46,33 @@ const StackWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
 `;
 
 const UpBox = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+  }
 `;
 const DownBox = styled.div`
   display: flex;
   justify-content: center;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    flex-wrap: wrap;
+  }
 `;
 
 const Stack = styled.div<IStackProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.color};
   font-size: ${(props) => props.theme.fontSize.small};
@@ -69,6 +83,16 @@ const Stack = styled.div<IStackProps>`
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   border-radius: 10px;
   cursor: pointer;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 5px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 const Searchbar = styled.div`
@@ -78,6 +102,12 @@ const Searchbar = styled.div`
   z-index: 0;
   .search {
     font-size: ${(props) => props.theme.fontSize.large};
+    @media ${(props) => props.theme.iPhone12Pro} {
+      display: none;
+    }
+    @media ${(props) => props.theme.mobile} {
+      display: none;
+    }
   }
 `;
 const SearchInput = styled.input`
@@ -88,6 +118,18 @@ const SearchInput = styled.input`
   margin-right: 5px;
   font-size: ${(props) => props.theme.fontSize.small};
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+    margin-right: 0px;
+    margin-left: 25px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 340px;
+    margin-right: 0px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 600px;
+  }
 `;
 
 const Form = styled.form`
@@ -117,14 +159,15 @@ const DeleteBtn = styled.div`
 `;
 
 const ListWrapper = styled.div`
+  min-height: 638px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 638px;
 `;
 
 const Lists = styled.ul`
-  width: 60vw;
+  width: 1500px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
@@ -132,6 +175,26 @@ const Lists = styled.ul`
   place-items: center;
   margin-top: 50px;
   margin-bottom: 50px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    grid-template-columns: repeat(1, 1fr);
+    width: 500px;
+    gap: 20px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    grid-template-columns: repeat(1, 1fr);
+    width: 500px;
+    gap: 20px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+    width: 700px;
+    gap: 20px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    grid-template-columns: repeat(3, 1fr);
+    width: 1000px;
+    gap: 20px;
+  }
 `;
 const List = styled.li`
   width: 250px;
@@ -189,13 +252,25 @@ const SearchBarBox = styled.ul`
   top: 60px;
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   z-index: 3;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+    margin-right: 0px;
+    margin-left: 25px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 340px;
+    margin-right: 0px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 600px;
+  }
 `;
 
 const AddPostBtn = styled.img`
-  width: 90px;
-  height: 90px;
+  width: 70px;
+  height: 70px;
   position: fixed;
-  right: 160px;
+  right: 40px;
   bottom: 700px;
   border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
@@ -204,6 +279,33 @@ const AddPostBtn = styled.img`
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   &:hover {
     background-color: ${(props) => props.theme.btnGreen};
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 45px;
+    height: 45px;
+    top: 400px;
+    right: 10px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 45px;
+    height: 45px;
+    top: 350px;
+    right: 10px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 60px;
+    height: 60px;
+    right: 10px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 70px;
+    height: 70px;
+    right: 10px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 70px;
+    height: 70px;
+    right: 10px;
   }
 `;
 
@@ -222,6 +324,33 @@ const UpScrollBtn = styled.div`
     width: 100%;
     height: 100%;
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 40px;
+    height: 40px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
 `;
 
 const Box = styled.div`
@@ -232,12 +361,34 @@ const Box = styled.div`
   align-items: center;
 `;
 
-const NoneLogo = styled.img``;
+const NoneLogo = styled.img`
+  @media ${(props) => props.theme.mobile} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 500px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 550px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 550px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    width: 600px;
+  }
+`;
 
 const NoneText = styled.div`
   font-size: ${(props) => props.theme.fontSize.medium};
   font-weight: bold;
   color: ${(props) => props.theme.btnGreen};
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
 `;
 
 function Search() {
