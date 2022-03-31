@@ -74,7 +74,7 @@ export class UsersService {
   }
 
   // Oauth 유저 회원가입
-  async oauthSignUp(username, refreshToken) {
+  async oauthSignUp(username, oauthId, refreshToken) {
     const stacks = [
       false,
       false,
@@ -89,19 +89,26 @@ export class UsersService {
     ];
     await this.usersRepository.create({
       email: 'None',
-      password: 'None',
+      oauthId,
       username,
       stacks,
       oauth: true,
       refreshToken,
     });
+
+    const createdUser = await this.userModel.findOne({ oauthId });
+    return createdUser;
   }
   async findUserByToken(refreshToken) {
     const user = this.userModel.findOne({ refreshToken });
     return user;
   }
-  async oauthTokenUpdate(user, refreshToken) {
-    await this.usersRepository.oauthTokenUpdate(user, refreshToken);
+
+  async oauthTokenUpdate(oauthId, refreshToken) {
+    // await this.usersRepository.oauthTokenUpdate(user, refreshToken);
+    await this.userModel.findOneAndUpdate({ oauthId }, { refreshToken });
+    const updatedUser = await this.userModel.findOne({ oauthId });
+    return updatedUser;
   }
 
   // 회원탈퇴
@@ -114,8 +121,8 @@ export class UsersService {
     return await this.usersRepository.findUserByEmail(email);
   }
 
-  async findUserByUsername(username) {
-    return await this.usersRepository.findUserByUsername(username);
+  async findOauthUser(oauthId) {
+    return await this.userModel.findOne({ oauthId });
   }
 
   // 회원정보 수정

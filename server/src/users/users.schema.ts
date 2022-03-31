@@ -55,6 +55,9 @@ export class User extends Document {
   @Prop()
   refreshToken: string;
 
+  @Prop({ default: 'none' })
+  oauthId: string;
+
   readonly readOnlyData: {
     id: string;
     email: string;
@@ -64,6 +67,7 @@ export class User extends Document {
     imgUrl: string;
     posts: Post[];
     refreshToken: string;
+    oauthId: string;
   };
 
   readonly posts: Post[];

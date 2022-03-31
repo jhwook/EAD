@@ -64,10 +64,10 @@ export class UsersController {
 
   // @UseGuards(JwtAuthGuard)
   @Get('/oauth')
-  async oauth(@Req() req) {
+  async oauth(@Req() req, @Body() body) {
     const refreshToken = req.rawHeaders[9];
-
-    const user = await this.usersRepository.findByToken(refreshToken);
+    const { oauthId } = body;
+    const user = await this.usersService.findOauthUser(oauthId);
 
     return { isLogin: true, userInfo: user, token: refreshToken };
   }
@@ -96,14 +96,16 @@ export class UsersController {
       },
       withCredentials: true,
     });
-
-    await this.authService.validateUser(
-      userData.data.response.nickname,
+    // console.log(userData);
+    const user = await this.authService.validateUser(
+      userData.data.response.id,
+      userData.data.response.name,
       refreshToken,
       provider,
     );
 
-    return refreshToken;
+    console.log(user);
+    return { token: refreshToken, oauthId: user.oauthId };
   }
 
   // Kakao 로그인
@@ -129,14 +131,16 @@ export class UsersController {
       },
       withCredentials: true,
     });
-
-    await this.authService.validateUser(
+    console.log(userData.data.properties.nickname);
+    const user = await this.authService.validateUser(
       userData.data.id,
+      userData.data.properties.nickname,
       refreshToken,
       provider,
     );
 
-    return refreshToken;
+    console.log(user);
+    return { token: refreshToken, oauthId: user.oauthId };
   }
   // Google 로그인
   @Get('auth/google')
@@ -159,11 +163,17 @@ export class UsersController {
     const userData = await axios.get(
       `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`,
     );
-    const { iat } = userData.data;
+    const { sub, name } = userData.data;
+    console.log(userData);
+    const user = await this.authService.validateUser(
+      sub,
+      name,
+      access_token,
+      provider,
+    );
 
-    await this.authService.validateUser(iat, access_token, provider);
-
-    return access_token;
+    console.log(user);
+    return { token: access_token, oauthId: user.oauthId };
   }
   // @UseGuards(NaverAuthGuard)
   // @Get('auth/naver/callback')
