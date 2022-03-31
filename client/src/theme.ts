@@ -1,6 +1,7 @@
 import { DefaultTheme } from 'styled-components';
 
 const size = {
+  iPhone12Pro: '390px',
   mobile: '768px',
   tablet: '1200px',
   desktop: '1201px',
@@ -21,7 +22,8 @@ export const theme: DefaultTheme = {
   naver: '#5EC53A',
   google: '#CF543D',
   kakao: '#FADF4B',
-  mobile: `(max-width: ${size.mobile})`,
+  iPhone12Pro: `(max-width: ${size.iPhone12Pro})`,
+  mobile: `(min-width: "${size.iPhone12Pro}") and (max-width:${size.mobile})`,
   tablet: `(min-width: ${size.mobile}) and (max-width: ${size.tablet})`,
   desktop: `(min-width: ${size.desktop}) and (max-width: 1599px)`,
   desktop1: `(min-width: ${size.desktop1}) and (max-width: 1999px)`,
