@@ -12,9 +12,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px 50px;
-  @media ${(props) => props.theme.iPhone12Pro} {
-    padding: 10px 10px;
-  }
+
   .dot {
     font-size: ${(props) => props.theme.fontSize.large};
     cursor: pointer;
