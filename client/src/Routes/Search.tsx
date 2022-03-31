@@ -242,7 +242,6 @@ const NoneText = styled.div`
 
 function Search() {
   const [value, setValue] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [html, setHtml] = useState(false);
   const [js, setJs] = useState(false);
   const [css, setCss] = useState(false);
@@ -262,6 +261,8 @@ function Search() {
   const navigate = useNavigate();
   const { postData } = useSelector((state: RootState) => state);
   const [post, setPost] = useState(postData);
+  const [here, setHere] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   const getTitle = async () => {
     const postTitle = await axios.post(
@@ -274,7 +275,7 @@ function Search() {
         withCredentials: false,
       },
     );
-    const title = postTitle.data.data.map((el: any) => el.title);
+    const title = postTitle.data.data.map((el: { title: string }) => el.title);
     setTitle(title);
   };
 
@@ -293,13 +294,39 @@ function Search() {
   });
 
   useEffect(() => {
+    setHere(false);
     getTitle();
   }, []);
 
   useEffect(() => {
-    setPost(postData);
-    navigate(`/search?keyword=${value}`);
+    if (here || clicked) {
+      setPost(postData);
+      navigate(`/search?keyword=${value}`);
+      setValue('');
+      setClicked(false);
+    }
   }, [postData]);
+
+  useEffect(() => {
+    if (clicked) {
+      const getSeach = async () => {
+        const data = await axios.post(
+          `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          },
+        );
+        dispatch(inSearch(data.data.data));
+      };
+      getSeach();
+
+      navigate(`/search?keyword=${value}`);
+    }
+  }, [clicked]);
 
   const arr = title.filter((el: string) => {
     return el.toLowerCase().includes(value.toLowerCase());
@@ -333,9 +360,9 @@ function Search() {
         withCredentials: true,
       },
     );
+    setHere(true);
     dispatch(inSearch(data.data.data));
     setSearch(false);
-    setErrorMessage('여기에 입력해주세요!');
   };
 
   const deleteValueOnClick = () => {
@@ -513,12 +540,9 @@ function Search() {
     }
   };
 
-  const searchListOnClick = async (e: any) => {
-    setValue((prev) => {
-      // eslint-disable-next-line no-param-reassign
-      prev = e.target.innerText;
-      return prev;
-    });
+  const searchListOnClick = async (e: React.SyntheticEvent<EventTarget>) => {
+    setValue((e.target as HTMLInputElement).innerText);
+    setClicked(true);
     setSearch(false);
   };
   const postOnClick = (id: number) => {
@@ -760,13 +784,13 @@ function Search() {
               <SearchInput
                 onChange={handleOnChange}
                 value={value}
-                placeholder={errorMessage || '여기에 입력해주세요!'}
+                placeholder="여기에 입력해주세요!"
               />
               <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
               {arr.length !== 0 && value !== '' && search ? (
                 <SearchBarBox>
                   <SearchList
-                    type="submit"
+                    type="button"
                     list={filteredArr}
                     chooseList={searchListOnClick}
                     // onKey={handleKeyUp}

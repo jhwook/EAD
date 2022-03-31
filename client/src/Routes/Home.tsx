@@ -65,7 +65,7 @@ const Wrapper = styled.div`
       font-size: ${(props) => props.theme.fontSize.huge};
     }
     @media ${(props) => props.theme.mobile} {
-      top: 650px;
+      top: 600px;
       right: 5px;
       font-size: ${(props) => props.theme.fontSize.huge};
       &:hover {
@@ -358,8 +358,7 @@ function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [title, setTitle] = useState([]);
-  const [select, setSelect] = useState('');
-  const [index, setIndex] = useState(0);
+  const [homeSearch, setHomeSearch] = useState(false);
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
 
@@ -393,8 +392,29 @@ function Home() {
   });
 
   useEffect(() => {
+    setHomeSearch(false);
     getTitle();
   }, []);
+
+  useEffect(() => {
+    if (homeSearch) {
+      const getSeach = async () => {
+        const data = await axios.post(
+          `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          },
+        );
+        dispatch(HomeSearch(data.data.data));
+      };
+      getSeach();
+      navigate(`/search?keyword=${value}`);
+    }
+  }, [homeSearch, value]);
 
   const arr = title.filter((el: string) => {
     return el.toLowerCase().includes(value.toLowerCase());
@@ -411,43 +431,9 @@ function Home() {
     }
   }
 
-  const searchListOnClick = async (e: any) => {
-    setValue((prev) => {
-      // eslint-disable-next-line no-param-reassign
-      prev = e.target.innerText;
-      return prev;
-    });
-
-    await axios.post(
-      `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
-      {},
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      },
-    );
-    // navigate(`/search?keyword=${value}`);
-  };
-
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // up
-    if (e.keyCode === 38) {
-      setIndex(index - 1);
-      setSelect(title[index]);
-      setValue(select);
-    }
-    // down
-    if (e.keyCode === 40) {
-      setIndex(index + 1);
-      setSelect(title[index]);
-      setValue(select);
-    }
-    // enter
-    if (e.keyCode === 13) {
-      setValue(select);
-    }
+  const searchListOnClick = async (e: React.SyntheticEvent<EventTarget>) => {
+    setValue((e.target as HTMLInputElement).innerText);
+    setHomeSearch(true);
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -468,7 +454,6 @@ function Home() {
     );
     dispatch(HomeSearch(data.data.data));
     setErrorMessage('여기에 입력해주세요!');
-    setValue('');
     navigate(`/search?keyword=${value}`);
   };
 
@@ -514,7 +499,6 @@ function Home() {
                 <SearchBarWrapper>
                   <SearchInput
                     onChange={handleOnChange}
-                    // onKeyUp={handleKeyUp}
                     value={value}
                     placeholder={errorMessage || '여기에 입력해주세요!'}
                   />
@@ -524,10 +508,9 @@ function Home() {
                   {arr.length !== 0 && value !== '' ? (
                     <SearchBarBox>
                       <SearchList
-                        type="submit"
+                        type="button"
                         list={filteredArr}
                         chooseList={searchListOnClick}
-                        // onKey={handleKeyUp}
                       />
                     </SearchBarBox>
                   ) : null}
