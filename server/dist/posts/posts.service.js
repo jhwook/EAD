@@ -91,11 +91,13 @@ let PostsService = class PostsService {
         throw new common_1.HttpException('작성자가 일치하지 않습니다.', 401);
     }
     async searchPost(keyword) {
+        console.log(keyword);
         if (keyword !== '') {
             let postArray = [];
             postArray = await this.postModel
                 .find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
                 .sort({ score: { $meta: 'textScore' } });
+            console.log(postArray);
             return postArray.map((post) => {
                 return { id: post.id, title: post.title, tag: post.tag };
             });

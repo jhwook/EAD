@@ -104,6 +104,7 @@ export class PostsService {
 
   // 검색 (키워드)
   async searchPost(keyword) {
+    console.log(keyword);
     if (keyword !== '') {
       let postArray = [];
       postArray = await this.postModel
@@ -112,11 +113,13 @@ export class PostsService {
           { score: { $meta: 'textScore' } },
         )
         .sort({ score: { $meta: 'textScore' } });
+      console.log(postArray);
       return postArray.map((post) => {
         return { id: post.id, title: post.title, tag: post.tag };
       });
     }
     const allPost = await this.postModel.find();
+
     return allPost.map((post) => {
       return { id: post.id, title: post.title, tag: post.tag };
     });

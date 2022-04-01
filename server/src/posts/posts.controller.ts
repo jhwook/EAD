@@ -39,6 +39,25 @@ export class PostsController {
     return this.postsService.createPost(body);
   }
 
+  // 포스트 제목만
+  @Post('/title')
+  getPostTitle() {
+    return this.postsService.getPostTitle();
+  }
+
+  // 검색
+  @Post('/search')
+  searchPost(@Query('keyword') keyword) {
+    console.log(keyword);
+    return this.postsService.searchPost(keyword);
+  }
+
+  // 검색 (태그)
+  @Post('/search/tag')
+  searchPostByTag(@Body() body) {
+    return this.postsService.searchPostByTag(body);
+  }
+
   // 포스트 하나 가져오기
   @Get('/:postId')
   async getOnePost(@Param('postId') id: string) {
@@ -57,18 +76,6 @@ export class PostsController {
   @Post('/:postId')
   deletePost(@Param() param, @Body() body) {
     return this.postsService.deletePost(param, body);
-  }
-
-  // 검색
-  @Post('/search')
-  searchPost(@Query('keyword') keyword) {
-    return this.postsService.searchPost(keyword);
-  }
-
-  // 검색 (태그)
-  @Post('/search/tag')
-  searchPostByTag(@Body() body) {
-    return this.postsService.searchPostByTag(body);
   }
 
   // 댓글 작성
@@ -95,12 +102,6 @@ export class PostsController {
   @Get('/comments/:commentId')
   getOneComment(@Param() param) {
     return this.postsService.getOneComment(param);
-  }
-
-  // 포스트 제목만
-  @Post('/title')
-  getPostTitle() {
-    return this.postsService.getPostTitle();
   }
 
   // 포스트 이미지 업로드

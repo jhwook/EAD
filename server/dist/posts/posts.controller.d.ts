@@ -8,6 +8,17 @@ export declare class PostsController {
     createPost(body: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
+    getPostTitle(): Promise<{
+        id: any;
+        title: string;
+        tag: string[];
+    }[]>;
+    searchPost(keyword: any): Promise<{
+        id: any;
+        title: any;
+        tag: any;
+    }[]>;
+    searchPostByTag(body: any): Promise<any[]>;
     getOnePost(id: string): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
@@ -17,12 +28,6 @@ export declare class PostsController {
     deletePost(param: any, body: any): Promise<{
         message: string;
     }>;
-    searchPost(keyword: any): Promise<{
-        id: any;
-        title: any;
-        tag: any;
-    }[]>;
-    searchPostByTag(body: any): Promise<any[]>;
     createComment(body: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
@@ -35,11 +40,6 @@ export declare class PostsController {
     getOneComment(param: any): Promise<import("./comments.schema").Comment & {
         _id: any;
     }>;
-    getPostTitle(): Promise<{
-        id: any;
-        title: string;
-        tag: string[];
-    }[]>;
     uploadPostImage(files: Array<Express.Multer.File>, param: any, body: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;
