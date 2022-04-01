@@ -23,6 +23,10 @@ const DownBox = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-top: 120px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    flex-direction: column;
+    margin-top: 100px;
+  }
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
     margin-top: 145px;
@@ -36,6 +40,9 @@ const DownBox = styled.div`
 const TeamText = styled.div`
   font-size: ${(props) => props.theme.fontSize.large};
   font-weight: bold;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.medium};
   }
@@ -60,6 +67,9 @@ const Btn = styled.button`
     transform: rotate(90deg);
     transition: transform 0.5s;
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.mini};
   }
@@ -70,6 +80,9 @@ const Btn = styled.button`
 const Member = styled.img`
   width: 300px;
   cursor: pointer;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 100px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 100px;
   }
@@ -87,6 +100,9 @@ const MemberOne = styled.div`
   justify-content: center;
   align-items: center;
   font-size: ${(props) => props.theme.fontSize.small};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 400px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 400px;
   }
@@ -107,6 +123,17 @@ const MemberTwo = styled.div`
   border-left: 2px solid black;
   width: 700px;
   height: 600px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+    border-left: none;
+    border-right: none;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 300px;
     border-left: none;
@@ -140,6 +167,9 @@ const MemberThree = styled.div`
   justify-content: center;
   align-items: center;
   font-size: ${(props) => props.theme.fontSize.small};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 400px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 400px;
   }
@@ -154,6 +184,9 @@ const MemberThree = styled.div`
 const Title = styled.div`
   margin-top: 30px;
   font-size: ${(props) => props.theme.fontSize.large};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.mini};
   }
@@ -167,6 +200,9 @@ const Title = styled.div`
 const Role = styled.div`
   margin-bottom: 30px;
   font-weight: bold;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
@@ -178,6 +214,9 @@ const Role = styled.div`
   }
 `;
 const Description = styled.div`
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
   }
