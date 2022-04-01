@@ -7,7 +7,7 @@ import Home from './Home';
 const SignupWrapper = styled.div`
   width: 100%;
   height: 100%;
-  top: 65px;
+  top: 30px;
   position: absolute;
   display: flex;
   justify-content: center;
@@ -26,6 +26,10 @@ const Wrapper = styled.div`
   border-radius: 30px;
   padding: 70px 35px;
   position: relative;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+    height: 620px;
+  }
 `;
 const Form = styled.form`
   display: flex;
@@ -42,6 +46,10 @@ const UsernameInput = styled.input`
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 12px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 const EmailInput = styled.input`
   width: 315px;
@@ -51,6 +59,10 @@ const EmailInput = styled.input`
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 12px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 const PasswordInput = styled.input`
   width: 315px;
@@ -61,6 +73,10 @@ const PasswordInput = styled.input`
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 const CofirmPasswordInput = styled.input`
@@ -72,6 +88,10 @@ const CofirmPasswordInput = styled.input`
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 const PhoneBox = styled.div`
@@ -93,6 +113,10 @@ const PhoneInput = styled.input`
   padding: 10px;
   margin-bottom: 10px;
   margin-right: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 170px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 const NumberInput = styled.input`
@@ -105,6 +129,10 @@ const NumberInput = styled.input`
   padding: 10px;
   margin-bottom: 10px;
   margin-right: 15px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 190px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 const SendPhoneBtn = styled.button`
@@ -166,6 +194,9 @@ const SignupBtn = styled.button`
     background-color: ${(props) => props.theme.lightGrey};
     color: ${(props) => props.theme.white};
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 170px;
+  }
 `;
 
 const Text = styled.div`
@@ -173,6 +204,9 @@ const Text = styled.div`
   color: ${(props) => props.theme.black};
   font-size: ${(props) => props.theme.fontSize.small};
   text-align: left;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+  }
 `;
 
 const ConfirmText = styled.div`
@@ -187,6 +221,9 @@ const ConfirmText = styled.div`
     color: ${(props) => props.theme.pink};
     font-weight: bold;
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+  }
 `;
 
 const ErrorText = styled.div`
@@ -195,6 +232,10 @@ const ErrorText = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   text-align: left;
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
 `;
 
 const ErrorDoneText = styled.div`
@@ -203,6 +244,10 @@ const ErrorDoneText = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   text-align: center;
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
 `;
 
 function Signup() {

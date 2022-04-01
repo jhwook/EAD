@@ -136,21 +136,25 @@ const Naver = styled.a`
   cursor: pointer;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 190px;
-    height: 50px;
+    height: 45px;
   }
 `;
 
 const Kaoko = styled(Naver)`
   background-image: url(${kakao});
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin-bottom: 0px;
+    height: 44px;
+  }
 `;
 
 const Google = styled(Naver)`
   background-image: url(${google});
   width: 230px;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 15px;
   @media ${(props) => props.theme.iPhone12Pro} {
-    background-size: 195px 41px;
+    background-size: 195px 50px;
     width: 195px;
     height: 50px;
   }
