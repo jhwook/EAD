@@ -1,4 +1,6 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
+/* eslint-disable prefer-const */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-else-return */
@@ -226,6 +228,7 @@ export class PostsService {
     return postTitles;
   }
 
+  // 포스트의 컨텐트와 포스트의 답글들(comments) 배열을 같이 보내줄수 있는지?
   async getOnePostContent(id) {
     const post = await this.postModel.findById(id);
     // const post = await this.postModel.findById(id).populate('comments');

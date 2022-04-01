@@ -411,6 +411,11 @@ const WitModalBtn = styled.button`
   }
 `;
 
+const OauthHolder = styled.img`
+  width: 380px;
+  height: 300px;
+`;
+
 function Profile() {
   const [witModalView, setWitModalView] = useState(false);
   const [infoModalView, setInfoModalView] = useState(false);
@@ -429,7 +434,6 @@ function Profile() {
   const [aws, setAws] = useState(userInfo.stacks?.[8]);
   const [other, setOther] = useState(userInfo.stacks?.[9]);
   const [userId, setUserId] = useState(userInfo.id);
-  console.log(userId);
   const [username, setUsername] = useState(userInfo.username);
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
@@ -947,23 +951,27 @@ function Profile() {
               <InfoErrorText>{errNameMessage}</InfoErrorText>
               <InfoNameBtn type="submit">닉네임 변경하기</InfoNameBtn>
             </InfoNameForm>
-            <InfoPasswordForm onSubmit={handlePasswordSubmit}>
-              <PasswordText>비밀번호</PasswordText>
-              <InfoInput
-                type="password"
-                placeholder="비밀번호를 입력하세요"
-                onChange={passwordOnChange}
-              />
-              <InfoErrorText>{errPwMessage}</InfoErrorText>
-              <InfoInput
-                type="password"
-                placeholder="비밀번호를 한번 더 입력하세요"
-                onChange={confirmPwOnChange}
-              />
-              <InfoErrorText>{errConfirmPwMessage}</InfoErrorText>
-              <InfoPwBtn type="submit">비밀번호 변경하기</InfoPwBtn>
-              <WitInfo onClick={handleWitModalClick}>회원탈퇴</WitInfo>
-            </InfoPasswordForm>
+            {userInfo.oauth ? (
+              <OauthHolder src={hiLogo} />
+            ) : (
+              <InfoPasswordForm onSubmit={handlePasswordSubmit}>
+                <PasswordText>비밀번호</PasswordText>
+                <InfoInput
+                  type="password"
+                  placeholder="비밀번호를 입력하세요"
+                  onChange={passwordOnChange}
+                />
+                <InfoErrorText>{errPwMessage}</InfoErrorText>
+                <InfoInput
+                  type="password"
+                  placeholder="비밀번호를 한번 더 입력하세요"
+                  onChange={confirmPwOnChange}
+                />
+                <InfoErrorText>{errConfirmPwMessage}</InfoErrorText>
+                <InfoPwBtn type="submit">비밀번호 변경하기</InfoPwBtn>
+                <WitInfo onClick={handleWitModalClick}>회원탈퇴</WitInfo>
+              </InfoPasswordForm>
+            )}
           </InfoBox>
         </RightBox>
         {witModalView ? (

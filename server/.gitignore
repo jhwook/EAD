@@ -1,6 +1,7 @@
 /node_modules
 /.vscode
 .env
+.env.example
 key.pem
 cert.pem
 .env.example
