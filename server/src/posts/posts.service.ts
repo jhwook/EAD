@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable prefer-const */
@@ -179,7 +180,9 @@ export class PostsService {
   async deleteComment(param) {
     const { commentId } = param;
     const comment = await this.commentModel.findById(commentId);
-    const post = await this.postModel.findById(comment.post_id);
+    console.log(String(comment.post_id));
+    const postId = String(comment.post_id);
+    const post = await this.postModel.findById(postId);
 
     if (!comment) {
       throw new HttpException('존재하지 않는 댓글입니다.', 400);
