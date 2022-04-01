@@ -54,7 +54,7 @@ export class PostsController {
 
   // 포스트 삭제
   // @UseGuards(JwtAuthGuard)
-  @Delete('/:postId')
+  @Post('/:postId')
   deletePost(@Param() param, @Body() body) {
     return this.postsService.deletePost(param, body);
   }
@@ -93,7 +93,7 @@ export class PostsController {
   }
 
   @Get('/comments/:commentId')
-  getOneComment(@Param() Param) {
+  getOneComment(@Param() param) {
     return this.postsService.getOneComment(param);
   }
 
