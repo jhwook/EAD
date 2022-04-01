@@ -10,7 +10,6 @@ const Wrapper = styled.div`
   background-color: ${(props) => props.theme.green};
   @media ${(props) => props.theme.iPhone12Pro} {
     height: 200px;
-    padding-left: 5px;
   }
   @media ${(props) => props.theme.mobile} {
     height: 200px;
@@ -43,6 +42,7 @@ const LeftBoxText = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.micro};
     margin-bottom: 20px;
+    margin-left: 10px;
   }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
@@ -96,6 +96,7 @@ const Service = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     flex-direction: row;
     justify-content: flex-start;
+    margin-left: 10px;
   }
   @media ${(props) => props.theme.mobile} {
     flex-direction: row;
@@ -112,6 +113,7 @@ const Contact = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     flex-direction: row;
     justify-content: flex-start;
+    margin-left: 10px;
   }
   @media ${(props) => props.theme.mobile} {
     flex-direction: row;
