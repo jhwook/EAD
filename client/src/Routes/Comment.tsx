@@ -187,7 +187,7 @@ const FailModalBtn = styled.button`
 
 function Comment() {
   const { userData } = useSelector((state: RootState) => state);
-  const { userInfo, accessToken } = userData;
+  const { userInfo, accessToken, isLogin } = userData;
   const [writer, setWriter] = useState(userInfo?.username);
   const [content, setContent] = useState('');
   const [postModalView, setPostModalView] = useState(false);
@@ -252,10 +252,16 @@ function Comment() {
       <Nav />
       <Wrapper>
         <ComBox>
-          <ComTopBox>
-            <ComWriter>{writer}</ComWriter>
-            <ComBtn onClick={registOnClick}>수정</ComBtn>
-          </ComTopBox>
+          {isLogin ? (
+            <ComTopBox>
+              <ComWriter>{writer}</ComWriter>
+              <ComBtn onClick={registOnClick}>수정</ComBtn>
+            </ComTopBox>
+          ) : (
+            <ComTopBox>
+              <ComWriter>로그인을 해야합니다</ComWriter>
+            </ComTopBox>
+          )}
           <Editor
             height="470px"
             initialEditType="markdown"
