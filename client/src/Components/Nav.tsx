@@ -31,17 +31,20 @@ const Wrapper = styled.div`
     @media ${(props) => props.theme.iPhone12Pro} {
       display: block;
       position: absolute;
-      top: 32px;
+      top: 25px;
       right: 40px;
       font-size: ${(props) => props.theme.fontSize.medium};
     }
     @media ${(props) => props.theme.mobile} {
       display: block;
       position: absolute;
-      top: 32px;
+      top: 25px;
       right: 40px;
       font-size: ${(props) => props.theme.fontSize.medium};
     }
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 10px 20px;
   }
   @media ${(props) => props.theme.mobile} {
     padding: 10px 20px;
@@ -96,11 +99,11 @@ const Modal = styled.div`
   font-weight: bold;
   z-index: 10;
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 100%;
+    width: 99%;
     right: 0px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 100%;
+    width: 99%;
     right: 0px;
   }
 `;
