@@ -28,6 +28,16 @@ let PostsController = class PostsController {
     createPost(body) {
         return this.postsService.createPost(body);
     }
+    getPostTitle() {
+        return this.postsService.getPostTitle();
+    }
+    searchPost(keyword) {
+        console.log(keyword);
+        return this.postsService.searchPost(keyword);
+    }
+    searchPostByTag(body) {
+        return this.postsService.searchPostByTag(body);
+    }
     async getOnePost(id) {
         return this.postsService.getOnePost(id);
     }
@@ -36,12 +46,6 @@ let PostsController = class PostsController {
     }
     deletePost(param, body) {
         return this.postsService.deletePost(param, body);
-    }
-    searchPost(keyword) {
-        return this.postsService.searchPost(keyword);
-    }
-    searchPostByTag(body) {
-        return this.postsService.searchPostByTag(body);
     }
     createComment(body, param) {
         return this.postsService.createComment(body, param);
@@ -54,9 +58,6 @@ let PostsController = class PostsController {
     }
     getOneComment(param) {
         return this.postsService.getOneComment(param);
-    }
-    getPostTitle() {
-        return this.postsService.getPostTitle();
     }
     uploadPostImage(files, param, body) {
         console.log(files);
@@ -75,6 +76,26 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "createPost", null);
 __decorate([
+    (0, common_1.Post)('/title'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getPostTitle", null);
+__decorate([
+    (0, common_1.Post)('/search'),
+    __param(0, (0, common_1.Query)('keyword')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "searchPost", null);
+__decorate([
+    (0, common_1.Post)('/search/tag'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "searchPostByTag", null);
+__decorate([
     (0, common_1.Get)('/:postId'),
     __param(0, (0, common_1.Param)('postId')),
     __metadata("design:type", Function),
@@ -90,27 +111,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "updatePost", null);
 __decorate([
-    (0, common_1.Delete)('/:postId'),
+    (0, common_1.Post)('/:postId'),
     __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "deletePost", null);
-__decorate([
-    (0, common_1.Post)('/search'),
-    __param(0, (0, common_1.Query)('keyword')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], PostsController.prototype, "searchPost", null);
-__decorate([
-    (0, common_1.Post)('/search/tag'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], PostsController.prototype, "searchPostByTag", null);
 __decorate([
     (0, common_1.Post)('/:postId/add/comment'),
     __param(0, (0, common_1.Body)()),
@@ -141,12 +148,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "getOneComment", null);
-__decorate([
-    (0, common_1.Post)('/title'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], PostsController.prototype, "getPostTitle", null);
 __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('posts'))),
     (0, common_1.Post)('/upload-post/:postId'),
