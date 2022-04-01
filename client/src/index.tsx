@@ -99,6 +99,7 @@ interface ILoginActionPros {
 
 interface IModifyActionPros {
   data: object;
+  userInfo: object;
   isLogin: boolean;
 }
 
@@ -146,7 +147,6 @@ const userSlice = createSlice({
     },
     UserModify(state, action: PayloadAction<IModifyActionPros>) {
       state.userInfo = action.payload.data;
-      // state.isLogin = action.payload.isLogin;
     },
     UserPayment(state, action: PayloadAction<IPaymentProps>) {
       state.userInfo = action.payload;
@@ -183,6 +183,55 @@ const postSlice = createSlice({
   },
 });
 
+// post.content, post.comments
+type TComAction = [
+  {
+    post_id: string;
+    writer: string;
+    content: string;
+  },
+];
+
+type TComState = {
+  post_id: string;
+  writer: string;
+  content: string;
+};
+
+const comState: TComState[] = [];
+
+const comSlice = createSlice({
+  name: 'com',
+  initialState: comState,
+  reducers: {
+    ComRender(state, action: PayloadAction<TComAction>) {
+      return [...action.payload];
+    },
+  },
+});
+
+type TItemAction = [
+  {
+    content: string;
+  },
+];
+
+type TItemState = {
+  content: string;
+};
+
+const itemState: TItemState[] = [];
+
+const itemSlice = createSlice({
+  name: 'item',
+  initialState: itemState,
+  reducers: {
+    ItemRender(state, action: PayloadAction<TItemAction>) {
+      return [...action.payload];
+    },
+  },
+});
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -191,6 +240,8 @@ const persistConfig = {
 const reducers = combineReducers({
   userData: userSlice.reducer,
   postData: postSlice.reducer,
+  itemData: itemSlice.reducer,
+  comData: comSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -209,6 +260,8 @@ const persistor = persistStore(store);
 export const { UserLogin, UserLogout, UserModify, UserPayment } =
   userSlice.actions;
 export const { HomeSearch, inSearch } = postSlice.actions;
+export const { ItemRender } = itemSlice.actions;
+export const { ComRender } = comSlice.actions;
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

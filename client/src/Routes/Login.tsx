@@ -160,6 +160,7 @@ function Login() {
             withCredentials: true,
           },
         );
+        console.log('l', data.data.data);
         dispatch(UserLogin(data.data.data));
         setEmail('');
         setPassword('');

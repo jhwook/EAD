@@ -2,7 +2,8 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import S3 from 'react-aws-s3-typescript';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
@@ -14,6 +15,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
+
+// window.Buffer = window.Buffer || require('buffer').Buffer;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -168,16 +171,6 @@ const CommentWriteBtn = styled.button`
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 `;
-
-// const CommentWriteInput = styled.textarea`
-//   font-size: ${(props) => props.theme.fontSize.mini};
-//   height: 100px;
-//   width: 91%;
-//   padding: 10px;
-//   margin: 0 0 15px 28px;
-//   resize: none;
-//   border: 1px solid ${(props) => props.theme.grey}; //
-// `;
 
 const CommentItemBox = styled.div`
   // border: 1px solid ${(props) => props.theme.grey};
@@ -506,14 +499,16 @@ const PostDelModalBtn = styled.button`
 `;
 
 function PostView() {
-  const { userData } = useSelector((state: RootState) => state);
+  const { userData, itemData, comData } = useSelector(
+    (state: RootState) => state,
+  );
   const { userInfo, accessToken, isLogin } = userData;
   const [writer, setWriter] = useState('');
   const [writerId, setWriterId] = useState('');
   const [title, setTitle] = useState('');
   const [tag, setTag] = useState<string[]>([]);
   const [bounty, setBounty] = useState(0);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState('# mk');
   const [comments, setComments] = useState<any[]>([]);
   const [comId, setComId] = useState('');
   const [postFuncView, setPostFuncView] = useState(false);
@@ -524,28 +519,53 @@ function PostView() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
+  console.log('cd', comData);
+  console.log('id', itemData);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_SERVER}/posts/${id}`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       const item = res.data.data;
+  //       // console.log('item', item);
+  // setWriterId(item.writer);
+  // setWriter(item.writerName);
+  // setTitle(item.title);
+  // setTag(item.tag);
+  // setBounty(item.bounty);
+  // setContent(item.content);
+  // setComments(item.comments);
+  //     });
+  // }, [comModalView, comDelModalView]);
+  // console.log('com', comments);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_SERVER}/posts/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
+    const getPost = async () => {
+      const data = await axios.get(
+        `${process.env.REACT_APP_SERVER}/posts/${id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      })
-      .then((res) => {
-        const item = res.data.data;
-        console.log('item', item);
-        setWriterId(item.writer);
-        setWriter(item.writerName);
-        setTitle(item.title);
-        setTag(item.tag);
-        setBounty(item.bounty);
-        setContent(item.content);
-        setComments(item.comments);
-      });
+      );
+      const item = data.data.data;
+      setWriterId(item.writer);
+      setWriter(item.writerName);
+      setTitle(item.title);
+      setTag(item.tag);
+      setBounty(item.bounty);
+      setContent(item.content);
+      setComments(item.comments);
+    };
+    getPost();
   }, [comModalView, comDelModalView]);
-  // console.log('com', comments);
 
   const regComOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
@@ -676,10 +696,10 @@ function PostView() {
             </PostTagBox>
           </PostMidBox>
           <PostBotBox>
-            <ReactMarkdown className="mk" remarkPlugins={[remarkGfm]}>
+            {/* <ReactMarkdown className="mk" remarkPlugins={[remarkGfm]}>
               {content}
-            </ReactMarkdown>
-            {/* <Viewer initialValue={content} /> */}
+            </ReactMarkdown> */}
+            <Viewer initialValue={content} />
           </PostBotBox>
         </PostBox>
         <CommentBox>
@@ -724,10 +744,10 @@ function PostView() {
                       </>
                     ) : null}
                   </CommentItemHead>
-                  <ReactMarkdown className="comMk" remarkPlugins={[remarkGfm]}>
+                  {/* <ReactMarkdown className="comMk" remarkPlugins={[remarkGfm]}>
                     {com.content}
-                  </ReactMarkdown>
-                  {/* <CommentContent>{com.content}</CommentContent> */}
+                  </ReactMarkdown> */}
+                  <Viewer>{com.content}</Viewer>
                 </CommentItem>
               ))}
             </CommentItemList>
