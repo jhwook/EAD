@@ -35,6 +35,9 @@ const Wrapper = styled.div`
   padding: 70px 35px;
   position: relative;
   top: 50px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 270px;
+  }
 `;
 const Form = styled.form`
   display: flex;
@@ -50,6 +53,9 @@ const EmailInput = styled.input`
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 250px;
+  }
 `;
 const PasswordInput = styled.input`
   width: 315px;
@@ -60,6 +66,9 @@ const PasswordInput = styled.input`
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 250px;
+  }
 `;
 const ExitBtn = styled.button`
   color: ${(props) => props.theme.lightGrey};
@@ -87,6 +96,9 @@ const LoginBtn = styled.button`
     background-color: ${(props) => props.theme.white};
     color: ${(props) => props.theme.lightGrey};
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 180px;
+  }
 `;
 const SignupBtn = styled.div`
   width: 220px;
@@ -105,6 +117,9 @@ const SignupBtn = styled.div`
     background-color: ${(props) => props.theme.lightGrey};
     color: ${(props) => props.theme.white};
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 160px;
+  }
 `;
 
 const Naver = styled.a`
@@ -119,6 +134,10 @@ const Naver = styled.a`
   background-size: cover;
   margin-bottom: 3px;
   cursor: pointer;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 190px;
+    height: 50px;
+  }
 `;
 
 const Kaoko = styled(Naver)`
@@ -128,14 +147,22 @@ const Kaoko = styled(Naver)`
 const Google = styled(Naver)`
   background-image: url(${google});
   width: 230px;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-bottom: 15px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    background-size: 195px 41px;
+    width: 195px;
+    height: 50px;
+  }
 `;
 
 const Text = styled.div`
   color: ${(props) => props.theme.lightGrey};
   font-size: ${(props) => props.theme.fontSize.tiny};
   margin-bottom: 15px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
 `;
 
 function Login() {
