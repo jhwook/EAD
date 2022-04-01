@@ -58,6 +58,11 @@ export class PostsController {
     return this.postsService.searchPostByTag(body);
   }
 
+  @Get('/:postId/content')
+  async getOnePostContent(@Param('postId') id: string) {
+    return this.postsService.getOnePostContent(id);
+  }
+
   // 포스트 하나 가져오기
   @Get('/:postId')
   async getOnePost(@Param('postId') id: string) {

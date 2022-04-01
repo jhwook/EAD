@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-else-return */
 import { Injectable, HttpException } from '@nestjs/common';
@@ -222,5 +223,12 @@ export class PostsService {
   async getPostTitle() {
     const postTitles = await this.postsRepository.getTitle();
     return postTitles;
+  }
+
+  async getOnePostContent(id) {
+    const post = await this.postModel.findById(id);
+    const content = post.content;
+
+    return content;
   }
 }
