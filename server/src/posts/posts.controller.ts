@@ -54,7 +54,7 @@ export class PostsController {
 
   // 포스트 삭제
   // @UseGuards(JwtAuthGuard)
-  @Delete('/:postId')
+  @Post('/:postId')
   deletePost(@Param() param, @Body() body) {
     return this.postsService.deletePost(param, body);
   }

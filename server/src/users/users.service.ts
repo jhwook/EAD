@@ -94,6 +94,7 @@ export class UsersService {
       stacks,
       oauth: true,
       refreshToken,
+      password: 'None',
     });
 
     const createdUser = await this.userModel.findOne({ oauthId });
