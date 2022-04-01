@@ -176,6 +176,17 @@ let PostsService = class PostsService {
         const postTitles = await this.postsRepository.getTitle();
         return postTitles;
     }
+    async getOnePostContent(id) {
+        const post = await this.postModel.findById(id);
+        let result = [];
+        const commentArr = post.comment;
+        for (let i = 0; i < commentArr.length; i++) {
+            let comment = await this.commentModel.findById(commentArr[i]);
+            result.push(comment);
+        }
+        const content = post.content;
+        return { content: [content], comments: result };
+    }
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),

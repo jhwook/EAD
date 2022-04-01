@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-else-return */
@@ -227,8 +228,17 @@ export class PostsService {
 
   async getOnePostContent(id) {
     const post = await this.postModel.findById(id);
+    // const post = await this.postModel.findById(id).populate('comments');
+    // console.log(post);
+    let result = [];
+    const commentArr = post.comment;
+
+    for (let i = 0; i < commentArr.length; i++) {
+      let comment = await this.commentModel.findById(commentArr[i]);
+      result.push(comment);
+    }
     const content = post.content;
 
-    return content;
+    return { content: [content], comments: result };
   }
 }
