@@ -8,6 +8,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding-top: 10px;
   background-color: ${(props) => props.theme.green};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 200px;
+    padding-left: 5px;
+  }
   @media ${(props) => props.theme.mobile} {
     height: 200px;
     padding-left: 20px;
@@ -17,6 +21,10 @@ const UpBox = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    flex-direction: column;
+    margin-bottom: 25px;
+  }
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
   }
@@ -32,6 +40,10 @@ const LeftBox = styled.div`
 const LeftBoxText = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: normal;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin-bottom: 20px;
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
     margin-bottom: 20px;
@@ -47,6 +59,10 @@ const DownBox = styled.div`
   align-items: center;
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: bold;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin-top: 2px;
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
     margin-top: 2px;
@@ -59,6 +75,10 @@ const DownBox = styled.div`
 
 const Logo = styled.img`
   width: 200px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 155px;
+  }
+
   @media ${(props) => props.theme.mobile} {
     width: 165px;
   }
@@ -73,6 +93,10 @@ const Service = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 5px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
   @media ${(props) => props.theme.mobile} {
     flex-direction: row;
     justify-content: flex-start;
@@ -85,6 +109,10 @@ const Contact = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 5px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
   @media ${(props) => props.theme.mobile} {
     flex-direction: row;
     justify-content: flex-start;
@@ -94,6 +122,10 @@ const Contact = styled.div`
 const Title = styled.div`
   font-size: ${(props) => props.theme.fontSize.medium};
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    margin-right: 50px;
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.small};
     margin-right: 50px;
@@ -103,6 +135,9 @@ const Title = styled.div`
   }
 `;
 const Contents = styled.ul`
+  @media ${(props) => props.theme.iPhone12Pro} {
+    display: flex;
+  }
   @media ${(props) => props.theme.mobile} {
     display: flex;
   }
@@ -111,6 +146,11 @@ const Contents = styled.ul`
 const Content = styled.li`
   font-size: ${(props) => props.theme.fontSize.tiny};
   margin-bottom: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 50px;
+    margin-right: 20px;
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
     width: 50px;

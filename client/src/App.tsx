@@ -6,6 +6,8 @@ import Profile from 'Routes/Profile';
 import Search from 'Routes/Search';
 import Post from 'Routes/Post';
 import PostView from 'Routes/PostView';
+import PostModify from 'Routes/PostModify';
+import Comment from 'Routes/Comment';
 import Chat from 'Routes/Chat';
 import Naver from 'Auth/Naver';
 import Kakao from 'Auth/Kakao';
@@ -20,6 +22,8 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/post" element={<Post />} />
       <Route path="/post/:id" element={<PostView />} />
+      <Route path="/post/modify/:id" element={<PostModify />} />
+      <Route path="/comment/:id" element={<Comment />} />
       <Route path="/search/*" element={<Search />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/auth/naver" element={<Naver />} />
