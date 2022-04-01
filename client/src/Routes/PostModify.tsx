@@ -283,7 +283,7 @@ const FailModalBtn = styled.button`
 
 function PostModify() {
   const { userData } = useSelector((state: RootState) => state);
-  const { accessToken, userInfo } = userData;
+  const { accessToken, userInfo, isLogin } = userData;
   const [writer, setWriter] = useState(userInfo?.username);
   const [writerId, setWriterId] = useState('');
   const initialTag: string[] = [];
@@ -380,10 +380,16 @@ function PostModify() {
       <Nav />
       <Wrapper>
         <PostBox>
-          <PostTopBox>
-            <PostWriter>{writer}</PostWriter>
-            <PostBtn onClick={modifyOnClick}>수정</PostBtn>
-          </PostTopBox>
+          {isLogin ? (
+            <PostTopBox>
+              <PostWriter>{writer}</PostWriter>
+              <PostBtn onClick={modifyOnClick}>수정</PostBtn>
+            </PostTopBox>
+          ) : (
+            <PostTopBox>
+              <PostWriter>로그인을 해야합니다</PostWriter>
+            </PostTopBox>
+          )}
           <PostMidBox>
             <PostTitle
               type="text"

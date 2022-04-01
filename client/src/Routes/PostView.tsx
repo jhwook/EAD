@@ -507,7 +507,7 @@ const PostDelModalBtn = styled.button`
 
 function PostView() {
   const { userData } = useSelector((state: RootState) => state);
-  const { userInfo, accessToken } = userData;
+  const { userInfo, accessToken, isLogin } = userData;
   const [writer, setWriter] = useState('');
   const [writerId, setWriterId] = useState('');
   const [title, setTitle] = useState('');
@@ -540,12 +540,12 @@ function PostView() {
         setWriter(item.writerName);
         setTitle(item.title);
         setTag(item.tag);
-        // setBounty(item.bounty);
+        setBounty(item.bounty);
         setContent(item.content);
         setComments(item.comments);
       });
   }, [comModalView, comDelModalView]);
-  // console.log('com', comments);-
+  // console.log('com', comments);
 
   const regComOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
@@ -591,13 +591,19 @@ function PostView() {
   };
 
   const delPostOnClick = async () => {
-    await axios.delete(`${process.env.REACT_APP_SERVER}/posts/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/${id}`,
+      {
+        id: userInfo.id,
       },
-      withCredentials: true,
-    });
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      },
+    );
     navigate('/');
   };
 
@@ -677,27 +683,28 @@ function PostView() {
           </PostBotBox>
         </PostBox>
         <CommentBox>
-          {/* <CommentWriteForm> */}
-          <CommentWriteBox>
-            <CommentWriteName>{userInfo.username}</CommentWriteName>
-            <CommentWriteBtn onClick={regComOnClick}>등록</CommentWriteBtn>
-          </CommentWriteBox>
-          <Editor
-            height="250px"
-            initialEditType="markdown"
-            initialValue=""
-            ref={editorRef}
-            placeholder="마크다운 양식으로 작성하세요"
-            toolbarItems={[
-              ['bold', 'italic'],
-              ['hr'],
-              ['image', 'link'],
-              ['ul', 'ol'],
-              ['code', 'codeblock'],
-            ]}
-          />
-          {/* <CommentWriteInput placeholder="답글은 여기에" /> */}
-          {/* </CommentWriteForm> */}
+          {isLogin ? (
+            <CommentWriteForm>
+              <CommentWriteBox>
+                <CommentWriteName>{userInfo.username}</CommentWriteName>
+                <CommentWriteBtn onClick={regComOnClick}>등록</CommentWriteBtn>
+              </CommentWriteBox>
+              <Editor
+                height="250px"
+                initialEditType="markdown"
+                initialValue=""
+                ref={editorRef}
+                placeholder="마크다운 양식으로 작성하세요"
+                toolbarItems={[
+                  ['bold', 'italic'],
+                  ['hr'],
+                  ['image', 'link'],
+                  ['ul', 'ol'],
+                  ['code', 'codeblock'],
+                ]}
+              />
+            </CommentWriteForm>
+          ) : null}
           <CommentItemBox>
             <CommentItemList>
               {comments.map((com: any) => (
@@ -705,7 +712,6 @@ function PostView() {
                   <CommentItemHead>
                     <CommentWriter>{com.writerName}</CommentWriter>
                     {userInfo.id === com.writer || userInfo.id === writerId ? (
-                      // <CommentBtnBox>
                       <>
                         <CommentItemBtn onClick={() => comOnClick(com._id)}>
                           수정
@@ -716,8 +722,7 @@ function PostView() {
                           삭제
                         </CommentItemBtn>
                       </>
-                    ) : // </CommentBtnBox>
-                    null}
+                    ) : null}
                   </CommentItemHead>
                   <ReactMarkdown className="comMk" remarkPlugins={[remarkGfm]}>
                     {com.content}
