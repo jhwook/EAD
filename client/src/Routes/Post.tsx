@@ -331,6 +331,7 @@ function Post() {
   const registOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
+    // const content = editorInstance?.getHTML();
     if (tag.length !== 0 && title !== '' && content !== '') {
       await axios.post(
         `${process.env.REACT_APP_SERVER}/posts`,

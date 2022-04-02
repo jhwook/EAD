@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiChevronsUp } from 'react-icons/fi';
-import { AppDispatch, inSearch, ItemRender, ComRender, RootState } from 'index';
+import { AppDispatch, inSearch, ItemRender, RootState } from 'index';
 import SearchList from 'Components/SearchList';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
@@ -410,13 +410,11 @@ function Search() {
   const [scrollY, setScrollY] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { postData, comData, itemData } = useSelector(
-    (state: RootState) => state,
-  );
+  const { postData } = useSelector((state: RootState) => state);
   const [post, setPost] = useState(postData);
   const [here, setHere] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [postId, setPostId] = useState('');
+  const [open, setOpen] = useState(false);
 
   const getTitle = async () => {
     const postTitle = await axios.post(
@@ -448,6 +446,7 @@ function Search() {
   });
 
   useEffect(() => {
+    setOpen(false);
     setHere(false);
     getTitle();
   }, []);
@@ -711,9 +710,7 @@ function Search() {
         withCredentials: true,
       },
     );
-    console.log('d', data.data.data.content);
-    dispatch(ComRender(data.data.data.comments));
-    dispatch(ItemRender(data.data.data.content));
+    dispatch(ItemRender(data.data.data));
     navigate(`/post/${id}`);
   };
 

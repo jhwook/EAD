@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable prefer-const */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
@@ -245,6 +246,6 @@ export class PostsService {
     }
     const content = post.content;
 
-    return { content: [content], comments: result };
+    return [{ content: content }];
   }
 }

@@ -187,7 +187,7 @@ let PostsService = class PostsService {
             result.push(comment);
         }
         const content = post.content;
-        return { content: [content], comments: result };
+        return [{ content: content }];
     }
 };
 PostsService = __decorate([
