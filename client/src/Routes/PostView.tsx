@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
@@ -8,15 +9,14 @@ import { useSelector } from 'react-redux';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
 import { RootState } from 'index';
-
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { Editor, Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
-
-// window.Buffer = window.Buffer || require('buffer').Buffer;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -172,21 +172,15 @@ const CommentWriteBtn = styled.button`
   }
 `;
 
-const CommentItemBox = styled.div`
-  // border: 1px solid ${(props) => props.theme.grey};
-`;
+const CommentItemBox = styled.div``;
 
-const CommentItemList = styled.ul`
-  // border: 1px solid ${(props) => props.theme.grey};
-`;
+const CommentItemList = styled.ul``;
 
 const CommentItem = styled.li`
   border: 1px solid ${(props) => props.theme.grey};
   .comMk {
     overflow: scroll;
-    // border: 1px solid ${(props) => props.theme.grey};
     font-size: ${(props) => props.theme.fontSize.tiny};
-    // height: auto;
     width: 91%;
     padding: 10px;
     margin: 0 0 0px 28px;
@@ -194,14 +188,12 @@ const CommentItem = styled.li`
 `;
 
 const CommentItemHead = styled.div`
-  // border: 1px solid ${(props) => props.theme.grey};
   display: flex;
   flex-direction: flex;
   align-items: center;
 `;
 
 const CommentWriter = styled.div`
-  // border: 1px solid ${(props) => props.theme.grey};
   width: 730px;
   padding: 7px 0 3px 37px;
   font-size: ${(props) => props.theme.fontSize.mini};
@@ -224,13 +216,6 @@ const CommentItemBtn = styled.button`
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 `;
-
-const CommentBtnBox = styled.div``;
-
-// const CommentPlaceholder = styled.div`
-//   font-size: ${(props) => props.theme.fontSize.mini};
-//   border: 1px solid ${(props) => props.theme.grey};
-// `;
 
 const ComModalBack = styled.div`
   position: fixed;
@@ -499,16 +484,8 @@ const PostDelModalBtn = styled.button`
 `;
 
 function PostView() {
-  const { userData, itemData, comData } = useSelector(
-    (state: RootState) => state,
-  );
+  const { userData, itemData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken, isLogin } = userData;
-  const [writer, setWriter] = useState('');
-  const [writerId, setWriterId] = useState('');
-  const [title, setTitle] = useState('');
-  const [tag, setTag] = useState<string[]>([]);
-  const [bounty, setBounty] = useState(0);
-  const [content, setContent] = useState('# mk');
   const [comments, setComments] = useState<any[]>([]);
   const [comId, setComId] = useState('');
   const [postFuncView, setPostFuncView] = useState(false);
@@ -516,33 +493,43 @@ function PostView() {
   const [failModalView, setFailModalView] = useState(false);
   const [comDelModalView, setComDelModalView] = useState(false);
   const [postDelModalView, setPostDelModalView] = useState(false);
+  const [postCon, setPostCon] = useState(itemData[0]);
+
+  interface Data {
+    bounty: number;
+    comment: string[];
+    comments: object[];
+    content: string;
+    createdAt: string;
+    id: number;
+    tag: string[];
+    title: string;
+    updatedAt: string;
+    writer: string;
+    writerName: string;
+    __v: number;
+    _id: number;
+  }
+
+  const [data, setData] = useState<Data>({
+    bounty: 0,
+    comment: [''],
+    comments: [{}],
+    content: '',
+    createdAt: '',
+    id: 0,
+    tag: [''],
+    title: '',
+    updatedAt: '',
+    writer: '',
+    writerName: '',
+    __v: 0,
+    _id: 0,
+  });
+
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
-  console.log('cd', comData);
-  console.log('id', itemData);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`${process.env.REACT_APP_SERVER}/posts/${id}`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       const item = res.data.data;
-  //       // console.log('item', item);
-  // setWriterId(item.writer);
-  // setWriter(item.writerName);
-  // setTitle(item.title);
-  // setTag(item.tag);
-  // setBounty(item.bounty);
-  // setContent(item.content);
-  // setComments(item.comments);
-  //     });
-  // }, [comModalView, comDelModalView]);
-  // console.log('com', comments);
 
   useEffect(() => {
     const getPost = async () => {
@@ -556,12 +543,7 @@ function PostView() {
         },
       );
       const item = data.data.data;
-      setWriterId(item.writer);
-      setWriter(item.writerName);
-      setTitle(item.title);
-      setTag(item.tag);
-      setBounty(item.bounty);
-      setContent(item.content);
+      setData(item);
       setComments(item.comments);
     };
     getPost();
@@ -570,12 +552,12 @@ function PostView() {
   const regComOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
-    if (content !== '') {
+    if (data.content !== '') {
       await axios.post(
         `${process.env.REACT_APP_SERVER}/posts/${id}/add/comment`,
         {
           id: userInfo.id,
-          content,
+          content: data.content,
         },
         {
           headers: {
@@ -586,7 +568,7 @@ function PostView() {
         },
       );
       setComModalView(!comModalView);
-    } else if (content === '') {
+    } else if (data.content === '') {
       setFailModalView(!failModalView);
     }
   };
@@ -651,14 +633,13 @@ function PostView() {
     navigate(`/post/modify/${id}`);
   };
 
-  const test = `
-  # mk1
-  **bold**
-  normal
-  \`\`\`
-  code
-  \`\`\`
-  `;
+  interface TComState {
+    post_id: string;
+    writer: string;
+    content: string;
+    writerName: string;
+    _id: number;
+  }
 
   return (
     <>
@@ -674,8 +655,8 @@ function PostView() {
         ) : null}
         <PostBox>
           <PostTopBox>
-            <PostWriter>{writer}</PostWriter>
-            {userInfo.id === writerId ? (
+            <PostWriter>{data.writerName}</PostWriter>
+            {userInfo.id === data?.writer ? (
               <HiOutlineDotsHorizontal
                 className="dot"
                 onClick={postFuncOnClick}
@@ -683,11 +664,11 @@ function PostView() {
             ) : null}
           </PostTopBox>
           <PostMidBox>
-            <PostTitle>{title}</PostTitle>
-            <PostBounty>현상금: {bounty}원</PostBounty>
+            <PostTitle>{data.title}</PostTitle>
+            <PostBounty>현상금: {data.bounty}원</PostBounty>
             <PostTagBox>
               <PostTagList>
-                {tag.map((el) => (
+                {data.tag.map((el) => (
                   <PostTagItem key={nanoid()}>
                     <PostTagTitle>{el}</PostTagTitle>
                   </PostTagItem>
@@ -696,10 +677,10 @@ function PostView() {
             </PostTagBox>
           </PostMidBox>
           <PostBotBox>
-            {/* <ReactMarkdown className="mk" remarkPlugins={[remarkGfm]}>
-              {content}
-            </ReactMarkdown> */}
-            <Viewer initialValue={content} />
+            <Viewer
+              initialValue={postCon.content}
+              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+            />
           </PostBotBox>
         </PostBox>
         <CommentBox>
@@ -715,6 +696,7 @@ function PostView() {
                 initialValue=""
                 ref={editorRef}
                 placeholder="마크다운 양식으로 작성하세요"
+                plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
                 toolbarItems={[
                   ['bold', 'italic'],
                   ['hr'],
@@ -727,11 +709,12 @@ function PostView() {
           ) : null}
           <CommentItemBox>
             <CommentItemList>
-              {comments.map((com: any) => (
+              {comments.map((com: TComState) => (
                 <CommentItem key={nanoid()}>
                   <CommentItemHead>
                     <CommentWriter>{com.writerName}</CommentWriter>
-                    {userInfo.id === com.writer || userInfo.id === writerId ? (
+                    {userInfo.id === com.writer ||
+                    userInfo.id === data.writer ? (
                       <>
                         <CommentItemBtn onClick={() => comOnClick(com._id)}>
                           수정
@@ -744,27 +727,14 @@ function PostView() {
                       </>
                     ) : null}
                   </CommentItemHead>
-                  {/* <ReactMarkdown className="comMk" remarkPlugins={[remarkGfm]}>
-                    {com.content}
-                  </ReactMarkdown> */}
-                  <Viewer>{com.content}</Viewer>
+                  <Viewer
+                    initialValue={com.content}
+                    plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+                  />
                 </CommentItem>
               ))}
             </CommentItemList>
           </CommentItemBox>
-          {/* {comments.length === 0 ? (
-            <CommentItemList>
-              {comments.map((com: any) => (
-                <CommentItem key={nanoid()}>
-                  <CommentWriter>{com.writer}</CommentWriter>
-                  <HiOutlineDotsHorizontal className="dotS" />
-                  <CommentContent>{com.content}</CommentContent>
-                </CommentItem>
-              ))}
-            </CommentItemList>
-          ) : (
-            <CommentPlaceholder>작성된 댓글이 없네요</CommentPlaceholder>
-          )} */}
         </CommentBox>
         {comModalView ? (
           <ComModalBack>

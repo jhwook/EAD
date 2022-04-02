@@ -20,9 +20,8 @@ export declare class PostsController {
     }[]>;
     searchPostByTag(body: any): Promise<any[]>;
     getOnePostContent(id: string): Promise<{
-        content: string[];
-        comments: any[];
-    }>;
+        content: string;
+    }[]>;
     getOnePost(id: string): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;

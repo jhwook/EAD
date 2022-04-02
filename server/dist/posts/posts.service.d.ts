@@ -54,7 +54,6 @@ export declare class PostsService {
         tag: string[];
     }[]>;
     getOnePostContent(id: any): Promise<{
-        content: string[];
-        comments: any[];
-    }>;
+        content: string;
+    }[]>;
 }
