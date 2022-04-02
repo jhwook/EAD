@@ -16,7 +16,7 @@ const Btn = styled.button<IStackButton>`
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.color};
   font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 120px;
+  width: 80px;
   height: 32px;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;

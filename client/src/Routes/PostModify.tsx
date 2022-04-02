@@ -1,13 +1,16 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { useParams } from 'react-router-dom';
 import { nanoid } from '@reduxjs/toolkit';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
 import { RootState } from 'index';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 
@@ -282,7 +285,7 @@ const FailModalBtn = styled.button`
 `;
 
 function PostModify() {
-  const { userData } = useSelector((state: RootState) => state);
+  const { userData, itemData } = useSelector((state: RootState) => state);
   const { accessToken, userInfo, isLogin } = userData;
   const [writer, setWriter] = useState(userInfo?.username);
   const [writerId, setWriterId] = useState('');
@@ -294,6 +297,7 @@ function PostModify() {
   const [comments, setComments] = useState<any[]>([]);
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
+  const [postCon, setPostCon] = useState(itemData[0]);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
@@ -372,7 +376,6 @@ function PostModify() {
 
   const failModalOnClick = () => {
     setFailModalView(!failModalView);
-    // navigate('/post');
   };
 
   return (
@@ -391,11 +394,7 @@ function PostModify() {
             </PostTopBox>
           )}
           <PostMidBox>
-            <PostTitle
-              type="text"
-              // initialValue={title}
-              onChange={titleOnChange}
-            />
+            <PostTitle type="text" value={title} onChange={titleOnChange} />
             <PostBountyBox>
               <PostText>현상금 :</PostText>
               <PostBounty onChange={bountyOnChange}>
@@ -432,7 +431,7 @@ function PostModify() {
             <Editor
               height="420px"
               initialEditType="markdown"
-              initialValue=""
+              initialValue={postCon.content}
               ref={editorRef}
               placeholder="마크다운 양식으로 작성하세요"
               toolbarItems={[
