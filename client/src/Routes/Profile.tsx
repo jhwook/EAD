@@ -12,21 +12,40 @@ import hiLogo from '../Image/Logo/profile.png';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 818px;
+  height: auto;
+  min-height: 100%;
   display: flex;
   flex-direction: flex;
   justify-content: center;
   align-items: center;
+  @media ${(props) => props.theme.tablet} {
+    padding-bottom: 392px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 597px;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 555px;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const FooterWrapper = styled.div`
   height: 150px;
   position: relative;
   margin-top: -150px;
+  @media ${(props) => props.theme.tablet} {
+  }
   @media ${(props) => props.theme.mobile} {
-    height: 200px;
-    position: relative;
-    margin-top: -200px;
+    height: 90px;
+    margin-top: 10px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 90px;
+    margin-top: 0px;
   }
 `;
 
@@ -36,11 +55,37 @@ const LeftBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  @media ${(props) => props.theme.tablet} {
+    height: 662px;
+    width: 600px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 50%;
+    width: 361px;
+    flex-wrap: wrap;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 50%;
+    width: 340px;
+    flex-wrap: wrap;
+  }
 `;
 
 const UserPhoto = styled.img`
   width: 180px;
   height: 120px;
+  @media ${(props) => props.theme.tablet} {
+    width: 90px;
+    height: 60px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 30px;
+    width: 45px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 30px;
+    width: 45px;
+  }
 `;
 
 const ImgForm = styled.form`
@@ -59,28 +104,81 @@ const ImgLabel = styled.label`
   color: ${(props) => props.theme.white};
   font-size: ${(props) => props.theme.fontSize.tiny};
   padding: 5px;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin: 15px 0 15px 0;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 5px;
   cursor: pointer;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 10px 0 10px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+    padding: 3px;
+    margin: 3px 0 3px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+    padding: 3px;
+    margin: 3px 0 3px 0;
+  }
 `;
 
 const StackName = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   margin-bottom: 5px;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    margin-bottom: 3px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 0 0 2px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 0 0 2px 0;
+  }
 `;
 
 const StackText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 300px;
   margin-top: 20px;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    width: 250px;
+    margin-top: 13px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 200px;
+    margin-top: 8px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 200px;
+    margin-top: 8px;
+  }
 `;
 
 const StackLine = styled.hr`
   height: 2px;
   width: 300px;
   background-color: ${(props) => props.theme.black};
+  @media ${(props) => props.theme.tablet} {
+    width: 250px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 1px;
+    width: 200px;
+    margin: 5px 0 5px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 1px;
+    width: 200px;
+    margin: 5px 0 5px 0;
+  }
 `;
 
 const StackBox = styled.div`
@@ -89,32 +187,94 @@ const StackBox = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  @media ${(props) => props.theme.tablet} {
+    width: 250px;
+    height: 200px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 200px;
+    height: 90px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 200px;
+    height: 90px;
+  }
 `;
 
 const CostBox = styled.div`
-  width: 50%;
+  width: 320px;
   height: 80px;
   display: flex;
   padding-top: 10px;
   justify-content: space-evenly;
+  flex-direction: center;
   flex-wrap: wrap;
+  @media ${(props) => props.theme.tablet} {
+    width: 250px;
+    height: 60px;
+    padding-top: 5px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 170px;
+    height: 40px;
+    padding-top: 3px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 170px;
+    height: 30px;
+    padding-top: 1px;
+  }
 `;
 
 const CostText = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
-  width: 120px;
+  width: 115px;
   height: 32px;
-  padding-left: 5px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    width: 90px;
+    height: 30px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 60px;
+    height: 25px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 60px;
+    height: 15px;
+  }
 `;
 
 const CostInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.mini};
   color: ${(props) => props.theme.grey};
-  width: 120px;
+  width: 100px;
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 10px;
   padding-left: 5px;
   height: 32px;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    width: 76px;
+    height: 26px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 58px;
+    height: 15px;
+    padding: 3px 2px 2px 5px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 58px;
+    height: 10px;
+    padding: 3px 2px 2px 5px;
+  }
 `;
 
 const RightBox = styled.div`
@@ -123,6 +283,20 @@ const RightBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  @media ${(props) => props.theme.tablet} {
+    height: 662px;
+    width: 600px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 50%;
+    width: 361px;
+    flex-wrap: wrap;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 50%;
+    width: 340px;
+    flex-wrap: wrap;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -130,9 +304,25 @@ const InfoBox = styled.div`
   height: 600px;
   margin-top: 10px;
   padding-top: 25px;
-  border-radius: 30px;
+  border-radius: 20px;
   border: 2px solid ${(props) => props.theme.lightGrey};
   background-color: ${(props) => props.theme.white};
+  @media ${(props) => props.theme.tablet} {
+    height: 456px;
+    width: 300px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 295px;
+    width: 200px;
+    padding-top: 5px;
+    margin: 0px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 275px;
+    width: 200px;
+    padding-top: 5px;
+    margin: 0 auto 5px auto;
+  }
 `;
 
 const InfoNameForm = styled.form`
@@ -154,21 +344,64 @@ const InfoPasswordForm = styled.form`
 const InfoText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 290px;
-  margin-top: 5px;
-  margin-bottom: 15px;
+  margin: 5px 0 15px 0;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    width: 250px;
+    margin: 5px 0 10px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    margin: 5px 0 5px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    margin: 5px 0 5px 0;
+  }
 `;
 
 const NameText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 290px;
-  margin-top: 10px;
+  margin: 10px 0 0px 0;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    width: 250px;
+    margin: 5px 0 0px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    margin: 5px 0 0px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    margin: 5px 0 0px 0;
+  }
 `;
 
 const PasswordText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 290px;
-  margin-top: 10px;
-  margin-bottom: 15px;
+  margin: 10px 0 15px 0;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    width: 250px;
+    margin: 5px 0 10px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    margin: 5px 0 5px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    margin: 5px 0 5px 0;
+  }
 `;
 
 const InfoDistrict = styled.div`
@@ -176,8 +409,23 @@ const InfoDistrict = styled.div`
   color: ${(props) => props.theme.grey};
   width: 290px;
   text-align: right;
-  margin-bottom: 5px;
+  margin: 0px 0 5px 0;
   cursor: pointer;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 260px;
+    margin: 0px 0 3px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    width: 175px;
+    margin: 0px 0 1px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    width: 170px;
+    margin: 0px 0 1px 0;
+  }
   &:hover {
     color: ${(props) => props.theme.pink};
     font-weight: bold;
@@ -192,8 +440,26 @@ const EmailInput = styled.input`
   border-radius: 15px;
   padding: 12px;
   padding-left: 15px;
-  margin-bottom: 10px;
+  margin: 0px 0 10px 0;
   cursor: no-drop;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    width: 250px;
+    padding: 8px;
+    margin: 0px 0 5px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    padding: 2px 2px 2px 5px;
+    margin: 0px 0 2px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    padding: 2px 2px 2px 5px;
+    margin: 0px 0 2px 0;
+  }
 `;
 
 const InfoInput = styled.input`
@@ -205,6 +471,24 @@ const InfoInput = styled.input`
   padding: 12px;
   padding-left: 15px;
   margin-bottom: 5px;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    width: 250px;
+    padding: 8px;
+    margin: 0px 0 3px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    padding: 2px 2px 2px 5px;
+    margin: 0px 0 2px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 170px;
+    padding: 2px 2px 2px 5px;
+    margin: 0px 0 2px 0;
+  }
 `;
 
 const InfoNameBtn = styled.button`
@@ -213,11 +497,28 @@ const InfoNameBtn = styled.button`
   color: ${(props) => props.theme.white};
   width: 140px;
   height: 40px;
-  margin-top: 2px;
-  margin-bottom: 20px;
+  margin: 2px 0 20px 0;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 110px;
+    height: 30px;
+    margin: 0px 0 10px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+    width: 90px;
+    height: 20px;
+    margin: 5px 0 3px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+    width: 90px;
+    height: 20px;
+    margin: 0px 0 3px 0;
+  }
   &:hover {
     font-weight: bold;
   }
@@ -229,11 +530,28 @@ const InfoPwBtn = styled.button`
   color: ${(props) => props.theme.white};
   width: 140px;
   height: 40px;
-  margin-top: 6px;
-  margin-bottom: 24px;
+  margin: 6px 0 24px 0;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 110px;
+    height: 30px;
+    margin: 3px 0 10px 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+    width: 90px;
+    height: 20px;
+    margin: 5px 0 7px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+    width: 90px;
+    height: 20px;
+    margin: 0px 0 5px 0;
+  }
   &:hover {
     font-weight: bold;
   }
@@ -244,8 +562,21 @@ const InfoErrorText = styled.div`
   color: ${(props) => props.theme.lightGrey};
   width: 290px;
   height: 8px;
-  margin-top: 2px;
-  margin-bottom: 10px;
+  margin: 2px 0 10px 0;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 250px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    width: 170px;
+    margin: 1px 0 6px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    width: 170px;
+    margin: 0px 0 3px 0;
+  }
 `;
 
 const InfoModalBack = styled.div`
@@ -361,6 +692,18 @@ const WitInfo = styled.div`
   width: 290px;
   text-align: center;
   cursor: pointer;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 240px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    width: 200px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    width: 200px;
+  }
   &:hover {
     color: ${(props) => props.theme.pink};
     font-weight: bold;
@@ -414,6 +757,20 @@ const WitModalBtn = styled.button`
 const OauthHolder = styled.img`
   width: 380px;
   height: 300px;
+  @media ${(props) => props.theme.tablet} {
+    width: 300px;
+    height: 240px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin: 10px auto 0 auto;
+    width: 200px;
+    height: 120px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 10px auto 0 auto;
+    width: 200px;
+    height: 120px;
+  }
 `;
 
 function Profile() {
@@ -422,7 +779,6 @@ function Profile() {
   const [changeModalView, setChangeModalView] = useState(false);
   const { userData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken } = userData;
-  console.log(userInfo);
   const [js, setJs] = useState(userInfo.stacks?.[0]);
   const [ts, setTs] = useState(userInfo.stacks?.[1]);
   const [css, setCss] = useState(userInfo.stacks?.[2]);
