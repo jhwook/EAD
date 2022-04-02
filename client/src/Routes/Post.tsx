@@ -1,6 +1,8 @@
+/* eslint-disable no-return-assign */
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import S3 from 'react-aws-s3-typescript';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
@@ -331,7 +333,6 @@ function Post() {
   const registOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
-    // const content = editorInstance?.getHTML();
     if (tag.length !== 0 && title !== '' && content !== '') {
       await axios.post(
         `${process.env.REACT_APP_SERVER}/posts`,
@@ -362,7 +363,6 @@ function Post() {
 
   const failModalOnClick = () => {
     setFailModalView(!failModalView);
-    // navigate('/post');
   };
 
   return (

@@ -3,7 +3,6 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import S3 from 'react-aws-s3-typescript';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
@@ -375,7 +374,6 @@ const ModalMenuBtn = styled.button`
     transition: all 0.5s ease-in-out;
     &:hover {
       padding: 3px 0px;
-      // background-color: ${(props) => props.theme.pink};
       color: ${(props) => props.theme.black};
     }
   }
@@ -552,12 +550,12 @@ function PostView() {
   const regComOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
-    if (data.content !== '') {
+    if (content !== '') {
       await axios.post(
         `${process.env.REACT_APP_SERVER}/posts/${id}/add/comment`,
         {
           id: userInfo.id,
-          content: data.content,
+          content,
         },
         {
           headers: {
@@ -568,7 +566,7 @@ function PostView() {
         },
       );
       setComModalView(!comModalView);
-    } else if (data.content === '') {
+    } else if (content === '') {
       setFailModalView(!failModalView);
     }
   };
