@@ -80,7 +80,7 @@ interface IPaymentProps {
 }
 
 const PaymentBtn = styled.button`
-  width: 120px;
+  width: 100px;
   height: 37px;
   padding: 5px;
   background-color: ${(props) => props.theme.beige};
@@ -90,7 +90,23 @@ const PaymentBtn = styled.button`
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.5s;
-  //box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    width: 85px;
+    height: 32px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 60px;
+    height: 23px;
+    padding: 3px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    width: 60px;
+    height: 20px;
+    padding: 3px;
+  }
   &:hover {
     background-color: ${(props) => props.theme.btnGreen};
     color: ${(props) => props.theme.beige};
