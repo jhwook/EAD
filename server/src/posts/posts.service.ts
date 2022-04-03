@@ -169,11 +169,12 @@ export class PostsService {
 
   // 댓글 수정
   async modifyComment(body, param) {
-    const { id, content } = body;
+    const { id, content, title } = body;
     const { commentId } = param;
 
     await this.commentModel.findByIdAndUpdate(commentId, {
       content,
+      title,
     });
     const newComment = await this.commentModel.findById(commentId);
     return newComment;

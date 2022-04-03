@@ -19,15 +19,18 @@ const mongoose_2 = require("@nestjs/mongoose");
 const bcrypt = require("bcrypt");
 const mailer_1 = require("@nestjs-modules/mailer");
 const nestjs_twilio_1 = require("nestjs-twilio");
+const posts_schema_1 = require("../posts/posts.schema");
+const comments_schema_1 = require("../posts/comments.schema");
 const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
 let UsersService = class UsersService {
-    constructor(usersRepository, mailerService, twilio, userModel, postModel) {
+    constructor(usersRepository, mailerService, twilio, userModel, postModel, commentModel) {
         this.usersRepository = usersRepository;
         this.mailerService = mailerService;
         this.twilio = twilio;
         this.userModel = userModel;
         this.postModel = postModel;
+        this.commentModel = commentModel;
     }
     async createUser(body) {
         const { email, username, password } = body;
@@ -121,6 +124,10 @@ let UsersService = class UsersService {
                 password: hashedPassword,
             });
         }
+        if (newUsername) {
+            await this.postModel.updateMany({ writer: id }, { $set: { writerName: newUsername } });
+            await this.commentModel.updateMany({ writer: id }, { $set: { writerName: newUsername } });
+        }
         const modifiedUser = await this.userModel.findById(id);
         return modifiedUser;
     }
@@ -189,9 +196,11 @@ UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(2, (0, nestjs_twilio_1.InjectTwilio)()),
     __param(3, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
-    __param(4, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
+    __param(4, (0, mongoose_2.InjectModel)(posts_schema_1.Post.name)),
+    __param(5, (0, mongoose_2.InjectModel)(comments_schema_1.Comment.name)),
     __metadata("design:paramtypes", [users_repository_1.UsersRepository,
         mailer_1.MailerService, Object, mongoose_1.Model,
+        mongoose_1.Model,
         mongoose_1.Model])
 ], UsersService);
 exports.UsersService = UsersService;

@@ -250,7 +250,7 @@ export class UsersController {
   // eslint-disable-next-line class-methods-use-this
 
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('users')))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('upload')
   uploadImage(
     @UploadedFiles() files: Array<Express.Multer.File>,
@@ -270,7 +270,7 @@ export class UsersController {
     return this.usersService.sendPhoneMessage(body);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('/payment')
   usersPayment(@Body() body) {
     return this.usersService.usersPayment(body);

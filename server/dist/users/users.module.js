@@ -15,12 +15,12 @@ const posts_schema_1 = require("../posts/posts.schema");
 const comments_schema_1 = require("../posts/comments.schema");
 const nestjs_twilio_1 = require("nestjs-twilio");
 const config_1 = require("@nestjs/config");
+const axios_1 = require("@nestjs/axios");
 const auth_module_1 = require("../auth/auth.module");
 const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
 const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
-const axios_1 = require("@nestjs/axios");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([

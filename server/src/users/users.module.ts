@@ -8,12 +8,12 @@ import { Comment, CommentSchema } from 'src/posts/comments.schema';
 import { google } from 'googleapis';
 import { TwilioModule } from 'nestjs-twilio';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HttpModule } from '@nestjs/axios';
 import { AuthModule } from '../auth/auth.module';
 import { UsersRepository } from './users.repository';
 import { User, UserSchema } from './users.schema';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { HttpModule } from '@nestjs/axios';
 
 // const tokenFunc = async () => {
 // const OAuth2Client = new google.auth.OAuth2(
