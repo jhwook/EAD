@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import { Viewer } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -41,7 +41,6 @@ const FooterWrapper = styled.div`
 `;
 
 const ComBox = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
   margin: 0 auto 0 auto;
   height: auto;
   width: 600px;
@@ -53,12 +52,34 @@ const ComItem = styled.div`
 `;
 
 const ItemTitle = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 500px;
+  width: auto;
+  max-width: 530px;
+  height: 23px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
+  border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 11px;
+  display: inline-block;
+  padding: 6px;
   font-weight: bold;
-  margin: 0 100px 0 50px;
+  margin: 25px 25px 20px 25px;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+const ViewerBox = styled.div`
+  margin: 0 auto 0 auto;
+  width: 542px;
+  height: auto;
+`;
+
+const ComBot = styled.div`
+  width: 576px;
+  height: 60px;
+  margin: 5px 0 0 0;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
 `;
 
 const ItemBtn = styled.button`
@@ -142,7 +163,6 @@ function Mycomment() {
   const [comMoveModalView, setComMoveModalView] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  // console.log(ComId);
 
   interface ICom {
     content: string;
@@ -237,19 +257,23 @@ function Mycomment() {
             {coms.map((com: ICom) => (
               <ComItem key={nanoid()}>
                 <ItemTitle>{com.title}</ItemTitle>
-                <ItemBtn onClick={() => moveConfirmPostClick(com.post_id)}>
-                  이동
-                </ItemBtn>
-                <ItemBtn onClick={() => modComOnClick(com._id, com.content)}>
-                  수정
-                </ItemBtn>
-                <ItemBtn onClick={() => delComModalClick(com._id)}>
-                  삭제
-                </ItemBtn>
-                <Viewer
-                  initialValue={com.content}
-                  plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-                />
+                <ViewerBox>
+                  <Viewer
+                    initialValue={com.content}
+                    plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+                  />
+                </ViewerBox>
+                <ComBot>
+                  <ItemBtn onClick={() => moveConfirmPostClick(com.post_id)}>
+                    이동
+                  </ItemBtn>
+                  <ItemBtn onClick={() => modComOnClick(com._id, com.content)}>
+                    수정
+                  </ItemBtn>
+                  <ItemBtn onClick={() => delComModalClick(com._id)}>
+                    삭제
+                  </ItemBtn>
+                </ComBot>
               </ComItem>
             ))}
           </ComBox>

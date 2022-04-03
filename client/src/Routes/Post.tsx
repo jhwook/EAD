@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import axios from 'axios';
 import S3 from 'react-aws-s3-typescript';
 import { useSelector } from 'react-redux';

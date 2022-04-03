@@ -40,8 +40,8 @@ const FooterWrapper = styled.div`
 `;
 
 const ComBox = styled.div`
-  width: 800px;
-  height: 600px;
+  width: 740px;
+  height: auto;
   margin: 0 auto 0 auto;
   display: flex;
   flex-direction: column;
@@ -50,31 +50,18 @@ const ComBox = styled.div`
 `;
 
 const ComTopBox = styled.div`
-  width: 100%;
-  height: 100px;
+  height: 80px;
   display: flex;
   flex-direction: flex;
   align-items: center;
 `;
 
 const ComWriter = styled.div`
-  width: 600px;
+  width: 590px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 0 100px 0 50px;
-`;
-
-const ComTitle = styled.input`
-  width: 500px;
-  height: 25px;
-  border: 2px solid ${(props) => props.theme.grey};
-  border-radius: 10px;
-  padding: 5px 0 5px 5px;
-  font-size: ${(props) => props.theme.fontSize.small};
-  color: ${(props) => props.theme.black};
-  font-weight: bold;
-  margin: 0 52px 0 30px;
+  margin: auto 65px auto 25px;
 `;
 
 const ComBtn = styled.button`
@@ -93,6 +80,25 @@ const ComBtn = styled.button`
     font-weight: bold;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
+`;
+
+const ComTitle = styled.input`
+  width: 500px;
+  height: 25px;
+  border: 2px solid ${(props) => props.theme.grey};
+  border-radius: 10px;
+  padding: 5px 0 5px 5px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  color: ${(props) => props.theme.black};
+  font-weight: bold;
+  margin: auto 52px auto 24px;
+`;
+
+const ViewerBox = styled.div`
+  padding: 0 0 20px 0;
+  margin: 20px auto 0px auto;
+  width: 695px;
+  height: auto;
 `;
 
 const ComModalBack = styled.div`
@@ -275,20 +281,22 @@ function Comment() {
             </ComTopBox>
           )}
           <ComTitle type="text" value={title} onChange={titleOnChange} />
-          <Editor
-            height="470px"
-            initialEditType="markdown"
-            initialValue={con}
-            ref={editorRef}
-            plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-            toolbarItems={[
-              ['bold', 'italic', 'strike'],
-              ['hr'],
-              ['image', 'link'],
-              ['ul', 'ol'],
-              ['code', 'codeblock'],
-            ]}
-          />
+          <ViewerBox>
+            <Editor
+              height="438px"
+              initialEditType="markdown"
+              initialValue={con}
+              ref={editorRef}
+              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+              toolbarItems={[
+                ['bold', 'italic', 'strike'],
+                ['hr'],
+                ['image', 'link'],
+                ['ul', 'ol'],
+                ['code', 'codeblock'],
+              ]}
+            />
+          </ViewerBox>
         </ComBox>
         {postModalView ? (
           <ComModalBack>
