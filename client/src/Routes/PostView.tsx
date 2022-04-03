@@ -653,7 +653,6 @@ function PostView() {
   };
 
   const comOnClick = (id: number, con: string) => {
-    console.log('c', con);
     dispatch(ComRender([con]));
     navigate(`/comment/${id}`);
   };
@@ -662,7 +661,7 @@ function PostView() {
     navigate(`/post/modify/${id}`);
   };
 
-  interface TComState {
+  interface IComState {
     post_id: string;
     writer: string;
     title: string;
@@ -744,7 +743,7 @@ function PostView() {
           ) : null}
           <CommentItemBox>
             <CommentItemList>
-              {comments.map((com: TComState) => (
+              {comments.map((com: IComState) => (
                 <CommentItem key={nanoid()}>
                   <CommentItemHead>
                     <CommentWriter>{com.writerName}</CommentWriter>
