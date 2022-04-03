@@ -69,6 +69,18 @@ export class PostsController {
     return this.postsService.getOnePost(id);
   }
 
+  // 유저의 포스트
+  @Post('/mypost')
+  getMyPost(@Body() body) {
+    return this.postsService.getMyPost(body);
+  }
+
+  // 유저의 댓글
+  @Post('/mycomment')
+  getMyComment(@Body() body) {
+    return this.postsService.getMyComment(body);
+  }
+
   // 포스트 수정
   // @UseGuards(JwtAuthGuard)
   @Patch('/:postId')

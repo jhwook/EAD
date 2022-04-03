@@ -114,7 +114,7 @@ let PostsService = class PostsService {
         return postArray;
     }
     async createComment(body, param) {
-        const { id, content } = body;
+        const { id, content, title } = body;
         const { postId } = param;
         const user = await this.userModel.findById(id);
         const post = await this.postModel.findById(postId);
@@ -122,6 +122,7 @@ let PostsService = class PostsService {
             writerName: user.username,
             post_id: post._id,
             writer: user.id,
+            title,
             content,
         });
         await this.postModel.findByIdAndUpdate(postId, {
@@ -188,6 +189,16 @@ let PostsService = class PostsService {
         }
         const content = post.content;
         return [{ content: content }];
+    }
+    async getMyPost(body) {
+        const { id } = body;
+        const mypost = await this.postModel.find({ writer: id });
+        return mypost;
+    }
+    async getMyComment(body) {
+        const { id } = body;
+        const mycomment = await this.commentModel.find({ writer: id });
+        return mycomment;
     }
 };
 PostsService = __decorate([
