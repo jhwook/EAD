@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
-import { RootState } from 'index';
+import { RootState, ComRender, AppDispatch } from 'index';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -153,6 +153,18 @@ const CommentWriteName = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
 `;
 
+const CommentTitle = styled.input`
+  width: 500px;
+  height: 25px;
+  border: 2px solid ${(props) => props.theme.grey};
+  border-radius: 10px;
+  padding: 5px 0 5px 5px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  color: ${(props) => props.theme.black};
+  font-weight: bold;
+  margin: 0 52px 0 30px;
+`;
+
 const CommentWriteBtn = styled.button`
   background-color: ${(props) => props.theme.white};
   color: ${(props) => props.theme.black};
@@ -214,6 +226,16 @@ const CommentItemBtn = styled.button`
     font-weight: bold;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
+`;
+
+const CommentItemTitle = styled.div`
+  width: auto;
+  padding: 5px 0 5px 5px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  // border: 1px solid ${(props) => props.theme.grey};
+  color: ${(props) => props.theme.black};
+  font-weight: bold;
+  margin: 10px 52px 0 30px;
 `;
 
 const ComModalBack = styled.div`
@@ -492,6 +514,8 @@ function PostView() {
   const [comDelModalView, setComDelModalView] = useState(false);
   const [postDelModalView, setPostDelModalView] = useState(false);
   const [postCon, setPostCon] = useState(itemData[0]);
+  const [conTitle, setConTitle] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
 
   interface Data {
     bounty: number;
@@ -555,6 +579,7 @@ function PostView() {
         `${process.env.REACT_APP_SERVER}/posts/${id}/add/comment`,
         {
           id: userInfo.id,
+          title: conTitle,
           content,
         },
         {
@@ -569,6 +594,10 @@ function PostView() {
     } else if (content === '') {
       setFailModalView(!failModalView);
     }
+  };
+
+  const conTitleOnChange = (e: any) => {
+    setConTitle(e.target.value);
   };
 
   const delComOnClick = async () => {
@@ -623,7 +652,9 @@ function PostView() {
     setFailModalView(!failModalView);
   };
 
-  const comOnClick = (id: number) => {
+  const comOnClick = (id: number, con: string) => {
+    console.log('c', con);
+    dispatch(ComRender([con]));
     navigate(`/comment/${id}`);
   };
 
@@ -634,6 +665,7 @@ function PostView() {
   interface TComState {
     post_id: string;
     writer: string;
+    title: string;
     content: string;
     writerName: string;
     _id: number;
@@ -687,6 +719,11 @@ function PostView() {
               <CommentWriteBox>
                 <CommentWriteName>{userInfo.username}</CommentWriteName>
                 <CommentWriteBtn onClick={regComOnClick}>등록</CommentWriteBtn>
+                <CommentTitle
+                  type="text"
+                  placeholder="제목은 여기에"
+                  onChange={conTitleOnChange}
+                />
               </CommentWriteBox>
               <Editor
                 height="250px"
@@ -714,7 +751,9 @@ function PostView() {
                     {userInfo.id === com.writer ||
                     userInfo.id === data.writer ? (
                       <>
-                        <CommentItemBtn onClick={() => comOnClick(com._id)}>
+                        <CommentItemBtn
+                          onClick={() => comOnClick(com._id, com.content)}
+                        >
                           수정
                         </CommentItemBtn>
                         <CommentItemBtn
@@ -725,6 +764,7 @@ function PostView() {
                       </>
                     ) : null}
                   </CommentItemHead>
+                  <CommentItemTitle>{com.title}</CommentItemTitle>
                   <Viewer
                     initialValue={com.content}
                     plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}

@@ -8,11 +8,12 @@ import { useNavigate } from 'react-router';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
 import { RootState } from 'index';
-
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { Editor, Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 
@@ -67,6 +68,16 @@ const ComWriter = styled.div`
   margin: 0 100px 0 50px;
 `;
 
+const ComTitle = styled.div`
+  width: auto;
+  padding: 5px 0 5px 5px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  // border: 1px solid ${(props) => props.theme.grey};
+  color: ${(props) => props.theme.black};
+  font-weight: bold;
+  margin: 10px 52px 0 30px;
+`;
+
 const ComBtn = styled.button`
   background-color: ${(props) => props.theme.white};
   color: ${(props) => props.theme.black};
@@ -85,7 +96,7 @@ const ComBtn = styled.button`
   }
 `;
 
-const PostModalBack = styled.div`
+const ComModalBack = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -94,7 +105,7 @@ const PostModalBack = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `;
 
-const PostModalBox = styled.div`
+const ComModalBox = styled.div`
   position: absolute;
   width: 320px;
   height: 150px;
@@ -110,14 +121,14 @@ const PostModalBox = styled.div`
   flex-direction: column;
 `;
 
-const PostModalText = styled.div`
+const ComModalText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 290px;
   margin-top: 20px;
   text-align: center;
 `;
 
-const PostModalBtn = styled.button`
+const ComModalBtn = styled.button`
   background-color: ${(props) => props.theme.white};
   color: ${(props) => props.theme.btnGreen};
   border: 1px solid ${(props) => props.theme.grey};
@@ -186,14 +197,16 @@ const FailModalBtn = styled.button`
 `;
 
 function Comment() {
-  const { userData } = useSelector((state: RootState) => state);
+  const { userData, comData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken, isLogin } = userData;
   const [writer, setWriter] = useState(userInfo?.username);
+  const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
+  const [con, setCon] = useState(comData[0]);
 
   const { id } = useParams<{ id: string }>();
 
@@ -207,12 +220,11 @@ function Comment() {
       })
       .then((res) => {
         const item = res.data.data;
-        console.log(item);
         setWriter(item.writerName);
+        setTitle(item.title);
         setContent(item.content);
       });
   }, []);
-  console.log('con', content);
 
   const registOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
@@ -244,7 +256,6 @@ function Comment() {
 
   const failModalOnClick = () => {
     setFailModalView(!failModalView);
-    // navigate('/post');
   };
 
   return (
@@ -262,11 +273,13 @@ function Comment() {
               <ComWriter>로그인을 해야합니다</ComWriter>
             </ComTopBox>
           )}
+          <ComTitle>{title}</ComTitle>
           <Editor
             height="470px"
             initialEditType="markdown"
-            initialValue={content}
+            initialValue={con}
             ref={editorRef}
+            plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
             toolbarItems={[
               ['bold', 'italic', 'strike'],
               ['hr'],
@@ -277,12 +290,12 @@ function Comment() {
           />
         </ComBox>
         {postModalView ? (
-          <PostModalBack>
-            <PostModalBox>
-              <PostModalText>답글이 수정되었습니다</PostModalText>
-              <PostModalBtn onClick={postModalOnClick}>확인</PostModalBtn>
-            </PostModalBox>
-          </PostModalBack>
+          <ComModalBack>
+            <ComModalBox>
+              <ComModalText>답글이 수정되었습니다</ComModalText>
+              <ComModalBtn onClick={postModalOnClick}>확인</ComModalBtn>
+            </ComModalBox>
+          </ComModalBack>
         ) : null}
         {failModalView ? (
           <FailModalBack>
