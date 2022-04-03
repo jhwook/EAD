@@ -1,18 +1,15 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import { nanoid } from '@reduxjs/toolkit';
 import { RootState } from 'index';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import { Editor, Viewer } from '@toast-ui/react-editor';
+import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
@@ -203,7 +200,6 @@ function Comment() {
   const { userInfo, accessToken, isLogin } = userData;
   const [writer, setWriter] = useState(userInfo?.username);
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const navigate = useNavigate();
@@ -224,7 +220,6 @@ function Comment() {
         const item = res.data.data;
         setWriter(item.writerName);
         setTitle(item.title);
-        setContent(item.content);
       });
   }, []);
 

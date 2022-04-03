@@ -55,7 +55,7 @@ export class PostsService {
 
   // 포스트 수정
   async updatePost(body, param) {
-    const { id, title, content, tag, img } = body;
+    const { id, title, content, tag, img, bounty } = body;
     const { postId } = param;
     const post = await this.postModel.findById(postId);
 
@@ -67,6 +67,7 @@ export class PostsService {
       content,
       img,
       tag,
+      bounty,
     });
 
     const updatedPost = await this.postModel.findById(postId);

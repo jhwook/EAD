@@ -38,17 +38,17 @@ let PostsController = class PostsController {
     searchPostByTag(body) {
         return this.postsService.searchPostByTag(body);
     }
-    async getOnePostContent(id) {
-        return this.postsService.getOnePostContent(id);
-    }
-    async getOnePost(id) {
-        return this.postsService.getOnePost(id);
-    }
     getMyPost(body) {
         return this.postsService.getMyPost(body);
     }
     getMyComment(body) {
         return this.postsService.getMyComment(body);
+    }
+    async getOnePostContent(id) {
+        return this.postsService.getOnePostContent(id);
+    }
+    async getOnePost(id) {
+        return this.postsService.getOnePost(id);
     }
     updatePost(body, param) {
         return this.postsService.updatePost(body, param);
@@ -105,20 +105,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "searchPostByTag", null);
 __decorate([
-    (0, common_1.Get)('/:postId/content'),
-    __param(0, (0, common_1.Param)('postId')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], PostsController.prototype, "getOnePostContent", null);
-__decorate([
-    (0, common_1.Get)('/:postId'),
-    __param(0, (0, common_1.Param)('postId')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], PostsController.prototype, "getOnePost", null);
-__decorate([
     (0, common_1.Post)('/mypost'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -132,6 +118,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "getMyComment", null);
+__decorate([
+    (0, common_1.Get)('/:postId/content'),
+    __param(0, (0, common_1.Param)('postId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "getOnePostContent", null);
+__decorate([
+    (0, common_1.Get)('/:postId'),
+    __param(0, (0, common_1.Param)('postId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "getOnePost", null);
 __decorate([
     (0, common_1.Patch)('/:postId'),
     __param(0, (0, common_1.Body)()),

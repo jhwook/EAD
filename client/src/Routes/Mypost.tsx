@@ -1,15 +1,10 @@
-import React from 'react';
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
 import { RootState, ItemRender, AppDispatch } from 'index';
-
-import { Editor, Viewer } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 
@@ -164,6 +159,8 @@ const PostDelModalBtn = styled.button`
   }
 `;
 
+const PostPlaceholder = styled.div``;
+
 function Mypost() {
   const { userData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken } = userData;
@@ -207,7 +204,7 @@ function Mypost() {
       setPosts(item);
     };
     getPosts();
-  }, []);
+  }, [postDelModalView]);
 
   const delPostOnClick = async () => {
     await axios.post(
@@ -223,7 +220,7 @@ function Mypost() {
         withCredentials: true,
       },
     );
-    navigate('/');
+    navigate('/mycomment');
   };
 
   const delPostModalClick = (id: number) => {
@@ -262,25 +259,29 @@ function Mypost() {
     <>
       <Nav />
       <Wrapper>
-        <PostsBox>
-          {posts.map((post: IPost) => (
-            <PostsItem key={nanoid()}>
-              <ItemTop>
-                <ItemTitle>{post.title}</ItemTitle>
-                <ItemBtn onClick={() => moveConfirmPostClick(post.id)}>
-                  이동
-                </ItemBtn>
-                <ItemBtn onClick={() => delPostModalClick(post.id)}>
-                  삭제
-                </ItemBtn>
-              </ItemTop>
-              <ItemBot>
-                <ItemBounty>현상금: {post.bounty}</ItemBounty>
-                <ItemComCount>답글수: {post.comment.length}</ItemComCount>
-              </ItemBot>
-            </PostsItem>
-          ))}
-        </PostsBox>
+        {posts.length !== 0 ? (
+          <PostsBox>
+            {posts.map((post: IPost) => (
+              <PostsItem key={nanoid()}>
+                <ItemTop>
+                  <ItemTitle>{post.title}</ItemTitle>
+                  <ItemBtn onClick={() => moveConfirmPostClick(post.id)}>
+                    이동
+                  </ItemBtn>
+                  <ItemBtn onClick={() => delPostModalClick(post.id)}>
+                    삭제
+                  </ItemBtn>
+                </ItemTop>
+                <ItemBot>
+                  <ItemBounty>현상금: {post.bounty}</ItemBounty>
+                  <ItemComCount>답글수: {post.comment.length}</ItemComCount>
+                </ItemBot>
+              </PostsItem>
+            ))}
+          </PostsBox>
+        ) : (
+          <PostPlaceholder>작성한 게시글이 없네요</PostPlaceholder>
+        )}
         {postDelModalView ? (
           <PostDelModalBack>
             <PostDelModalBox>

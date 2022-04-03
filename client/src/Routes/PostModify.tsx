@@ -312,7 +312,6 @@ function PostModify() {
       })
       .then((res) => {
         const item = res.data.data;
-        console.log('item', item);
         setWriterId(item.writer);
         setWriter(item.writerName);
         setTitle(item.title);
@@ -353,8 +352,8 @@ function PostModify() {
           id: userInfo.id,
           title,
           tag,
-          // bounty, // 추가해야함
           content,
+          bounty,
         },
         {
           headers: {
@@ -434,6 +433,7 @@ function PostModify() {
               initialValue={postCon.content}
               ref={editorRef}
               placeholder="마크다운 양식으로 작성하세요"
+              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
               toolbarItems={[
                 ['bold', 'italic', 'strike'],
                 ['hr'],

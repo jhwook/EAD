@@ -26,16 +26,14 @@ const Btn = styled.button<IStackButton>`
     width: 92px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 80px;
-    height: 17px;
-    margin: 1px;
-    font-size: ${(props) => props.theme.fontSize.dust};
+    margin: 4px 0 0 0;
+    width: 92px;
+    height: 22px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 80px;
-    height: 17px;
-    margin: 1px;
-    font-size: ${(props) => props.theme.fontSize.dust};
+    margin: 4px 0 0 0;
+    width: 92px;
+    height: 22px;
   }
   &:hover {
     font-weight: bold;

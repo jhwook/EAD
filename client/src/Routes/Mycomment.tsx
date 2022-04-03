@@ -5,6 +5,12 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
+import { Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { RootState, ItemRender, ComRender, AppDispatch } from 'index';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
@@ -46,15 +52,6 @@ const ComItem = styled.div`
   margin: 0 auto 30px auto;
 `;
 
-const ItemTop = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 100%;
-  height: 60px;
-  display: flex;
-  flex-direction: flex;
-  align-items: center;
-`;
-
 const ItemTitle = styled.div`
   border: 1px solid ${(props) => props.theme.grey};
   width: 500px;
@@ -80,33 +77,6 @@ const ItemBtn = styled.button`
     font-weight: bold;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
-`;
-
-const ItemBot = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 100%;
-  height: 60px;
-  display: flex;
-  flex-direction: flex;
-  align-items: center;
-`;
-
-const ItemBounty = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 300px;
-  font-size: ${(props) => props.theme.fontSize.small};
-  color: ${(props) => props.theme.black};
-  font-weight: bold;
-  margin: 0 100px 0 50px;
-`;
-
-const ItemComCount = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 300px;
-  font-size: ${(props) => props.theme.fontSize.small};
-  color: ${(props) => props.theme.black};
-  font-weight: bold;
-  margin: 0 100px 0 50px;
 `;
 
 const ComDelModalBack = styled.div`
@@ -160,6 +130,8 @@ const ComDelModalBtn = styled.button`
   }
 `;
 
+const ComPlaceholder = styled.div``;
+
 function Mycomment() {
   const { userData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken } = userData;
@@ -197,13 +169,13 @@ function Mycomment() {
           withCredentials: true,
         },
       );
-      console.log(data);
+      // console.log(data);
       const item = data.data.data;
       setComs(item);
     };
     getComs();
   }, [comDelModalView]);
-  console.log(coms);
+  // console.log(coms);
 
   const delComOnClick = async () => {
     await axios.delete(
@@ -260,20 +232,30 @@ function Mycomment() {
     <>
       <Nav />
       <Wrapper>
-        <ComBox>
-          {coms.map((com: ICom) => (
-            <ComItem key={nanoid()}>
-              <ItemTitle>{com.title}</ItemTitle>
-              <ItemBtn onClick={() => moveConfirmPostClick(com.post_id)}>
-                이동
-              </ItemBtn>
-              <ItemBtn onClick={() => modComOnClick(com._id, com.content)}>
-                수정
-              </ItemBtn>
-              <ItemBtn onClick={() => delComModalClick(com._id)}>삭제</ItemBtn>
-            </ComItem>
-          ))}
-        </ComBox>
+        {coms.length !== 0 ? (
+          <ComBox>
+            {coms.map((com: ICom) => (
+              <ComItem key={nanoid()}>
+                <ItemTitle>{com.title}</ItemTitle>
+                <ItemBtn onClick={() => moveConfirmPostClick(com.post_id)}>
+                  이동
+                </ItemBtn>
+                <ItemBtn onClick={() => modComOnClick(com._id, com.content)}>
+                  수정
+                </ItemBtn>
+                <ItemBtn onClick={() => delComModalClick(com._id)}>
+                  삭제
+                </ItemBtn>
+                <Viewer
+                  initialValue={com.content}
+                  plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+                />
+              </ComItem>
+            ))}
+          </ComBox>
+        ) : (
+          <ComPlaceholder>작성한 답글이 없네요</ComPlaceholder>
+        )}
         {comDelModalView ? (
           <ComDelModalBack>
             <ComDelModalBox>
