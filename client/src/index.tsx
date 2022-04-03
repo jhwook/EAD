@@ -207,6 +207,18 @@ const itemSlice = createSlice({
   },
 });
 
+const comState: string[] = [];
+
+const comSlice = createSlice({
+  name: 'com',
+  initialState: comState,
+  reducers: {
+    ComRender(state, action: PayloadAction<string[]>) {
+      return [...action.payload];
+    },
+  },
+});
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -216,6 +228,7 @@ const reducers = combineReducers({
   userData: userSlice.reducer,
   postData: postSlice.reducer,
   itemData: itemSlice.reducer,
+  comData: comSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -235,6 +248,7 @@ export const { UserLogin, UserLogout, UserModify, UserPayment } =
   userSlice.actions;
 export const { HomeSearch, inSearch } = postSlice.actions;
 export const { ItemRender } = itemSlice.actions;
+export const { ComRender } = comSlice.actions;
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

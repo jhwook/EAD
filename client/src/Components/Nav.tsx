@@ -199,10 +199,10 @@ function Nav() {
       {show ? (
         <Modal>
           <ModalMenus>
-            <Link to="/myposts">
+            <Link to="/mypost">
               <ModalMenu onClick={closeModal}>내가 쓴 글</ModalMenu>
             </Link>
-            <Link to="/mycomments">
+            <Link to="/mycomment">
               <ModalMenu onClick={closeModal}>내가 쓴 댓글</ModalMenu>
             </Link>
             <Link to="/chat">
