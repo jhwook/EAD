@@ -68,14 +68,16 @@ const ComWriter = styled.div`
   margin: 0 100px 0 50px;
 `;
 
-const ComTitle = styled.div`
-  width: auto;
+const ComTitle = styled.input`
+  width: 500px;
+  height: 25px;
+  border: 2px solid ${(props) => props.theme.grey};
+  border-radius: 10px;
   padding: 5px 0 5px 5px;
   font-size: ${(props) => props.theme.fontSize.small};
-  // border: 1px solid ${(props) => props.theme.grey};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 10px 52px 0 30px;
+  margin: 0 52px 0 30px;
 `;
 
 const ComBtn = styled.button`
@@ -258,6 +260,10 @@ function Comment() {
     setFailModalView(!failModalView);
   };
 
+  const titleOnChange = (e: any) => {
+    setTitle(e.target.value);
+  };
+
   return (
     <>
       <Nav />
@@ -273,7 +279,7 @@ function Comment() {
               <ComWriter>로그인을 해야합니다</ComWriter>
             </ComTopBox>
           )}
-          <ComTitle>{title}</ComTitle>
+          <ComTitle type="text" value={title} onChange={titleOnChange} />
           <Editor
             height="470px"
             initialEditType="markdown"
