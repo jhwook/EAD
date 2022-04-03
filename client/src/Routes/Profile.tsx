@@ -1121,7 +1121,6 @@ function Profile() {
       formData.append('image', uploadImg);
       await axios.post(
         `${process.env.REACT_APP_SERVER}/users/upload`,
-        // body에 id: userId를 추가함
         { formData, id: userId },
         {
           headers: {

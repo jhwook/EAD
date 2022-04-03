@@ -5,6 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import { RootState, ItemRender, AppDispatch } from 'index';
+import { Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 
@@ -34,7 +40,6 @@ const FooterWrapper = styled.div`
 `;
 
 const PostsBox = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
   margin: 0 auto 0 auto;
   height: auto;
   width: 600px;
@@ -45,22 +50,59 @@ const PostsItem = styled.div`
   margin: 0 auto 30px auto;
 `;
 
-const ItemTop = styled.div`
+const ItemTitle = styled.div`
+  width: auto;
+  max-width: 530px;
+  height: 23px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  color: ${(props) => props.theme.black};
   border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 11px;
+  display: inline-block;
+  padding: 6px;
+  font-weight: bold;
+  margin: 25px 25px 10px 25px;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+const ViewerBox = styled.div`
+  margin: 0 auto 0 auto;
+  padding: 0 0 5px 0;
+  width: 530px;
+  height: auto;
+  min-height: 50px;
+  font-size: ${(props) => props.theme.fontSize.mini};
+  // border: 2px solid ${(props) => props.theme.grey};
+  .mk {
+    margin: 0 0 0 20px;
+    overflow: scroll;
+  }
+`;
+
+const ItemBox = styled.div`
   width: 100%;
   height: 60px;
   display: flex;
-  flex-direction: flex;
+  flex-direction: row;
   align-items: center;
+  margin: 10px 0 0 0;
 `;
 
-const ItemTitle = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 500px;
+const ItemBounty = styled.div`
+  width: 160px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 0 100px 0 50px;
+  margin: 0 0px 0 25px;
+`;
+
+const ItemComCount = styled.div`
+  width: 130px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  color: ${(props) => props.theme.black};
+  font-weight: bold;
+  margin: 0 0px 0 25px;
 `;
 
 const ItemBtn = styled.button`
@@ -70,7 +112,7 @@ const ItemBtn = styled.button`
   border-radius: 11px;
   margin: 10px;
   font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 80px;
+  width: 60px;
   height: 30px;
   cursor: pointer;
   transition: all 0.5s;
@@ -79,33 +121,6 @@ const ItemBtn = styled.button`
     font-weight: bold;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
-`;
-
-const ItemBot = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 100%;
-  height: 60px;
-  display: flex;
-  flex-direction: flex;
-  align-items: center;
-`;
-
-const ItemBounty = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 300px;
-  font-size: ${(props) => props.theme.fontSize.small};
-  color: ${(props) => props.theme.black};
-  font-weight: bold;
-  margin: 0 100px 0 50px;
-`;
-
-const ItemComCount = styled.div`
-  border: 1px solid ${(props) => props.theme.grey};
-  width: 300px;
-  font-size: ${(props) => props.theme.fontSize.small};
-  color: ${(props) => props.theme.black};
-  font-weight: bold;
-  margin: 0 100px 0 50px;
 `;
 
 const PostDelModalBack = styled.div`
@@ -255,6 +270,11 @@ function Mypost() {
     setPostMoveModalView(!postMoveModalView);
   };
 
+  const postModifyOnClick = (id: number, con: string) => {
+    dispatch(ItemRender([{ content: con }]));
+    navigate(`/post/modify/${id}`);
+  };
+
   return (
     <>
       <Nav />
@@ -263,19 +283,28 @@ function Mypost() {
           <PostsBox>
             {posts.map((post: IPost) => (
               <PostsItem key={nanoid()}>
-                <ItemTop>
-                  <ItemTitle>{post.title}</ItemTitle>
+                <ItemTitle>{post.title}</ItemTitle>
+                <ViewerBox>
+                  <Viewer
+                    initialValue={post.content}
+                    plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+                  />
+                </ViewerBox>
+                <ItemBox>
+                  <ItemBounty>현상금: {post.bounty}원</ItemBounty>
+                  <ItemComCount>답글수: {post.comment.length}개</ItemComCount>
                   <ItemBtn onClick={() => moveConfirmPostClick(post.id)}>
                     이동
+                  </ItemBtn>
+                  <ItemBtn
+                    onClick={() => postModifyOnClick(post.id, post.content)}
+                  >
+                    수정
                   </ItemBtn>
                   <ItemBtn onClick={() => delPostModalClick(post.id)}>
                     삭제
                   </ItemBtn>
-                </ItemTop>
-                <ItemBot>
-                  <ItemBounty>현상금: {post.bounty}</ItemBounty>
-                  <ItemComCount>답글수: {post.comment.length}</ItemComCount>
-                </ItemBot>
+                </ItemBox>
               </PostsItem>
             ))}
           </PostsBox>

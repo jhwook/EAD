@@ -43,7 +43,8 @@ const FooterWrapper = styled.div`
 `;
 
 const PostBox = styled.div`
-  width: 835px;
+  width: 740px;
+  height: auto;
   margin: 0 auto 30px auto;
   border: 2px solid ${(props) => props.theme.grey};
   box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
@@ -57,41 +58,48 @@ const PostTopBox = styled.div`
 `;
 
 const PostWriter = styled.div`
-  width: 600px;
+  width: 590px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 0 100px 0 54px;
+  margin: auto 65px auto 25px;
 `;
 
 const PostMidBox = styled.div`
-  display: flex;
+  height: 60px;
+  // display: flex;
   flex-wrap: wrap;
-  flex-direction: flex;
-  margin: 0 0 0px 15px;
+  // flex-direction: flex;
 `;
 
 const PostTitle = styled.div`
-  width: 550px;
-  padding: 5px 0 5px 5px;
+  width: auto;
+  max-width: 500px;
   font-size: ${(props) => props.theme.fontSize.medium};
   color: ${(props) => props.theme.black};
+  border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 11px;
+  display: inline-block;
+  padding: 6px;
   font-weight: bold;
-  margin: 10px 52px 0 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: auto 52px auto 24px;
 `;
 
 const PostBounty = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
   width: 140px;
-  margin: 40px 0px 0px 0px;
+  margin: auto 0px auto 0px;
+  float: right;
 `;
 
 const PostTagBox = styled.div`
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-  width: 710px;
-  margin: 5px 0 5px 38px;
+  width: 690px;
+  margin: auto;
 `;
 
 const PostTagList = styled.ul`
@@ -120,26 +128,42 @@ const PostTagTitle = styled.span`
 `;
 
 const PostBotBox = styled.div`
-  width: 830px;
+  margin: 0 auto 0 auto;
+  padding: 0 0 5px 0;
+  width: 690px;
+  height: auto;
   min-height: 100px;
   font-size: ${(props) => props.theme.fontSize.mini};
-  border: 2px solid ${(props) => props.theme.grey};
+  // border: 2px solid ${(props) => props.theme.grey};
   .mk {
     margin: 0 0 0 20px;
     overflow: scroll;
   }
 `;
 
+const ViewerBox = styled.div`
+  // border: 1px solid ${(props) => props.theme.grey};
+  padding: 0 0 10px 0;
+  margin: 0 auto 0px auto;
+  width: 690px;
+  height: auto;
+`;
+
 const CommentBox = styled.div`
-  width: 835px;
+  width: 740px;
   margin: 0 auto 0 auto;
   display: flex;
   flex-direction: column;
-  border: 2px solid ${(props) => props.theme.grey};
-  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
+  // border: 2px solid ${(props) => props.theme.grey};
+  // box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
 `;
 
-const CommentWriteForm = styled.form``;
+const CommentWriteForm = styled.form`
+  border: 2px solid ${(props) => props.theme.grey};
+  padding: 0 0 15px 0;
+  margin: 0 0 20px 0;
+  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
+`;
 
 const CommentWriteBox = styled.div`
   display: flex;
@@ -149,7 +173,7 @@ const CommentWriteBox = styled.div`
 
 const CommentWriteName = styled.div`
   width: 730px;
-  padding: 7px 0 3px 37px;
+  padding: 7px 0 3px 25px;
   font-size: ${(props) => props.theme.fontSize.mini};
 `;
 
@@ -162,7 +186,7 @@ const CommentTitle = styled.input`
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 0 52px 0 30px;
+  margin: 0 0px 10px 23px;
 `;
 
 const CommentWriteBtn = styled.button`
@@ -189,6 +213,8 @@ const CommentItemList = styled.ul``;
 
 const CommentItem = styled.li`
   border: 1px solid ${(props) => props.theme.grey};
+  margin: 0 0 10px 0;
+  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
   .comMk {
     overflow: scroll;
     font-size: ${(props) => props.theme.fontSize.tiny};
@@ -205,9 +231,16 @@ const CommentItemHead = styled.div`
 `;
 
 const CommentWriter = styled.div`
-  width: 730px;
-  padding: 7px 0 3px 37px;
+  width: 563px;
+  // padding: 7px 0 3px 37px;
+  margin: auto 0 auto 25px;
   font-size: ${(props) => props.theme.fontSize.mini};
+`;
+
+const CommentItemBtnBox = styled.div`
+  display: flex;
+  flex-direction: flex;
+  margin: auto 14px auto 0;
 `;
 
 const CommentItemBtn = styled.button`
@@ -230,12 +263,17 @@ const CommentItemBtn = styled.button`
 
 const CommentItemTitle = styled.div`
   width: auto;
-  padding: 5px 0 5px 5px;
+  max-width: 650px;
   font-size: ${(props) => props.theme.fontSize.small};
-  // border: 1px solid ${(props) => props.theme.grey};
   color: ${(props) => props.theme.black};
+  border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 11px;
+  display: inline-block;
+  padding: 8px;
   font-weight: bold;
-  margin: 10px 52px 0 30px;
+  margin: 10px 0 20px 24px;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const ComModalBack = styled.div`
@@ -695,16 +733,16 @@ function PostView() {
           <PostMidBox>
             <PostTitle>{data.title}</PostTitle>
             <PostBounty>현상금: {data.bounty}원</PostBounty>
-            <PostTagBox>
-              <PostTagList>
-                {data.tag.map((el) => (
-                  <PostTagItem key={nanoid()}>
-                    <PostTagTitle>{el}</PostTagTitle>
-                  </PostTagItem>
-                ))}
-              </PostTagList>
-            </PostTagBox>
           </PostMidBox>
+          <PostTagBox>
+            <PostTagList>
+              {data.tag.map((el) => (
+                <PostTagItem key={nanoid()}>
+                  <PostTagTitle>{el}</PostTagTitle>
+                </PostTagItem>
+              ))}
+            </PostTagList>
+          </PostTagBox>
           <PostBotBox>
             <Viewer
               initialValue={postCon.content}
@@ -718,27 +756,29 @@ function PostView() {
               <CommentWriteBox>
                 <CommentWriteName>{userInfo.username}</CommentWriteName>
                 <CommentWriteBtn onClick={regComOnClick}>등록</CommentWriteBtn>
-                <CommentTitle
-                  type="text"
-                  placeholder="제목은 여기에"
-                  onChange={conTitleOnChange}
-                />
               </CommentWriteBox>
-              <Editor
-                height="250px"
-                initialEditType="markdown"
-                initialValue=""
-                ref={editorRef}
-                placeholder="마크다운 양식으로 작성하세요"
-                plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-                toolbarItems={[
-                  ['bold', 'italic'],
-                  ['hr'],
-                  ['image', 'link'],
-                  ['ul', 'ol'],
-                  ['code', 'codeblock'],
-                ]}
+              <CommentTitle
+                type="text"
+                placeholder="제목은 여기에"
+                onChange={conTitleOnChange}
               />
+              <ViewerBox>
+                <Editor
+                  height="250px"
+                  initialEditType="markdown"
+                  initialValue=""
+                  ref={editorRef}
+                  placeholder="마크다운 양식으로 작성하세요"
+                  plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+                  // toolbarItems={[
+                  //   ['bold', 'italic'],
+                  //   ['hr'],
+                  //   ['image', 'link'],
+                  //   ['ul', 'ol'],
+                  //   ['code', 'codeblock'],
+                  // ]}
+                />
+              </ViewerBox>
             </CommentWriteForm>
           ) : null}
           <CommentItemBox>
@@ -749,7 +789,7 @@ function PostView() {
                     <CommentWriter>{com.writerName}</CommentWriter>
                     {userInfo.id === com.writer ||
                     userInfo.id === data.writer ? (
-                      <>
+                      <CommentItemBtnBox>
                         <CommentItemBtn
                           onClick={() => comOnClick(com._id, com.content)}
                         >
@@ -760,14 +800,16 @@ function PostView() {
                         >
                           삭제
                         </CommentItemBtn>
-                      </>
+                      </CommentItemBtnBox>
                     ) : null}
                   </CommentItemHead>
                   <CommentItemTitle>{com.title}</CommentItemTitle>
-                  <Viewer
-                    initialValue={com.content}
-                    plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-                  />
+                  <ViewerBox>
+                    <Viewer
+                      initialValue={com.content}
+                      plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+                    />
+                  </ViewerBox>
                 </CommentItem>
               ))}
             </CommentItemList>

@@ -38,16 +38,16 @@ const FooterWrapper = styled.div`
 `;
 
 const PostBox = styled.div`
-  width: 800px;
-  height: 600px;
+  width: 740px;
+  height: 620px;
   display: flex;
+  padding: 10px;
   flex-direction: column;
   border: 2px solid ${(props) => props.theme.grey};
   box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
 `;
 
 const PostTopBox = styled.div`
-  width: 100%;
   height: 60px;
   display: flex;
   flex-direction: flex;
@@ -55,11 +55,11 @@ const PostTopBox = styled.div`
 `;
 
 const PostWriter = styled.div`
-  width: 600px;
+  width: 590px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 0 100px 0 50px;
+  margin: 0 0px 0 25px;
 `;
 
 const PostMidBox = styled.div`
@@ -80,13 +80,13 @@ const PostTitle = styled.input`
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 0 52px 0 30px;
+  margin: auto 27px auto 8px;
 `;
 
 const PostBountyBox = styled.div`
   display: flex;
   align-items: flex-start;
-  margin: 10px 0 0 0;
+  margin: auto 0 auto 0;
 `;
 
 const PostText = styled.span`
@@ -102,14 +102,6 @@ const PostBounty = styled.select`
   border: 2px solid ${(props) => props.theme.grey};
   border-radius: 10px;
   padding: 3px;
-`;
-
-const PostBotBox = styled.div`
-  width: 100%;
-  height: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const PostBtn = styled.button`
@@ -134,8 +126,8 @@ const TagBox = styled.div`
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-  width: 710px;
-  margin: 0 0 20px 47px;
+  width: 690px;
+  margin: auto;
 `;
 
 const TagList = styled.ul`
@@ -184,6 +176,20 @@ const TagInput = styled.input`
   padding: 6px;
   border-radius: 10px;
 `;
+
+const PostBotBox = styled.div`
+  margin: 0 auto 0px auto;
+  padding: 0 0 5px 0;
+  width: 690px;
+  height: auto;
+  min-height: 100px;
+  font-size: ${(props) => props.theme.fontSize.mini};
+  .mk {
+    margin: 0 0 0 20px;
+    overflow: scroll;
+  }
+`;
+
 const PostModalBack = styled.div`
   position: fixed;
   top: 0;
@@ -288,13 +294,10 @@ function PostModify() {
   const { userData, itemData } = useSelector((state: RootState) => state);
   const { accessToken, userInfo, isLogin } = userData;
   const [writer, setWriter] = useState(userInfo?.username);
-  const [writerId, setWriterId] = useState('');
   const initialTag: string[] = [];
   const [tag, setTag] = useState(initialTag);
   const [title, setTitle] = useState('');
   const [bounty, setBounty] = useState(0);
-  const [content, setContent] = useState('');
-  const [comments, setComments] = useState<any[]>([]);
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const [postCon, setPostCon] = useState(itemData[0]);
@@ -312,13 +315,10 @@ function PostModify() {
       })
       .then((res) => {
         const item = res.data.data;
-        setWriterId(item.writer);
         setWriter(item.writerName);
         setTitle(item.title);
         setTag(item.tag);
         setBounty(item.bounty);
-        setContent(item.content);
-        setComments(item.comments);
       });
   }, []);
 
@@ -396,7 +396,7 @@ function PostModify() {
             <PostTitle type="text" value={title} onChange={titleOnChange} />
             <PostBountyBox>
               <PostText>현상금 :</PostText>
-              <PostBounty onChange={bountyOnChange}>
+              <PostBounty value={bounty} onChange={bountyOnChange}>
                 <option value="0">0</option>
                 <option value="1000">1,000</option>
                 <option value="2000">2,000</option>
