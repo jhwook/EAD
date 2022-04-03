@@ -143,7 +143,7 @@ export class PostsService {
 
   // 댓글 작성
   async createComment(body, param) {
-    const { id, content } = body;
+    const { id, content, title } = body;
     const { postId } = param;
 
     const user = await this.userModel.findById(id);
@@ -153,6 +153,7 @@ export class PostsService {
       writerName: user.username,
       post_id: post._id,
       writer: user.id,
+      title,
       content,
     });
 
@@ -247,5 +248,19 @@ export class PostsService {
     const content = post.content;
 
     return [{ content: content }];
+  }
+
+  // 유저의 포스트
+  async getMyPost(body) {
+    const { id } = body;
+    const mypost = await this.postModel.find({ writer: id });
+    return mypost;
+  }
+
+  // 유저의 댓글
+  async getMyComment(body) {
+    const { id } = body;
+    const mycomment = await this.commentModel.find({ writer: id });
+    return mycomment;
   }
 }

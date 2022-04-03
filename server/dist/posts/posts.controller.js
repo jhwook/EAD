@@ -44,6 +44,12 @@ let PostsController = class PostsController {
     async getOnePost(id) {
         return this.postsService.getOnePost(id);
     }
+    getMyPost(body) {
+        return this.postsService.getMyPost(body);
+    }
+    getMyComment(body) {
+        return this.postsService.getMyComment(body);
+    }
     updatePost(body, param) {
         return this.postsService.updatePost(body, param);
     }
@@ -112,6 +118,20 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "getOnePost", null);
+__decorate([
+    (0, common_1.Post)('/mypost'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getMyPost", null);
+__decorate([
+    (0, common_1.Post)('/mycomment'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getMyComment", null);
 __decorate([
     (0, common_1.Patch)('/:postId'),
     __param(0, (0, common_1.Body)()),

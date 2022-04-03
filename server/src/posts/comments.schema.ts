@@ -21,6 +21,9 @@ export class Comment extends Document {
   writerName: string;
 
   @Prop()
+  title: string;
+
+  @Prop()
   @IsString()
   @IsNotEmpty()
   content: string;

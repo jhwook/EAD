@@ -34,6 +34,10 @@ __decorate([
 ], Comment.prototype, "writerName", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Comment.prototype, "title", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
