@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { MailerService } from '@nestjs-modules/mailer';
 import { TwilioClient } from 'nestjs-twilio';
 import { Post } from 'src/posts/posts.schema';
+import { Comment } from 'src/posts/comments.schema';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
@@ -12,7 +13,8 @@ export declare class UsersService {
     private readonly twilio;
     private readonly userModel;
     private readonly postModel;
-    constructor(usersRepository: UsersRepository, mailerService: MailerService, twilio: TwilioClient, userModel: Model<User>, postModel: Model<Post>);
+    private readonly commentModel;
+    constructor(usersRepository: UsersRepository, mailerService: MailerService, twilio: TwilioClient, userModel: Model<User>, postModel: Model<Post>, commentModel: Model<Comment>);
     createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;

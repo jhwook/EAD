@@ -257,7 +257,6 @@ __decorate([
 ], UsersController.prototype, "getUsersPosts", null);
 __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('users'))),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('upload'),
     __param(0, (0, common_1.UploadedFiles)()),
     __param(1, (0, common_1.Body)()),
@@ -273,7 +272,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "sendPhoneMessage", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/payment'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

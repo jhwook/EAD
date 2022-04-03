@@ -10,6 +10,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 // import * as twilio from 'twilio';
 import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { Post } from 'src/posts/posts.schema';
+import { Comment } from 'src/posts/comments.schema';
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
@@ -27,7 +28,8 @@ export class UsersService {
     private readonly mailerService: MailerService,
     @InjectTwilio() private readonly twilio: TwilioClient,
     @InjectModel(User.name) private readonly userModel: Model<User>,
-    @InjectModel(User.name) private readonly postModel: Model<Post>,
+    @InjectModel(Post.name) private readonly postModel: Model<Post>,
+    @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
   ) {}
 
   // 회원가입
@@ -141,6 +143,19 @@ export class UsersService {
         password: hashedPassword,
       });
     }
+
+    // 유저의 포스트, 댓글 닉네임 수정
+    if (newUsername) {
+      await this.postModel.updateMany(
+        { writer: id },
+        { $set: { writerName: newUsername } },
+      );
+      await this.commentModel.updateMany(
+        { writer: id },
+        { $set: { writerName: newUsername } },
+      );
+    }
+
     const modifiedUser = await this.userModel.findById(id);
     return modifiedUser;
   }
@@ -185,6 +200,7 @@ export class UsersService {
     }
   }
 
+  // 유저 프로필 사진
   async uploadImg(body, files: Express.Multer.File[]) {
     const { id } = body;
 
@@ -211,6 +227,7 @@ export class UsersService {
   //   });
   // }
 
+  // 문자 인증
   sendPhoneMessage(body) {
     const randomNumber = Math.floor(Math.random() * 1000000) + 1;
     const { phone } = body;
@@ -223,6 +240,7 @@ export class UsersService {
     return randomNumber;
   }
 
+  // 유저 금액 충전
   async usersPayment(body) {
     const { id, cost } = body;
     // const userinfo = await this.usersRepository.usersPayment(id, cost);

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable class-methods-use-this */
 import { Logger } from '@nestjs/common';
 import { Socket } from 'socket.io';
 import {
@@ -9,6 +11,8 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
+
+// namespace -> room
 
 @WebSocketGateway({ namespace: 'chattings' })
 export class ChatsGateway
