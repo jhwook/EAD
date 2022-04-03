@@ -8,12 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { nanoid } from '@reduxjs/toolkit';
 import { RootState, ComRender, AppDispatch } from 'index';
+import { Editor, Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import { Editor, Viewer } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 

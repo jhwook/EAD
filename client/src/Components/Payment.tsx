@@ -96,16 +96,14 @@ const PaymentBtn = styled.button`
     height: 32px;
   }
   @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.micro};
-    width: 60px;
-    height: 23px;
-    padding: 3px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    width: 85px;
+    height: 32px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.micro};
-    width: 60px;
-    height: 20px;
-    padding: 3px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    width: 85px;
+    height: 32px;
   }
   &:hover {
     background-color: ${(props) => props.theme.btnGreen};

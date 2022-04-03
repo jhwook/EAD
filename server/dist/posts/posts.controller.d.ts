@@ -19,18 +19,18 @@ export declare class PostsController {
         tag: any;
     }[]>;
     searchPostByTag(body: any): Promise<any[]>;
-    getOnePostContent(id: string): Promise<{
-        content: string;
-    }[]>;
-    getOnePost(id: string): Promise<import("./posts.schema").Post & {
-        _id: any;
-    }>;
     getMyPost(body: any): Promise<(import("./posts.schema").Post & {
         _id: any;
     })[]>;
     getMyComment(body: any): Promise<(import("./comments.schema").Comment & {
         _id: any;
     })[]>;
+    getOnePostContent(id: string): Promise<{
+        content: string;
+    }[]>;
+    getOnePost(id: string): Promise<import("./posts.schema").Post & {
+        _id: any;
+    }>;
     updatePost(body: any, param: any): Promise<import("./posts.schema").Post & {
         _id: any;
     }>;

@@ -47,7 +47,7 @@ let PostsService = class PostsService {
         return post;
     }
     async updatePost(body, param) {
-        const { id, title, content, tag, img } = body;
+        const { id, title, content, tag, img, bounty } = body;
         const { postId } = param;
         const post = await this.postModel.findById(postId);
         if (post.writer !== id) {
@@ -58,6 +58,7 @@ let PostsService = class PostsService {
             content,
             img,
             tag,
+            bounty,
         });
         const updatedPost = await this.postModel.findById(postId);
         return updatedPost;
