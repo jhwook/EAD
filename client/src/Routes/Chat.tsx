@@ -398,23 +398,9 @@ const MsgBox = styled.div`
 `;
 
 function Chat() {
-  const [room, setRoom] = useState('');
+  const [room, setRoom] = useState<string | undefined>('');
   const [message, setMessage] = useState('');
-  const [chat, setChat] = useState<string[]>([
-    'sdfdsfsdfsdfsdfsdfsdfsd.kfjfsdfljsdfjsdfj',
-    'sdffdgdfg',
-    'sdfgdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-    'sdfgfdg',
-  ]);
+  const [chat, setChat] = useState<string[]>([]);
   const [roomList, setRoomList] = useState<string[]>([
     '김대윤',
     '전현욱',
@@ -426,7 +412,7 @@ function Chat() {
   const scrollRef = useRef<Scrollbars>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const { username } = useParams();
+  const { username } = useParams<{ username: string }>();
   console.log(username);
 
   const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -448,11 +434,6 @@ function Chat() {
   };
 
   useEffect(() => {
-    socket.on('enter_room', (username, done) => {
-      setRoom(username);
-      done();
-    });
-
     socket.on('welcome', (user) => {
       setChat([...chat, `${user} joined!`]);
     });
@@ -471,7 +452,14 @@ function Chat() {
   }, [chat]);
 
   const onClickChatRoom = (username: string) => {
+    socket.emit('enter_room', username);
+    setRoom(username);
     navigate(`/chat/${username}`);
+  };
+
+  const exitRoom = () => {
+    socket.emit('bye', room);
+    navigate(`/chat`);
   };
 
   return (
@@ -480,6 +468,9 @@ function Chat() {
       <ChattingWrapper>
         <Wrapper>
           <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
+          <button type="button" onClick={exitRoom}>
+            방 나가기
+          </button>
           <ChatWrapper>
             <ChatMain>
               <RoomWrapper>
@@ -497,7 +488,7 @@ function Chat() {
               </RoomWrapper>
               <Chatting>
                 <ChatInfo>
-                  <Nickname>{`${room}김대윤`}</Nickname>
+                  <Nickname>{`${room}`}</Nickname>
                 </ChatInfo>
                 <List>
                   <Scrollbars autoHide ref={scrollRef}>
