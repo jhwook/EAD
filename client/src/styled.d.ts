@@ -21,6 +21,7 @@ declare module 'styled-components' {
     desktop1: string;
     desktop2: string;
     fontSize: {
+      quark: string;
       atom: string;
       dust: string;
       micro: string;
