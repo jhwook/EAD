@@ -1,11 +1,13 @@
 import mongoose, { Model } from 'mongoose';
 import { Post } from 'src/posts/posts.schema';
+import { Comment } from 'src/posts/comments.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 import { User } from './users.schema';
 export declare class UsersRepository {
     private readonly userModel;
     private readonly postModel;
-    constructor(userModel: Model<User>, postModel: Model<Post>);
+    private readonly commentModel;
+    constructor(userModel: Model<User>, postModel: Model<Post>, commentModel: Model<Comment>);
     findByToken(refreshToken: any): Promise<User & {
         _id: any;
     }>;
