@@ -14,7 +14,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
 import App from './App';
-import { theme } from './theme';
+import { theme } from './utils/theme';
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
