@@ -56,8 +56,8 @@ export declare class UsersController {
     updateUser(body: any): Promise<import("./users.schema").User & {
         _id: any;
     }>;
-    updateStacks(param: any, body: any): Promise<{
-        message: string;
+    updateStacks(param: any, body: any): Promise<import("./users.schema").User & {
+        _id: any;
     }>;
     verifyEmail(body: any): Promise<{
         message: string;
@@ -68,16 +68,8 @@ export declare class UsersController {
     getUsersPosts(req: any): Promise<import("./users.schema").User & {
         _id: any;
     }>;
-    uploadImage(files: Array<Express.Multer.File>, param: any): Promise<{
-        id: string;
-        email: string;
-        username: string;
-        stacks: object;
-        oauth: any;
-        imgUrl: string;
-        posts: import("../posts/posts.schema").Post[];
-        refreshToken: string;
-        oauthId: string;
+    uploadImage(files: Array<Express.Multer.File>, param: any): Promise<import("./users.schema").User & {
+        _id: any;
     }>;
     sendPhoneMessage(body: any): number;
     usersPayment(body: any): Promise<import("./users.schema").User & {

@@ -43,8 +43,8 @@ export declare class UsersService {
     updateUser(body: any): Promise<User & {
         _id: any;
     }>;
-    changeStacksBoolean(param: any, body: any): Promise<{
-        message: string;
+    changeStacksBoolean(param: any, body: any): Promise<User & {
+        _id: any;
     }>;
     getUsersPosts(req: any): Promise<User & {
         _id: any;
@@ -55,16 +55,8 @@ export declare class UsersService {
     verifyUsername(body: any): Promise<{
         message: string;
     }>;
-    uploadImg(param: any, files: Express.Multer.File[]): Promise<{
-        id: string;
-        email: string;
-        username: string;
-        stacks: object;
-        oauth: any;
-        imgUrl: string;
-        posts: Post[];
-        refreshToken: string;
-        oauthId: string;
+    uploadImg(param: any, files: Express.Multer.File[]): Promise<User & {
+        _id: any;
     }>;
     sendPhoneMessage(body: any): number;
     usersPayment(body: any): Promise<User & {

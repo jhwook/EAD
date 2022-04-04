@@ -27,15 +27,7 @@ export declare class UsersRepository {
     findUserPosts(id: any): Promise<User & {
         _id: any;
     }>;
-    findByIdAndUpdateImg(id: string, fileName: string): Promise<{
-        id: string;
-        email: string;
-        username: string;
-        stacks: object;
-        oauth: any;
-        imgUrl: string;
-        posts: Post[];
-        refreshToken: string;
-        oauthId: string;
+    findByIdAndUpdateImg(id: string, fileName: string): Promise<User & {
+        _id: any;
     }>;
 }

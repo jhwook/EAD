@@ -138,7 +138,8 @@ let UsersService = class UsersService {
         const newStacks = user.stacks;
         newStacks.splice(idx, 1, !newStacks[idx]);
         await this.userModel.findByIdAndUpdate(id, { stacks: newStacks });
-        return { message: 'ok' };
+        const modifiedUser = await this.userModel.findById(id);
+        return modifiedUser;
     }
     async getUsersPosts(req) {
         const { id } = req.user;
