@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 /* eslint-disable no-return-await */
 /* eslint-disable lines-between-class-members */
@@ -201,9 +202,8 @@ export class UsersService {
   }
 
   // 유저 프로필 사진
-  async uploadImg(body, files: Express.Multer.File[]) {
-    const { id } = body;
-
+  async uploadImg(param, files: Express.Multer.File[]) {
+    const id = param.id;
     const fileName = `users/${files[0].filename}`;
     console.log(`fileName: ${fileName}`);
     const newUser = await this.usersRepository.findByIdAndUpdateImg(

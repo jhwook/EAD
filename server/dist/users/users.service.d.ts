@@ -55,7 +55,7 @@ export declare class UsersService {
     verifyUsername(body: any): Promise<{
         message: string;
     }>;
-    uploadImg(body: any, files: Express.Multer.File[]): Promise<{
+    uploadImg(param: any, files: Express.Multer.File[]): Promise<{
         id: string;
         email: string;
         username: string;
