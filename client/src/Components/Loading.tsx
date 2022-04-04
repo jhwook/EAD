@@ -10,6 +10,11 @@ const Wrapper = styled.div`
 const Text = styled.div`
   font-size: ${(props) => props.theme.fontSize.huge};
   margin-bottom: 20px;
+  text-align: center;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 150px;
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.medium};
   }
