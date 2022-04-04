@@ -30,14 +30,20 @@ let ChatsGateway = class ChatsGateway {
     handleConnection(socket) {
         this.logger.log(`connected : ${socket.id} ${socket.nsp.name}`);
     }
-    handleEnterRoom() { }
+    handleEnterRoom(data, socket) {
+        console.log(socket.rooms);
+        console.log(data);
+        socket.join(data);
+        socket.to(data).emit('welcome', data);
+        return data;
+    }
+    handleMakeRoom(room, socket) {
+        socket.to(room).emit('bye', room);
+    }
     handleSubmitChat(data, socket) {
         const [message, room, myUsername] = data;
-        console.log(data);
-        console.log(socket.id);
-        console.log(myUsername);
-        socket.emit('new_message', `${myUsername}: ${message}`);
-        return `${myUsername}: ${message}`;
+        socket.to(room).emit('new_message', `${myUsername}: ${message}`);
+        return message;
     }
 };
 __decorate([
@@ -54,10 +60,20 @@ __decorate([
 ], ChatsGateway.prototype, "handleConnection", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('enter_room'),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, socket_io_1.Socket]),
     __metadata("design:returntype", void 0)
 ], ChatsGateway.prototype, "handleEnterRoom", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('bye'),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
+    __metadata("design:returntype", void 0)
+], ChatsGateway.prototype, "handleMakeRoom", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('new_message'),
     __param(0, (0, websockets_1.MessageBody)()),
