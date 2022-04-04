@@ -3,14 +3,17 @@ import styled from 'styled-components';
 import io from 'socket.io-client';
 import Scrollbars from 'react-custom-scrollbars';
 import { nanoid } from 'nanoid';
-import { useNavigate, useParams } from 'react-router';
+import { useMatch, useNavigate, useParams } from 'react-router';
 import { FiSend } from 'react-icons/fi';
+import useSWR from 'swr';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
+import { useSelector } from 'react-redux';
+import { RootState } from 'index';
+import fetcher from '../utils/fetcher';
 import logo from '../Image/Logo/1.png';
 
-const ENDPOINT = 'http://localhost:4000';
-const socket = io(ENDPOINT);
+const socket = io(`${process.env.REACT_APP_SERVER}`);
 
 const ChattingWrapper = styled.div`
   height: auto;
@@ -47,16 +50,6 @@ const Wrapper = styled.div`
   }
 `;
 
-// const PostWrapper = styled.div`
-//   width: 600px;
-//   height: 750px;
-//   border: 2px dotted red;
-//   margin-left: 50px;
-//   border: 2px solid ${(props) => props.theme.btnGreen};
-//   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
-//   border-radius: 10px;
-// `;
-
 const ChatWrapper = styled.div`
   width: 1200px;
   height: 750px;
@@ -84,10 +77,11 @@ const ChatInfo = styled.div`
   width: 100%;
   height: 7.3%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   padding-left: 20px;
+  padding-right: 20px;
   border-bottom: 2px solid ${(props) => props.theme.btnGreen};
   @media ${(props) => props.theme.iPhone12Pro} {
     padding-left: 10px;
@@ -149,6 +143,11 @@ const ChatRoomList = styled.ul`
   box-sizing: border-box;
   @media ${(props) => props.theme.iPhone12Pro} {
     padding: 5px;
+  }
+  .focus {
+    background-color: ${(props) => props.theme.btnGreen};
+    color: ${(props) => props.theme.beige};
+    border: 1px solid ${(props) => props.theme.beige};
   }
 `;
 
@@ -397,10 +396,31 @@ const MsgBox = styled.div`
   }
 `;
 
+const ExitRoomBtn = styled.div`
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.7s;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+  }
+`;
+
+const ExitRoomText = styled.div``;
+
+const RoomTitle = styled.div``;
+
 function Chat() {
   const [room, setRoom] = useState<string | undefined>('');
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState<string[]>([]);
+  const [index, setIndex] = useState<number>();
   const [roomList, setRoomList] = useState<string[]>([
     '김대윤',
     '전현욱',
@@ -413,7 +433,16 @@ function Chat() {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { username } = useParams<{ username: string }>();
-  console.log(username);
+  const isMatch = useMatch(`/chat/${username}`);
+  const { userData } = useSelector((state: RootState) => state);
+  // const { data: roomList, mutate: mutateRoom } = useSWR<~~ | false>(
+  //   userData ? `${process.env.REACT_APP_SERVER}/~~` : null,
+  //   fetcher,
+  // );
+  // const { data: chat, mutate: mutateChat } = useSWR<~~| false>(
+  //   userData ? `${process.env.REACT_APP_SERVER}/~~` : null,
+  //   fetcher,
+  // );
 
   const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
     setMessage(e.currentTarget.value);
@@ -421,8 +450,7 @@ function Chat() {
 
   const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    socket.emit('new_message', message, room, '전현욱', (data: any) => {
-      console.log(data);
+    socket.emit('new_message', message, room, () => {
       setChat([...chat, `You: ${message}`]);
     });
     scrollRef.current?.scrollToBottom();
@@ -445,15 +473,12 @@ function Chat() {
     socket.on('new_message', (msg: string) => {
       setChat([...chat, msg]);
     });
-
-    socket.on('room_change', (rooms: string[]) => {
-      setRoomList([...rooms]);
-    });
   }, [chat]);
 
-  const onClickChatRoom = (username: string) => {
+  const onClickChatRoom = (username: string, id: number) => {
     socket.emit('enter_room', username);
     setRoom(username);
+    setIndex(id);
     navigate(`/chat/${username}`);
   };
 
@@ -468,19 +493,21 @@ function Chat() {
       <ChattingWrapper>
         <Wrapper>
           <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
-          <button type="button" onClick={exitRoom}>
-            방 나가기
-          </button>
           <ChatWrapper>
             <ChatMain>
               <RoomWrapper>
                 <ListTitle>채팅목록</ListTitle>
                 <ChatRoomList>
-                  {roomList.map((el: string) => (
-                    <RoomList key={nanoid()}>
-                      <RoomBox onClick={() => onClickChatRoom(el)}>
+                  {roomList.map((el: string, i) => (
+                    <RoomList
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={i}
+                      className={index === i ? 'focus' : ''}
+                      onClick={() => onClickChatRoom(el, i)}
+                    >
+                      <RoomBox>
                         <Picture src={logo} />
-                        {el}
+                        <RoomTitle>{el}</RoomTitle>
                       </RoomBox>
                     </RoomList>
                   ))}
@@ -489,6 +516,9 @@ function Chat() {
               <Chatting>
                 <ChatInfo>
                   <Nickname>{`${room}`}</Nickname>
+                  <ExitRoomBtn onClick={exitRoom}>
+                    <ExitRoomText>방 나가기</ExitRoomText>
+                  </ExitRoomBtn>
                 </ChatInfo>
                 <List>
                   <Scrollbars autoHide ref={scrollRef}>
@@ -519,7 +549,6 @@ function Chat() {
               </Chatting>
             </ChatMain>
           </ChatWrapper>
-          {/* <PostWrapper /> */}
         </Wrapper>
       </ChattingWrapper>
       <FooterWrapper>
@@ -530,11 +559,3 @@ function Chat() {
 }
 
 export default Chat;
-
-// 실시간 채팅 해결해야할 부분
-
-// 1. 지금은 브라우저간 구별이였는데, 유저별 구별 어떻게? => socketId?
-// 2. 유저별 구별되면 유저 닉네임과 방제목은 상대방 이름으로 고정 => 리덕스로 해결
-// 3. 채팅창끼리 옮겨가는거 리스트 온클릭하면 enter_room하게 해서 이동??
-// 4. 옮기는건 어려우니까 그냥 누르면 1대1 채팅방처럼 만들어야 할듯 => 버튼 누르면 채팅창
-// 5. 새로고침하면 다 풀리는거 어떻게 고정하지??? => localstorage 등 생각해보기
