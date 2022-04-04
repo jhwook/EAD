@@ -43,6 +43,7 @@ export class PostsService {
     const post = await this.postModel.create({
       // eslint-disable-next-line no-underscore-dangle
       writer: user.id,
+      writerImg: user.imgUrl,
       writerName: user.username,
       title,
       content,
@@ -94,19 +95,19 @@ export class PostsService {
   }
 
   // 포스트 이미지 저장
-  async uploadPostImg(body, param, files: Express.Multer.File[]) {
-    const { id } = body;
+  async uploadPostImg(param, files: Express.Multer.File[]) {
     const { postId } = param;
-    const post = await this.postModel.findById(postId);
+    // const post = await this.postModel.findById(postId);
+    const fileName = `posts/${files[0].filename}`;
+    const imgUrl = `http://localhost:4000/media/${fileName}`;
+    await this.postModel.findByIdAndUpdate(postId, { $push: { imgUrl } });
+    return imgUrl;
+    // post.imgUrl.push(`http://localhost:4000/media/${fileName}`);
+    // const newPost = await post.save();
+    // console.log(newPost);
+    // return post.imgUrl;
 
-    if (id === post.writer) {
-      const fileName = `posts/${files[0].filename}`;
-      post.imgUrl = `http://localhost:4000/media/${fileName}`;
-      const newPost = await post.save();
-      console.log(newPost);
-      return newPost;
-    }
-    throw new HttpException('작성자가 일치하지 않습니다.', 401);
+    // throw new HttpException('작성자가 일치하지 않습니다.', 401);
   }
 
   // 검색 (키워드)
@@ -151,6 +152,7 @@ export class PostsService {
     const post = await this.postModel.findById(postId);
 
     const newComment = await this.commentModel.create({
+      writerImg: user.imgUrl,
       writerName: user.username,
       post_id: post._id,
       writer: user.id,
@@ -214,19 +216,21 @@ export class PostsService {
 
   // 댓글에 이미지 저장
   async uploadCommentImg(body, param, files: Express.Multer.File[]) {
-    const { id } = body;
     const { commentId } = param;
-    const comment = await this.commentModel.findById(commentId);
+    const fileName = `comments/${files[0].filename}`;
+    const imgUrl = `http://localhost:4000/media/${fileName}`;
+    await this.postModel.findByIdAndUpdate(commentId, { $push: { imgUrl } });
+    return imgUrl;
 
-    if (id === comment.writer) {
-      const fileName = `comments/${files[0].filename}`;
-      const comment = await this.commentModel.findById(id);
-      comment.imgUrl = `http://localhost:4000/media/${fileName}`;
-      const newComment = await comment.save();
-      console.log(newComment);
-      return newComment;
-    }
-    throw new HttpException('작성자가 일치하지 않습니다.', 401);
+    // if (id === comment.writer) {
+    //   const fileName = `comments/${files[0].filename}`;
+    //   const comment = await this.commentModel.findById(id);
+    //   comment.imgUrl = `http://localhost:4000/media/${fileName}`;
+    //   const newComment = await comment.save();
+    //   console.log(newComment);
+    //   return comment.imgUrl;
+    // }
+    // throw new HttpException('작성자가 일치하지 않습니다.', 401);
   }
 
   // 포스트 제목만 주기

@@ -16,10 +16,4 @@ export declare class PostsRepository {
         title: string;
         tag: string[];
     }[]>;
-    findPostAndUpdateImg(id: string, fileName: string): Promise<Post & {
-        _id: any;
-    }>;
-    findCommentAndUpdateImg(id: string, fileName: string): Promise<Comment & {
-        _id: any;
-    }>;
 }

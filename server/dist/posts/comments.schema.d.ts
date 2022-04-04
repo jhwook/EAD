@@ -3,6 +3,7 @@ export declare class Comment extends Document {
     post_id: Types.ObjectId;
     writer: Types.ObjectId;
     writerName: string;
+    writerImg: string;
     title: string;
     content: string;
     up: number;

@@ -68,9 +68,9 @@ let PostsController = class PostsController {
     getOneComment(param) {
         return this.postsService.getOneComment(param);
     }
-    uploadPostImage(files, param, body) {
+    uploadPostImage(files, param) {
         console.log(files);
-        return this.postsService.uploadPostImg(body, param, files);
+        return this.postsService.uploadPostImg(param, files);
     }
     uploadCommentImage(files, param, body) {
         console.log(files);
@@ -183,9 +183,8 @@ __decorate([
     (0, common_1.Post)('/upload-post/:postId'),
     __param(0, (0, common_1.UploadedFiles)()),
     __param(1, (0, common_1.Param)()),
-    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array, Object, Object]),
+    __metadata("design:paramtypes", [Array, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "uploadPostImage", null);
 __decorate([

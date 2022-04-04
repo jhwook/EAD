@@ -49,10 +49,6 @@ export declare class PostsController {
     getOneComment(param: any): Promise<import("./comments.schema").Comment & {
         _id: any;
     }>;
-    uploadPostImage(files: Array<Express.Multer.File>, param: any, body: any): Promise<import("./posts.schema").Post & {
-        _id: any;
-    }>;
-    uploadCommentImage(files: Array<Express.Multer.File>, param: any, body: any): Promise<import("./comments.schema").Comment & {
-        _id: any;
-    }>;
+    uploadPostImage(files: Array<Express.Multer.File>, param: any): Promise<string>;
+    uploadCommentImage(files: Array<Express.Multer.File>, param: any, body: any): Promise<string>;
 }
