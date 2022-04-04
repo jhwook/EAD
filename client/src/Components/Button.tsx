@@ -16,27 +16,25 @@ const Btn = styled.button<IStackButton>`
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.color};
   font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 120px;
+  width: 110px;
   height: 32px;
+  margin: 0 10px 0 10px;
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.4s;
-  @media ${(props) => props.theme.tablet} {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
+  /* @media ${(props) => props.theme.tablet} {
     width: 92px;
-  }
+  } */
   @media ${(props) => props.theme.mobile} {
-    margin: 4px 0 0 0;
-    width: 92px;
-    height: 22px;
+    margin: 0 10px 0px 10px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    margin: 4px 0 0 0;
-    width: 92px;
-    height: 22px;
+    margin: 0 10px 0 10px;
   }
   &:hover {
-    font-weight: bold;
+    color: ${(props) => props.theme.pink};
   }
 `;
 

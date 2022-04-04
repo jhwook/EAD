@@ -89,12 +89,13 @@ const PaymentBtn = styled.button`
   border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.5s;
-  @media ${(props) => props.theme.tablet} {
+  transition: all 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
+  /* @media ${(props) => props.theme.tablet} {
     font-size: ${(props) => props.theme.fontSize.tiny};
     width: 85px;
     height: 32px;
-  }
+  } */
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.tiny};
     width: 85px;
