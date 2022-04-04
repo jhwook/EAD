@@ -433,7 +433,6 @@ function Chat() {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { username } = useParams<{ username: string }>();
-  const isMatch = useMatch(`/chat/${username}`);
   const { userData } = useSelector((state: RootState) => state);
   // const { data: roomList, mutate: mutateRoom } = useSWR<~~ | false>(
   //   userData ? `${process.env.REACT_APP_SERVER}/~~` : null,
