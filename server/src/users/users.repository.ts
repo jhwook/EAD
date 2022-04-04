@@ -77,8 +77,9 @@ export class UsersRepository {
   async findByIdAndUpdateImg(id: string, fileName: string) {
     const user = await this.userModel.findById(id);
     user.imgUrl = `http://localhost:4000/media/${fileName}`;
-    const newUser = await user.save();
+    await user.save();
 
-    return newUser.readOnlyData;
+    const modifiedUser = await this.userModel.findById(id);
+    return modifiedUser;
   }
 }

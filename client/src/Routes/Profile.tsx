@@ -12,7 +12,6 @@ import userHolder from '../Image/Logo/profile.png';
 import oauthHolder from '../Image/Logo/oauth.png';
 
 const Wrapper = styled.div`
-  // width: 100%;
   height: auto;
   min-height: 100%;
   display: flex;
@@ -62,14 +61,6 @@ const LeftBox = styled.div`
 const UserPhoto = styled.img`
   width: 200px;
   height: 140px;
-  /* @media ${(props) => props.theme.mobile} {
-    width: 180px;
-    height: 130px;
-  }
-  @media ${(props) => props.theme.iPhone12Pro} {
-    width: 180px;
-    height: 130px;
-  } */
 `;
 
 const ImgForm = styled.form`
@@ -112,12 +103,6 @@ const ImgLabel = styled.label`
 const StackName = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   margin: 0 0 5px 0;
-  /* @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.mini};
-  }
-  @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.mini};
-  } */
 `;
 
 const StackText = styled.div`
@@ -188,16 +173,6 @@ const CostText = styled.div`
   text-align: center;
   display: table-cell;
   vertical-align: middle;
-  /* @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.tiny};
-    width: 90px;
-    height: 30px;
-  }
-  @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.tiny};
-    width: 90px;
-    height: 30px;
-  } */
 `;
 
 const CostInput = styled.input`
@@ -208,16 +183,6 @@ const CostInput = styled.input`
   border-radius: 10px;
   padding-left: 5px;
   height: 32px;
-  /* @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.tiny};
-    width: 76px;
-    height: 26px;
-  }
-  @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.tiny};
-    width: 76px;
-    height: 26px;
-  } */
 `;
 
 const RightBox = styled.div`
@@ -382,20 +347,6 @@ const InfoNameBtn = styled.button`
   cursor: pointer;
   transition: all 0.4s;
   box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
-  /* @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.micro};
-    width: 110px;
-    height: 30px;
-    padding: 1px 0 0 0;
-    margin: 5px 0 10px 0;
-  }
-  @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.micro};
-    width: 110px;
-    height: 30px;
-    padding: 1px 0 0 0;
-    margin: 5px 0 10px 0;
-  } */
   &:hover {
     color: ${(props) => props.theme.pink};
   }
@@ -413,20 +364,6 @@ const InfoPwBtn = styled.button`
   cursor: pointer;
   transition: all 0.4s;
   box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
-  /* @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.micro};
-    width: 110px;
-    height: 30px;
-    padding: 1px 0 0 0;
-    margin: 5px 0 15px 0;
-  }
-  @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.micro};
-    width: 110px;
-    height: 30px;
-    padding: 1px 0 0 0;
-    margin: 5px 0 15px 0;
-  } */
   &:hover {
     color: ${(props) => props.theme.pink};
   }
@@ -559,14 +496,6 @@ const WitInfo = styled.div`
   width: 290px;
   text-align: center;
   cursor: pointer;
-  /* @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.atom};
-    width: 200px;
-  }
-  @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.atom};
-    width: 200px;
-  } */
   &:hover {
     color: ${(props) => props.theme.pink};
     font-weight: bold;
@@ -636,10 +565,6 @@ const CommonBox = styled.div`
 const OauthHolder = styled.img`
   width: 340px;
   margin: 40px 0px 0px 15px;
-  /* @media ${(props) => props.theme.iPhone12Pro} {
-    margin: 0px auto 0px auto;
-    width: 320px;
-  } */
   @media ${(props) => props.theme.mobile} {
     margin: 0px auto 0px auto;
     width: 320px;
@@ -764,7 +689,7 @@ function Profile() {
 
   const onClickJs = async () => {
     setJs(!js);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/0`,
       { js, id: userId },
       {
@@ -774,11 +699,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickTs = async () => {
     setTs(!ts);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/1`,
       { ts, id: userId },
       {
@@ -788,11 +714,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickCss = async () => {
     setCss(!css);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/2`,
       { css, id: userId },
       {
@@ -802,11 +729,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickReact = async () => {
     setReact(!react);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/3`,
       { react, id: userId },
       {
@@ -816,11 +744,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickVue = async () => {
     setVue(!vue);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/4`,
       { vue, id: userId },
       {
@@ -830,11 +759,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickNoSql = async () => {
     setNoSql(!noSql);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/5`,
       { noSql, id: userId },
       {
@@ -844,11 +774,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickSql = async () => {
     setSql(!sql);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/6`,
       { sql, id: userId },
       {
@@ -858,11 +789,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickExpress = async () => {
     setExpress(!express);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/7`,
       { express, id: userId },
       {
@@ -872,11 +804,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickAws = async () => {
     setAws(!aws);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/8`,
       { aws, id: userId },
       {
@@ -886,11 +819,12 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const onClickOther = async () => {
     setOther(!other);
-    await axios.post(
+    const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/9`,
       { other, id: userId },
       {
@@ -900,6 +834,7 @@ function Profile() {
         },
       },
     );
+    dispatch(UserModify(data.data));
   };
 
   const handleInfoModalClick = () => {
@@ -999,9 +934,9 @@ function Profile() {
       const uploadImg = e.target.files[0];
       const formData = new FormData();
       formData.append('image', uploadImg);
-      await axios.post(
+      const data = await axios.post(
         `${process.env.REACT_APP_SERVER}/users/upload/${userId}`,
-        { formData },
+        formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -1010,8 +945,7 @@ function Profile() {
           withCredentials: true,
         },
       );
-      dispatch(UserLogout());
-      setChangeModalView(!changeModalView);
+      dispatch(UserModify(data.data));
     }
   };
 

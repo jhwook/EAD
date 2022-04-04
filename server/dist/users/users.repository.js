@@ -69,8 +69,9 @@ let UsersRepository = class UsersRepository {
     async findByIdAndUpdateImg(id, fileName) {
         const user = await this.userModel.findById(id);
         user.imgUrl = `http://localhost:4000/media/${fileName}`;
-        const newUser = await user.save();
-        return newUser.readOnlyData;
+        await user.save();
+        const modifiedUser = await this.userModel.findById(id);
+        return modifiedUser;
     }
 };
 UsersRepository = __decorate([
