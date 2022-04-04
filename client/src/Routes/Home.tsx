@@ -247,7 +247,6 @@ const Title = styled.div`
 `;
 const Descriprtion = styled.div`
   font-size: ${(props) => props.theme.fontSize.medium};
-  margin-bottom: 5px;
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
@@ -556,7 +555,7 @@ function Home() {
             <Logo src={logo1} />
           </Fade>
           <SearchBox>
-            <Fade direction="down">
+            <Fade delay={500}>
               <Text>개발하면서 궁금했던 점을</Text>
               <Text>검색해보세요!</Text>
             </Fade>
@@ -590,7 +589,7 @@ function Home() {
         </Wrapper>
         <Box>
           <LeftBox>
-            <Fade cascade>
+            <Fade delay={500}>
               <Logo src={logo2} />
             </Fade>
             <Fade delay={500}>
@@ -625,14 +624,14 @@ function Home() {
                 </Fade>
               </TextBox>
             </Fade>
-            <Fade direction="bottom-right">
+            <Fade delay={500}>
               <Logo src={logo3} />
             </Fade>
           </RightBox>
         </Box>
         <Box>
           <LeftBox>
-            <Fade direction="top-left">
+            <Fade delay={500}>
               <Logo src={logo4} />
             </Fade>
             <Fade delay={500}>
@@ -669,7 +668,7 @@ function Home() {
                 </Fade>
               </TextBox>
             </Fade>
-            <Fade direction="right">
+            <Fade delay={500}>
               <Logo className="logo5" src={logo5} />
             </Fade>
           </RightBox>
