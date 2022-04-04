@@ -1,8 +1,10 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import Home from './Home';
+import loadable from '@loadable/component';
+
+const Home = loadable(() => import('Routes/Home'));
 
 const SignupWrapper = styled.div`
   width: 100%;
@@ -173,7 +175,7 @@ const ExitBtn = styled.button`
   border: none;
   position: absolute;
   top: 15px;
-  right: 25px;
+  right: 23px;
   cursor: pointer;
 `;
 
@@ -302,35 +304,45 @@ function Signup() {
     }
   }, [username, email, password, confirmPassword]);
 
-  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (username && email && password && confirmPassword && done) {
-      try {
-        await axios.post(
-          `${process.env.REACT_APP_SERVER}/users/signup`,
-          { username, email, password },
-          {
-            headers: {
-              'Content-Type': 'application/json',
+  const handleOnSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (username && email && password && confirmPassword && done) {
+        try {
+          await axios.post(
+            `${process.env.REACT_APP_SERVER}/users/signup`,
+            { username, email, password },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              withCredentials: true,
             },
-            withCredentials: true,
-          },
-        );
-        setEmail('');
-        setPassword('');
-        setUsername('');
-        setDone(false);
-        navigate('/login');
-      } catch (err) {
-        console.log(err);
+          );
+          setEmail('');
+          setPassword('');
+          setUsername('');
+          setDone(false);
+          navigate('/login');
+        } catch (err) {
+          console.log(err);
+        }
       }
-    }
-    if (done === false) {
-      setErrorDoneMessage('본인 인증이 필요합니다.');
-    }
-  };
+      if (done === false) {
+        setErrorDoneMessage('본인 인증이 필요합니다.');
+      }
+    },
+    [
+      setEmail,
+      setPassword,
+      setUsername,
+      setDone,
+      navigate,
+      setErrorDoneMessage,
+    ],
+  );
 
-  const checkUernameOnClick = async () => {
+  const checkUernameOnClick = useCallback(async () => {
     if (username.length >= 2) {
       try {
         await axios.post(
@@ -348,15 +360,15 @@ function Signup() {
         setErrorUsernameMessage('이미 동일한 닉네임이 존재합니다.');
       }
     }
-  };
+  }, [setErrorUsernameMessage]);
 
-  const emailVaildationCheck = () => {
+  const emailVaildationCheck = useCallback(() => {
     const emailRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     return emailRegex.test(email);
-  };
+  }, []);
 
-  const checkEmailOnClick = async () => {
+  const checkEmailOnClick = useCallback(async () => {
     if (emailVaildationCheck()) {
       try {
         await axios.post(
@@ -376,46 +388,69 @@ function Signup() {
     } else {
       setEmailErrorMessage('유효하지 않은 이메일 양식입니다.');
     }
-  };
-  const usernameOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setErrorUsernameMessage('닉네임 중복검사를 하세요');
-    setUsername(e.currentTarget.value);
-  };
+  }, [emailVaildationCheck, setEmailErrorMessage]);
 
-  const emailOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setEmailErrorMessage('이메일 중복검사를 하세요');
-    setEmail(e.currentTarget.value);
-  };
+  const usernameOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setErrorUsernameMessage('닉네임 중복검사를 하세요');
+      setUsername(e.currentTarget.value);
+    },
+    [setErrorUsernameMessage, setUsername],
+  );
 
-  const passwordOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setPassword(e.currentTarget.value);
-  };
+  const emailOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setEmailErrorMessage('이메일 중복검사를 하세요');
+      setEmail(e.currentTarget.value);
+    },
+    [setEmailErrorMessage, setEmail],
+  );
 
-  const confirmPasswordOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.currentTarget.value);
-  };
+  const passwordOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setPassword(e.currentTarget.value);
+    },
+    [setPassword],
+  );
 
-  const phoneOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setPhone(e.currentTarget.value);
-  };
+  const confirmPasswordOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setConfirmPassword(e.currentTarget.value);
+    },
+    [setConfirmPassword],
+  );
 
-  const numberOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setNumber(e.currentTarget.value);
-  };
+  const phoneOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setPhone(e.currentTarget.value);
+    },
+    [setPhone],
+  );
+
+  const numberOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setNumber(e.currentTarget.value);
+    },
+    [setNumber],
+  );
 
   const phoneOnClick = async () => {
-    const randomNumber = await axios.post(
-      `${process.env.REACT_APP_SERVER}/users/sms`,
-      { phone: `+82${phone}` },
-      {
-        headers: {
-          'Content-Type': 'application/json',
+    if (phone.length === 11) {
+      const randomNumber = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/sms`,
+        { phone: `+82${phone}` },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      },
-    );
-    setConfirmNumber(randomNumber.data.data);
-    setConfirmNumberErrorMessage('인증번호가 발송 되었습니다.');
+      );
+      setConfirmNumber(randomNumber.data.data);
+      setConfirmNumberErrorMessage('인증번호가 발송 되었습니다.');
+    } else if (phone.length !== 11) {
+      setConfirmNumberErrorMessage('번호를 정확히 입력해주세요.');
+    }
   };
 
   const NumberOnclick = () => {
@@ -429,16 +464,16 @@ function Signup() {
     }
   };
 
-  const showPasswordOnClick = () => {
+  const showPasswordOnClick = useCallback(() => {
     setShow(!show);
-  };
+  }, [setShow]);
 
-  const exitOnClick = () => {
+  const exitOnClick = useCallback(() => {
     setOpen(false);
     setPhone('');
     setNumber('');
     navigate('/');
-  };
+  }, [setOpen, setPhone, setNumber, navigate]);
 
   return (
     <>
@@ -532,7 +567,7 @@ function Signup() {
                 <PhoneInput
                   value={phone}
                   onChange={phoneOnChange}
-                  placeholder="전화번호를 입력하세요"
+                  placeholder="ex) 01012344321"
                   required
                 />
                 <SendPhoneBtn type="button" onClick={phoneOnClick}>

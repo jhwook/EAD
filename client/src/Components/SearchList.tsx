@@ -1,11 +1,6 @@
 import { nanoid } from 'nanoid';
 import styled from 'styled-components';
 
-// interface ISearchListProps {
-//   list: string[];
-//   chooseList: any;
-// }
-
 const List = styled.li`
   width: 100%;
   height: 100%;
