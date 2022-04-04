@@ -141,8 +141,8 @@ let UsersController = class UsersController {
     getUsersPosts(req) {
         return this.usersService.getUsersPosts(req);
     }
-    uploadImage(files, body) {
-        return this.usersService.uploadImg(body, files);
+    uploadImage(files, param) {
+        return this.usersService.uploadImg(param, files);
     }
     sendPhoneMessage(body) {
         return this.usersService.sendPhoneMessage(body);
@@ -257,9 +257,9 @@ __decorate([
 ], UsersController.prototype, "getUsersPosts", null);
 __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('users'))),
-    (0, common_1.Post)('upload'),
+    (0, common_1.Post)('upload/:id'),
     __param(0, (0, common_1.UploadedFiles)()),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array, Object]),
     __metadata("design:returntype", void 0)

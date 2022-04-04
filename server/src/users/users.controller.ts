@@ -35,6 +35,7 @@ import { UserRequestDto } from './dto/users.request.dto';
 import { SuccessInterceptor } from '../common/interceptors/success.interceptor';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { UsersService } from './users.service';
+import { ideahub } from 'googleapis/build/src/apis/ideahub';
 
 @Controller('users')
 @UseInterceptors(SuccessInterceptor)
@@ -251,13 +252,13 @@ export class UsersController {
 
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('users')))
   // @UseGuards(JwtAuthGuard)
-  @Post('upload')
+  @Post('upload/:id')
   uploadImage(
     @UploadedFiles() files: Array<Express.Multer.File>,
-    @Body() body,
+    @Param() param,
   ) {
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.usersService.uploadImg(body, files);
+    return this.usersService.uploadImg(param, files);
   }
 
   // @Post('/send-email')

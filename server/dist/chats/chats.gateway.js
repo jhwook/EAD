@@ -31,11 +31,13 @@ let ChatsGateway = class ChatsGateway {
         this.logger.log(`connected : ${socket.id} ${socket.nsp.name}`);
     }
     handleEnterRoom() { }
-    handleSubmitChat(chat, socket) {
-        socket.broadcast.emit('new_message', {
-            chat,
-            username: socket.id,
-        });
+    handleSubmitChat(data, socket) {
+        const [message, room, myUsername] = data;
+        console.log(data);
+        console.log(socket.id);
+        console.log(myUsername);
+        socket.emit('new_message', `${myUsername}: ${message}`);
+        return `${myUsername}: ${message}`;
     }
 };
 __decorate([
@@ -57,7 +59,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ChatsGateway.prototype, "handleEnterRoom", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('submit_chat'),
+    (0, websockets_1.SubscribeMessage)('new_message'),
     __param(0, (0, websockets_1.MessageBody)()),
     __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
@@ -65,7 +67,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ChatsGateway.prototype, "handleSubmitChat", null);
 ChatsGateway = __decorate([
-    (0, websockets_1.WebSocketGateway)({ namespace: 'chattings' }),
+    (0, websockets_1.WebSocketGateway)(),
     __metadata("design:paramtypes", [])
 ], ChatsGateway);
 exports.ChatsGateway = ChatsGateway;

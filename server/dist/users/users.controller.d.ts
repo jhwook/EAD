@@ -68,7 +68,7 @@ export declare class UsersController {
     getUsersPosts(req: any): Promise<import("./users.schema").User & {
         _id: any;
     }>;
-    uploadImage(files: Array<Express.Multer.File>, body: any): Promise<{
+    uploadImage(files: Array<Express.Multer.File>, param: any): Promise<{
         id: string;
         email: string;
         username: string;

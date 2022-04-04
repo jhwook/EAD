@@ -435,7 +435,8 @@ function Chat() {
 
   const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    socket.emit('new_message', message, room, () => {
+    socket.emit('new_message', message, room, '전현욱', (data: any) => {
+      console.log(data);
       setChat([...chat, `You: ${message}`]);
     });
     scrollRef.current?.scrollToBottom();

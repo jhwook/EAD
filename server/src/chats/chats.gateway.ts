@@ -14,7 +14,7 @@ import {
 
 // namespace -> room
 
-@WebSocketGateway({ namespace: 'chattings' })
+@WebSocketGateway()
 export class ChatsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
@@ -41,14 +41,16 @@ export class ChatsGateway
   @SubscribeMessage('enter_room')
   handleEnterRoom() {}
 
-  @SubscribeMessage('submit_chat')
+  @SubscribeMessage('new_message')
   handleSubmitChat(
-    @MessageBody() chat: string,
+    @MessageBody() data: string,
     @ConnectedSocket() socket: Socket,
   ) {
-    socket.broadcast.emit('new_message', {
-      chat,
-      username: socket.id,
-    });
+    const [message, room, myUsername] = data;
+    console.log(data);
+    console.log(socket.id);
+    console.log(myUsername);
+    socket.emit('new_message', `${myUsername}: ${message}`);
+    return `${myUsername}: ${message}`;
   }
 }

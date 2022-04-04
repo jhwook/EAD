@@ -165,8 +165,8 @@ let UsersService = class UsersService {
             return { message: 'ok' };
         }
     }
-    async uploadImg(body, files) {
-        const { id } = body;
+    async uploadImg(param, files) {
+        const id = param.id;
         const fileName = `users/${files[0].filename}`;
         console.log(`fileName: ${fileName}`);
         const newUser = await this.usersRepository.findByIdAndUpdateImg(id, fileName);
