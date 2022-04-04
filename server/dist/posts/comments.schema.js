@@ -52,9 +52,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Comment.prototype, "up", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)([String]),
     (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Array)
 ], Comment.prototype, "imgUrl", void 0);
 Comment = __decorate([
     (0, mongoose_1.Schema)(options)

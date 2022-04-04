@@ -36,7 +36,7 @@ export class PostsService {
 
   // 포스트 작성
   async createPost(body) {
-    const { id, title, content, tags, bounty } = body;
+    const { id, title, content, tag, bounty } = body;
 
     const user = await this.userModel.findById(id);
 
@@ -47,7 +47,7 @@ export class PostsService {
       writerName: user.username,
       title,
       content,
-      tag: tags,
+      tag,
       bounty,
     });
 

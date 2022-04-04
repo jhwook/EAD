@@ -34,7 +34,7 @@ let PostsService = class PostsService {
         return post;
     }
     async createPost(body) {
-        const { id, title, content, tags, bounty } = body;
+        const { id, title, content, tag, bounty } = body;
         const user = await this.userModel.findById(id);
         const post = await this.postModel.create({
             writer: user.id,
@@ -42,7 +42,7 @@ let PostsService = class PostsService {
             writerName: user.username,
             title,
             content,
-            tag: tags,
+            tag,
             bounty,
         });
         return post;

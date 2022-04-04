@@ -7,12 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatsModule = void 0;
+const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
+const rooms_model_1 = require("./models/rooms.model");
 const chats_gateway_1 = require("./chats.gateway");
+const chattings_model_1 = require("./models/chattings.model");
 let ChatsModule = class ChatsModule {
 };
 ChatsModule = __decorate([
     (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                { name: chattings_model_1.Chatting.name, schema: chattings_model_1.ChattingSchema },
+                { name: rooms_model_1.Room.name, schema: rooms_model_1.RoomSchema },
+            ]),
+        ],
         providers: [chats_gateway_1.ChatsGateway],
     })
 ], ChatsModule);

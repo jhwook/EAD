@@ -3,6 +3,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import mongoose, { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { PostSchema, Post } from 'src/posts/posts.schema';
+import { CommentSchema, Comment } from 'src/posts/comments.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 import { User } from './users.schema';
 
@@ -11,7 +12,8 @@ export class UsersRepository {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
-    @InjectModel(User.name) private readonly postModel: Model<Post>,
+    @InjectModel(Post.name) private readonly postModel: Model<Post>,
+    @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
   ) {}
 
   async findByToken(refreshToken) {
@@ -76,8 +78,18 @@ export class UsersRepository {
 
   async findByIdAndUpdateImg(id: string, fileName: string) {
     const user = await this.userModel.findById(id);
-    user.imgUrl = `http://localhost:4000/media/${fileName}`;
+    const imgUrl = `http://localhost:4000/media/${fileName}`;
+    user.imgUrl = imgUrl;
     await user.save();
+
+    await this.postModel.updateMany(
+      { writer: id },
+      { $set: { writerImg: imgUrl } },
+    );
+    await this.commentModel.updateMany(
+      { writer: id },
+      { $set: { writerImg: imgUrl } },
+    );
 
     const modifiedUser = await this.userModel.findById(id);
     return modifiedUser;

@@ -16,8 +16,14 @@ exports.ChatsGateway = void 0;
 const common_1 = require("@nestjs/common");
 const socket_io_1 = require("socket.io");
 const websockets_1 = require("@nestjs/websockets");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+const chattings_model_1 = require("./models/chattings.model");
+const rooms_model_1 = require("./models/rooms.model");
 let ChatsGateway = class ChatsGateway {
-    constructor() {
+    constructor(chattingModel, roomModel) {
+        this.chattingModel = chattingModel;
+        this.roomModel = roomModel;
         this.logger = new common_1.Logger('chat');
         this.logger.log('constructor');
     }
@@ -84,7 +90,10 @@ __decorate([
 ], ChatsGateway.prototype, "handleSubmitChat", null);
 ChatsGateway = __decorate([
     (0, websockets_1.WebSocketGateway)(),
-    __metadata("design:paramtypes", [])
+    __param(0, (0, mongoose_1.InjectModel)(chattings_model_1.Chatting.name)),
+    __param(1, (0, mongoose_1.InjectModel)(rooms_model_1.Room.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model])
 ], ChatsGateway);
 exports.ChatsGateway = ChatsGateway;
 //# sourceMappingURL=chats.gateway.js.map

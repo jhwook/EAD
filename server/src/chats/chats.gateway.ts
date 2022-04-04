@@ -11,6 +11,10 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Chatting } from './models/chattings.model';
+import { Room } from './models/rooms.model';
 
 // namespace -> room
 
@@ -20,7 +24,10 @@ export class ChatsGateway
 {
   private logger = new Logger('chat');
 
-  constructor() {
+  constructor(
+    @InjectModel(Chatting.name) private readonly chattingModel: Model<Chatting>,
+    @InjectModel(Room.name) private readonly roomModel: Model<Room>,
+  ) {
     this.logger.log('constructor');
   }
 

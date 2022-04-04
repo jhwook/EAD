@@ -16,11 +16,14 @@ exports.UsersRepository = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("mongoose");
+const posts_schema_1 = require("../posts/posts.schema");
+const comments_schema_1 = require("../posts/comments.schema");
 const users_schema_1 = require("./users.schema");
 let UsersRepository = class UsersRepository {
-    constructor(userModel, postModel) {
+    constructor(userModel, postModel, commentModel) {
         this.userModel = userModel;
         this.postModel = postModel;
+        this.commentModel = commentModel;
     }
     async findByToken(refreshToken) {
         const user = await this.userModel.findOne({ refreshToken });
@@ -68,8 +71,11 @@ let UsersRepository = class UsersRepository {
     }
     async findByIdAndUpdateImg(id, fileName) {
         const user = await this.userModel.findById(id);
-        user.imgUrl = `http://localhost:4000/media/${fileName}`;
+        const imgUrl = `http://localhost:4000/media/${fileName}`;
+        user.imgUrl = imgUrl;
         await user.save();
+        await this.postModel.updateMany({ writer: id }, { $set: { writerImg: imgUrl } });
+        await this.commentModel.updateMany({ writer: id }, { $set: { writerImg: imgUrl } });
         const modifiedUser = await this.userModel.findById(id);
         return modifiedUser;
     }
@@ -77,8 +83,10 @@ let UsersRepository = class UsersRepository {
 UsersRepository = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
-    __param(1, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
+    __param(1, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
+    __param(2, (0, mongoose_1.InjectModel)(comments_schema_1.Comment.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model])
 ], UsersRepository);
 exports.UsersRepository = UsersRepository;
