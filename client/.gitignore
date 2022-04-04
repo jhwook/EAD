@@ -3,3 +3,4 @@
 .env
 /build
 .env.example
+.DS_Store

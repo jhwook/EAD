@@ -40,6 +40,9 @@ const Wrapper = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 270px;
+  }
 `;
 const Form = styled.form`
   display: flex;
@@ -58,6 +61,9 @@ const EmailInput = styled.input`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 250px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 250px;
+  }
 `;
 const PasswordInput = styled.input`
   width: 315px;
@@ -69,6 +75,9 @@ const PasswordInput = styled.input`
   padding: 10px;
   margin-bottom: 10px;
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 250px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 250px;
   }
 `;
@@ -101,6 +110,9 @@ const LoginBtn = styled.button`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 180px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 180px;
+  }
 `;
 const SignupBtn = styled.div`
   width: 220px;
@@ -122,6 +134,9 @@ const SignupBtn = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 160px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 160px;
+  }
 `;
 
 const Naver = styled.a`
@@ -140,11 +155,19 @@ const Naver = styled.a`
     width: 190px;
     height: 45px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 190px;
+    height: 45px;
+  }
 `;
 
 const Kaoko = styled(Naver)`
   background-image: url(${kakao});
   @media ${(props) => props.theme.iPhone12Pro} {
+    margin-bottom: 0px;
+    height: 44px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     margin-bottom: 0px;
     height: 44px;
   }
@@ -160,6 +183,11 @@ const Google = styled(Naver)`
     width: 195px;
     height: 50px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    background-size: 195px 50px;
+    width: 195px;
+    height: 50px;
+  }
 `;
 
 const Text = styled.div`
@@ -167,6 +195,9 @@ const Text = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   margin-bottom: 15px;
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.micro};
   }
 `;

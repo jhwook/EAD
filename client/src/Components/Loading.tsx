@@ -15,6 +15,10 @@ const Text = styled.div`
     width: 150px;
     font-size: ${(props) => props.theme.fontSize.medium};
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 150px;
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.medium};
   }

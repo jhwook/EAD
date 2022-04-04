@@ -19,6 +19,9 @@ const Wrapper = styled.div`
     @media ${(props) => props.theme.iPhone12Pro} {
       display: none;
     }
+    @media ${(props) => props.theme.mobile1} {
+      display: none;
+    }
     @media ${(props) => props.theme.mobile} {
       display: none;
       font-size: ${(props) => props.theme.fontSize.medium};
@@ -35,6 +38,13 @@ const Wrapper = styled.div`
       right: 40px;
       font-size: ${(props) => props.theme.fontSize.medium};
     }
+    @media ${(props) => props.theme.mobile1} {
+      display: block;
+      position: absolute;
+      top: 25px;
+      right: 40px;
+      font-size: ${(props) => props.theme.fontSize.medium};
+    }
     @media ${(props) => props.theme.mobile} {
       display: block;
       position: absolute;
@@ -44,6 +54,9 @@ const Wrapper = styled.div`
     }
   }
   @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 10px 20px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     padding: 10px 20px;
   }
   @media ${(props) => props.theme.mobile} {
@@ -58,6 +71,9 @@ const Logo = styled.img`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 150px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 150px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 200px;
   }
@@ -70,6 +86,10 @@ const Menus = styled.ul`
   font-weight: bold;
   color: ${(props) => props.theme.black};
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 170px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 170px;
     font-size: ${(props) => props.theme.fontSize.micro};
   }
@@ -102,6 +122,10 @@ const Modal = styled.div`
     width: 99%;
     right: 0px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 99%;
+    right: 0px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 99%;
     right: 0px;
@@ -120,6 +144,11 @@ const ModalMenus = styled.ul`
     text-align: center;
     padding: 0px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    align-items: center;
+    text-align: center;
+    padding: 0px;
+  }
   @media ${(props) => props.theme.mobile} {
     align-items: center;
     text-align: center;
@@ -128,6 +157,13 @@ const ModalMenus = styled.ul`
   a {
     cursor: pointer;
     @media ${(props) => props.theme.iPhone12Pro} {
+      width: 100%;
+      &:hover {
+        background-color: ${(props) => props.theme.pink};
+        color: ${(props) => props.theme.black};
+      }
+    }
+    @media ${(props) => props.theme.mobile1} {
       width: 100%;
       &:hover {
         background-color: ${(props) => props.theme.pink};
@@ -150,6 +186,15 @@ const ModalMenu = styled.li`
     color: ${(props) => props.theme.pink};
   }
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 100%;
+    transition: all 0.5s ease-in-out;
+    &:hover {
+      padding: 3px 0px;
+      background-color: ${(props) => props.theme.pink};
+      color: ${(props) => props.theme.black};
+    }
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 100%;
     transition: all 0.5s ease-in-out;
     &:hover {

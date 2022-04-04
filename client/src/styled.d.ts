@@ -14,6 +14,7 @@ declare module 'styled-components' {
     naver: string;
     google: string;
     kakao: string;
+    mobile1: string;
     mobile: string;
     iPhone12Pro: string;
     tablet: string;
