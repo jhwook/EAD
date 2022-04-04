@@ -1,13 +1,15 @@
 /* eslint-disable react/no-children-prop */
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import { nanoid } from '@reduxjs/toolkit';
 import { RootState, ComRender, AppDispatch } from 'index';
+import { FiChevronsUp } from 'react-icons/fi';
 import { Editor, Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import Prism from 'prismjs';
@@ -24,11 +26,37 @@ const Wrapper = styled.div`
   .dot {
     font-size: ${(props) => props.theme.fontSize.medium};
     cursor: pointer;
+    @media ${(props) => props.theme.iPhone12Pro} {
+      display: none;
+    }
+    @media ${(props) => props.theme.mobile} {
+      display: none;
+    }
   }
-  .dotS {
-    font-size: ${(props) => props.theme.fontSize.small};
+  .burger {
     cursor: pointer;
+    display: none;
+    @media ${(props) => props.theme.iPhone12Pro} {
+      /* display: block;
+      position: absolute;
+      top: 25px;
+      right: 40px; */
+      font-size: ${(props) => props.theme.fontSize.medium};
+    }
+    @media ${(props) => props.theme.mobile} {
+      /* display: block;
+      position: absolute;
+      top: 25px;
+      right: 40px; */
+      font-size: ${(props) => props.theme.fontSize.medium};
+    }
   }
+  /* @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 10px 20px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    padding: 10px 20px;
+  } */
 `;
 
 const FooterWrapper = styled.div`
@@ -47,7 +75,12 @@ const PostBox = styled.div`
   height: auto;
   margin: 0 auto 30px auto;
   border: 2px solid ${(props) => props.theme.grey};
-  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
+  border-radius: 20px;
+  box-shadow: 3px 3px rgba(0, 0, 0, 0.3);
+  @media ${(props) => props.theme.mobile} {
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+  }
 `;
 
 const PostTopBox = styled.div`
@@ -57,19 +90,32 @@ const PostTopBox = styled.div`
   align-items: center;
 `;
 
+const PostWriterImgBox = styled.div`
+  height: 40px;
+  width: 45px;
+  border-radius: 50%;
+  border: 1px solid ${(props) => props.theme.grey};
+  // background-color: ${(props) => props.theme.black};
+  margin: auto 0px auto 25px;
+`;
+
+const PostWriterImg = styled.img`
+  height: 40px;
+  width: 45px;
+  border-radius: 50%;
+`;
+
 const PostWriter = styled.div`
   width: 590px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: auto 65px auto 25px;
+  margin: auto 20px auto 8px;
 `;
 
 const PostMidBox = styled.div`
   height: 60px;
-  // display: flex;
   flex-wrap: wrap;
-  // flex-direction: flex;
 `;
 
 const PostTitle = styled.div`
@@ -84,13 +130,13 @@ const PostTitle = styled.div`
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
-  margin: auto 52px auto 24px;
+  margin: auto 50px auto 24px;
 `;
 
 const PostBounty = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
   width: 140px;
-  margin: auto 0px auto 0px;
+  margin: 14px 12px auto 0px;
   float: right;
 `;
 
@@ -134,17 +180,12 @@ const PostBotBox = styled.div`
   height: auto;
   min-height: 100px;
   font-size: ${(props) => props.theme.fontSize.mini};
-  // border: 2px solid ${(props) => props.theme.grey};
-  .mk {
-    margin: 0 0 0 20px;
-    overflow: scroll;
-  }
 `;
 
 const ViewerBox = styled.div`
   // border: 1px solid ${(props) => props.theme.grey};
   padding: 0 0 10px 0;
-  margin: 0 auto 0px auto;
+  margin: 0 auto 5px auto;
   width: 690px;
   height: auto;
 `;
@@ -154,15 +195,14 @@ const CommentBox = styled.div`
   margin: 0 auto 0 auto;
   display: flex;
   flex-direction: column;
-  // border: 2px solid ${(props) => props.theme.grey};
-  // box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
 `;
 
 const CommentWriteForm = styled.form`
   border: 2px solid ${(props) => props.theme.grey};
   padding: 0 0 15px 0;
   margin: 0 0 20px 0;
-  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
+  border-radius: 20px;
+  box-shadow: 3px 3px rgba(0, 0, 0, 0.3);
 `;
 
 const CommentWriteBox = styled.div`
@@ -214,14 +254,8 @@ const CommentItemList = styled.ul``;
 const CommentItem = styled.li`
   border: 1px solid ${(props) => props.theme.grey};
   margin: 0 0 10px 0;
-  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
-  .comMk {
-    overflow: scroll;
-    font-size: ${(props) => props.theme.fontSize.tiny};
-    width: 91%;
-    padding: 10px;
-    margin: 0 0 0px 28px;
-  }
+  border-radius: 20px;
+  box-shadow: 3px 3px rgba(0, 0, 0, 0.3);
 `;
 
 const CommentItemHead = styled.div`
@@ -232,9 +266,15 @@ const CommentItemHead = styled.div`
 
 const CommentWriter = styled.div`
   width: 563px;
-  // padding: 7px 0 3px 37px;
   margin: auto 0 auto 25px;
   font-size: ${(props) => props.theme.fontSize.mini};
+`;
+
+const CommentItemEmptyBox = styled.div`
+  height: 50px;
+  display: flex;
+  flex-direction: flex;
+  margin: auto 14px auto 0;
 `;
 
 const CommentItemBtnBox = styled.div`
@@ -381,12 +421,13 @@ const ModalMenuBox = styled.div`
   height: 78px;
   position: absolute;
   top: 110px;
-  right: 220px;
+  right: 162px;
   background-color: ${(props) => props.theme.white};
   border: 2px solid ${(props) => props.theme.lightGrey};
   border-radius: 15px;
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
+  transition: all 0.3s;
   z-index: 10;
   @media ${(props) => props.theme.mobile} {
     /* width: 100%;
@@ -541,6 +582,50 @@ const PostDelModalBtn = styled.button`
   }
 `;
 
+const UpScrollBtn = styled.div`
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  right: 160px;
+  bottom: 170px;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  transition: all 1s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  .upscroll {
+    width: 100%;
+    height: 100%;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 40px;
+    height: 40px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+`;
+
 function PostView() {
   const { userData, itemData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken, isLogin } = userData;
@@ -553,6 +638,8 @@ function PostView() {
   const [postDelModalView, setPostDelModalView] = useState(false);
   const [postCon, setPostCon] = useState(itemData[0]);
   const [conTitle, setConTitle] = useState('');
+  const [scrollY, setScrollY] = useState(0);
+
   const dispatch = useDispatch<AppDispatch>();
 
   interface Data {
@@ -566,6 +653,7 @@ function PostView() {
     title: string;
     updatedAt: string;
     writer: string;
+    writerImg: string;
     writerName: string;
     __v: number;
     _id: number;
@@ -582,6 +670,7 @@ function PostView() {
     title: '',
     updatedAt: '',
     writer: '',
+    writerImg: '',
     writerName: '',
     __v: 0,
     _id: 0,
@@ -609,7 +698,32 @@ function PostView() {
     getPost();
   }, [comModalView, comDelModalView]);
 
-  const regComOnClick = async () => {
+  const handleFollow = () => {
+    setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
+  };
+
+  useEffect(() => {
+    const watch = () => {
+      window.addEventListener('scroll', handleFollow);
+    };
+    watch(); // addEventListener 함수를 실행
+    return () => {
+      window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
+    };
+  });
+
+  const UpScrollOnClick = () => {
+    if (!window.scrollY) {
+      return;
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  const regComOnClick = useCallback(async () => {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
     if (content !== '') {
@@ -632,11 +746,14 @@ function PostView() {
     } else if (content === '') {
       setFailModalView(!failModalView);
     }
-  };
+  }, [comModalView, setComDelModalView, failModalView, setFailModalView]);
 
-  const conTitleOnChange = (e: any) => {
-    setConTitle(e.target.value);
-  };
+  const conTitleOnChange = useCallback(
+    (e: any) => {
+      setConTitle(e.target.value);
+    },
+    [conTitle, setConTitle],
+  );
 
   const delComOnClick = async () => {
     await axios.delete(
@@ -652,10 +769,13 @@ function PostView() {
     setComDelModalView(!comDelModalView);
   };
 
-  const delComModalClick = (id: any) => {
-    setComId(id);
-    setComDelModalView(!comDelModalView);
-  };
+  const delComModalClick = useCallback(
+    (id: any) => {
+      setComId(id);
+      setComDelModalView(!comDelModalView);
+    },
+    [comId, setComId, comDelModalView, setComDelModalView],
+  );
 
   const delPostOnClick = async () => {
     await axios.post(
@@ -722,12 +842,22 @@ function PostView() {
         ) : null}
         <PostBox>
           <PostTopBox>
+            {data.writerImg === '' ? (
+              <PostWriterImgBox />
+            ) : (
+              <PostWriterImgBox>
+                <PostWriterImg src={data.writerImg} />
+              </PostWriterImgBox>
+            )}
             <PostWriter>{data.writerName}</PostWriter>
             {userInfo.id === data?.writer ? (
-              <HiOutlineDotsHorizontal
-                className="dot"
-                onClick={postFuncOnClick}
-              />
+              <>
+                <HiOutlineDotsHorizontal
+                  className="dot"
+                  onClick={postFuncOnClick}
+                />
+                <GiHamburgerMenu onClick={postFuncOnClick} className="burger" />
+              </>
             ) : null}
           </PostTopBox>
           <PostMidBox>
@@ -770,13 +900,13 @@ function PostView() {
                   ref={editorRef}
                   placeholder="마크다운 양식으로 작성하세요"
                   plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-                  // toolbarItems={[
-                  //   ['bold', 'italic'],
-                  //   ['hr'],
-                  //   ['image', 'link'],
-                  //   ['ul', 'ol'],
-                  //   ['code', 'codeblock'],
-                  // ]}
+                  toolbarItems={[
+                    ['bold', 'italic'],
+                    ['hr'],
+                    ['image', 'link'],
+                    ['ul', 'ol'],
+                    ['code', 'codeblock'],
+                  ]}
                 />
               </ViewerBox>
             </CommentWriteForm>
@@ -801,7 +931,9 @@ function PostView() {
                           삭제
                         </CommentItemBtn>
                       </CommentItemBtnBox>
-                    ) : null}
+                    ) : (
+                      <CommentItemEmptyBox />
+                    )}
                   </CommentItemHead>
                   <CommentItemTitle>{com.title}</CommentItemTitle>
                   <ViewerBox>
@@ -858,6 +990,17 @@ function PostView() {
           </PostDelModalBack>
         ) : null}
       </Wrapper>
+      {scrollY > 500 ? (
+        <UpScrollBtn>
+          <FiChevronsUp
+            className="upscroll"
+            type="button"
+            onClick={UpScrollOnClick}
+          >
+            위로가기
+          </FiChevronsUp>
+        </UpScrollBtn>
+      ) : null}
       <FooterWrapper>
         <Footer />
       </FooterWrapper>

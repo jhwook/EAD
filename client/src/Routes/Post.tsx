@@ -1,8 +1,7 @@
 /* eslint-disable no-return-assign */
 import styled from 'styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import axios from 'axios';
-import S3 from 'react-aws-s3-typescript';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
@@ -22,6 +21,9 @@ const Wrapper = styled.div`
     font-size: ${(props) => props.theme.fontSize.medium};
     cursor: pointer;
   }
+  @media ${(props) => props.theme.mobile} {
+    margin: 0 0 19px 0;
+  }
 `;
 
 const FooterWrapper = styled.div`
@@ -36,12 +38,13 @@ const FooterWrapper = styled.div`
 `;
 
 const PostBox = styled.div`
-  width: 800px;
-  height: 600px;
+  width: 740px;
+  height: auto;
   display: flex;
   flex-direction: column;
   border: 2px solid ${(props) => props.theme.grey};
-  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
+  border-radius: 20px;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
 `;
 
 const PostTopBox = styled.div`
@@ -57,7 +60,7 @@ const PostWriter = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 0 100px 0 50px;
+  margin: 0 100px 0 25px;
 `;
 
 const PostMidBox = styled.div`
@@ -66,7 +69,6 @@ const PostMidBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: flex;
-  margin: 0 0 0px 15px;
 `;
 
 const PostTitle = styled.input`
@@ -78,13 +80,13 @@ const PostTitle = styled.input`
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
-  margin: 0 52px 0 30px;
+  margin: 0 29px 0 25px;
 `;
 
 const PostBountyBox = styled.div`
   display: flex;
   align-items: flex-start;
-  margin: 10px 0 0 0;
+  margin: 6px 0 0 0;
 `;
 
 const PostText = styled.span`
@@ -100,14 +102,6 @@ const PostBounty = styled.select`
   border: 2px solid ${(props) => props.theme.grey};
   border-radius: 10px;
   padding: 3px;
-`;
-
-const PostBotBox = styled.div`
-  width: 100%;
-  height: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const PostBtn = styled.button`
@@ -132,8 +126,8 @@ const TagBox = styled.div`
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-  width: 710px;
-  margin: 0 0 20px 47px;
+  width: 700px;
+  margin: 0 0 20px 25px;
 `;
 
 const TagList = styled.ul`
@@ -182,6 +176,13 @@ const TagInput = styled.input`
   padding: 6px;
   border-radius: 10px;
 `;
+
+const PostBotBox = styled.div`
+  width: 690px;
+  height: 420px;
+  margin: 0 auto 20px auto;
+`;
+
 const PostModalBack = styled.div`
   position: fixed;
   top: 0;
@@ -295,40 +296,37 @@ function Post() {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`${process.env.REACT_APP_SERVER}/users/auth`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       const user = res.data.data.userInfo;
-  //       setWriter(user.username);
-  //     });
-  // }, []);
+  const delTag = useCallback(
+    (targetIdx: any) => {
+      setTag(tag.filter((_: string, idx: number) => idx !== targetIdx));
+    },
+    [tag, setTag],
+  );
 
-  const delTag = (targetIdx: any) => {
-    setTag(tag.filter((_: string, idx: number) => idx !== targetIdx));
-  };
+  const addTag = useCallback(
+    (e: any) => {
+      const filtered = tag.filter((el) => el === e.target.value);
+      if (e.target.value !== '' && filtered.length === 0) {
+        setTag([...tag, e.target.value]);
+        e.target.value = '';
+      }
+    },
+    [tag, setTag],
+  );
 
-  const addTag = (e: any) => {
-    const filtered = tag.filter((el) => el === e.target.value);
-    if (e.target.value !== '' && filtered.length === 0) {
-      setTag([...tag, e.target.value]);
-      e.target.value = '';
-    }
-  };
+  const bountyOnChange = useCallback(
+    (e: any) => {
+      setBounty(e.target.value);
+    },
+    [bounty, setBounty],
+  );
 
-  const bountyOnChange = (e: any) => {
-    setBounty(e.target.value);
-  };
-
-  const titleOnChange = (e: any) => {
-    setTitle(e.target.value);
-  };
+  const titleOnChange = useCallback(
+    (e: any) => {
+      setTitle(e.target.value);
+    },
+    [title, setTitle],
+  );
 
   const registOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
@@ -361,9 +359,9 @@ function Post() {
     navigate('/search');
   };
 
-  const failModalOnClick = () => {
+  const failModalOnClick = useCallback(() => {
     setFailModalView(!failModalView);
-  };
+  }, [failModalView, setFailModalView]);
 
   return (
     <>
