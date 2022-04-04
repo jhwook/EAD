@@ -39,7 +39,22 @@ export class ChatsGateway
   }
 
   @SubscribeMessage('enter_room')
-  handleEnterRoom() {}
+  handleEnterRoom(
+    @MessageBody() data: string,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    console.log(socket.rooms);
+    console.log(data);
+
+    socket.join(data);
+    socket.to(data).emit('welcome', data);
+    return data;
+  }
+
+  @SubscribeMessage('bye')
+  handleMakeRoom(@MessageBody() room, @ConnectedSocket() socket: Socket) {
+    socket.to(room).emit('bye', room);
+  }
 
   @SubscribeMessage('new_message')
   handleSubmitChat(
@@ -47,10 +62,7 @@ export class ChatsGateway
     @ConnectedSocket() socket: Socket,
   ) {
     const [message, room, myUsername] = data;
-    console.log(data);
-    console.log(socket.id);
-    console.log(myUsername);
-    socket.emit('new_message', `${myUsername}: ${message}`);
-    return `${myUsername}: ${message}`;
+    socket.to(room).emit('new_message', `${myUsername}: ${message}`);
+    return message;
   }
 }
