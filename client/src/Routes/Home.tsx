@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import { Fade } from 'react-awesome-reveal';
 import { FaSearch } from 'react-icons/fa';
 import { IoMdArrowDropleft } from 'react-icons/io';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import loadable from '@loadable/component';
 import axios from 'axios';
-import Team from 'Components/Team';
-import SearchList from 'Components/SearchList';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -18,6 +17,9 @@ import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
 import logo4 from '../Image/Logo/4.png';
 import logo5 from '../Image/Logo/5.png';
+
+const Team = loadable(() => import('Components/Team'));
+const SearchList = loadable(() => import('Components/SearchList'));
 
 const HomeWrapper = styled.div`
   height: auto;
@@ -417,7 +419,7 @@ function Home() {
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
 
-  const getTitle = async () => {
+  const getTitle = useCallback(async () => {
     const postTitle = await axios.post(
       `${process.env.REACT_APP_SERVER}/posts/title`,
       {},
@@ -430,11 +432,11 @@ function Home() {
     );
     const title = postTitle.data.data.map((el: IElProps) => el.title);
     setTitle(title);
-  };
+  }, [title, setTitle]);
 
-  const handleFollow = () => {
+  const handleFollow = useCallback(() => {
     setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
-  };
+  }, [setScrollY]);
 
   useEffect(() => {
     const watch = () => {
@@ -486,41 +488,50 @@ function Home() {
     }
   }
 
-  const searchListOnClick = async (e: React.SyntheticEvent<EventTarget>) => {
-    setValue((e.target as HTMLInputElement).innerText);
-    setHomeSearch(true);
-  };
+  const searchListOnClick = useCallback(
+    async (e: React.SyntheticEvent<EventTarget>) => {
+      setValue((e.target as HTMLInputElement).innerText);
+      setHomeSearch(true);
+    },
+    [setValue, setHomeSearch],
+  );
 
-  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setValue(e.currentTarget.value);
-  };
+  const handleOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setValue(e.currentTarget.value);
+    },
+    [setValue],
+  );
 
-  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = await axios.post(
-      `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
-      {},
-      {
-        headers: {
-          'Content-Type': 'application/json',
+  const handleOnSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      },
-    );
-    dispatch(HomeSearch(data.data.data));
-    setErrorMessage('여기에 입력해주세요!');
-    navigate(`/search?keyword=${value}`);
-  };
+      );
+      dispatch(HomeSearch(data.data.data));
+      setErrorMessage('여기에 입력해주세요!');
+      navigate(`/search?keyword=${value}`);
+    },
+    [dispatch, setErrorMessage, navigate],
+  );
 
-  const handleOnClick = () => {
+  const handleOnClick = useCallback(() => {
     setOpen(true);
-  };
+  }, [setOpen]);
 
-  const deleteValueOnClick = () => {
+  const deleteValueOnClick = useCallback(() => {
     setValue('');
-  };
+  }, [setValue]);
 
-  const UpScrollOnClick = () => {
+  const UpScrollOnClick = useCallback(() => {
     if (!window.scrollY) {
       return;
     }
@@ -528,7 +539,7 @@ function Home() {
       top: 0,
       behavior: 'smooth',
     });
-  };
+  }, []);
 
   return (
     <>

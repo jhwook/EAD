@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import loadable from '@loadable/component';
+import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -8,7 +9,8 @@ import { UserLogin } from '../index';
 import kakao from '../Image/Btn/kakao.png';
 import google from '../Image/Btn/google.png';
 import naver from '../Image/Btn/naver.png';
-import Home from './Home';
+
+const Home = loadable(() => import('Routes/Home'));
 
 const LoginWrapper = styled.div`
   width: 100%;
@@ -177,47 +179,55 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      if (email && password) {
-        const data = await axios.post(
-          `${process.env.REACT_APP_SERVER}/users/login`,
-          { email, password },
-          {
-            headers: {
-              'Content-Type': 'application/json',
+  const handleOnSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      try {
+        if (email && password) {
+          const data = await axios.post(
+            `${process.env.REACT_APP_SERVER}/users/login`,
+            { email, password },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              withCredentials: true,
             },
-            withCredentials: true,
-          },
-        );
-        console.log('l', data.data.data);
-        dispatch(UserLogin(data.data.data));
-        setEmail('');
-        setPassword('');
-        navigate('/');
+          );
+          dispatch(UserLogin(data.data.data));
+          setEmail('');
+          setPassword('');
+          navigate('/');
+        }
+      } catch (err) {
+        setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');
       }
-    } catch (err) {
-      setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');
-    }
-  };
+    },
+    [email, password, setEmail, setPassword, navigate, setErrorMessage],
+  );
 
-  const emailOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setEmail(e.currentTarget.value);
-  };
+  const emailOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setEmail(e.currentTarget.value);
+    },
+    [setEmail],
+  );
 
-  const passwordOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setPassword(e.currentTarget.value);
-  };
+  const passwordOnChange = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setPassword(e.currentTarget.value);
+    },
+    [setPassword],
+  );
 
-  const exitOnClick = () => {
+  const exitOnClick = useCallback(() => {
     isOpen(false);
     navigate('/');
-  };
+  }, [open, isOpen, navigate]);
 
-  const signUpOnClick = () => {
+  const signUpOnClick = useCallback(() => {
     navigate('/signup');
-  };
+  }, [navigate]);
 
   const state = window.localStorage.getItem('com.naver.nid.oauth.state_token');
   const naverUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${state}&redirect_uri=${process.env.REACT_APP_NAVER_CALLBACK_URL}`;

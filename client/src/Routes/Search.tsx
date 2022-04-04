@@ -1,17 +1,19 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import loadable from '@loadable/component';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiChevronsUp } from 'react-icons/fi';
 import { AppDispatch, inSearch, ItemRender, RootState } from 'index';
-import SearchList from 'Components/SearchList';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 import AddBtn from '../Image/Search/add.png';
 import Logo from '../Image/Logo/search.png';
+
+const SearchList = loadable(() => import('Components/SearchList'));
 
 interface IStackProps {
   bgColor: string;

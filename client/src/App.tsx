@@ -1,19 +1,21 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from 'Routes/Home';
-import Login from 'Routes/Login';
-import Signup from 'Routes/Signup';
-import Profile from 'Routes/Profile';
-import Mypost from 'Routes/Mypost';
-import Mycomment from 'Routes/Mycomment';
-import Search from 'Routes/Search';
-import Post from 'Routes/Post';
-import PostView from 'Routes/PostView';
-import PostModify from 'Routes/PostModify';
-import Comment from 'Routes/Comment';
-import Chat from 'Routes/Chat';
-import Naver from 'Auth/Naver';
-import Kakao from 'Auth/Kakao';
-import Google from 'Auth/Google';
+import loadable from '@loadable/component';
+import Login from './Routes/Login';
+import Signup from './Routes/Signup';
+
+const Home = loadable(() => import('Routes/Home'));
+const Profile = loadable(() => import('Routes/Profile'));
+const Mypost = loadable(() => import('Routes/Mypost'));
+const Mycomment = loadable(() => import('Routes/Mycomment'));
+const Search = loadable(() => import('Routes/Search'));
+const Post = loadable(() => import('Routes/Post'));
+const PostView = loadable(() => import('Routes/PostView'));
+const PostModify = loadable(() => import('Routes/PostModify'));
+const Comment = loadable(() => import('Routes/Comment'));
+const Chat = loadable(() => import('Routes/Chat'));
+const Naver = loadable(() => import('Routes/Auth/Naver'));
+const Kakao = loadable(() => import('Routes/Auth/Kakao'));
+const Google = loadable(() => import('Routes/Auth/Google'));
 
 function App() {
   return (
