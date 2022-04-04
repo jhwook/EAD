@@ -35,21 +35,21 @@ export class PostsRepository {
     });
   }
 
-  // 포스트 이미지 업로드
-  async findPostAndUpdateImg(id: string, fileName: string) {
-    const post = await this.postModel.findById(id);
-    post.imgUrl = `http://localhost:4000/media/${fileName}`;
-    const newPost = await post.save();
-    console.log(newPost);
-    return newPost;
-  }
+  // // 포스트 이미지 업로드
+  // async findPostAndUpdateImg(id: string, fileName: string) {
+  //   const post = await this.postModel.findById(id);
+  //   post.imgUrl = `http://localhost:4000/media/${fileName}`;
+  //   const newPost = await post.save();
+  //   console.log(newPost);
+  //   return newPost;
+  // }
 
-  // 댓글 이미지 업로드
-  async findCommentAndUpdateImg(id: string, fileName: string) {
-    const comment = await this.commentModel.findById(id);
-    comment.imgUrl = `http://localhost:4000/media/${fileName}`;
-    const newComment = await comment.save();
-    console.log(newComment);
-    return newComment;
-  }
+  // // 댓글 이미지 업로드
+  // async findCommentAndUpdateImg(id: string, fileName: string) {
+  //   const comment = await this.commentModel.findById(id);
+  //   comment.imgUrl = `http://localhost:4000/media/${fileName}`;
+  //   const newComment = await comment.save();
+  //   console.log(newComment);
+  //   return newComment;
+  // }
 }

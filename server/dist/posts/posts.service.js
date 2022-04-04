@@ -38,6 +38,7 @@ let PostsService = class PostsService {
         const user = await this.userModel.findById(id);
         const post = await this.postModel.create({
             writer: user.id,
+            writerImg: user.imgUrl,
             writerName: user.username,
             title,
             content,
@@ -78,18 +79,12 @@ let PostsService = class PostsService {
             throw new common_1.HttpException('존재하지 않는 포스트입니다', 400);
         }
     }
-    async uploadPostImg(body, param, files) {
-        const { id } = body;
+    async uploadPostImg(param, files) {
         const { postId } = param;
-        const post = await this.postModel.findById(postId);
-        if (id === post.writer) {
-            const fileName = `posts/${files[0].filename}`;
-            post.imgUrl = `http://localhost:4000/media/${fileName}`;
-            const newPost = await post.save();
-            console.log(newPost);
-            return newPost;
-        }
-        throw new common_1.HttpException('작성자가 일치하지 않습니다.', 401);
+        const fileName = `posts/${files[0].filename}`;
+        const imgUrl = `http://localhost:4000/media/${fileName}`;
+        await this.postModel.findByIdAndUpdate(postId, { $push: { imgUrl } });
+        return imgUrl;
     }
     async searchPost(keyword) {
         console.log(keyword);
@@ -120,6 +115,7 @@ let PostsService = class PostsService {
         const user = await this.userModel.findById(id);
         const post = await this.postModel.findById(postId);
         const newComment = await this.commentModel.create({
+            writerImg: user.imgUrl,
             writerName: user.username,
             post_id: post._id,
             writer: user.id,
@@ -164,18 +160,11 @@ let PostsService = class PostsService {
         return comment;
     }
     async uploadCommentImg(body, param, files) {
-        const { id } = body;
         const { commentId } = param;
-        const comment = await this.commentModel.findById(commentId);
-        if (id === comment.writer) {
-            const fileName = `comments/${files[0].filename}`;
-            const comment = await this.commentModel.findById(id);
-            comment.imgUrl = `http://localhost:4000/media/${fileName}`;
-            const newComment = await comment.save();
-            console.log(newComment);
-            return newComment;
-        }
-        throw new common_1.HttpException('작성자가 일치하지 않습니다.', 401);
+        const fileName = `comments/${files[0].filename}`;
+        const imgUrl = `http://localhost:4000/media/${fileName}`;
+        await this.postModel.findByIdAndUpdate(commentId, { $push: { imgUrl } });
+        return imgUrl;
     }
     async getPostTitle() {
         const postTitles = await this.postsRepository.getTitle();

@@ -37,20 +37,6 @@ let PostsRepository = class PostsRepository {
             return { id: post.id, title: post.title, tag: post.tag };
         });
     }
-    async findPostAndUpdateImg(id, fileName) {
-        const post = await this.postModel.findById(id);
-        post.imgUrl = `http://localhost:4000/media/${fileName}`;
-        const newPost = await post.save();
-        console.log(newPost);
-        return newPost;
-    }
-    async findCommentAndUpdateImg(id, fileName) {
-        const comment = await this.commentModel.findById(id);
-        comment.imgUrl = `http://localhost:4000/media/${fileName}`;
-        const newComment = await comment.save();
-        console.log(newComment);
-        return newComment;
-    }
 };
 PostsRepository = __decorate([
     (0, common_1.Injectable)(),

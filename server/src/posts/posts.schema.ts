@@ -17,6 +17,9 @@ export class Post extends Document {
   @Prop()
   writerName: string;
 
+  @Prop()
+  writerImg: string;
+
   @Prop({ index: true })
   @IsString()
   @IsNotEmpty()
@@ -34,9 +37,9 @@ export class Post extends Document {
   @Prop([String])
   comment: [];
 
-  @Prop()
+  @Prop([String])
   @IsString()
-  imgUrl: string;
+  imgUrl: [];
 
   @Prop()
   @IsNumber()

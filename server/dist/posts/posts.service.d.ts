@@ -24,9 +24,7 @@ export declare class PostsService {
     deletePost(param: any, body: any): Promise<{
         message: string;
     }>;
-    uploadPostImg(body: any, param: any, files: Express.Multer.File[]): Promise<Post & {
-        _id: any;
-    }>;
+    uploadPostImg(param: any, files: Express.Multer.File[]): Promise<string>;
     searchPost(keyword: any): Promise<{
         id: any;
         title: any;
@@ -45,9 +43,7 @@ export declare class PostsService {
     getOneComment(param: any): Promise<Comment & {
         _id: any;
     }>;
-    uploadCommentImg(body: any, param: any, files: Express.Multer.File[]): Promise<Comment & {
-        _id: any;
-    }>;
+    uploadCommentImg(body: any, param: any, files: Express.Multer.File[]): Promise<string>;
     getPostTitle(): Promise<{
         id: any;
         title: string;

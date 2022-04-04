@@ -128,11 +128,10 @@ export class PostsController {
   uploadPostImage(
     @UploadedFiles() files: Array<Express.Multer.File>,
     @Param() param,
-    @Body() body,
   ) {
     console.log(files);
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.postsService.uploadPostImg(body, param, files);
+    return this.postsService.uploadPostImg(param, files);
   }
 
   // 댓글 이미지 업로드

@@ -21,6 +21,9 @@ export class Comment extends Document {
   writerName: string;
 
   @Prop()
+  writerImg: string;
+
+  @Prop()
   title: string;
 
   @Prop()
