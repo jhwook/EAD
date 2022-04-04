@@ -235,10 +235,11 @@ const Tag = styled.div`
   color: ${(props) => props.theme.btnGreen};
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: bold;
-  padding: 3px 4px;
+  padding: 5px 5px;
   border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
   margin: 5px;
+  box-shadow: rgba(0, 0, 0, 0.3) 1.5px 1.5px;
 `;
 
 const SearchBarBox = styled.ul`
@@ -283,8 +284,8 @@ const AddPostBtn = styled.img`
     background-color: ${(props) => props.theme.btnGreen};
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 45px;
-    height: 45px;
+    width: 35px;
+    height: 35px;
     top: 390px;
     right: 10px;
   }
@@ -364,6 +365,9 @@ const Box = styled.div`
 `;
 
 const NoneLogo = styled.img`
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 400px;
   }
@@ -385,6 +389,9 @@ const NoneText = styled.div`
   font-size: ${(props) => props.theme.fontSize.medium};
   font-weight: bold;
   color: ${(props) => props.theme.btnGreen};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.small};
   }

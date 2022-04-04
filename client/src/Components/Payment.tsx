@@ -151,7 +151,7 @@ function Payment({ cost, setCost }: IPaymentProps) {
     if (success) {
       const data = await axios.post(
         `${process.env.REACT_APP_SERVER}/users/payment`,
-        { cost },
+        { cost, id: userInfo.id },
         {
           headers: {
             'Content-Type': 'application/json',
