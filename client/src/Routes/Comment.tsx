@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -46,7 +46,8 @@ const ComBox = styled.div`
   display: flex;
   flex-direction: column;
   border: 2px solid ${(props) => props.theme.grey};
-  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
+  border-radius: 20px;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
 `;
 
 const ComTopBox = styled.div`
@@ -206,6 +207,7 @@ function Comment() {
   const { userInfo, accessToken, isLogin } = userData;
   const [writer, setWriter] = useState(userInfo?.username);
   const [title, setTitle] = useState('');
+  const [postId, setPostId] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const navigate = useNavigate();
@@ -226,6 +228,7 @@ function Comment() {
         const item = res.data.data;
         setWriter(item.writerName);
         setTitle(item.title);
+        setPostId(item.post_id);
       });
   }, []);
 
@@ -254,16 +257,19 @@ function Comment() {
   };
 
   const postModalOnClick = () => {
-    navigate('/search');
+    navigate(`/post/${postId}`);
   };
 
   const failModalOnClick = () => {
     setFailModalView(!failModalView);
   };
 
-  const titleOnChange = (e: any) => {
-    setTitle(e.target.value);
-  };
+  const titleOnChange = useCallback(
+    (e: any) => {
+      setTitle(e.target.value);
+    },
+    [title, setTitle],
+  );
 
   return (
     <>
@@ -273,7 +279,7 @@ function Comment() {
           {isLogin ? (
             <ComTopBox>
               <ComWriter>{writer}</ComWriter>
-              <ComBtn onClick={registOnClick}>수정</ComBtn>
+              <ComBtn onClick={registOnClick}>완료</ComBtn>
             </ComTopBox>
           ) : (
             <ComTopBox>

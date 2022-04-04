@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-import { RootState } from 'index';
+import { RootState, ItemRender, AppDispatch } from 'index';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -44,7 +44,8 @@ const PostBox = styled.div`
   padding: 10px;
   flex-direction: column;
   border: 2px solid ${(props) => props.theme.grey};
-  box-shadow: rgba(128, 128, 128, 0.3) 3px 3px;
+  border-radius: 20px;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
 `;
 
 const PostTopBox = styled.div`
@@ -298,11 +299,14 @@ function PostModify() {
   const [tag, setTag] = useState(initialTag);
   const [title, setTitle] = useState('');
   const [bounty, setBounty] = useState(0);
+  const [postId, setPostId] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const [postCon, setPostCon] = useState(itemData[0]);
+  const [con, setCon] = useState<any>('');
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
@@ -318,29 +322,43 @@ function PostModify() {
         setWriter(item.writerName);
         setTitle(item.title);
         setTag(item.tag);
+        setCon(item.content);
         setBounty(item.bounty);
+        setPostId(item.id);
       });
-  }, []);
+  }, [postModalView]);
 
-  const delTag = (targetIdx: any) => {
-    setTag(tag.filter((_: string, idx: number) => idx !== targetIdx));
-  };
+  const delTag = useCallback(
+    (targetIdx: any) => {
+      setTag(tag.filter((_: string, idx: number) => idx !== targetIdx));
+    },
+    [tag, setTag],
+  );
 
-  const addTag = (e: any) => {
-    const filtered = tag.filter((el) => el === e.target.value);
-    if (e.target.value !== '' && filtered.length === 0) {
-      setTag([...tag, e.target.value]);
-      e.target.value = '';
-    }
-  };
+  const addTag = useCallback(
+    (e: any) => {
+      const filtered = tag.filter((el) => el === e.target.value);
+      if (e.target.value !== '' && filtered.length === 0) {
+        setTag([...tag, e.target.value]);
+        e.target.value = '';
+      }
+    },
+    [tag, setTag],
+  );
 
-  const bountyOnChange = (e: any) => {
-    setBounty(e.target.value);
-  };
+  const bountyOnChange = useCallback(
+    (e: any) => {
+      setBounty(e.target.value);
+    },
+    [bounty, setBounty],
+  );
 
-  const titleOnChange = (e: any) => {
-    setTitle(e.target.value);
-  };
+  const titleOnChange = useCallback(
+    (e: any) => {
+      setTitle(e.target.value);
+    },
+    [title, setTitle],
+  );
 
   const modifyOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
@@ -370,7 +388,7 @@ function PostModify() {
   };
 
   const postModalOnClick = () => {
-    navigate('/');
+    navigate('/search');
   };
 
   const failModalOnClick = () => {
@@ -385,7 +403,7 @@ function PostModify() {
           {isLogin ? (
             <PostTopBox>
               <PostWriter>{writer}</PostWriter>
-              <PostBtn onClick={modifyOnClick}>수정</PostBtn>
+              <PostBtn onClick={modifyOnClick}>완료</PostBtn>
             </PostTopBox>
           ) : (
             <PostTopBox>

@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import { RootState, ItemRender, AppDispatch } from 'index';
 import { Viewer } from '@toast-ui/react-editor';
+import { FiChevronsUp } from 'react-icons/fi';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
@@ -46,6 +47,8 @@ const PostsBox = styled.div`
 `;
 
 const PostsItem = styled.div`
+  border-radius: 20px;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
   border: 1px solid ${(props) => props.theme.grey};
   margin: 0 auto 30px auto;
 `;
@@ -73,11 +76,6 @@ const ViewerBox = styled.div`
   height: auto;
   min-height: 50px;
   font-size: ${(props) => props.theme.fontSize.mini};
-  // border: 2px solid ${(props) => props.theme.grey};
-  .mk {
-    margin: 0 0 0 20px;
-    overflow: scroll;
-  }
 `;
 
 const ItemBox = styled.div`
@@ -176,16 +174,60 @@ const PostDelModalBtn = styled.button`
 
 const PostPlaceholder = styled.div``;
 
+const UpScrollBtn = styled.div`
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  right: 160px;
+  bottom: 170px;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  transition: all 1s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  .upscroll {
+    width: 100%;
+    height: 100%;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 40px;
+    height: 40px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+`;
+
 function Mypost() {
   const { userData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken } = userData;
   const [posts, setPosts] = useState<any[]>([]);
   const [postId, setPostId] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
   const [postDelModalView, setPostDelModalView] = useState(false);
   const [postMoveModalView, setPostMoveModalView] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  // console.log(postId);
 
   interface IPost {
     bounty: number;
@@ -221,6 +263,30 @@ function Mypost() {
     getPosts();
   }, [postDelModalView]);
 
+  const handleFollow = () => {
+    setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
+  };
+
+  const UpScrollOnClick = () => {
+    if (!window.scrollY) {
+      return;
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  useEffect(() => {
+    const watch = () => {
+      window.addEventListener('scroll', handleFollow);
+    };
+    watch(); // addEventListener 함수를 실행
+    return () => {
+      window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
+    };
+  });
+
   const delPostOnClick = async () => {
     await axios.post(
       `${process.env.REACT_APP_SERVER}/posts/${postId}`,
@@ -235,22 +301,28 @@ function Mypost() {
         withCredentials: true,
       },
     );
-    navigate('/mycomment');
-  };
-
-  const delPostModalClick = (id: number) => {
-    setPostId(id);
     setPostDelModalView(!postDelModalView);
   };
+
+  const delPostModalClick = useCallback(
+    (id: number) => {
+      setPostId(id);
+      setPostDelModalView(!postDelModalView);
+    },
+    [postId, setPostId, postDelModalView, setPostDelModalView],
+  );
 
   const delPostClick = () => {
     setPostDelModalView(!postDelModalView);
   };
 
-  const moveConfirmPostClick = (id: number) => {
-    setPostId(id);
-    setPostMoveModalView(!postMoveModalView);
-  };
+  const moveConfirmPostClick = useCallback(
+    (id: number) => {
+      setPostId(id);
+      setPostMoveModalView(!postMoveModalView);
+    },
+    [postId, setPostId, postMoveModalView, setPostMoveModalView],
+  );
 
   const movePostClick = async () => {
     const data = await axios.get(
@@ -336,6 +408,17 @@ function Mypost() {
           </PostDelModalBack>
         ) : null}
       </Wrapper>
+      {scrollY > 500 ? (
+        <UpScrollBtn>
+          <FiChevronsUp
+            className="upscroll"
+            type="button"
+            onClick={UpScrollOnClick}
+          >
+            위로가기
+          </FiChevronsUp>
+        </UpScrollBtn>
+      ) : null}
       <FooterWrapper>
         <Footer />
       </FooterWrapper>

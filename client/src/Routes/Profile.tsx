@@ -1,15 +1,24 @@
 import styled from 'styled-components';
-import { FormEvent, useEffect, useState, ChangeEvent } from 'react';
+import {
+  FormEvent,
+  useEffect,
+  useState,
+  ChangeEvent,
+  useCallback,
+} from 'react';
 import axios from 'axios';
+import loadable from '@loadable/component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
+import { FiChevronsUp } from 'react-icons/fi';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
-import Payment from 'Components/Payment';
-import Button from '../Components/Button';
 import userHolder from '../Image/Logo/profile.png';
 import oauthHolder from '../Image/Logo/oauth.png';
+
+const Payment = loadable(() => import('Components/Payment'));
+const Button = loadable(() => import('Components/Button'));
 
 const Wrapper = styled.div`
   height: auto;
@@ -575,6 +584,50 @@ const OauthHolder = styled.img`
   }
 `;
 
+const UpScrollBtn = styled.div`
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  right: 160px;
+  bottom: 170px;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  transition: all 1s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  .upscroll {
+    width: 100%;
+    height: 100%;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 40px;
+    height: 40px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+`;
+
 function Profile() {
   const [witModalView, setWitModalView] = useState(false);
   const [infoModalView, setInfoModalView] = useState(false);
@@ -598,6 +651,7 @@ function Profile() {
   const [errNameMessage, setErrNameMessage] = useState('');
   const [errPwMessage, setErrPwMessage] = useState('');
   const [errConfirmPwMessage, setErrConfirmPwMessage] = useState('');
+  const [scrollY, setScrollY] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -675,19 +729,52 @@ function Profile() {
     }
   }, [username, password, confirmPw]);
 
-  const usernameOnChange = (e: FormEvent<HTMLInputElement>) => {
-    setUsername(e.currentTarget.value);
+  const usernameOnChange = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setUsername(e.currentTarget.value);
+    },
+    [setUsername],
+  );
+
+  const passwordOnChange = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setPassword(e.currentTarget.value);
+    },
+    [setPassword],
+  );
+
+  const confirmPwOnChange = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setConfirmPw(e.currentTarget.value);
+    },
+    [setConfirmPw],
+  );
+
+  const handleFollow = () => {
+    setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
   };
 
-  const passwordOnChange = (e: FormEvent<HTMLInputElement>) => {
-    setPassword(e.currentTarget.value);
+  const UpScrollOnClick = () => {
+    if (!window.scrollY) {
+      return;
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
-  const confirmPwOnChange = (e: FormEvent<HTMLInputElement>) => {
-    setConfirmPw(e.currentTarget.value);
-  };
+  useEffect(() => {
+    const watch = () => {
+      window.addEventListener('scroll', handleFollow);
+    };
+    watch(); // addEventListener 함수를 실행
+    return () => {
+      window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
+    };
+  });
 
-  const onClickJs = async () => {
+  const onClickJs = useCallback(async () => {
     setJs(!js);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/0`,
@@ -700,9 +787,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setJs]);
 
-  const onClickTs = async () => {
+  const onClickTs = useCallback(async () => {
     setTs(!ts);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/1`,
@@ -715,9 +802,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setTs]);
 
-  const onClickCss = async () => {
+  const onClickCss = useCallback(async () => {
     setCss(!css);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/2`,
@@ -730,9 +817,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setCss]);
 
-  const onClickReact = async () => {
+  const onClickReact = useCallback(async () => {
     setReact(!react);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/3`,
@@ -745,9 +832,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setReact]);
 
-  const onClickVue = async () => {
+  const onClickVue = useCallback(async () => {
     setVue(!vue);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/4`,
@@ -760,9 +847,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setVue]);
 
-  const onClickNoSql = async () => {
+  const onClickNoSql = useCallback(async () => {
     setNoSql(!noSql);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/5`,
@@ -775,9 +862,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setNoSql]);
 
-  const onClickSql = async () => {
+  const onClickSql = useCallback(async () => {
     setSql(!sql);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/6`,
@@ -790,9 +877,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setSql]);
 
-  const onClickExpress = async () => {
+  const onClickExpress = useCallback(async () => {
     setExpress(!express);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/7`,
@@ -805,9 +892,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setExpress]);
 
-  const onClickAws = async () => {
+  const onClickAws = useCallback(async () => {
     setAws(!aws);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/8`,
@@ -820,9 +907,9 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setAws]);
 
-  const onClickOther = async () => {
+  const onClickOther = useCallback(async () => {
     setOther(!other);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/9`,
@@ -835,22 +922,22 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  };
+  }, [setOther]);
 
-  const handleInfoModalClick = () => {
+  const handleInfoModalClick = useCallback(() => {
     setInfoModalView(!infoModalView);
-  };
+  }, [infoModalView, setInfoModalView]);
 
-  const handlePwModalClick = () => {
+  const handlePwModalClick = useCallback(() => {
     setChangeModalView(!changeModalView);
     navigate('/');
-  };
+  }, [changeModalView, setChangeModalView, navigate]);
 
-  const handleWitModalClick = () => {
+  const handleWitModalClick = useCallback(() => {
     setWitModalView(!witModalView);
-  };
+  }, [witModalView, setWitModalView]);
 
-  const handleWitDelClick = async () => {
+  const handleWitDelClick = useCallback(async () => {
     await axios.delete(`${process.env.REACT_APP_SERVER}/users/signout`, {
       headers: {
         'Content-Type': 'application/json',
@@ -861,50 +948,63 @@ function Profile() {
     dispatch(UserLogout());
     navigate('/');
     setWitModalView(!witModalView);
-  };
+  }, [witModalView, setWitModalView, navigate]);
 
-  const handleNameSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (username !== userInfo.username) {
-      setUsername(username);
-      const data = await axios.patch(
-        `${process.env.REACT_APP_SERVER}/users/profile`,
-        { id: userId, newUsername: username },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+  const handleNameSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (username !== userInfo.username) {
+        setUsername(username);
+        const data = await axios.patch(
+          `${process.env.REACT_APP_SERVER}/users/profile`,
+          { id: userId, newUsername: username },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      );
-      dispatch(UserModify(data.data));
-      setUsername(username);
-      setErrNameMessage('');
-      setInfoModalView(!infoModalView);
-    }
-  };
+        );
+        dispatch(UserModify(data.data));
+        setUsername(username);
+        setErrNameMessage('');
+        setInfoModalView(!infoModalView);
+      }
+    },
+    [
+      username,
+      setUsername,
+      setErrNameMessage,
+      infoModalView,
+      setInfoModalView,
+      dispatch,
+    ],
+  );
 
-  const handlePasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (password === confirmPw && password !== '') {
-      await axios.patch(
-        `${process.env.REACT_APP_SERVER}/users/profile`,
-        { id: userId, newPassword: password },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+  const handlePasswordSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (password === confirmPw && password !== '') {
+        await axios.patch(
+          `${process.env.REACT_APP_SERVER}/users/profile`,
+          { id: userId, newPassword: password },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      );
-      dispatch(UserLogout());
-      setChangeModalView(!changeModalView);
-    }
-  };
+        );
+        dispatch(UserLogout());
+        setChangeModalView(!changeModalView);
+      }
+    },
+    [changeModalView, setChangeModalView, dispatch],
+  );
 
-  const checkUernameOnClick = async () => {
+  const checkUernameOnClick = useCallback(async () => {
     try {
       await axios.post(
         `${process.env.REACT_APP_SERVER}/users/verify/username`,
@@ -920,34 +1020,40 @@ function Profile() {
     } catch {
       setErrNameMessage('이미 동일한 닉네임이 존재합니다.');
     }
-  };
+  }, [username, setUsername]);
 
   const [cost, setCost] = useState(0);
 
-  const costOnChange = (e: any) => {
-    setCost(e.target.value);
-  };
+  const costOnChange = useCallback(
+    (e: any) => {
+      setCost(e.target.value);
+    },
+    [cost, setCost],
+  );
 
-  const onChangeImg = async (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (e.target.files) {
-      const uploadImg = e.target.files[0];
-      const formData = new FormData();
-      formData.append('image', uploadImg);
-      const data = await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/upload/${userId}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${accessToken}`,
+  const onChangeImg = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      if (e.target.files) {
+        const uploadImg = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image', uploadImg);
+        const data = await axios.post(
+          `${process.env.REACT_APP_SERVER}/users/upload/${userId}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      );
-      dispatch(UserModify(data.data));
-    }
-  };
+        );
+        dispatch(UserModify(data.data));
+      }
+    },
+    [dispatch],
+  );
 
   return (
     <>
@@ -1162,13 +1268,24 @@ function Profile() {
           <ChangeModalBack>
             <ChangeModalBox>
               <ChangeModalText>
-                성공적으로 변경을 하였습니다 다시 로그인 해주세요
+                비밀번호 변경을 완료했습니다 다시 로그인 해주세요
               </ChangeModalText>
               <ChangeModalBtn onClick={handlePwModalClick}>확인</ChangeModalBtn>
             </ChangeModalBox>
           </ChangeModalBack>
         ) : null}
       </Wrapper>
+      {scrollY > 500 ? (
+        <UpScrollBtn>
+          <FiChevronsUp
+            className="upscroll"
+            type="button"
+            onClick={UpScrollOnClick}
+          >
+            위로가기
+          </FiChevronsUp>
+        </UpScrollBtn>
+      ) : null}
       <FooterWrapper>
         <Footer />
       </FooterWrapper>

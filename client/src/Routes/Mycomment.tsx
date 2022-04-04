@@ -1,11 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import { Viewer } from '@toast-ui/react-editor';
+import { FiChevronsUp } from 'react-icons/fi';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
@@ -47,6 +48,8 @@ const ComBox = styled.div`
 `;
 
 const ComItem = styled.div`
+  border-radius: 20px;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
   border: 1px solid ${(props) => props.theme.grey};
   margin: 0 auto 30px auto;
 `;
@@ -153,6 +156,50 @@ const ComDelModalBtn = styled.button`
 
 const ComPlaceholder = styled.div``;
 
+const UpScrollBtn = styled.div`
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  right: 160px;
+  bottom: 170px;
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  transition: all 1s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  .upscroll {
+    width: 100%;
+    height: 100%;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 40px;
+    height: 40px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+  }
+`;
+
 function Mycomment() {
   const { userData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken } = userData;
@@ -161,6 +208,7 @@ function Mycomment() {
   const [postId, setPostId] = useState(0);
   const [comDelModalView, setComDelModalView] = useState(false);
   const [comMoveModalView, setComMoveModalView] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -189,15 +237,37 @@ function Mycomment() {
           withCredentials: true,
         },
       );
-      // console.log(data);
       const item = data.data.data;
       setComs(item);
     };
     getComs();
   }, [comDelModalView]);
-  // console.log(coms);
 
-  const delComOnClick = async () => {
+  const handleFollow = () => {
+    setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
+  };
+
+  const UpScrollOnClick = () => {
+    if (!window.scrollY) {
+      return;
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  useEffect(() => {
+    const watch = () => {
+      window.addEventListener('scroll', handleFollow);
+    };
+    watch(); // addEventListener 함수를 실행
+    return () => {
+      window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
+    };
+  });
+
+  const delComOnClick = useCallback(async () => {
     await axios.delete(
       `${process.env.REACT_APP_SERVER}/posts/${comId}/delete/comment`,
       {
@@ -209,26 +279,32 @@ function Mycomment() {
       },
     );
     setComDelModalView(!comDelModalView);
-  };
+  }, [comDelModalView, setComDelModalView]);
 
   const modComOnClick = (id: number, con: string) => {
     dispatch(ComRender([con]));
     navigate(`/comment/${id}`);
   };
 
-  const delComModalClick = (id: number) => {
-    setComId(id);
-    setComDelModalView(!comDelModalView);
-  };
+  const delComModalClick = useCallback(
+    (id: number) => {
+      setComId(id);
+      setComDelModalView(!comDelModalView);
+    },
+    [comId, setComId, comDelModalView, setComDelModalView],
+  );
 
-  const delComClick = () => {
+  const delComClick = useCallback(() => {
     setComDelModalView(!comDelModalView);
-  };
+  }, [comDelModalView, setComDelModalView]);
 
-  const moveConfirmPostClick = (id: number) => {
-    setPostId(id);
-    setComMoveModalView(!comMoveModalView);
-  };
+  const moveConfirmPostClick = useCallback(
+    (id: number) => {
+      setPostId(id);
+      setComMoveModalView(!comMoveModalView);
+    },
+    [postId, setPostId, comMoveModalView, setComMoveModalView],
+  );
 
   const movePostClick = async () => {
     const data = await axios.get(
@@ -244,9 +320,9 @@ function Mycomment() {
     navigate(`/post/${postId}`);
   };
 
-  const dontComClick = () => {
+  const dontComClick = useCallback(() => {
     setComMoveModalView(!comMoveModalView);
-  };
+  }, [comMoveModalView, setComMoveModalView]);
 
   return (
     <>
@@ -264,14 +340,14 @@ function Mycomment() {
                   />
                 </ViewerBox>
                 <ComBot>
-                  <ItemBtn onClick={() => moveConfirmPostClick(com.post_id)}>
-                    이동
+                  <ItemBtn onClick={() => delComModalClick(com._id)}>
+                    삭제
                   </ItemBtn>
                   <ItemBtn onClick={() => modComOnClick(com._id, com.content)}>
                     수정
                   </ItemBtn>
-                  <ItemBtn onClick={() => delComModalClick(com._id)}>
-                    삭제
+                  <ItemBtn onClick={() => moveConfirmPostClick(com.post_id)}>
+                    이동
                   </ItemBtn>
                 </ComBot>
               </ComItem>
@@ -303,6 +379,17 @@ function Mycomment() {
           </ComDelModalBack>
         ) : null}
       </Wrapper>
+      {scrollY > 500 ? (
+        <UpScrollBtn>
+          <FiChevronsUp
+            className="upscroll"
+            type="button"
+            onClick={UpScrollOnClick}
+          >
+            위로가기
+          </FiChevronsUp>
+        </UpScrollBtn>
+      ) : null}
       <FooterWrapper>
         <Footer />
       </FooterWrapper>
