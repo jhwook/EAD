@@ -134,7 +134,7 @@ function Payment({ cost, setCost }: IPaymentProps) {
       buyer_email: userInfo.email, // 구매자 이메일
       buyer_addr: '', // 구매자 주소
       buyer_postcode: '', // 구매자 우편번호
-      m_redirect_url: 'http://localhost:3000/profile', // 결제완료 후 리다이렉션 될 주소
+      m_redirect_url: `${process.env.REACT_APP_CLIENT}/profile`, // 결제완료 후 리다이렉션 될 주소
     };
 
     /* 4. 결제 창 호출하기 */

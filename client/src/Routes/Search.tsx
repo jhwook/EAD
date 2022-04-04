@@ -52,6 +52,10 @@ const StackWrapper = styled.div`
     padding: 5px;
     margin-bottom: 10px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
 `;
 
 const UpBox = styled.div`
@@ -62,11 +66,18 @@ const UpBox = styled.div`
     flex-wrap: wrap;
     margin-bottom: 2px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+  }
 `;
 const DownBox = styled.div`
   display: flex;
   justify-content: center;
   @media ${(props) => props.theme.iPhone12Pro} {
+    flex-wrap: wrap;
+  }
+  @media ${(props) => props.theme.mobile1} {
     flex-wrap: wrap;
   }
 `;
@@ -89,6 +100,10 @@ const Stack = styled.div<IStackProps>`
     font-size: ${(props) => props.theme.fontSize.micro};
     margin: 5px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 5px;
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
   }
@@ -107,6 +122,9 @@ const Searchbar = styled.div`
     @media ${(props) => props.theme.iPhone12Pro} {
       display: none;
     }
+    @media ${(props) => props.theme.mobile1} {
+      display: none;
+    }
     @media ${(props) => props.theme.mobile} {
       display: none;
     }
@@ -121,6 +139,11 @@ const SearchInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.small};
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+    margin-right: 0px;
+    margin-left: 25px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 300px;
     margin-right: 0px;
     margin-left: 25px;
@@ -178,6 +201,11 @@ const Lists = styled.ul`
   margin-top: 50px;
   margin-bottom: 50px;
   @media ${(props) => props.theme.iPhone12Pro} {
+    grid-template-columns: repeat(1, 1fr);
+    width: 300px;
+    gap: 20px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     grid-template-columns: repeat(1, 1fr);
     width: 300px;
     gap: 20px;
@@ -260,6 +288,11 @@ const SearchBarBox = styled.ul`
     margin-right: 0px;
     margin-left: 25px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 300px;
+    margin-right: 0px;
+    margin-left: 25px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 340px;
     margin-right: 0px;
@@ -284,6 +317,12 @@ const AddPostBtn = styled.img`
     background-color: ${(props) => props.theme.btnGreen};
   }
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 35px;
+    height: 35px;
+    top: 390px;
+    right: 10px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 35px;
     height: 35px;
     top: 390px;
@@ -333,6 +372,12 @@ const UpScrollBtn = styled.div`
     right: 20px;
     bottom: 240px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 35px;
     height: 35px;
@@ -368,6 +413,9 @@ const NoneLogo = styled.img`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 300px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 300px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 400px;
   }
@@ -390,6 +438,9 @@ const NoneText = styled.div`
   font-weight: bold;
   color: ${(props) => props.theme.btnGreen};
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.small};
   }
   @media ${(props) => props.theme.mobile} {

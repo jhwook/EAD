@@ -27,6 +27,10 @@ const DownBox = styled.div`
     flex-direction: column;
     margin-top: 100px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    flex-direction: column;
+    margin-top: 100px;
+  }
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
     margin-top: 145px;
@@ -41,6 +45,9 @@ const TeamText = styled.div`
   font-size: ${(props) => props.theme.fontSize.large};
   font-weight: bold;
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.small};
   }
   @media ${(props) => props.theme.mobile} {
@@ -70,6 +77,9 @@ const Btn = styled.button`
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.mini};
   }
@@ -81,6 +91,9 @@ const Member = styled.img`
   width: 300px;
   cursor: pointer;
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 100px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 100px;
   }
   @media ${(props) => props.theme.mobile} {
@@ -101,6 +114,9 @@ const MemberOne = styled.div`
   align-items: center;
   font-size: ${(props) => props.theme.fontSize.small};
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 400px;
   }
   @media ${(props) => props.theme.mobile} {
@@ -132,6 +148,16 @@ const MemberTwo = styled.div`
     margin-top: 20px;
     margin-bottom: 20px;
     padding-top: 10px;
+    padding-bottom: 20px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 300px;
+    border-left: none;
+    border-right: none;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding-bottom: 20px;
   }
   @media ${(props) => props.theme.mobile} {
@@ -170,6 +196,9 @@ const MemberThree = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 400px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 400px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 400px;
   }
@@ -185,6 +214,9 @@ const Title = styled.div`
   margin-top: 30px;
   font-size: ${(props) => props.theme.fontSize.large};
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile} {
@@ -203,6 +235,9 @@ const Role = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
@@ -215,6 +250,9 @@ const Role = styled.div`
 `;
 const Description = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.micro};
   }
   @media ${(props) => props.theme.mobile} {

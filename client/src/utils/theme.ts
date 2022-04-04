@@ -2,6 +2,7 @@ import { DefaultTheme } from 'styled-components';
 
 const size = {
   iPhone12Pro: '390px',
+  mobile1: '520px',
   mobile: '768px',
   tablet: '1200px',
   desktop: '1201px',
@@ -23,7 +24,8 @@ export const theme: DefaultTheme = {
   google: '#CF543D',
   kakao: '#FADF4B',
   iPhone12Pro: `(max-width:${size.iPhone12Pro})`,
-  mobile: `(min-width: 391px) and (max-width:${size.mobile})`,
+  mobile1: `(min-width: 391px) and (max-width:${size.mobile1})`,
+  mobile: `(min-width: 521px) and (max-width:${size.mobile})`,
   tablet: `(min-width: ${size.mobile}) and (max-width: ${size.tablet})`,
   desktop: `(min-width: ${size.desktop}) and (max-width: 1599px)`,
   desktop1: `(min-width: ${size.desktop1}) and (max-width: 1999px)`,

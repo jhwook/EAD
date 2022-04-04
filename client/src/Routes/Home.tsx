@@ -54,6 +54,10 @@ const Wrapper = styled.div`
     height: 92vh;
     flex-direction: column;
   }
+  @media ${(props) => props.theme.mobile1} {
+    height: 92vh;
+    flex-direction: column;
+  }
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
   }
@@ -71,6 +75,14 @@ const Wrapper = styled.div`
       font-size: ${(props) => props.theme.fontSize.huge};
     }
     @media ${(props) => props.theme.iPhone12Pro} {
+      top: 570px;
+      right: 5px;
+      font-size: ${(props) => props.theme.fontSize.large};
+      &:hover {
+        font-size: ${(props) => props.theme.fontSize.medium};
+      }
+    }
+    @media ${(props) => props.theme.mobile1} {
       top: 570px;
       right: 5px;
       font-size: ${(props) => props.theme.fontSize.large};
@@ -127,6 +139,9 @@ const Logo = styled.img`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 320px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 320px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 400px;
   }
@@ -162,6 +177,9 @@ const LeftBox = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     flex-direction: column;
   }
+  @media ${(props) => props.theme.mobile1} {
+    flex-direction: column;
+  }
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
   }
@@ -181,6 +199,9 @@ const RightBox = styled.div`
   align-items: center;
   background-color: ${(props) => props.theme.beige};
   @media ${(props) => props.theme.iPhone12Pro} {
+    flex-direction: column;
+  }
+  @media ${(props) => props.theme.mobile1} {
     flex-direction: column;
   }
   @media ${(props) => props.theme.mobile} {
@@ -208,6 +229,9 @@ const Text = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.small};
   }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.medium};
   }
@@ -224,6 +248,9 @@ const Number = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.medium};
   }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.medium};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.large};
   }
@@ -233,6 +260,9 @@ const Title = styled.div`
   font-size: ${(props) => props.theme.fontSize.huge};
   margin-bottom: 50px;
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.small};
   }
   @media ${(props) => props.theme.mobile} {
@@ -248,6 +278,9 @@ const Title = styled.div`
 const Descriprtion = styled.div`
   font-size: ${(props) => props.theme.fontSize.medium};
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.mobile} {
@@ -272,6 +305,9 @@ const Searchbar = styled.div`
     @media ${(props) => props.theme.iPhone12Pro} {
       font-size: ${(props) => props.theme.fontSize.medium};
     }
+    @media ${(props) => props.theme.mobile1} {
+      font-size: ${(props) => props.theme.fontSize.medium};
+    }
     @media ${(props) => props.theme.mobile} {
       font-size: ${(props) => props.theme.fontSize.large};
     }
@@ -286,6 +322,11 @@ const SearchInput = styled.input`
   font-size: ${(props) => props.theme.fontSize.small};
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 250px;
+    height: 20px;
+    margin-right: 5px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 250px;
     height: 20px;
     margin-right: 5px;
@@ -336,6 +377,10 @@ const SearchBarBox = styled.ul`
     width: 250px;
     margin-right: 5px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 250px;
+    margin-right: 5px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 350px;
     margin-right: 5px;
@@ -359,6 +404,10 @@ const DeleteBtn = styled.div`
     top: 12px;
     right: 25px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    top: 12px;
+    right: 25px;
+  }
 `;
 
 const UpScrollBtn = styled.div`
@@ -378,6 +427,12 @@ const UpScrollBtn = styled.div`
     height: 100%;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 35px;
+    height: 35px;
+    right: 40px;
+    bottom: 220px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 35px;
     height: 35px;
     right: 40px;

@@ -48,6 +48,9 @@ const Wrapper = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     margin-top: 20px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    margin-top: 20px;
+  }
 `;
 
 const ChatWrapper = styled.div`
@@ -57,6 +60,10 @@ const ChatWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   border-radius: 10px;
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 350px;
+    height: 650px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 350px;
     height: 650px;
   }
@@ -86,6 +93,9 @@ const ChatInfo = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     padding-left: 10px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    padding-left: 10px;
+  }
 `;
 
 const Nickname = styled.div`
@@ -93,6 +103,9 @@ const Nickname = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.mobile} {
@@ -129,6 +142,9 @@ const List = styled.ul`
   @media ${(props) => props.theme.iPhone12Pro} {
     padding: 5px 5px 5px 5px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    padding: 5px 5px 5px 5px;
+  }
 `;
 
 const ChatRoomList = styled.ul`
@@ -142,6 +158,9 @@ const ChatRoomList = styled.ul`
   padding: 10px;
   box-sizing: border-box;
   @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 5px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     padding: 5px;
   }
   .focus {
@@ -175,6 +194,11 @@ const Picture = styled.img`
     height: 25px;
     margin-right: 5px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 35px;
     height: 35px;
@@ -195,6 +219,10 @@ const ListTitle = styled.div`
   font-weight: bold;
   border-bottom: 2px solid ${(props) => props.theme.btnGreen};
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    padding-left: 10px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.tiny};
     padding-left: 10px;
   }
@@ -238,6 +266,11 @@ const MsgInput = styled.input`
     height: 32px;
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 200px;
+    height: 32px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
   @media ${(props) => props.theme.mobile} {
     width: 250px;
     height: 35px;
@@ -255,6 +288,10 @@ const MsgBtn = styled.button`
   top: 0px;
   right: 20px;
   @media ${(props) => props.theme.iPhone12Pro} {
+    top: -6px;
+    right: -100px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     top: -6px;
     right: -100px;
   }
@@ -295,6 +332,11 @@ const BackBtn = styled.button`
     top: 100px;
     left: 30px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 100px;
+    left: 30px;
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.tiny};
     top: 100px;
@@ -317,6 +359,12 @@ const RoomList = styled.li`
   margin-bottom: 5px;
   box-sizing: border-box;
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 75px;
+    height: 45px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    padding-left: 3px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 75px;
     height: 45px;
     font-size: ${(props) => props.theme.fontSize.micro};
@@ -355,6 +403,10 @@ const ChatList = styled.li`
     width: 150px;
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 150px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
   @media ${(props) => props.theme.mobile} {
     width: 170px;
     font-size: ${(props) => props.theme.fontSize.tiny};
@@ -380,6 +432,10 @@ const Date = styled.div`
     margin-left: 5px;
     font-size: ${(props) => props.theme.fontSize.quark};
   }
+  @media ${(props) => props.theme.mobile1} {
+    margin-left: 5px;
+    font-size: ${(props) => props.theme.fontSize.quark};
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.atom};
   }
@@ -394,6 +450,9 @@ const MsgBox = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     padding: 5px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    padding: 5px;
+  }
 `;
 
 const ExitRoomBtn = styled.div`
@@ -405,6 +464,9 @@ const ExitRoomBtn = styled.div`
     color: ${(props) => props.theme.pink};
   }
   @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+  }
+  @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.atom};
   }
   @media ${(props) => props.theme.mobile} {
