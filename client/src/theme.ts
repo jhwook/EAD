@@ -29,6 +29,7 @@ export const theme: DefaultTheme = {
   desktop1: `(min-width: ${size.desktop1}) and (max-width: 1999px)`,
   desktop2: `(min-width: ${size.desktop2})`,
   fontSize: {
+    quark: '3px',
     atom: '5px',
     dust: '8px',
     micro: '12px',

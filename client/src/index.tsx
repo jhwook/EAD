@@ -1,6 +1,3 @@
-/* eslint-disable import/order */
-/* eslint-disable no-param-reassign */
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {

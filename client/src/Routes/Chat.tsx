@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import io from 'socket.io-client';
+import Scrollbars from 'react-custom-scrollbars';
 import { nanoid } from 'nanoid';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { FiSend } from 'react-icons/fi';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
@@ -41,23 +42,43 @@ const Wrapper = styled.div`
   align-items: center;
   margin-top: 45px;
   margin-bottom: 5px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin-top: 20px;
+  }
 `;
 
-const PostWrapper = styled.div`
-  width: 600px;
-  height: 750px;
-  border: 2px dotted red;
-  margin-left: 50px;
-  border: 2px solid ${(props) => props.theme.btnGreen};
-  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
-  border-radius: 10px;
-`;
+// const PostWrapper = styled.div`
+//   width: 600px;
+//   height: 750px;
+//   border: 2px dotted red;
+//   margin-left: 50px;
+//   border: 2px solid ${(props) => props.theme.btnGreen};
+//   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+//   border-radius: 10px;
+// `;
 
 const ChatWrapper = styled.div`
-  width: 40%;
+  width: 1200px;
+  height: 750px;
   border: 2px solid ${(props) => props.theme.btnGreen};
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   border-radius: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 350px;
+    height: 650px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 500px;
+    height: 650px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 700px;
+    height: 650px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 1000px;
+    height: 720px;
+  }
 `;
 const ChatInfo = styled.div`
   width: 100%;
@@ -68,17 +89,29 @@ const ChatInfo = styled.div`
   box-sizing: border-box;
   padding-left: 20px;
   border-bottom: 2px solid ${(props) => props.theme.btnGreen};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    padding-left: 10px;
+  }
 `;
 
 const Nickname = styled.div`
   max-width: 100%;
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 const ChatMain = styled.div`
   width: 100%;
-  height: 70vh;
+  height: 100%;
   display: flex;
 `;
 const Chatting = styled.div`
@@ -93,13 +126,20 @@ const List = styled.ul`
   height: 80%;
   display: flex;
   flex-direction: column;
-  padding: 10px 30px 30px 30px;
+  padding: 10px 20px 20px 20px;
   box-sizing: border-box;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 5px 5px 5px 5px;
+  }
 `;
 
 const ChatRoomList = styled.ul`
   max-width: 100%;
-  height: 93%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,6 +147,9 @@ const ChatRoomList = styled.ul`
   align-items: center;
   padding: 10px;
   box-sizing: border-box;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 5px;
+  }
 `;
 
 const RoomWrapper = styled.div`
@@ -116,26 +159,52 @@ const RoomWrapper = styled.div`
 `;
 
 const RoomBox = styled.div`
+  height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Picture = styled.img`
   width: 40px;
   height: 40px;
   margin-right: 10px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 35px;
+    height: 35px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 35px;
+    height: 35px;
+  }
 `;
 
 const ListTitle = styled.div`
-  height: 7%;
+  height: 7.05%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding-left: 20px;
-  font-size: ${(props) => props.theme.fontSize.mini};
+  font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
   border-bottom: 2px solid ${(props) => props.theme.btnGreen};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    padding-left: 10px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 const ChatForm = styled.form`
@@ -157,18 +226,59 @@ const ChatForm = styled.form`
 `;
 
 const MsgInput = styled.input`
-  width: 450px;
+  width: 550px;
   height: 40px;
   font-size: ${(props) => props.theme.fontSize.mini};
   border: 2px solid ${(props) => props.theme.btnGreen};
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   border-radius: 10px;
   padding-left: 10px;
+  position: relative;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 200px;
+    height: 32px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 250px;
+    height: 35px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 350px;
+    height: 35px;
+  }
 `;
 
 const MsgBtn = styled.button`
   border: none;
   background-color: inherit;
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    top: -6px;
+    right: -100px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    top: -6px;
+    right: -70px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    top: -5px;
+    right: -30px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    top: -2px;
+    right: -5px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    top: 0px;
+    right: 70px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    top: 0px;
+    right: 70px;
+  }
 `;
 
 const BackBtn = styled.button`
@@ -181,10 +291,20 @@ const BackBtn = styled.button`
   top: 125px;
   left: 80px;
   cursor: pointer;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 100px;
+    left: 30px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 100px;
+    left: 45px;
+  }
 `;
 
 const RoomList = styled.li`
-  width: 150px;
+  width: 200px;
   height: 65px;
   display: flex;
   justify-content: flex-start;
@@ -197,10 +317,31 @@ const RoomList = styled.li`
   padding-left: 10px;
   margin-bottom: 5px;
   box-sizing: border-box;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 75px;
+    height: 45px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    padding-left: 3px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 120px;
+    height: 55px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 150px;
+    height: 55px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
 `;
+
+const ChatListWrapper = styled.div`
+  display: flex;
+`;
+
 const ChatList = styled.li`
   width: 300px;
-  height: 50px;
+  max-height: 50px;
   font-size: ${(props) => props.theme.fontSize.mini};
   font-weight: bold;
   border: 2px solid ${(props) => props.theme.btnGreen};
@@ -210,30 +351,83 @@ const ChatList = styled.li`
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 10px;
+  display: flex;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 150px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 170px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 250px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+`;
+
+const DateBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 12px;
+`;
+
+const Date = styled.div`
+  margin-left: 10px;
+  font-size: ${(props) => props.theme.fontSize.micro};
+  color: ${(props) => props.theme.grey};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin-left: 5px;
+    font-size: ${(props) => props.theme.fontSize.quark};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+  }
 `;
 
 const MsgBox = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 15px;
+  padding: 15px;
+  word-break: break-all;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 5px;
+  }
 `;
 
-function Join() {
+function Chat() {
   const [room, setRoom] = useState('');
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState<string[]>([
-    'sdfdsfsdfsdf',
+    'sdfdsfsdfsdfsdfsdfsdfsd.kfjfsdfljsdfjsdfj',
     'sdffdgdfg',
     'sdfgdfgfdg',
+    'sdfgfdg',
+    'sdfgfdg',
+    'sdfgfdg',
+    'sdfgfdg',
+    'sdfgfdg',
+    'sdfgfdg',
+    'sdfgfdg',
+    'sdfgfdg',
+    'sdfgfdg',
     'sdfgfdg',
   ]);
   const [roomList, setRoomList] = useState<string[]>([
     '김대윤',
     '전현욱',
     '윤의빈',
+    '블리츠',
+    '진',
+    '나미',
   ]);
+  const scrollRef = useRef<Scrollbars>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { username } = useParams();
+  console.log(username);
 
   const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
     setMessage(e.currentTarget.value);
@@ -244,11 +438,12 @@ function Join() {
     socket.emit('new_message', message, room, () => {
       setChat([...chat, `You: ${message}`]);
     });
+    scrollRef.current?.scrollToBottom();
     setMessage('');
   };
 
   const goBackOnClick = () => {
-    navigate('/post');
+    navigate('/search');
   };
 
   useEffect(() => {
@@ -274,6 +469,10 @@ function Join() {
     });
   }, [chat]);
 
+  const onClickChatRoom = (username: string) => {
+    navigate(`/chat/${username}`);
+  };
+
   return (
     <>
       <Nav />
@@ -287,7 +486,7 @@ function Join() {
                 <ChatRoomList>
                   {roomList.map((el: string) => (
                     <RoomList key={nanoid()}>
-                      <RoomBox>
+                      <RoomBox onClick={() => onClickChatRoom(el)}>
                         <Picture src={logo} />
                         {el}
                       </RoomBox>
@@ -297,23 +496,29 @@ function Join() {
               </RoomWrapper>
               <Chatting>
                 <ChatInfo>
-                  <Nickname>{`${room}Viktor`}</Nickname>
+                  <Nickname>{`${room}김대윤`}</Nickname>
                 </ChatInfo>
                 <List>
-                  {chat.map((el: string) => (
-                    <ChatList key={nanoid()}>
-                      <MsgBox>
+                  <Scrollbars autoHide ref={scrollRef}>
+                    {chat.map((el: string) => (
+                      <ChatListWrapper key={nanoid()}>
                         <Picture src={logo} />
-                        {el}
-                      </MsgBox>
-                    </ChatList>
-                  ))}
+                        <ChatList>
+                          <MsgBox>{el}</MsgBox>
+                        </ChatList>
+                        <DateBox>
+                          <Date key={nanoid()}>오후 10시 31분</Date>
+                        </DateBox>
+                      </ChatListWrapper>
+                    ))}
+                  </Scrollbars>
                 </List>
                 <ChatForm>
                   <MsgInput
                     placeholder="메세지를 입력해주세요."
                     value={message}
                     onChange={onMessageChange}
+                    ref={inputRef}
                   />
                   <MsgBtn type="submit" onClick={onMessageClick}>
                     <FiSend className="send" />
@@ -322,7 +527,7 @@ function Join() {
               </Chatting>
             </ChatMain>
           </ChatWrapper>
-          <PostWrapper />
+          {/* <PostWrapper /> */}
         </Wrapper>
       </ChattingWrapper>
       <FooterWrapper>
@@ -332,7 +537,7 @@ function Join() {
   );
 }
 
-export default Join;
+export default Chat;
 
 // 실시간 채팅 해결해야할 부분
 
