@@ -7,7 +7,7 @@ export declare class ChatsService {
     constructor(roomModel: Model<Room>, userModel: Model<User>);
     getRoomList(param: any): Promise<any[]>;
     makeRoom(body: any): Promise<void>;
-    getRoomChat(param: any): Promise<(Room & {
+    getRoomChat(param: any): Promise<Room & {
         _id: any;
-    })[]>;
+    }>;
 }
