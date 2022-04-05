@@ -48,12 +48,13 @@ let ChatsGateway = class ChatsGateway {
     }
     async handleSubmitChat(data, socket) {
         const [message, room, roomId, myUsername] = data;
+        console.log(data);
         const chat = await this.chattingModel.create({
             user: myUsername,
             content: message,
             room_id: roomId,
         });
-        await this.roomModel.findByIdAndUpdate(room, {
+        await this.roomModel.findByIdAndUpdate(roomId, {
             $push: { chatting: { $each: [chat.id], $position: 0 } },
         });
         socket.to(room).emit('new_message', `${myUsername}: ${message}`);
