@@ -4,7 +4,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import { nanoid } from 'nanoid';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import { FiSend } from 'react-icons/fi';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 import { useSelector } from 'react-redux';
@@ -81,6 +81,7 @@ function Chat() {
   const { username, roomId } =
     useParams<{ username: string; roomId: string }>();
   const { userData } = useSelector((state: RootState) => state);
+  const { mutate } = useSWRConfig();
   const { data: roomList, mutate: mutateRoom } = useSWR<
     IRoomList[] | undefined
   >(
@@ -105,17 +106,16 @@ function Chat() {
 
   const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    socket.emit('new_message', message, room, () => {
-      // setChat([...chat, `You: ${message}`]);
-      axios
-        .post('', { message: `You: ${message}` }, { withCredentials: true })
-        .then(() => {
-          mutateChat();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
+    socket.emit(
+      'new_message',
+      message,
+      room,
+      roomId,
+      userData.userInfo.username,
+      () => {
+        mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
+      },
+    );
     scrollRef.current?.scrollToBottom();
     setMessage('');
   };
