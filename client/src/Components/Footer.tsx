@@ -223,7 +223,15 @@ function Footer() {
                 Wiki
               </a>
             </Content>
-
+            <Content>
+              <a
+                target="_blank"
+                href="https://github.com/codestates/EAD/wiki/Team#team-introduction"
+                rel="noreferrer"
+              >
+                Team
+              </a>
+            </Content>
             <Content>
               <a
                 target="_blank"
