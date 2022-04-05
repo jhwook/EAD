@@ -18,7 +18,7 @@ export class ChatsController {
     return this.chatsService.makeRoom(body);
   }
 
-  @Get('/room/:roomId')
+  @Get('/rooms/:id')
   getRoomChat(@Param() param) {
     return this.chatsService.getRoomChat(param);
   }
