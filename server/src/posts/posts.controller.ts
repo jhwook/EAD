@@ -147,4 +147,7 @@ export class PostsController {
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
     return this.postsService.uploadCommentImg(body, param, files);
   }
+
+  //
+  // @Post()
 }

@@ -11,9 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoomSchema = exports.Room = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const class_validator_1 = require("class-validator");
 const mongoose_2 = require("mongoose");
-const chattings_model_1 = require("./chattings.model");
 const options = {
     timestamps: true,
 };
@@ -23,17 +21,6 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Room.prototype, "roomName", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        type: {
-            _id: { type: mongoose_2.Types.ObjectId, required: true, ref: 'Chatting' },
-            user: { type: String, required: true },
-            content: { type: String },
-        },
-    }),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", chattings_model_1.Chatting)
-], Room.prototype, "chat", void 0);
 __decorate([
     (0, mongoose_1.Prop)([String]),
     __metadata("design:type", Array)
@@ -46,6 +33,13 @@ Room = __decorate([
     (0, mongoose_1.Schema)(options)
 ], Room);
 exports.Room = Room;
-const RoomSchema = mongoose_1.SchemaFactory.createForClass(Room);
-exports.RoomSchema = RoomSchema;
+const _RoomSchema = mongoose_1.SchemaFactory.createForClass(Room);
+_RoomSchema.virtual('chattings', {
+    ref: 'Chatting',
+    localField: 'chatting',
+    foreignField: '_id',
+});
+_RoomSchema.set('toObject', { virtuals: true });
+_RoomSchema.set('toJSON', { virtuals: true });
+exports.RoomSchema = _RoomSchema;
 //# sourceMappingURL=rooms.model.js.map

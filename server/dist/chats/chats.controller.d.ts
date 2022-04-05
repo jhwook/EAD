@@ -7,4 +7,5 @@ export declare class ChatsController {
     getRoomChat(param: any): Promise<import("./models/rooms.model").Room & {
         _id: any;
     }>;
+    newChat(param: any, body: any): Promise<void>;
 }

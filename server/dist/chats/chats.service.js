@@ -18,10 +18,25 @@ const common_1 = require("@nestjs/common");
 const mongoose_2 = require("mongoose");
 const rooms_model_1 = require("./models/rooms.model");
 const users_schema_1 = require("../users/users.schema");
+const chattings_model_1 = require("./models/chattings.model");
 let ChatsService = class ChatsService {
-    constructor(roomModel, userModel) {
+    constructor(roomModel, userModel, chattingModel) {
         this.roomModel = roomModel;
         this.userModel = userModel;
+        this.chattingModel = chattingModel;
+    }
+    async newChat(param, body) {
+        const { roomId } = param;
+        const { userId, content } = body;
+        const user = await this.userModel.findById(userId);
+        const comment = await this.chattingModel.create({
+            user: user.username,
+            content,
+            room_id: roomId,
+        });
+        await this.roomModel.findByIdAndUpdate(roomId, {
+            $push: { chatting: { $each: [comment.id] } },
+        });
     }
     async getRoomList(param) {
         const { id } = param;
@@ -31,7 +46,11 @@ let ChatsService = class ChatsService {
         for (let i = 0; i < roomList.length; i++) {
             const roomName = roomList[i].users.find((userId) => userId !== id);
             const user = await this.userModel.findById(roomName);
-            const result = { id: roomList[i].id, roomName: user.username };
+            const result = {
+                id: roomList[i].id,
+                roomName: user.username,
+                image: user.imgUrl,
+            };
             await roomNameList.push(result);
         }
         return roomNameList;
@@ -42,7 +61,7 @@ let ChatsService = class ChatsService {
     }
     async getRoomChat(param) {
         const { id } = param;
-        const room = await this.roomModel.findById(id);
+        const room = await this.roomModel.findById(id).populate('chattings');
         return room;
     }
 };
@@ -50,7 +69,9 @@ ChatsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(rooms_model_1.Room.name)),
     __param(1, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
+    __param(2, (0, mongoose_1.InjectModel)(chattings_model_1.Chatting.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model])
 ], ChatsService);
 exports.ChatsService = ChatsService;

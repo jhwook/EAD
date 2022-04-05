@@ -29,6 +29,9 @@ let ChatsController = class ChatsController {
     getRoomChat(param) {
         return this.chatsService.getRoomChat(param);
     }
+    newChat(param, body) {
+        return this.chatsService.newChat(param, body);
+    }
 };
 __decorate([
     (0, common_1.Get)('/room-list/:id'),
@@ -51,6 +54,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ChatsController.prototype, "getRoomChat", null);
+__decorate([
+    (0, common_1.Post)('/:roomId'),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], ChatsController.prototype, "newChat", null);
 ChatsController = __decorate([
     (0, common_1.Controller)('chats'),
     __metadata("design:paramtypes", [chats_service_1.ChatsService])

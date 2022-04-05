@@ -22,4 +22,9 @@ export class ChatsController {
   getRoomChat(@Param() param) {
     return this.chatsService.getRoomChat(param);
   }
+
+  @Post('/:roomId')
+  newChat(@Param() param, @Body() body) {
+    return this.chatsService.newChat(param, body);
+  }
 }
