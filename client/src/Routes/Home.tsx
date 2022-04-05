@@ -11,7 +11,7 @@ import { Dispatch } from 'redux';
 import { FiChevronsUp } from 'react-icons/fi';
 import { HomeSearch } from 'index';
 import Nav from 'Components/Nav';
-import Footer from 'Components/Footer';
+import Footer from '../Components/Footer';
 import logo1 from '../Image/Logo/1.png';
 import logo2 from '../Image/Logo/2.png';
 import logo3 from '../Image/Logo/3.png';
@@ -542,40 +542,31 @@ function Home() {
     }
   }
 
-  const searchListOnClick = useCallback(
-    async (e: React.SyntheticEvent<EventTarget>) => {
-      setValue((e.target as HTMLInputElement).innerText);
-      setHomeSearch(true);
-    },
-    [setValue, setHomeSearch],
-  );
+  const searchListOnClick = async (e: React.SyntheticEvent<EventTarget>) => {
+    setValue((e.target as HTMLInputElement).innerText);
+    setHomeSearch(true);
+  };
 
-  const handleOnChange = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      setValue(e.currentTarget.value);
-    },
-    [setValue],
-  );
+  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value);
+  };
 
-  const handleOnSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const data = await axios.post(
-        `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
-        {},
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/search?keyword=${value}`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
-      dispatch(HomeSearch(data.data.data));
-      setErrorMessage('여기에 입력해주세요!');
-      navigate(`/search?keyword=${value}`);
-    },
-    [dispatch, setErrorMessage, navigate],
-  );
+        withCredentials: true,
+      },
+    );
+    dispatch(HomeSearch(data.data.data));
+    setErrorMessage('여기에 입력해주세요!');
+    navigate(`/search?keyword=${value}`);
+  };
 
   // const handleOnClick = useCallback(() => {
   //   setOpen(true);
