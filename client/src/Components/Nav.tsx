@@ -79,7 +79,7 @@ const Logo = styled.img`
   }
 `;
 const Menus = styled.ul`
-  width: 250px;
+  width: 300px;
   display: flex;
   justify-content: space-around;
   font-size: ${(props) => props.theme.fontSize.small};
@@ -95,7 +95,7 @@ const Menus = styled.ul`
   }
   @media ${(props) => props.theme.mobile} {
     width: 170px;
-    font-size: ${(props) => props.theme.fontSize.mini};
+    font-size: ${(props) => props.theme.fontSize.micro};
   }
 `;
 const Menu = styled.li`
@@ -288,6 +288,9 @@ function Nav() {
           </LeftBox>
           <RightBox>
             <Menus>
+              <Link to="/search">
+                <Menu>체험하기</Menu>
+              </Link>
               <Link to="/login">
                 <Menu>로그인</Menu>
               </Link>
