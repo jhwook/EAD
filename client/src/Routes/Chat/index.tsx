@@ -10,10 +10,11 @@ import Footer from 'Components/Footer';
 import { useSelector } from 'react-redux';
 import { RootState } from 'index';
 import { FooterWrapper } from 'Routes/Home/styles';
+import axios from 'axios';
 import fetcher from '../../utils/fetcher';
-import logo from '../../Image/Logo/1.svg';
 import {
   BackBtn,
+  ChatBox,
   ChatForm,
   ChatInfo,
   ChatList,
@@ -43,32 +44,60 @@ import {
 
 const socket = io(`${process.env.REACT_APP_SERVER}`);
 
+interface IRoomList {
+  id: string;
+  roomName: string;
+  image: string;
+}
+
+interface IChattings {
+  content: string;
+  createdAt: string;
+  room_id: string;
+  updatedAt: string;
+  userImg: string;
+  user: string;
+  __v: number;
+  _id: string;
+}
+
+interface IChatList {
+  chatting: string[];
+  chattings: IChattings[];
+  createdAt: string;
+  updatedAt: string;
+  users: string[];
+  _v: number;
+  _id: string;
+}
+
 function Chat() {
   const [room, setRoom] = useState<string | undefined>('');
   const [message, setMessage] = useState('');
-  const [chat, setChat] = useState<string[]>([]);
   const [index, setIndex] = useState<number>();
-  const [roomList, setRoomList] = useState<string[]>([
-    '김대윤',
-    '전현욱',
-    '윤의빈',
-    '블리츠',
-    '진',
-    '나미',
-  ]);
   const scrollRef = useRef<Scrollbars>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const { username } = useParams<{ username: string }>();
+  const { username, roomId } =
+    useParams<{ username: string; roomId: string }>();
   const { userData } = useSelector((state: RootState) => state);
-  // const { data: roomList, mutate: mutateRoom } = useSWR<~~ | false>(
-  //   userData ? `${process.env.REACT_APP_SERVER}/~~/${userInfo.id}` : null,
-  //   fetcher,
-  // );
-  // const { data: chat, mutate: mutateChat } = useSWR<~~| false>(
-  //   userData ? `${process.env.REACT_APP_SERVER}/~~/${userInfo.id}` : null,
-  //   fetcher,
-  // );
+  const { data: roomList, mutate: mutateRoom } = useSWR<
+    IRoomList[] | undefined
+  >(
+    userData
+      ? `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`
+      : null,
+    fetcher,
+  );
+  console.log('roomList :', roomList);
+
+  const { data: chat, mutate: mutateChat } = useSWR<IChatList | undefined>(
+    userData && roomId
+      ? `${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`
+      : null,
+    fetcher,
+  );
+  console.log('chat :', chat);
 
   const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
     setMessage(e.currentTarget.value);
@@ -77,7 +106,15 @@ function Chat() {
   const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     socket.emit('new_message', message, room, () => {
-      setChat([...chat, `You: ${message}`]);
+      // setChat([...chat, `You: ${message}`]);
+      axios
+        .post('', { message: `You: ${message}` }, { withCredentials: true })
+        .then(() => {
+          mutateChat();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
     scrollRef.current?.scrollToBottom();
     setMessage('');
@@ -89,23 +126,47 @@ function Chat() {
 
   useEffect(() => {
     socket.on('welcome', (user) => {
-      setChat([...chat, `${user} joined!`]);
+      // setChat([...chat, `${user} joined!`]);
+      axios
+        .post('', { message: `${user} joined!` }, { withCredentials: true })
+        .then(() => {
+          mutateChat();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
 
     socket.on('bye', (user) => {
-      setChat([...chat, `${user} left :(`]);
+      // setChat([...chat, `${user} left :(`]);
+      axios
+        .post('', { message: `${user} left :(` }, { withCredentials: true })
+        .then(() => {
+          mutateChat();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
 
     socket.on('new_message', (msg: string) => {
-      setChat([...chat, msg]);
+      // setChat([...chat, msg]);
+      axios
+        .post('', { message: msg }, { withCredentials: true })
+        .then(() => {
+          mutateChat();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
   }, [chat]);
 
-  const onClickChatRoom = (username: string, id: number) => {
+  const onClickChatRoom = (username: string, i: number, id: string) => {
     socket.emit('enter_room', username);
     setRoom(username);
-    setIndex(id);
-    navigate(`/chat/${username}`);
+    setIndex(i);
+    navigate(`/chat/${id}/${username}`);
   };
 
   const exitRoom = () => {
@@ -124,16 +185,16 @@ function Chat() {
               <RoomWrapper>
                 <ListTitle>채팅목록</ListTitle>
                 <ChatRoomList>
-                  {roomList.map((el: string, i) => (
+                  {roomList?.map((el: IRoomList, i: number) => (
                     <RoomList
                       // eslint-disable-next-line react/no-array-index-key
                       key={i}
                       className={index === i ? 'focus' : ''}
-                      onClick={() => onClickChatRoom(el, i)}
+                      onClick={() => onClickChatRoom(el.roomName, i, el.id)}
                     >
                       <RoomBox>
-                        <Picture src={logo} />
-                        <RoomTitle>{el}</RoomTitle>
+                        <Picture src={el.image} />
+                        <RoomTitle>{el.roomName}</RoomTitle>
                       </RoomBox>
                     </RoomList>
                   ))}
@@ -148,17 +209,19 @@ function Chat() {
                 </ChatInfo>
                 <List>
                   <Scrollbars autoHide ref={scrollRef}>
-                    {chat.map((el: string) => (
-                      <ChatListWrapper key={nanoid()}>
-                        <Picture src={logo} />
-                        <ChatList>
-                          <MsgBox>{el}</MsgBox>
-                        </ChatList>
-                        <DateBox>
-                          <Date key={nanoid()}>오후 10시 31분</Date>
-                        </DateBox>
-                      </ChatListWrapper>
-                    ))}
+                    <ChatListWrapper>
+                      {chat?.chattings.map((el: IChattings) => (
+                        <ChatBox key={nanoid()}>
+                          <Picture src={el.userImg} />
+                          <ChatList>
+                            <MsgBox>{el.content}</MsgBox>
+                          </ChatList>
+                          <DateBox>
+                            <Date>{el.createdAt}</Date>
+                          </DateBox>
+                        </ChatBox>
+                      ))}
+                    </ChatListWrapper>
                   </Scrollbars>
                 </List>
                 <ChatForm>

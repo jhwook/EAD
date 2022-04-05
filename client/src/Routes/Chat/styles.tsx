@@ -369,6 +369,11 @@ export const RoomList = styled.li`
 
 export const ChatListWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+`;
+
+export const ChatBox = styled.div`
+  display: flex;
 `;
 
 export const ChatList = styled.li`

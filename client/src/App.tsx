@@ -32,7 +32,7 @@ function App() {
       <Route path="/comment/:id" element={<Comment />} />
       <Route path="/search/*" element={<Search />} />
       <Route path="/chat" element={<Chat />} />
-      <Route path="/chat/:username" element={<Chat />} />
+      <Route path="/chat/:roomId/:username" element={<Chat />} />
       <Route path="/auth/naver" element={<Naver />} />
       <Route path="/auth/kakao" element={<Kakao />} />
       <Route path="/auth/google" element={<Google />} />
