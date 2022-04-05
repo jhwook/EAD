@@ -64,11 +64,20 @@ export class ChatsGateway
   }
 
   @SubscribeMessage('new_message')
-  handleSubmitChat(
+  async handleSubmitChat(
     @MessageBody() data: string,
     @ConnectedSocket() socket: Socket,
   ) {
     const [message, room, myUsername] = data;
+
+    const chat = await this.chattingModel.create({
+      user: myUsername,
+      content: message,
+    });
+    await this.roomModel.findByIdAndUpdate(room, {
+      $push: { chatting: { $each: [chat], $position: 0 } },
+    });
+
     socket.to(room).emit('new_message', `${myUsername}: ${message}`);
     return message;
   }

@@ -37,6 +37,10 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)([String]),
     __metadata("design:type", Array)
+], Room.prototype, "chatting", void 0);
+__decorate([
+    (0, mongoose_1.Prop)([String]),
+    __metadata("design:type", Array)
 ], Room.prototype, "users", void 0);
 Room = __decorate([
     (0, mongoose_1.Schema)(options)

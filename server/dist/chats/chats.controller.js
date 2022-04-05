@@ -20,10 +20,14 @@ let ChatsController = class ChatsController {
         this.chatsService = chatsService;
     }
     getRoomList(param) {
+        console.log('hi');
         return this.chatsService.getRoomList(param);
     }
     makeRoom(body) {
         return this.chatsService.makeRoom(body);
+    }
+    getRoomChat(param) {
+        return this.chatsService.getRoomChat(param);
     }
 };
 __decorate([
@@ -40,6 +44,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ChatsController.prototype, "makeRoom", null);
+__decorate([
+    (0, common_1.Get)('/room/:roomId'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ChatsController.prototype, "getRoomChat", null);
 ChatsController = __decorate([
     (0, common_1.Controller)('chats'),
     __metadata("design:paramtypes", [chats_service_1.ChatsService])

@@ -46,8 +46,15 @@ let ChatsGateway = class ChatsGateway {
     handleMakeRoom(room, socket) {
         socket.to(room).emit('bye', room);
     }
-    handleSubmitChat(data, socket) {
+    async handleSubmitChat(data, socket) {
         const [message, room, myUsername] = data;
+        const chat = await this.chattingModel.create({
+            user: myUsername,
+            content: message,
+        });
+        await this.roomModel.findByIdAndUpdate(room, {
+            $push: { chatting: { $each: [chat], $position: 0 } },
+        });
         socket.to(room).emit('new_message', `${myUsername}: ${message}`);
         return message;
     }
@@ -86,7 +93,7 @@ __decorate([
     __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, socket_io_1.Socket]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ChatsGateway.prototype, "handleSubmitChat", null);
 ChatsGateway = __decorate([
     (0, websockets_1.WebSocketGateway)(),
