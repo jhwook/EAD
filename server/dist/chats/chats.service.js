@@ -26,6 +26,7 @@ let ChatsService = class ChatsService {
     async getRoomList(param) {
         const { id } = param;
         const roomList = await this.roomModel.find({ users: { $all: id } });
+        console.log(roomList);
         const roomNameList = [];
         for (let i = 0; i < roomList.length; i++) {
             const roomName = roomList[i].users.find((userId) => userId !== id);
@@ -41,8 +42,9 @@ let ChatsService = class ChatsService {
     }
     async getRoomChat(param) {
         const { id } = param;
-        const room = await this.roomModel.findById(id);
-        return room;
+        const rooms = await this.roomModel.find({ users: { $all: id } });
+        console.log(rooms);
+        return rooms;
     }
 };
 ChatsService = __decorate([
