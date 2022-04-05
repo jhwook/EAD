@@ -9,11 +9,17 @@ export class ChatsController {
 
   @Get('/room-list/:id')
   getRoomList(@Param() param) {
+    console.log('hi');
     return this.chatsService.getRoomList(param);
   }
 
   @Post('/make-room')
   makeRoom(@Body() body) {
     return this.chatsService.makeRoom(body);
+  }
+
+  @Get('/room/:roomId')
+  getRoomChat(@Param() param) {
+    return this.chatsService.getRoomChat(param);
   }
 }

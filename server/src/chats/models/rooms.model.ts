@@ -23,6 +23,9 @@ export class Room extends Document {
   chat: Chatting;
 
   @Prop([String])
+  chatting: [];
+
+  @Prop([String])
   users: [];
 }
 

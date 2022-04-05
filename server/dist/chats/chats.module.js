@@ -9,6 +9,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatsModule = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
+const users_schema_1 = require("../users/users.schema");
+const chats_service_1 = require("./chats.service");
+const chats_controller_1 = require("./chats.controller");
 const rooms_model_1 = require("./models/rooms.model");
 const chats_gateway_1 = require("./chats.gateway");
 const chattings_model_1 = require("./models/chattings.model");
@@ -20,9 +23,12 @@ ChatsModule = __decorate([
             mongoose_1.MongooseModule.forFeature([
                 { name: chattings_model_1.Chatting.name, schema: chattings_model_1.ChattingSchema },
                 { name: rooms_model_1.Room.name, schema: rooms_model_1.RoomSchema },
+                { name: users_schema_1.User.name, schema: users_schema_1.UserSchema },
             ]),
         ],
-        providers: [chats_gateway_1.ChatsGateway],
+        controllers: [chats_controller_1.ChatsController],
+        providers: [chats_gateway_1.ChatsGateway, chats_service_1.ChatsService],
+        exports: [chats_gateway_1.ChatsGateway, chats_service_1.ChatsService],
     })
 ], ChatsModule);
 exports.ChatsModule = ChatsModule;
