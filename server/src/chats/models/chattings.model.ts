@@ -8,6 +8,9 @@ const options: SchemaOptions = {
 
 @Schema(options)
 export class Chatting extends Document {
+  @Prop({ type: Types.ObjectId, required: true, ref: 'Room' })
+  room_id: Types.ObjectId;
+
   @Prop({ type: Types.ObjectId, required: true, ref: 'User' })
   @IsNotEmpty()
   user: Types.ObjectId;
