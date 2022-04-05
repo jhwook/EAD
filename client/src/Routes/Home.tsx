@@ -12,11 +12,11 @@ import { FiChevronsUp } from 'react-icons/fi';
 import { HomeSearch } from 'index';
 import Nav from 'Components/Nav';
 import Footer from '../Components/Footer';
-import logo1 from '../Image/Logo/1.png';
-import logo2 from '../Image/Logo/2.png';
-import logo3 from '../Image/Logo/3.png';
-import logo4 from '../Image/Logo/4.png';
-import logo5 from '../Image/Logo/5.png';
+import logo1 from '../Image/Logo/1.svg';
+import logo2 from '../Image/Logo/2.svg';
+import logo3 from '../Image/Logo/3.svg';
+import logo4 from '../Image/Logo/4.svg';
+import logo5 from '../Image/Logo/5.svg';
 
 // const Team = loadable(() => import('Components/Team'));
 const SearchList = loadable(() => import('Components/SearchList'));
@@ -135,7 +135,8 @@ const Box = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 700px;
+  width: 650px;
+  margin: 40px 20px 40px 20px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 320px;
   }

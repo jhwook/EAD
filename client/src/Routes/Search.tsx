@@ -11,7 +11,7 @@ import { AppDispatch, inSearch, ItemRender, RootState } from 'index';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 import AddBtn from '../Image/Search/add.png';
-import Logo from '../Image/Logo/search.png';
+import Logo from '../Image/Logo/search.svg';
 
 const SearchList = loadable(() => import('Components/SearchList'));
 
@@ -412,6 +412,7 @@ const Box = styled.div`
 `;
 
 const NoneLogo = styled.img`
+  margin-bottom: 30px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 300px;
   }
@@ -422,16 +423,16 @@ const NoneLogo = styled.img`
     width: 400px;
   }
   @media ${(props) => props.theme.tablet} {
-    width: 500px;
+    width: 450px;
   }
   @media ${(props) => props.theme.desktop} {
-    width: 550px;
+    width: 450px;
   }
   @media ${(props) => props.theme.desktop1} {
-    width: 550px;
+    width: 450px;
   }
   @media ${(props) => props.theme.desktop2} {
-    width: 600px;
+    width: 500px;
   }
 `;
 
