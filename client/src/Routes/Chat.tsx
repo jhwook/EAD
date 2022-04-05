@@ -11,7 +11,7 @@ import Footer from 'Components/Footer';
 import { useSelector } from 'react-redux';
 import { RootState } from 'index';
 import fetcher from '../utils/fetcher';
-import logo from '../Image/Logo/1.png';
+import logo from '../Image/Logo/1.svg';
 
 const socket = io(`${process.env.REACT_APP_SERVER}`);
 
@@ -497,11 +497,11 @@ function Chat() {
   const { username } = useParams<{ username: string }>();
   const { userData } = useSelector((state: RootState) => state);
   // const { data: roomList, mutate: mutateRoom } = useSWR<~~ | false>(
-  //   userData ? `${process.env.REACT_APP_SERVER}/~~` : null,
+  //   userData ? `${process.env.REACT_APP_SERVER}/~~/${userInfo.id}` : null,
   //   fetcher,
   // );
   // const { data: chat, mutate: mutateChat } = useSWR<~~| false>(
-  //   userData ? `${process.env.REACT_APP_SERVER}/~~` : null,
+  //   userData ? `${process.env.REACT_APP_SERVER}/~~/${userInfo.id}` : null,
   //   fetcher,
   // );
 
