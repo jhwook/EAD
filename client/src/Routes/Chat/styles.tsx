@@ -1,21 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import io from 'socket.io-client';
-import Scrollbars from 'react-custom-scrollbars';
-import { nanoid } from 'nanoid';
-import { useMatch, useNavigate, useParams } from 'react-router';
-import { FiSend } from 'react-icons/fi';
-import useSWR from 'swr';
-import Nav from 'Components/Nav';
-import Footer from 'Components/Footer';
-import { useSelector } from 'react-redux';
-import { RootState } from 'index';
-import fetcher from '../utils/fetcher';
-import logo from '../Image/Logo/1.svg';
 
-const socket = io(`${process.env.REACT_APP_SERVER}`);
-
-const ChattingWrapper = styled.div`
+export const ChattingWrapper = styled.div`
   height: auto;
   min-height: 100%;
   padding-bottom: 150px;
@@ -26,7 +11,7 @@ const ChattingWrapper = styled.div`
   }
 `;
 
-const FooterWrapper = styled.div`
+export const FooterWrapper = styled.div`
   height: 150px;
   position: relative;
   margin-top: -150px;
@@ -37,7 +22,7 @@ const FooterWrapper = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 100%;
   height: 798px;
   display: flex;
@@ -53,7 +38,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const ChatWrapper = styled.div`
+export const ChatWrapper = styled.div`
   width: 1200px;
   height: 750px;
   border: 2px solid ${(props) => props.theme.btnGreen};
@@ -80,7 +65,7 @@ const ChatWrapper = styled.div`
     height: 720px;
   }
 `;
-const ChatInfo = styled.div`
+export const ChatInfo = styled.div`
   width: 100%;
   height: 7.3%;
   display: flex;
@@ -98,7 +83,7 @@ const ChatInfo = styled.div`
   }
 `;
 
-const Nickname = styled.div`
+export const Nickname = styled.div`
   max-width: 100%;
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
@@ -116,19 +101,19 @@ const Nickname = styled.div`
   }
 `;
 
-const ChatMain = styled.div`
+export const ChatMain = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
 `;
-const Chatting = styled.div`
+export const Chatting = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const List = styled.ul`
+export const List = styled.ul`
   width: 100%;
   height: 80%;
   display: flex;
@@ -147,7 +132,7 @@ const List = styled.ul`
   }
 `;
 
-const ChatRoomList = styled.ul`
+export const ChatRoomList = styled.ul`
   max-width: 100%;
   height: 100%;
   display: flex;
@@ -170,13 +155,13 @@ const ChatRoomList = styled.ul`
   }
 `;
 
-const RoomWrapper = styled.div`
+export const RoomWrapper = styled.div`
   height: 100%;
   width: 30%;
   border-right: 2px solid ${(props) => props.theme.btnGreen};
 `;
 
-const RoomBox = styled.div`
+export const RoomBox = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
@@ -185,7 +170,7 @@ const RoomBox = styled.div`
   cursor: pointer;
 `;
 
-const Picture = styled.img`
+export const Picture = styled.img`
   width: 40px;
   height: 40px;
   margin-right: 10px;
@@ -209,7 +194,7 @@ const Picture = styled.img`
   }
 `;
 
-const ListTitle = styled.div`
+export const ListTitle = styled.div`
   height: 7.05%;
   display: flex;
   justify-content: flex-start;
@@ -234,7 +219,7 @@ const ListTitle = styled.div`
   }
 `;
 
-const ChatForm = styled.form`
+export const ChatForm = styled.form`
   width: 100%;
   height: 10%;
   display: flex;
@@ -252,7 +237,7 @@ const ChatForm = styled.form`
   }
 `;
 
-const MsgInput = styled.input`
+export const MsgInput = styled.input`
   width: 550px;
   height: 40px;
   font-size: ${(props) => props.theme.fontSize.mini};
@@ -281,7 +266,7 @@ const MsgInput = styled.input`
   }
 `;
 
-const MsgBtn = styled.button`
+export const MsgBtn = styled.button`
   border: none;
   background-color: inherit;
   position: absolute;
@@ -317,7 +302,7 @@ const MsgBtn = styled.button`
   }
 `;
 
-const BackBtn = styled.button`
+export const BackBtn = styled.button`
   background-color: ${(props) => props.theme.beige};
   color: ${(props) => props.theme.btnGreen};
   font-size: ${(props) => props.theme.fontSize.mini};
@@ -344,7 +329,7 @@ const BackBtn = styled.button`
   }
 `;
 
-const RoomList = styled.li`
+export const RoomList = styled.li`
   width: 200px;
   height: 65px;
   display: flex;
@@ -382,11 +367,11 @@ const RoomList = styled.li`
   }
 `;
 
-const ChatListWrapper = styled.div`
+export const ChatListWrapper = styled.div`
   display: flex;
 `;
 
-const ChatList = styled.li`
+export const ChatList = styled.li`
   width: 300px;
   max-height: 50px;
   font-size: ${(props) => props.theme.fontSize.mini};
@@ -417,14 +402,14 @@ const ChatList = styled.li`
   }
 `;
 
-const DateBox = styled.div`
+export const DateBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
   padding-bottom: 12px;
 `;
 
-const Date = styled.div`
+export const Date = styled.div`
   margin-left: 10px;
   font-size: ${(props) => props.theme.fontSize.micro};
   color: ${(props) => props.theme.grey};
@@ -441,7 +426,7 @@ const Date = styled.div`
   }
 `;
 
-const MsgBox = styled.div`
+export const MsgBox = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -455,7 +440,7 @@ const MsgBox = styled.div`
   }
 `;
 
-const ExitRoomBtn = styled.div`
+export const ExitRoomBtn = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: bold;
   cursor: pointer;
@@ -474,149 +459,6 @@ const ExitRoomBtn = styled.div`
   }
 `;
 
-const ExitRoomText = styled.div``;
+export const ExitRoomText = styled.div``;
 
-const RoomTitle = styled.div``;
-
-function Chat() {
-  const [room, setRoom] = useState<string | undefined>('');
-  const [message, setMessage] = useState('');
-  const [chat, setChat] = useState<string[]>([]);
-  const [index, setIndex] = useState<number>();
-  const [roomList, setRoomList] = useState<string[]>([
-    '김대윤',
-    '전현욱',
-    '윤의빈',
-    '블리츠',
-    '진',
-    '나미',
-  ]);
-  const scrollRef = useRef<Scrollbars>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
-  const { username } = useParams<{ username: string }>();
-  const { userData } = useSelector((state: RootState) => state);
-  // const { data: roomList, mutate: mutateRoom } = useSWR<~~ | false>(
-  //   userData ? `${process.env.REACT_APP_SERVER}/~~/${userInfo.id}` : null,
-  //   fetcher,
-  // );
-  // const { data: chat, mutate: mutateChat } = useSWR<~~| false>(
-  //   userData ? `${process.env.REACT_APP_SERVER}/~~/${userInfo.id}` : null,
-  //   fetcher,
-  // );
-
-  const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setMessage(e.currentTarget.value);
-  };
-
-  const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    socket.emit('new_message', message, room, () => {
-      setChat([...chat, `You: ${message}`]);
-    });
-    scrollRef.current?.scrollToBottom();
-    setMessage('');
-  };
-
-  const goBackOnClick = () => {
-    navigate('/search');
-  };
-
-  useEffect(() => {
-    socket.on('welcome', (user) => {
-      setChat([...chat, `${user} joined!`]);
-    });
-
-    socket.on('bye', (user) => {
-      setChat([...chat, `${user} left :(`]);
-    });
-
-    socket.on('new_message', (msg: string) => {
-      setChat([...chat, msg]);
-    });
-  }, [chat]);
-
-  const onClickChatRoom = (username: string, id: number) => {
-    socket.emit('enter_room', username);
-    setRoom(username);
-    setIndex(id);
-    navigate(`/chat/${username}`);
-  };
-
-  const exitRoom = () => {
-    socket.emit('bye', room);
-    navigate(`/chat`);
-  };
-
-  return (
-    <>
-      <Nav />
-      <ChattingWrapper>
-        <Wrapper>
-          <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
-          <ChatWrapper>
-            <ChatMain>
-              <RoomWrapper>
-                <ListTitle>채팅목록</ListTitle>
-                <ChatRoomList>
-                  {roomList.map((el: string, i) => (
-                    <RoomList
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={i}
-                      className={index === i ? 'focus' : ''}
-                      onClick={() => onClickChatRoom(el, i)}
-                    >
-                      <RoomBox>
-                        <Picture src={logo} />
-                        <RoomTitle>{el}</RoomTitle>
-                      </RoomBox>
-                    </RoomList>
-                  ))}
-                </ChatRoomList>
-              </RoomWrapper>
-              <Chatting>
-                <ChatInfo>
-                  <Nickname>{`${room}`}</Nickname>
-                  <ExitRoomBtn onClick={exitRoom}>
-                    <ExitRoomText>방 나가기</ExitRoomText>
-                  </ExitRoomBtn>
-                </ChatInfo>
-                <List>
-                  <Scrollbars autoHide ref={scrollRef}>
-                    {chat.map((el: string) => (
-                      <ChatListWrapper key={nanoid()}>
-                        <Picture src={logo} />
-                        <ChatList>
-                          <MsgBox>{el}</MsgBox>
-                        </ChatList>
-                        <DateBox>
-                          <Date key={nanoid()}>오후 10시 31분</Date>
-                        </DateBox>
-                      </ChatListWrapper>
-                    ))}
-                  </Scrollbars>
-                </List>
-                <ChatForm>
-                  <MsgInput
-                    placeholder="메세지를 입력해주세요."
-                    value={message}
-                    onChange={onMessageChange}
-                    ref={inputRef}
-                  />
-                  <MsgBtn type="submit" onClick={onMessageClick}>
-                    <FiSend className="send" />
-                  </MsgBtn>
-                </ChatForm>
-              </Chatting>
-            </ChatMain>
-          </ChatWrapper>
-        </Wrapper>
-      </ChattingWrapper>
-      <FooterWrapper>
-        <Footer />
-      </FooterWrapper>
-    </>
-  );
-}
-
-export default Chat;
+export const RoomTitle = styled.div``;
