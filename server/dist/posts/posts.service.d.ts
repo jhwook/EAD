@@ -58,4 +58,5 @@ export declare class PostsService {
     getMyComment(body: any): Promise<(Comment & {
         _id: any;
     })[]>;
+    selectComment(body: any): Promise<void>;
 }

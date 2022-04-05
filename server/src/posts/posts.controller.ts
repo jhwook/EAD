@@ -148,6 +148,9 @@ export class PostsController {
     return this.postsService.uploadCommentImg(body, param, files);
   }
 
-  //
-  // @Post()
+  // 댓글 채택
+  @Post('/select/comment')
+  selectComment(@Body() body) {
+    return this.postsService.selectComment(body);
+  }
 }

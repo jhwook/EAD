@@ -68,14 +68,15 @@ export class ChatsGateway
     @MessageBody() data: string,
     @ConnectedSocket() socket: Socket,
   ) {
-    const [message, room, myUsername] = data;
+    const [message, room, roomId, myUsername] = data;
 
     const chat = await this.chattingModel.create({
       user: myUsername,
       content: message,
+      room_id: roomId,
     });
     await this.roomModel.findByIdAndUpdate(room, {
-      $push: { chatting: { $each: [chat], $position: 0 } },
+      $push: { chatting: { $each: [chat.id], $position: 0 } },
     });
 
     socket.to(room).emit('new_message', `${myUsername}: ${message}`);

@@ -76,6 +76,9 @@ let PostsController = class PostsController {
         console.log(files);
         return this.postsService.uploadCommentImg(body, param, files);
     }
+    selectComment(body) {
+        return this.postsService.selectComment(body);
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -197,6 +200,13 @@ __decorate([
     __metadata("design:paramtypes", [Array, Object, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "uploadCommentImage", null);
+__decorate([
+    (0, common_1.Post)('/select/comment'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "selectComment", null);
 PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
