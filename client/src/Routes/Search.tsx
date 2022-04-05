@@ -302,9 +302,11 @@ const SearchBarBox = styled.ul`
   }
 `;
 
+const AddBtnBox = styled.div``;
+
 const AddPostBtn = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   position: fixed;
   right: 40px;
   bottom: 700px;
@@ -335,18 +337,18 @@ const AddPostBtn = styled.img`
     right: 10px;
   }
   @media ${(props) => props.theme.tablet} {
+    width: 55px;
+    height: 55px;
+    right: 10px;
+  }
+  @media ${(props) => props.theme.desktop} {
     width: 60px;
     height: 60px;
     right: 10px;
   }
-  @media ${(props) => props.theme.desktop} {
-    width: 70px;
-    height: 70px;
-    right: 10px;
-  }
   @media ${(props) => props.theme.desktop1} {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     right: 10px;
   }
 `;
@@ -1052,8 +1054,9 @@ function Search() {
           )}
         </ListWrapper>
       </SearchWrapper>
-
-      <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
+      <AddBtnBox>
+        <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
+      </AddBtnBox>
       {scrollY > 500 ? (
         <UpScrollBtn>
           <FiChevronsUp
