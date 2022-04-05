@@ -174,6 +174,7 @@ export const Picture = styled.img`
   width: 40px;
   height: 40px;
   margin-right: 10px;
+  border-radius: 50px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 25px;
     height: 25px;
