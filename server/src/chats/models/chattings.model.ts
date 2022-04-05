@@ -16,6 +16,9 @@ export class Chatting extends Document {
   user: Types.ObjectId;
 
   @Prop()
+  userImg: string;
+
+  @Prop()
   content: string;
 }
 
