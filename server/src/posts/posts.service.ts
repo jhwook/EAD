@@ -268,4 +268,6 @@ export class PostsService {
     const mycomment = await this.commentModel.find({ writer: id });
     return mycomment;
   }
+
+  async selectComment(body) {}
 }

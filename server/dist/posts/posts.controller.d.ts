@@ -51,4 +51,5 @@ export declare class PostsController {
     }>;
     uploadPostImage(files: Array<Express.Multer.File>, param: any): Promise<string>;
     uploadCommentImage(files: Array<Express.Multer.File>, param: any, body: any): Promise<string>;
+    selectComment(body: any): Promise<void>;
 }
