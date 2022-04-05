@@ -584,13 +584,9 @@ function Search() {
   };
 
   const checkOnClick = async (el: string) => {
-    console.log(el);
-    console.log(postData);
-
     const filteredPost = postData.filter((post) => {
       return post.tag.includes(el);
     });
-    console.log(filteredPost);
 
     if (el === 'all') {
       setPost(postData);
