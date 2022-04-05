@@ -474,7 +474,7 @@ function Search() {
   const [post, setPost] = useState(postData);
   const [here, setHere] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const getTitle = async () => {
     const postTitle = await axios.post(
@@ -506,7 +506,7 @@ function Search() {
   });
 
   useEffect(() => {
-    setOpen(false);
+    // setOpen(false);
     setHere(false);
     getTitle();
   }, []);

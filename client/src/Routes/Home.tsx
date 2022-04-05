@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Fade } from 'react-awesome-reveal';
 import { FaSearch } from 'react-icons/fa';
-import { IoMdArrowDropleft } from 'react-icons/io';
+// import { IoMdArrowDropleft } from 'react-icons/io';
 import React, { useCallback, useEffect, useState } from 'react';
 import loadable from '@loadable/component';
 import axios from 'axios';
@@ -18,7 +18,7 @@ import logo3 from '../Image/Logo/3.png';
 import logo4 from '../Image/Logo/4.png';
 import logo5 from '../Image/Logo/5.png';
 
-const Team = loadable(() => import('Components/Team'));
+// const Team = loadable(() => import('Components/Team'));
 const SearchList = loadable(() => import('Components/SearchList'));
 
 const HomeWrapper = styled.div`
@@ -121,13 +121,13 @@ const Wrapper = styled.div`
   }
 `;
 
-const TeamWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-  transform: translateX(0%);
-  transition: all 1s;
-  z-index: 6;
-`;
+// const TeamWrapper = styled.div`
+//   position: absolute;
+//   width: 100%;
+//   transform: translateX(0%);
+//   transition: all 1s;
+//   z-index: 6;
+// `;
 
 const Box = styled.div`
   width: 100%;
@@ -465,7 +465,7 @@ interface IElProps {
 
 function Home() {
   const [value, setValue] = useState('');
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [title, setTitle] = useState([]);
@@ -577,9 +577,9 @@ function Home() {
     [dispatch, setErrorMessage, navigate],
   );
 
-  const handleOnClick = useCallback(() => {
-    setOpen(true);
-  }, [setOpen]);
+  // const handleOnClick = useCallback(() => {
+  //   setOpen(true);
+  // }, [setOpen]);
 
   const deleteValueOnClick = useCallback(() => {
     setValue('');
@@ -599,14 +599,14 @@ function Home() {
     <>
       <Nav />
       <HomeWrapper>
-        {open ? (
+        {/* {open ? (
           <TeamWrapper>
             <Team setOpen={setOpen} />
           </TeamWrapper>
-        ) : null}
+        ) : null} */}
         <Wrapper>
           <Fade delay={500}>
-            <IoMdArrowDropleft className="team" onClick={handleOnClick} />
+            {/* <IoMdArrowDropleft className="team" onClick={handleOnClick} /> */}
             <Logo src={logo1} />
           </Fade>
           <SearchBox>
