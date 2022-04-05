@@ -32,6 +32,7 @@ let ChatsService = class ChatsService {
         const comment = await this.chattingModel.create({
             user: user.username,
             content,
+            userImg: user.imgUrl,
             room_id: roomId,
         });
         await this.roomModel.findByIdAndUpdate(roomId, {
@@ -62,6 +63,7 @@ let ChatsService = class ChatsService {
     async getRoomChat(param) {
         const { id } = param;
         const room = await this.roomModel.findById(id).populate('chattings');
+        console.log(room);
         return room;
     }
 };

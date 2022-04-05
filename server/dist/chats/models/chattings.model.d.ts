@@ -8,6 +8,7 @@ import { Types, Document } from 'mongoose';
 export declare class Chatting extends Document {
     room_id: Types.ObjectId;
     user: Types.ObjectId;
+    userImg: string;
     content: string;
 }
 declare const ChattingSchema: import("mongoose").Schema<Chatting, import("mongoose").Model<Chatting, any, any, any>, any, any>;
