@@ -498,7 +498,9 @@ export const ExitRoomBtn = styled.div`
 
 export const ExitRoomText = styled.div``;
 
-export const RoomTitle = styled.div``;
+export const RoomTitle = styled.div`
+  word-break: break-all;
+`;
 
 export const ExitModalWrapper = styled.div`
   width: 100%;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, UserLogout } from 'index';
 import logo from '../Image/Logo/ead.png';
@@ -216,6 +216,7 @@ const ModalMenu = styled.li`
 
 function Nav() {
   const [show, isShow] = useState(false);
+  const isMatch = useMatch('/search');
   const dispatch = useDispatch<AppDispatch>();
   const { userData } = useSelector((state: RootState) => state);
   const { isLogin } = userData;
@@ -288,9 +289,11 @@ function Nav() {
           </LeftBox>
           <RightBox>
             <Menus>
-              <Link to="/search">
-                <Menu>체험하기</Menu>
-              </Link>
+              {isMatch ? null : (
+                <Link to="/search">
+                  <Menu>검색하기</Menu>
+                </Link>
+              )}
               <Link to="/login">
                 <Menu>로그인</Menu>
               </Link>
