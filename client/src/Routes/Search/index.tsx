@@ -61,11 +61,11 @@ function Search() {
   const [scrollY, setScrollY] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { userData } = useSelector((state: RootState) => state);
   const { postData } = useSelector((state: RootState) => state);
   const [post, setPost] = useState(postData);
   const [here, setHere] = useState(false);
   const [clicked, setClicked] = useState(false);
-  // const [open, setOpen] = useState(false);
 
   const getTitle = async () => {
     const postTitle = await axios.post(
@@ -643,9 +643,11 @@ function Search() {
           )}
         </ListWrapper>
       </SearchWrapper>
-      <AddBtnBox>
-        <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
-      </AddBtnBox>
+      {userData.isLogin ? (
+        <AddBtnBox>
+          <AddPostBtn src={AddBtn} onClick={AddPostOnClick} />
+        </AddBtnBox>
+      ) : null}
       {scrollY > 500 ? (
         <UpScrollBtn>
           <FiChevronsUp
