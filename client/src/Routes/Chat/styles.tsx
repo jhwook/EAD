@@ -376,10 +376,19 @@ export const ChatListWrapper = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+  .me {
+    flex-direction: row-reverse;
+    border-radius: 5px;
+  }
 `;
 
 export const ChatBox = styled.div`
   display: flex;
+  .itsme {
+    margin-right: 9px;
+    margin-left: 5px;
+    background-color: ${(props) => props.theme.btnGreen};
+  }
 `;
 
 export const ChatList = styled.li`
@@ -395,6 +404,7 @@ export const ChatList = styled.li`
   align-items: center;
   margin-bottom: 10px;
   display: flex;
+  overflow: hidden;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 150px;
     font-size: ${(props) => props.theme.fontSize.tiny};
@@ -418,6 +428,10 @@ export const DateBox = styled.div`
   justify-content: center;
   align-items: flex-end;
   padding-bottom: 12px;
+  .meyo {
+    width: 47px;
+    text-align: right;
+  }
 `;
 
 export const Date = styled.div`

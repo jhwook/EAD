@@ -12,6 +12,15 @@ const List = styled.li`
     background-color: ${(props) => props.theme.green};
     padding: 3px 0px;
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 function SearchList({ list, chooseList }: any) {
