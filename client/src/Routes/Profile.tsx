@@ -14,8 +14,8 @@ import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
 import { FiChevronsUp } from 'react-icons/fi';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
-import userHolder from '../Image/Logo/profile.png';
-import oauthHolder from '../Image/Logo/oauth.png';
+import userHolder from '../Image/Logo/welcoming.svg';
+import oauthImg from '../Image/Logo/3people.svg';
 
 const Payment = loadable(() => import('Components/Payment'));
 const Button = loadable(() => import('Components/Button'));
@@ -556,31 +556,54 @@ const WitModalBtn = styled.button`
 `;
 
 const CommonBox = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  @media ${(props) => props.theme.mobile} {
-    height: 300px;
-    margin: 0 0 30px 0;
-  }
+  margin: 0 auto 0 auto;
+  height: auto;
+  text-align: center;
   @media ${(props) => props.theme.iPhone12Pro} {
-    height: 300px;
-    margin: 0 0 30px 0;
+    width: 150px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 200px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 250px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    width: 350px;
   }
 `;
 
 const OauthHolder = styled.img`
-  width: 340px;
-  margin: 40px 0px 0px 15px;
-  @media ${(props) => props.theme.mobile} {
-    margin: 0px auto 0px auto;
-    width: 320px;
-  }
+  margin: 40px 0 0 0;
   @media ${(props) => props.theme.iPhone12Pro} {
-    margin: 0px auto 0px auto;
-    width: 320px;
+    width: 120px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 150px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 250px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    width: 310px;
   }
 `;
 
@@ -787,7 +810,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setJs]);
+  }, [js, setJs]);
 
   const onClickTs = useCallback(async () => {
     setTs(!ts);
@@ -802,7 +825,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setTs]);
+  }, [ts, setTs]);
 
   const onClickCss = useCallback(async () => {
     setCss(!css);
@@ -817,7 +840,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setCss]);
+  }, [css, setCss]);
 
   const onClickReact = useCallback(async () => {
     setReact(!react);
@@ -832,7 +855,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setReact]);
+  }, [react, setReact]);
 
   const onClickVue = useCallback(async () => {
     setVue(!vue);
@@ -847,7 +870,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setVue]);
+  }, [vue, setVue]);
 
   const onClickNoSql = useCallback(async () => {
     setNoSql(!noSql);
@@ -862,7 +885,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setNoSql]);
+  }, [noSql, setNoSql]);
 
   const onClickSql = useCallback(async () => {
     setSql(!sql);
@@ -877,7 +900,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setSql]);
+  }, [sql, setSql]);
 
   const onClickExpress = useCallback(async () => {
     setExpress(!express);
@@ -892,7 +915,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setExpress]);
+  }, [express, setExpress]);
 
   const onClickAws = useCallback(async () => {
     setAws(!aws);
@@ -907,7 +930,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setAws]);
+  }, [aws, setAws]);
 
   const onClickOther = useCallback(async () => {
     setOther(!other);
@@ -922,7 +945,7 @@ function Profile() {
       },
     );
     dispatch(UserModify(data.data));
-  }, [setOther]);
+  }, [other, setOther]);
 
   const handleInfoModalClick = useCallback(() => {
     setInfoModalView(!infoModalView);
@@ -1031,29 +1054,26 @@ function Profile() {
     [cost, setCost],
   );
 
-  const onChangeImg = useCallback(
-    async (e: ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault();
-      if (e.target.files) {
-        const uploadImg = e.target.files[0];
-        const formData = new FormData();
-        formData.append('image', uploadImg);
-        const data = await axios.post(
-          `${process.env.REACT_APP_SERVER}/users/upload/${userId}`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
+  const onChangeImg = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const uploadImg = e.target.files[0];
+      const formData = new FormData();
+      formData.append('image', uploadImg);
+      const data = await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/upload/${userId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
-        dispatch(UserModify(data.data));
-      }
-    },
-    [dispatch],
-  );
+          withCredentials: true,
+        },
+      );
+      dispatch(UserModify(data.data));
+    }
+  };
 
   return (
     <>
@@ -1222,7 +1242,7 @@ function Profile() {
             </InfoNameForm>
             {userInfo.oauth ? (
               <CommonBox>
-                <OauthHolder src={oauthHolder} />
+                <OauthHolder src={oauthImg} />
               </CommonBox>
             ) : (
               <InfoPasswordForm onSubmit={handlePasswordSubmit}>

@@ -256,6 +256,22 @@ function Comment() {
     }
   };
 
+  const uploadComImg = async (blob: string | Blob) => {
+    const formData = new FormData();
+    formData.append('image', blob);
+    const url = await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/upload/comment`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      },
+    );
+    return url.data.data;
+  };
+
   const postModalOnClick = () => {
     navigate(`/post/${postId}`);
   };
@@ -301,6 +317,12 @@ function Comment() {
                 ['ul', 'ol'],
                 ['code', 'codeblock'],
               ]}
+              hooks={{
+                addImageBlobHook: async (blob, callback) => {
+                  const imgUrl = uploadComImg(blob);
+                  callback(await imgUrl, 'Image');
+                },
+              }}
             />
           </ViewerBox>
         </ComBox>

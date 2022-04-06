@@ -175,6 +175,7 @@ const TagInput = styled.input`
   border: 2px solid ${(props) => props.theme.grey};
   padding: 6px;
   border-radius: 10px;
+  text-transform: lowercase;
 `;
 
 const PostBotBox = styled.div`
@@ -291,6 +292,7 @@ function Post() {
   const [tag, setTag] = useState(initialTag);
   const [title, setTitle] = useState('');
   const [bounty, setBounty] = useState(0);
+  const [imgUrl, setImgUrl] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const navigate = useNavigate();
@@ -353,6 +355,22 @@ function Post() {
     } else if (tag.length === 0 || title === '' || content === '') {
       setFailModalView(!failModalView);
     }
+  };
+
+  const uploadPostImg = async (blob: string | Blob) => {
+    const formData = new FormData();
+    formData.append('image', blob);
+    const url = await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/upload/post`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      },
+    );
+    return url.data.data;
   };
 
   const postModalOnClick = () => {
@@ -429,6 +447,12 @@ function Post() {
                 ['ul', 'ol'],
                 ['code', 'codeblock'],
               ]}
+              hooks={{
+                addImageBlobHook: async (blob, callback) => {
+                  const imgUrl = uploadPostImg(blob);
+                  callback(await imgUrl, 'alt_text');
+                },
+              }}
             />
           </PostBotBox>
         </PostBox>

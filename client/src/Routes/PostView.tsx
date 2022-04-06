@@ -1,12 +1,10 @@
 /* eslint-disable react/no-children-prop */
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import { GiHamburgerMenu } from 'react-icons/gi';
 import { nanoid } from '@reduxjs/toolkit';
 import { RootState, ComRender, AppDispatch } from 'index';
 import { FiChevronsUp } from 'react-icons/fi';
@@ -18,45 +16,12 @@ import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
+import userHolder from '../Image/Logo/welcome.png';
 
 const Wrapper = styled.div`
   width: 100%;
   min-height: 618px;
   margin: 0 0 200px 0;
-  .dot {
-    font-size: ${(props) => props.theme.fontSize.medium};
-    cursor: pointer;
-    @media ${(props) => props.theme.iPhone12Pro} {
-      display: none;
-    }
-    @media ${(props) => props.theme.mobile} {
-      display: none;
-    }
-  }
-  .burger {
-    cursor: pointer;
-    display: none;
-    @media ${(props) => props.theme.iPhone12Pro} {
-      /* display: block;
-      position: absolute;
-      top: 25px;
-      right: 40px; */
-      font-size: ${(props) => props.theme.fontSize.medium};
-    }
-    @media ${(props) => props.theme.mobile} {
-      /* display: block;
-      position: absolute;
-      top: 25px;
-      right: 40px; */
-      font-size: ${(props) => props.theme.fontSize.medium};
-    }
-  }
-  /* @media ${(props) => props.theme.iPhone12Pro} {
-    padding: 10px 20px;
-  }
-  @media ${(props) => props.theme.mobile} {
-    padding: 10px 20px;
-  } */
 `;
 
 const FooterWrapper = styled.div`
@@ -88,56 +53,105 @@ const PostTopBox = styled.div`
   display: flex;
   flex-direction: flex;
   align-items: center;
+  margin: 12px 0 0 0;
 `;
 
-const PostWriterImgBox = styled.div`
-  height: 40px;
-  width: 45px;
+const PostUnpkIcon = styled.div`
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  height: 45px;
+  width: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 25px;
+  color: ${(props) => props.theme.btnGreen};
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  background-color: ${(props) => props.theme.beige};
+`;
+
+const PostPickIcon = styled.div`
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  height: 45px;
+  width: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 25px;
+  color: ${(props) => props.theme.beige};
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  background-color: ${(props) => props.theme.btnGreen};
+`;
+
+const PostEmptyIcon = styled.div`
+  height: 45px;
+  width: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 25px;
+`;
+
+const WriterImgBox = styled.div`
+  height: 45px;
+  width: 55px;
   border-radius: 50%;
   border: 1px solid ${(props) => props.theme.grey};
-  // background-color: ${(props) => props.theme.black};
-  margin: auto 0px auto 25px;
+  margin: auto 0px auto 5px;
 `;
 
-const PostWriterImg = styled.img`
-  height: 40px;
-  width: 45px;
+const WriterImg = styled.img`
+  height: 45px;
+  width: 55px;
   border-radius: 50%;
 `;
 
 const PostWriter = styled.div`
-  width: 590px;
+  width: 330px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
   margin: auto 20px auto 8px;
 `;
 
+const PostBtnBox = styled.div`
+  display: flex;
+  margin: 0 10px 0 0;
+`;
+
 const PostMidBox = styled.div`
-  height: 60px;
+  height: 46px;
+  margin: 7px 0 14px 0;
   flex-wrap: wrap;
 `;
 
 const PostTitle = styled.div`
   width: auto;
-  max-width: 500px;
+  max-width: 490px;
   font-size: ${(props) => props.theme.fontSize.medium};
   color: ${(props) => props.theme.black};
   border: 1px solid ${(props) => props.theme.grey};
   border-radius: 11px;
   display: inline-block;
-  padding: 6px;
+  padding: 7px;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
-  margin: auto 50px auto 24px;
+  margin: auto 0px auto 24px;
 `;
 
 const PostBounty = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
-  width: 140px;
-  margin: 14px 12px auto 0px;
+  width: 130px;
+  margin: auto 21px auto 0px;
+  padding: 12.5px;
   float: right;
+  color: ${(props) => props.theme.beige};
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  background-color: ${(props) => props.theme.btnGreen};
+  border-radius: 10px;
 `;
 
 const PostTagBox = styled.div`
@@ -183,7 +197,6 @@ const PostBotBox = styled.div`
 `;
 
 const ViewerBox = styled.div`
-  // border: 1px solid ${(props) => props.theme.grey};
   padding: 0 0 10px 0;
   margin: 0 auto 5px auto;
   width: 690px;
@@ -209,11 +222,12 @@ const CommentWriteBox = styled.div`
   display: flex;
   flex-direction: flex;
   align-items: center;
+  padding: 10px 10px 0 0;
 `;
 
 const CommentWriteName = styled.div`
-  width: 730px;
-  padding: 7px 0 3px 25px;
+  width: 650px;
+  padding: 0px 0 0px 25px;
   font-size: ${(props) => props.theme.fontSize.mini};
 `;
 
@@ -227,24 +241,6 @@ const CommentTitle = styled.input`
   color: ${(props) => props.theme.black};
   font-weight: bold;
   margin: 0 0px 10px 23px;
-`;
-
-const CommentWriteBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.black};
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 10px;
-  margin: 15px 30px 15px 15px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 100px;
-  height: 30px;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    color: ${(props) => props.theme.pink};
-    font-weight: bold;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
 `;
 
 const CommentItemBox = styled.div``;
@@ -262,11 +258,12 @@ const CommentItemHead = styled.div`
   display: flex;
   flex-direction: flex;
   align-items: center;
+  padding: 10px 0 0 0;
 `;
 
 const CommentWriter = styled.div`
-  width: 563px;
-  margin: auto 0 auto 25px;
+  width: 236px;
+  margin: 0 0 0 25px;
   font-size: ${(props) => props.theme.fontSize.mini};
 `;
 
@@ -281,24 +278,6 @@ const CommentItemBtnBox = styled.div`
   display: flex;
   flex-direction: flex;
   margin: auto 14px auto 0;
-`;
-
-const CommentItemBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.black};
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 10px;
-  margin: 10px 10px 10px 0px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 60px;
-  height: 30px;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    color: ${(props) => props.theme.pink};
-    font-weight: bold;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
 `;
 
 const CommentItemTitle = styled.div`
@@ -316,7 +295,7 @@ const CommentItemTitle = styled.div`
   overflow: hidden;
 `;
 
-const ComModalBack = styled.div`
+const ModalBack = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -325,7 +304,7 @@ const ComModalBack = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `;
 
-const ComModalBox = styled.div`
+const ModalBox = styled.div`
   position: absolute;
   width: 320px;
   height: 150px;
@@ -341,14 +320,16 @@ const ComModalBox = styled.div`
   flex-direction: column;
 `;
 
-const ComModalText = styled.div`
+const ModalText = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   width: 290px;
   margin-top: 20px;
   text-align: center;
 `;
 
-const ComModalBtn = styled.button`
+const ModalBtnBox = styled.div``;
+
+const ModalBtn = styled.button`
   background-color: ${(props) => props.theme.white};
   color: ${(props) => props.theme.btnGreen};
   border: 1px solid ${(props) => props.theme.grey};
@@ -359,222 +340,6 @@ const ComModalBtn = styled.button`
   height: 30px;
   cursor: pointer;
   transition: all 0.5s;
-  &:hover {
-    color: ${(props) => props.theme.pink};
-    font-weight: bold;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
-`;
-
-const FailModalBack = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-`;
-
-const FailModalBox = styled.div`
-  position: absolute;
-  width: 320px;
-  height: 150px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: ${(props) => props.theme.beige};
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const FailModalText = styled.div`
-  font-size: ${(props) => props.theme.fontSize.small};
-  width: 290px;
-  margin-top: 20px;
-  text-align: center;
-`;
-
-const FailModalBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.btnGreen};
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 11px;
-  margin: 20px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 80px;
-  height: 30px;
-  cursor: pointer;
-  transition: all 0.5s;
-  &:hover {
-    color: ${(props) => props.theme.pink};
-    font-weight: bold;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
-`;
-
-const ModalMenuBox = styled.div`
-  width: 75px;
-  height: 78px;
-  position: absolute;
-  top: 110px;
-  right: 162px;
-  background-color: ${(props) => props.theme.white};
-  border: 2px solid ${(props) => props.theme.lightGrey};
-  border-radius: 15px;
-  font-size: ${(props) => props.theme.fontSize.small};
-  font-weight: bold;
-  transition: all 0.3s;
-  z-index: 10;
-  @media ${(props) => props.theme.mobile} {
-    /* width: 100%;
-    right: 0px; */
-  }
-`;
-
-const ModalMenus = styled.ul`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  padding-left: 15px;
-  @media ${(props) => props.theme.mobile} {
-    align-items: center;
-    text-align: center;
-    padding: 0px;
-  }
-  a {
-    cursor: pointer;
-    @media ${(props) => props.theme.mobile} {
-      width: 100%;
-      &:hover {
-        background-color: ${(props) => props.theme.pink};
-        color: ${(props) => props.theme.black};
-      }
-    }
-  }
-`;
-
-const ModalMenuBtn = styled.button`
-  cursor: pointer;
-  width: 45px;
-  background-color: ${(props) => props.theme.beige};
-  font-size: ${(props) => props.theme.fontSize.mini};
-  border: none;
-  margin: 0px;
-  transition: all 0.5s ease-in-out;
-  &:hover {
-    color: ${(props) => props.theme.pink};
-  }
-  @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    transition: all 0.5s ease-in-out;
-    &:hover {
-      padding: 3px 0px;
-      color: ${(props) => props.theme.black};
-    }
-  }
-`;
-
-const ComDelText = styled.div`
-  font-size: ${(props) => props.theme.fontSize.small};
-  width: 290px;
-  margin-top: 20px;
-  text-align: center;
-`;
-
-const ComDelModalBack = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-`;
-
-const ComDelModalBox = styled.div`
-  position: absolute;
-  width: 320px;
-  height: 150px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: ${(props) => props.theme.beige};
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const ComDelModalBtnBox = styled.div``;
-
-const ComDelModalBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.btnGreen};
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 11px;
-  margin: 20px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 80px;
-  height: 30px;
-  cursor: pointer;
-  &:hover {
-    color: ${(props) => props.theme.pink};
-    font-weight: bold;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
-`;
-
-const PostDelModalBack = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-`;
-
-const PostDelText = styled.div`
-  font-size: ${(props) => props.theme.fontSize.small};
-  width: 290px;
-  margin-top: 20px;
-  text-align: center;
-`;
-
-const PostDelModalBox = styled.div`
-  position: absolute;
-  width: 320px;
-  height: 150px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: ${(props) => props.theme.beige};
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const PostDelModalBtnBox = styled.div``;
-
-const PostDelModalBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.btnGreen};
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 11px;
-  margin: 20px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 80px;
-  height: 30px;
-  cursor: pointer;
   &:hover {
     color: ${(props) => props.theme.pink};
     font-weight: bold;
@@ -626,16 +391,42 @@ const UpScrollBtn = styled.div`
   }
 `;
 
+const CommonHideBtn = styled.div`
+  width: 60px;
+  height: 30px;
+  margin: 10px 10px 10px 10px;
+`;
+
+const CommonBtn = styled.button`
+  background-color: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.black};
+  border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 10px;
+  margin: 10px 10px 10px 10px;
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  width: 60px;
+  height: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+    font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+`;
+
 function PostView() {
   const { userData, itemData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken, isLogin } = userData;
   const [comments, setComments] = useState<any[]>([]);
   const [comId, setComId] = useState('');
   const [postFuncView, setPostFuncView] = useState(false);
+  const [postWriterView, setPostWriterView] = useState(false);
   const [comModalView, setComModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const [comDelModalView, setComDelModalView] = useState(false);
   const [postDelModalView, setPostDelModalView] = useState(false);
+  const [comPickModalView, setComPickModalView] = useState(false);
   const [postCon, setPostCon] = useState(itemData[0]);
   const [conTitle, setConTitle] = useState('');
   const [scrollY, setScrollY] = useState(0);
@@ -723,10 +514,10 @@ function PostView() {
     });
   };
 
-  const regComOnClick = useCallback(async () => {
+  const regComOnClick = async () => {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
-    if (content !== '') {
+    if (content !== '' && conTitle !== '') {
       await axios.post(
         `${process.env.REACT_APP_SERVER}/posts/${id}/add/comment`,
         {
@@ -746,14 +537,27 @@ function PostView() {
     } else if (content === '') {
       setFailModalView(!failModalView);
     }
-  }, [comModalView, setComDelModalView, failModalView, setFailModalView]);
+  };
 
-  const conTitleOnChange = useCallback(
-    (e: any) => {
-      setConTitle(e.target.value);
-    },
-    [conTitle, setConTitle],
-  );
+  const uploadComImg = async (blob: string | Blob) => {
+    const formData = new FormData();
+    formData.append('image', blob);
+    const url = await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/upload/comment`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      },
+    );
+    return url.data.data;
+  };
+
+  const conTitleOnChange = (e: any) => {
+    setConTitle(e.target.value);
+  };
 
   const delComOnClick = async () => {
     await axios.delete(
@@ -769,13 +573,10 @@ function PostView() {
     setComDelModalView(!comDelModalView);
   };
 
-  const delComModalClick = useCallback(
-    (id: any) => {
-      setComId(id);
-      setComDelModalView(!comDelModalView);
-    },
-    [comId, setComId, comDelModalView, setComDelModalView],
-  );
+  const delComModalClick = (id: any) => {
+    setComId(id);
+    setComDelModalView(!comDelModalView);
+  };
 
   const delPostOnClick = async () => {
     await axios.post(
@@ -798,8 +599,8 @@ function PostView() {
     setPostDelModalView(!postDelModalView);
   };
 
-  const postFuncOnClick = () => {
-    setPostFuncView(!postFuncView);
+  const postWriterOnClick = () => {
+    setPostWriterView(!postWriterView);
   };
 
   const comModalOnClick = () => {
@@ -819,12 +620,21 @@ function PostView() {
     navigate(`/post/modify/${id}`);
   };
 
+  const writerChatOnClick = () => {
+    navigate(`/chat`);
+  };
+
+  const comPickOnClick = () => {
+    setComPickModalView(!comPickModalView);
+  };
+
   interface IComState {
     post_id: string;
     writer: string;
     title: string;
     content: string;
     writerName: string;
+    writerImg: string;
     _id: number;
   }
 
@@ -832,32 +642,30 @@ function PostView() {
     <>
       <Nav />
       <Wrapper>
-        {postFuncView ? (
-          <ModalMenuBox>
-            <ModalMenus>
-              <ModalMenuBtn onClick={postModifyOnClick}>수정</ModalMenuBtn>
-              <ModalMenuBtn onClick={delPostModalClick}>삭제</ModalMenuBtn>
-            </ModalMenus>
-          </ModalMenuBox>
-        ) : null}
         <PostBox>
           <PostTopBox>
-            {data.writerImg === '' ? (
-              <PostWriterImgBox />
+            <PostPickIcon>채택완료</PostPickIcon>
+            {/* <PostUnpkIcon>채택중</PostUnpkIcon> */}
+            {data.writerImg ? (
+              <WriterImgBox>
+                <WriterImg src={data.writerImg} onClick={postWriterOnClick} />
+              </WriterImgBox>
             ) : (
-              <PostWriterImgBox>
-                <PostWriterImg src={data.writerImg} />
-              </PostWriterImgBox>
+              <WriterImgBox>
+                <WriterImg src={userHolder} onClick={postWriterOnClick} />
+              </WriterImgBox>
             )}
             <PostWriter>{data.writerName}</PostWriter>
+            {postWriterView ? (
+              <CommonBtn onClick={postModifyOnClick}>채팅</CommonBtn>
+            ) : (
+              <CommonHideBtn />
+            )}
             {userInfo.id === data?.writer ? (
-              <>
-                <HiOutlineDotsHorizontal
-                  className="dot"
-                  onClick={postFuncOnClick}
-                />
-                <GiHamburgerMenu onClick={postFuncOnClick} className="burger" />
-              </>
+              <PostBtnBox>
+                <CommonBtn onClick={postModifyOnClick}>수정</CommonBtn>
+                <CommonBtn onClick={delPostModalClick}>삭제</CommonBtn>
+              </PostBtnBox>
             ) : null}
           </PostTopBox>
           <PostMidBox>
@@ -885,7 +693,7 @@ function PostView() {
             <CommentWriteForm>
               <CommentWriteBox>
                 <CommentWriteName>{userInfo.username}</CommentWriteName>
-                <CommentWriteBtn onClick={regComOnClick}>등록</CommentWriteBtn>
+                <CommonBtn onClick={regComOnClick}>등록</CommonBtn>
               </CommentWriteBox>
               <CommentTitle
                 type="text"
@@ -907,6 +715,12 @@ function PostView() {
                     ['ul', 'ol'],
                     ['code', 'codeblock'],
                   ]}
+                  hooks={{
+                    addImageBlobHook: async (blob, callback) => {
+                      const imgUrl = uploadComImg(blob);
+                      callback(await imgUrl, 'Image');
+                    },
+                  }}
                 />
               </ViewerBox>
             </CommentWriteForm>
@@ -916,24 +730,45 @@ function PostView() {
               {comments.map((com: IComState) => (
                 <CommentItem key={nanoid()}>
                   <CommentItemHead>
-                    <CommentWriter>{com.writerName}</CommentWriter>
-                    {userInfo.id === com.writer ||
-                    userInfo.id === data.writer ? (
-                      <CommentItemBtnBox>
-                        <CommentItemBtn
-                          onClick={() => comOnClick(com._id, com.content)}
-                        >
-                          수정
-                        </CommentItemBtn>
-                        <CommentItemBtn
-                          onClick={() => delComModalClick(com._id)}
-                        >
-                          삭제
-                        </CommentItemBtn>
-                      </CommentItemBtnBox>
+                    <PostPickIcon>채택글</PostPickIcon>
+                    {/* <PostEmptyIcon /> */}
+                    {com.writerImg ? (
+                      <WriterImgBox>
+                        <WriterImg src={com.writerImg} />
+                      </WriterImgBox>
                     ) : (
-                      <CommentItemEmptyBox />
+                      <WriterImgBox>
+                        <WriterImg src={userHolder} />
+                      </WriterImgBox>
                     )}
+                    <CommentWriter>{com.writerName}</CommentWriter>
+                    {isLogin ? (
+                      <>
+                        {userInfo.id === data.writer ? (
+                          <CommonBtn onClick={comPickOnClick}>채택</CommonBtn>
+                        ) : (
+                          <CommonHideBtn />
+                        )}
+                        <CommonBtn onClick={writerChatOnClick}>채팅</CommonBtn>
+                        {userInfo.id === com.writer ||
+                        userInfo.id === data.writer ? (
+                          <CommentItemBtnBox>
+                            <CommonBtn
+                              onClick={() => comOnClick(com._id, com.content)}
+                            >
+                              수정
+                            </CommonBtn>
+                            <CommonBtn
+                              onClick={() => delComModalClick(com._id)}
+                            >
+                              삭제
+                            </CommonBtn>
+                          </CommentItemBtnBox>
+                        ) : (
+                          <CommentItemEmptyBox />
+                        )}
+                      </>
+                    ) : null}
                   </CommentItemHead>
                   <CommentItemTitle>{com.title}</CommentItemTitle>
                   <ViewerBox>
@@ -948,46 +783,56 @@ function PostView() {
           </CommentItemBox>
         </CommentBox>
         {comModalView ? (
-          <ComModalBack>
-            <ComModalBox>
-              <ComModalText>답글이 등록되었습니다</ComModalText>
-              <ComModalBtn onClick={comModalOnClick}>확인</ComModalBtn>
-            </ComModalBox>
-          </ComModalBack>
+          <ModalBack>
+            <ModalBox>
+              <ModalText>답글이 등록되었습니다</ModalText>
+              <ModalBtn onClick={comModalOnClick}>확인</ModalBtn>
+            </ModalBox>
+          </ModalBack>
         ) : null}
         {failModalView ? (
-          <FailModalBack>
-            <FailModalBox>
-              <FailModalText>본문에 내용이 있어야 합니다</FailModalText>
-              <FailModalBtn onClick={failModalOnClick}>확인</FailModalBtn>
-            </FailModalBox>
-          </FailModalBack>
+          <ModalBack>
+            <ModalBox>
+              <ModalText>제목과 본문에 모두 내용이 있어야 합니다</ModalText>
+              <ModalBtn onClick={failModalOnClick}>확인</ModalBtn>
+            </ModalBox>
+          </ModalBack>
         ) : null}
         {comDelModalView ? (
-          <ComDelModalBack>
-            <ComDelModalBox>
-              <ComDelText>답글을 삭제하실 건가요?</ComDelText>
-              <ComDelModalBtnBox>
-                <ComDelModalBtn onClick={delComOnClick}>네</ComDelModalBtn>
-                <ComDelModalBtn onClick={delComModalClick}>
-                  아니요
-                </ComDelModalBtn>
-              </ComDelModalBtnBox>
-            </ComDelModalBox>
-          </ComDelModalBack>
+          <ModalBack>
+            <ModalBox>
+              <ModalText>답글을 삭제하실 건가요?</ModalText>
+              <ModalBtnBox>
+                <ModalBtn onClick={delComOnClick}>네</ModalBtn>
+                <ModalBtn onClick={delComModalClick}>아니요</ModalBtn>
+              </ModalBtnBox>
+            </ModalBox>
+          </ModalBack>
         ) : null}
         {postDelModalView ? (
-          <PostDelModalBack>
-            <PostDelModalBox>
-              <PostDelText>게시글을 삭제하실 건가요?</PostDelText>
-              <PostDelModalBtnBox>
-                <PostDelModalBtn onClick={delPostOnClick}>네</PostDelModalBtn>
-                <PostDelModalBtn onClick={delPostModalClick}>
-                  아니요
-                </PostDelModalBtn>
-              </PostDelModalBtnBox>
-            </PostDelModalBox>
-          </PostDelModalBack>
+          <ModalBack>
+            <ModalBox>
+              <ModalText>게시글을 삭제하실 건가요?</ModalText>
+              <ModalBtnBox>
+                <ModalBtn onClick={delPostOnClick}>네</ModalBtn>
+                <ModalBtn onClick={delPostModalClick}>아니요</ModalBtn>
+              </ModalBtnBox>
+            </ModalBox>
+          </ModalBack>
+        ) : null}
+        {comPickModalView ? (
+          <ModalBack>
+            <ModalBox>
+              <ModalText>
+                현재 답변을 채택하시겠습니까? 현상금만큼 보유금이 차감되고
+                채택자에게 전달됩니다
+              </ModalText>
+              <ModalBtnBox>
+                <ModalBtn onClick={comPickOnClick}>네</ModalBtn>
+                <ModalBtn onClick={comPickOnClick}>아니요</ModalBtn>
+              </ModalBtnBox>
+            </ModalBox>
+          </ModalBack>
         ) : null}
       </Wrapper>
       {scrollY > 500 ? (

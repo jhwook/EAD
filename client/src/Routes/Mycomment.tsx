@@ -15,6 +15,7 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { RootState, ItemRender, ComRender, AppDispatch } from 'index';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
+import noneHolder from '../Image/Logo/comments.svg';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -54,9 +55,18 @@ const ComItem = styled.div`
   margin: 0 auto 30px auto;
 `;
 
+const ItemTop = styled.div`
+  display: flex;
+  height: 70px;
+  // margin: 20px 0px 20px 25px;
+`;
+const TitleBox = styled.div`
+  width: 400px;
+  margin: auto 0 auto 25px;
+`;
 const ItemTitle = styled.div`
   width: auto;
-  max-width: 530px;
+  max-width: 330px;
   height: 23px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
@@ -65,23 +75,14 @@ const ItemTitle = styled.div`
   display: inline-block;
   padding: 6px;
   font-weight: bold;
-  margin: 25px 25px 20px 25px;
+  margin: auto 0px auto 0px;
   white-space: nowrap;
   overflow: hidden;
 `;
 
-const ViewerBox = styled.div`
-  margin: 0 auto 0 auto;
-  width: 542px;
-  height: auto;
-`;
-
-const ComBot = styled.div`
-  width: 576px;
-  height: 60px;
-  margin: 5px 0 0 0;
+const BtnBox = styled.div`
+  margin: 0px 15px 0 0;
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
 `;
 
@@ -92,7 +93,7 @@ const ItemBtn = styled.button`
   border-radius: 11px;
   margin: 10px;
   font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 80px;
+  width: 60px;
   height: 30px;
   cursor: pointer;
   transition: all 0.5s;
@@ -101,6 +102,12 @@ const ItemBtn = styled.button`
     font-weight: bold;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
+`;
+
+const ViewerBox = styled.div`
+  margin: 0 auto 0 auto;
+  width: 542px;
+  height: auto;
 `;
 
 const ComDelModalBack = styled.div`
@@ -154,8 +161,6 @@ const ComDelModalBtn = styled.button`
   }
 `;
 
-const ComPlaceholder = styled.div``;
-
 const UpScrollBtn = styled.div`
   width: 60px;
   height: 60px;
@@ -197,6 +202,74 @@ const UpScrollBtn = styled.div`
     width: 50px;
     height: 50px;
     right: 20px;
+  }
+`;
+
+const NoneBox = styled.div`
+  margin: 0 auto 0 auto;
+  height: auto;
+  text-align: center;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 500px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    width: 650px;
+  }
+`;
+
+const NoneImg = styled.img`
+  margin: 0 0 30px 0;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 450px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    width: 700px;
+  }
+`;
+
+const NoneText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.medium};
+  font-weight: bold;
+  width: auto;
+  color: ${(props) => props.theme.btnGreen};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.small};
   }
 `;
 
@@ -267,7 +340,7 @@ function Mycomment() {
     };
   });
 
-  const delComOnClick = useCallback(async () => {
+  const delComOnClick = async () => {
     await axios.delete(
       `${process.env.REACT_APP_SERVER}/posts/${comId}/delete/comment`,
       {
@@ -279,20 +352,17 @@ function Mycomment() {
       },
     );
     setComDelModalView(!comDelModalView);
-  }, [comDelModalView, setComDelModalView]);
+  };
 
   const modComOnClick = (id: number, con: string) => {
     dispatch(ComRender([con]));
     navigate(`/comment/${id}`);
   };
 
-  const delComModalClick = useCallback(
-    (id: number) => {
-      setComId(id);
-      setComDelModalView(!comDelModalView);
-    },
-    [comId, setComId, comDelModalView, setComDelModalView],
-  );
+  const delComModalClick = (id: number) => {
+    setComId(id);
+    setComDelModalView(!comDelModalView);
+  };
 
   const delComClick = useCallback(() => {
     setComDelModalView(!comDelModalView);
@@ -332,29 +402,38 @@ function Mycomment() {
           <ComBox>
             {coms.map((com: ICom) => (
               <ComItem key={nanoid()}>
-                <ItemTitle>{com.title}</ItemTitle>
+                <ItemTop>
+                  <TitleBox>
+                    <ItemTitle>{com.title}</ItemTitle>
+                  </TitleBox>
+                  <BtnBox>
+                    <ItemBtn onClick={() => moveConfirmPostClick(com.post_id)}>
+                      이동
+                    </ItemBtn>
+                    <ItemBtn
+                      onClick={() => modComOnClick(com._id, com.content)}
+                    >
+                      수정
+                    </ItemBtn>
+                    <ItemBtn onClick={() => delComModalClick(com._id)}>
+                      삭제
+                    </ItemBtn>
+                  </BtnBox>
+                </ItemTop>
                 <ViewerBox>
                   <Viewer
                     initialValue={com.content}
                     plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
                   />
                 </ViewerBox>
-                <ComBot>
-                  <ItemBtn onClick={() => delComModalClick(com._id)}>
-                    삭제
-                  </ItemBtn>
-                  <ItemBtn onClick={() => modComOnClick(com._id, com.content)}>
-                    수정
-                  </ItemBtn>
-                  <ItemBtn onClick={() => moveConfirmPostClick(com.post_id)}>
-                    이동
-                  </ItemBtn>
-                </ComBot>
               </ComItem>
             ))}
           </ComBox>
         ) : (
-          <ComPlaceholder>작성한 답글이 없네요</ComPlaceholder>
+          <NoneBox>
+            <NoneImg src={noneHolder} />
+            <NoneText>작성한 게시글이 없네요</NoneText>
+          </NoneBox>
         )}
         {comDelModalView ? (
           <ComDelModalBack>
