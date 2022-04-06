@@ -97,12 +97,6 @@ interface ILoginActionPros {
   isLogin: boolean;
 }
 
-interface IModifyActionPros {
-  data: object;
-  userInfo: object;
-  isLogin: boolean;
-}
-
 interface IPaymentProps {
   id?: string;
   username?: string;
@@ -145,8 +139,8 @@ const userSlice = createSlice({
       state.accessToken = '';
       state.isLogin = false;
     },
-    UserModify(state, action: PayloadAction<IModifyActionPros>) {
-      state.userInfo = action.payload.data;
+    UserModify(state, action: PayloadAction<object>) {
+      state.userInfo = action.payload;
     },
     UserPayment(state, action: PayloadAction<IPaymentProps>) {
       state.userInfo = action.payload;

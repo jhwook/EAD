@@ -667,7 +667,7 @@ function Profile() {
   const [express, setExpress] = useState(userInfo.stacks?.[7]);
   const [aws, setAws] = useState(userInfo.stacks?.[8]);
   const [other, setOther] = useState(userInfo.stacks?.[9]);
-  const [userId, setUserId] = useState(userInfo.id);
+  // const [userInfo.id, setuserInfo.id] = useState(userInfo.id);
   const [username, setUsername] = useState(userInfo.username);
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
@@ -700,6 +700,7 @@ function Profile() {
         setExpress(userinfo.stacks[7]);
         setAws(userinfo.stacks[8]);
         setOther(userinfo.stacks[9]);
+        dispatch(UserModify(res.data.data.userInfo));
       });
   }, []);
 
@@ -801,7 +802,7 @@ function Profile() {
     setJs(!js);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/0`,
-      { js, id: userId },
+      { js, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -809,14 +810,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [js, setJs]);
 
   const onClickTs = useCallback(async () => {
     setTs(!ts);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/1`,
-      { ts, id: userId },
+      { ts, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -824,14 +825,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [ts, setTs]);
 
   const onClickCss = useCallback(async () => {
     setCss(!css);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/2`,
-      { css, id: userId },
+      { css, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -839,14 +840,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [css, setCss]);
 
   const onClickReact = useCallback(async () => {
     setReact(!react);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/3`,
-      { react, id: userId },
+      { react, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -854,14 +855,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [react, setReact]);
 
   const onClickVue = useCallback(async () => {
     setVue(!vue);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/4`,
-      { vue, id: userId },
+      { vue, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -869,14 +870,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [vue, setVue]);
 
   const onClickNoSql = useCallback(async () => {
     setNoSql(!noSql);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/5`,
-      { noSql, id: userId },
+      { noSql, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -884,14 +885,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [noSql, setNoSql]);
 
   const onClickSql = useCallback(async () => {
     setSql(!sql);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/6`,
-      { sql, id: userId },
+      { sql, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -899,14 +900,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [sql, setSql]);
 
   const onClickExpress = useCallback(async () => {
     setExpress(!express);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/7`,
-      { express, id: userId },
+      { express, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -914,14 +915,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [express, setExpress]);
 
   const onClickAws = useCallback(async () => {
     setAws(!aws);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/8`,
-      { aws, id: userId },
+      { aws, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -929,14 +930,14 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [aws, setAws]);
 
   const onClickOther = useCallback(async () => {
     setOther(!other);
     const data = await axios.post(
       `${process.env.REACT_APP_SERVER}/users/stacks/9`,
-      { other, id: userId },
+      { other, id: userInfo.id },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -944,7 +945,7 @@ function Profile() {
         },
       },
     );
-    dispatch(UserModify(data.data));
+    dispatch(UserModify(data.data.data));
   }, [other, setOther]);
 
   const handleInfoModalClick = useCallback(() => {
@@ -980,7 +981,7 @@ function Profile() {
         setUsername(username);
         const data = await axios.patch(
           `${process.env.REACT_APP_SERVER}/users/profile`,
-          { id: userId, newUsername: username },
+          { id: userInfo.id, newUsername: username },
           {
             headers: {
               'Content-Type': 'application/json',
@@ -989,7 +990,7 @@ function Profile() {
             withCredentials: true,
           },
         );
-        dispatch(UserModify(data.data));
+        dispatch(UserModify(data.data.data));
         setUsername(username);
         setErrNameMessage('');
         setInfoModalView(!infoModalView);
@@ -1005,27 +1006,24 @@ function Profile() {
     ],
   );
 
-  const handlePasswordSubmit = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (password === confirmPw && password !== '') {
-        await axios.patch(
-          `${process.env.REACT_APP_SERVER}/users/profile`,
-          { id: userId, newPassword: password },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
+  const handlePasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (password === confirmPw && password !== '') {
+      await axios.patch(
+        `${process.env.REACT_APP_SERVER}/users/profile`,
+        { id: userInfo.id, newPassword: password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
-        dispatch(UserLogout());
-        setChangeModalView(!changeModalView);
-      }
-    },
-    [changeModalView, setChangeModalView, dispatch],
-  );
+          withCredentials: true,
+        },
+      );
+      dispatch(UserLogout());
+      setChangeModalView(!changeModalView);
+    }
+  };
 
   const checkUernameOnClick = useCallback(async () => {
     try {
@@ -1061,7 +1059,7 @@ function Profile() {
       const formData = new FormData();
       formData.append('image', uploadImg);
       const data = await axios.post(
-        `${process.env.REACT_APP_SERVER}/users/upload/${userId}`,
+        `${process.env.REACT_APP_SERVER}/users/upload/${userInfo.id}`,
         formData,
         {
           headers: {
@@ -1071,7 +1069,7 @@ function Profile() {
           withCredentials: true,
         },
       );
-      dispatch(UserModify(data.data));
+      dispatch(UserModify(data.data.data));
     }
   };
 

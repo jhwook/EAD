@@ -485,7 +485,7 @@ function PostView() {
       setComments(item.comments);
     };
     getPost();
-  }, [comModalView, comDelModalView]);
+  }, [comModalView, comDelModalView, comPickModalView, setComPickModalView]);
 
   const handleFollow = () => {
     setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
@@ -610,7 +610,7 @@ function PostView() {
         withCredentials: true,
       },
     );
-    navigate('/');
+    setComPickModalView(!comPickModalView);
   };
 
   const delPostModalClick = () => {
@@ -663,7 +663,6 @@ function PostView() {
 
   const comPickModalClick = () => {
     setComPickModalView(!comPickModalView);
-    navigate(`/chat/${data.writer}`);
   };
 
   interface IComState {

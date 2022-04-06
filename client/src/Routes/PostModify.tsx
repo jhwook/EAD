@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-import { RootState, ItemRender, AppDispatch } from 'index';
+import { RootState } from 'index';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -299,14 +299,11 @@ function PostModify() {
   const [tag, setTag] = useState(initialTag);
   const [title, setTitle] = useState('');
   const [bounty, setBounty] = useState(0);
-  const [postId, setPostId] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const [postCon, setPostCon] = useState(itemData[0]);
-  const [con, setCon] = useState<any>('');
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
   const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
@@ -322,9 +319,7 @@ function PostModify() {
         setWriter(item.writerName);
         setTitle(item.title);
         setTag(item.tag);
-        setCon(item.content);
         setBounty(item.bounty);
-        setPostId(item.id);
       });
   }, [postModalView]);
 
