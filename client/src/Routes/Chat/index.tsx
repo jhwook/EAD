@@ -105,6 +105,17 @@ function Chat() {
   };
 
   useEffect(() => {
+    if (username && roomId) {
+      socket.emit('enter_room', username, () => {
+        // mutate(
+        //   `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
+        // );
+      });
+      setRoom(username);
+    }
+  }, [username, roomId]);
+
+  useEffect(() => {
     if (chat?.chattings) {
       scrollRef.current?.scrollToBottom();
     }
@@ -127,48 +138,33 @@ function Chat() {
   };
 
   const goBackOnClick = () => {
-    navigate('/search');
+    navigate(`/search`);
   };
 
   useEffect(() => {
-    socket.on('welcome', () => {
-      // setChat([...chat, `${user} joined!`]);
-      mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
-      mutate(
-        `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
-      );
-    });
-
-    socket.on('bye', () => {
-      // setChat([...chat, `${user} left :(`]);
-      mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
-      mutate(
-        `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
-      );
-    });
-
     socket.on('new_message', () => {
-      // setChat([...chat, msg]);
       mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
     });
   }, [chat]);
 
   const onClickChatRoom = (username: string, i: number, id: string) => {
     socket.emit('enter_room', username, () => {
-      mutate(
-        `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
-      );
+      // mutate(
+      //   `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
+      // );
     });
     setRoom(username);
     setIndex(i);
+    // setIndex(roomList.length - 1);
     navigate(`/chat/${id}/${username}`);
   };
 
   const exitRoom = () => {
-    socket.emit('bye', room, () => {
+    socket.emit('bye', room, roomId, userData.userInfo.id, () => {
       mutate(
         `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
       );
+      setRoom('');
     });
     navigate(`/chat`);
   };
@@ -212,13 +208,37 @@ function Chat() {
                   <Scrollbars autoHide ref={scrollRef}>
                     <ChatListWrapper>
                       {reverseChat?.map((el: IChattings) => (
-                        <ChatBox key={nanoid()}>
+                        <ChatBox
+                          key={nanoid()}
+                          className={
+                            el.user === userData.userInfo.username ? 'me' : ''
+                          }
+                        >
                           <Picture src={el.userImg} />
-                          <ChatList>
-                            <MsgBox>{`${el.user}: ${el.content}`}</MsgBox>
+                          <ChatList
+                            key={nanoid()}
+                            className={
+                              el.user === userData.userInfo.username
+                                ? 'itsme'
+                                : ''
+                            }
+                          >
+                            <MsgBox
+                              className={
+                                el.user === userData.userInfo.username
+                                  ? 'itsmeyo'
+                                  : ''
+                              }
+                            >{`${el.user}: ${el.content}`}</MsgBox>
                           </ChatList>
                           <DateBox>
-                            <Date>
+                            <Date
+                              className={
+                                el.user === userData.userInfo.username
+                                  ? 'meyo'
+                                  : ''
+                              }
+                            >
                               {dayjs(el.createdAt).format('MM. DD A HH:mm')}
                             </Date>
                           </DateBox>
