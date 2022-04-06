@@ -53,15 +53,14 @@ __decorate([
     __metadata("design:type", Array)
 ], Post.prototype, "comment", void 0);
 __decorate([
-    (0, mongoose_1.Prop)([String]),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", Array)
-], Post.prototype, "imgUrl", void 0);
-__decorate([
     (0, mongoose_1.Prop)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], Post.prototype, "bounty", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Post.prototype, "selection", void 0);
 Post = __decorate([
     (0, mongoose_1.Schema)(options)
 ], Post);

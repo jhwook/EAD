@@ -37,13 +37,12 @@ export class Post extends Document {
   @Prop([String])
   comment: [];
 
-  @Prop([String])
-  @IsString()
-  imgUrl: [];
-
   @Prop()
   @IsNumber()
   bounty: number;
+
+  @Prop({ default: false })
+  selection: boolean;
 }
 // eslint-disable-next-line no-underscore-dangle
 const _PostSchema = SchemaFactory.createForClass(Post);

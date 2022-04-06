@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable object-shorthand */
 /* eslint-disable prefer-const */
 /* eslint-disable no-plusplus */
@@ -95,19 +96,11 @@ export class PostsService {
   }
 
   // 포스트 이미지 저장
-  async uploadPostImg(param, files: Express.Multer.File[]) {
-    const { postId } = param;
-    // const post = await this.postModel.findById(postId);
+  async uploadPostImg(files: Express.Multer.File[]) {
     const fileName = `posts/${files[0].filename}`;
     const imgUrl = `http://localhost:4000/media/${fileName}`;
-    await this.postModel.findByIdAndUpdate(postId, { $push: { imgUrl } });
-    return imgUrl;
-    // post.imgUrl.push(`http://localhost:4000/media/${fileName}`);
-    // const newPost = await post.save();
-    // console.log(newPost);
-    // return post.imgUrl;
 
-    // throw new HttpException('작성자가 일치하지 않습니다.', 401);
+    return imgUrl;
   }
 
   // 검색 (키워드)
@@ -215,22 +208,11 @@ export class PostsService {
   }
 
   // 댓글에 이미지 저장
-  async uploadCommentImg(body, param, files: Express.Multer.File[]) {
-    const { commentId } = param;
+  async uploadCommentImg(files: Express.Multer.File[]) {
     const fileName = `comments/${files[0].filename}`;
     const imgUrl = `http://localhost:4000/media/${fileName}`;
-    await this.postModel.findByIdAndUpdate(commentId, { $push: { imgUrl } });
-    return imgUrl;
 
-    // if (id === comment.writer) {
-    //   const fileName = `comments/${files[0].filename}`;
-    //   const comment = await this.commentModel.findById(id);
-    //   comment.imgUrl = `http://localhost:4000/media/${fileName}`;
-    //   const newComment = await comment.save();
-    //   console.log(newComment);
-    //   return comment.imgUrl;
-    // }
-    // throw new HttpException('작성자가 일치하지 않습니다.', 401);
+    return imgUrl;
   }
 
   // 포스트 제목만 주기
@@ -269,5 +251,17 @@ export class PostsService {
     return mycomment;
   }
 
-  async selectComment(body) {}
+  async selectComment(body) {
+    const { myId, yourId, postId, commentId } = body;
+    const post = await this.postModel.findById(postId);
+
+    await this.userModel.findByIdAndUpdate(myId, {
+      $inc: { money: -1 * post.bounty },
+    });
+    await this.userModel.findByIdAndUpdate(yourId, {
+      $inc: { money: post.bounty },
+    });
+    await this.postModel.findByIdAndUpdate(postId, { selection: true });
+    await this.commentModel.findByIdAndUpdate(commentId, { selection: true });
+  }
 }
