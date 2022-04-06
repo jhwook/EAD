@@ -14,6 +14,7 @@ import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
+import noneHolder from '../Image/Logo/posts.svg';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,7 +42,7 @@ const FooterWrapper = styled.div`
 `;
 
 const PostsBox = styled.div`
-  margin: 0 auto 0 auto;
+  margin: 0px auto 0 auto;
   height: auto;
   width: 600px;
 `;
@@ -50,7 +51,7 @@ const PostsItem = styled.div`
   border-radius: 20px;
   box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
   border: 1px solid ${(props) => props.theme.grey};
-  margin: 0 auto 30px auto;
+  margin: 0px auto 30px auto;
 `;
 
 const ItemTitle = styled.div`
@@ -69,38 +70,47 @@ const ItemTitle = styled.div`
   overflow: hidden;
 `;
 
-const ViewerBox = styled.div`
-  margin: 0 auto 0 auto;
-  padding: 0 0 5px 0;
-  width: 530px;
-  height: auto;
-  min-height: 50px;
-  font-size: ${(props) => props.theme.fontSize.mini};
+const MidBox = styled.div`
+  display: flex;
+  margin: 0 0 0 25px;
 `;
 
 const ItemBox = styled.div`
-  width: 100%;
-  height: 60px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 10px 0 0 0;
+  width: 50%;
 `;
 
 const ItemBounty = styled.div`
-  width: 160px;
-  font-size: ${(props) => props.theme.fontSize.small};
-  color: ${(props) => props.theme.black};
-  font-weight: bold;
-  margin: 0 0px 0 25px;
+  font-size: ${(props) => props.theme.fontSize.mini};
+  // width: 130px;
+  margin: auto 12px auto 0px;
+  padding: 6px;
+  color: ${(props) => props.theme.beige};
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  background-color: ${(props) => props.theme.btnGreen};
+  border-radius: 10px;
 `;
 
 const ItemComCount = styled.div`
-  width: 130px;
-  font-size: ${(props) => props.theme.fontSize.small};
-  color: ${(props) => props.theme.black};
-  font-weight: bold;
-  margin: 0 0px 0 25px;
+  font-size: ${(props) => props.theme.fontSize.mini};
+  // width: 130px;
+  margin: auto 12px auto 0px;
+  padding: 6px;
+  color: ${(props) => props.theme.beige};
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  background-color: ${(props) => props.theme.btnGreen};
+  border-radius: 10px;
+`;
+
+const BtnBox = styled.div`
+  // width: 100%;
+  // height: 60px;
+  display: flex;
+  // float: right;
+  flex-direction: row-reverse;
+  width: 50%;
+  // align-items: center;
+  margin: 0px 10px 0 0;
 `;
 
 const ItemBtn = styled.button`
@@ -108,7 +118,7 @@ const ItemBtn = styled.button`
   color: ${(props) => props.theme.btnGreen};
   border: 1px solid ${(props) => props.theme.grey};
   border-radius: 11px;
-  margin: 10px;
+  margin: auto 12px auto 0px;
   font-size: ${(props) => props.theme.fontSize.tiny};
   width: 60px;
   height: 30px;
@@ -119,6 +129,15 @@ const ItemBtn = styled.button`
     font-weight: bold;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
+`;
+
+const ViewerBox = styled.div`
+  margin: 0 auto 0 auto;
+  padding: 0 0 5px 0;
+  width: 530px;
+  height: auto;
+  min-height: 50px;
+  font-size: ${(props) => props.theme.fontSize.mini};
 `;
 
 const PostDelModalBack = styled.div`
@@ -172,7 +191,73 @@ const PostDelModalBtn = styled.button`
   }
 `;
 
-const PostPlaceholder = styled.div``;
+const NoneBox = styled.div`
+  margin: 0 auto 0 auto;
+  height: auto;
+  text-align: center;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 500px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 600px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    width: 650px;
+  }
+`;
+
+const NoneImg = styled.img`
+  margin: 0 0 30px 0;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 400px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 500px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 500px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 500px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    width: 570px;
+  }
+`;
+
+const NoneText = styled.div`
+  font-size: ${(props) => props.theme.fontSize.medium};
+  font-weight: bold;
+  width: auto;
+  color: ${(props) => props.theme.btnGreen};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+`;
 
 const UpScrollBtn = styled.div`
   width: 60px;
@@ -356,32 +441,39 @@ function Mypost() {
             {posts.map((post: IPost) => (
               <PostsItem key={nanoid()}>
                 <ItemTitle>{post.title}</ItemTitle>
+                <MidBox>
+                  <ItemBox>
+                    <ItemBounty>현상금: {post.bounty}원</ItemBounty>
+                    <ItemComCount>답글수: {post.comment.length}개</ItemComCount>
+                  </ItemBox>
+                  <BtnBox>
+                    <ItemBtn onClick={() => delPostModalClick(post.id)}>
+                      삭제
+                    </ItemBtn>
+                    <ItemBtn
+                      onClick={() => postModifyOnClick(post.id, post.content)}
+                    >
+                      수정
+                    </ItemBtn>
+                    <ItemBtn onClick={() => moveConfirmPostClick(post.id)}>
+                      이동
+                    </ItemBtn>
+                  </BtnBox>
+                </MidBox>
                 <ViewerBox>
                   <Viewer
                     initialValue={post.content}
                     plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
                   />
                 </ViewerBox>
-                <ItemBox>
-                  <ItemBounty>현상금: {post.bounty}원</ItemBounty>
-                  <ItemComCount>답글수: {post.comment.length}개</ItemComCount>
-                  <ItemBtn onClick={() => moveConfirmPostClick(post.id)}>
-                    이동
-                  </ItemBtn>
-                  <ItemBtn
-                    onClick={() => postModifyOnClick(post.id, post.content)}
-                  >
-                    수정
-                  </ItemBtn>
-                  <ItemBtn onClick={() => delPostModalClick(post.id)}>
-                    삭제
-                  </ItemBtn>
-                </ItemBox>
               </PostsItem>
             ))}
           </PostsBox>
         ) : (
-          <PostPlaceholder>작성한 게시글이 없네요</PostPlaceholder>
+          <NoneBox>
+            <NoneImg src={noneHolder} />
+            <NoneText>작성한 게시글이 없네요</NoneText>
+          </NoneBox>
         )}
         {postDelModalView ? (
           <PostDelModalBack>

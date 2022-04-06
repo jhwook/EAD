@@ -387,6 +387,22 @@ function PostModify() {
     }
   };
 
+  const uploadPostImg = async (blob: string | Blob) => {
+    const formData = new FormData();
+    formData.append('image', blob);
+    const url = await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/upload/post`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      },
+    );
+    return url.data.data;
+  };
+
   const postModalOnClick = () => {
     navigate('/search');
   };
@@ -459,6 +475,12 @@ function PostModify() {
                 ['ul', 'ol'],
                 ['code', 'codeblock'],
               ]}
+              hooks={{
+                addImageBlobHook: async (blob, callback) => {
+                  const imgUrl = uploadPostImg(blob);
+                  callback(await imgUrl, 'Image');
+                },
+              }}
             />
           </PostBotBox>
         </PostBox>
