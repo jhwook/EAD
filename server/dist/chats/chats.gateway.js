@@ -20,10 +20,12 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const chattings_model_1 = require("./models/chattings.model");
 const rooms_model_1 = require("./models/rooms.model");
+const users_schema_1 = require("../users/users.schema");
 let ChatsGateway = class ChatsGateway {
-    constructor(chattingModel, roomModel) {
+    constructor(chattingModel, roomModel, userModel) {
         this.chattingModel = chattingModel;
         this.roomModel = roomModel;
+        this.userModel = userModel;
         this.logger = new common_1.Logger('chat');
         this.logger.log('constructor');
     }
@@ -36,15 +38,60 @@ let ChatsGateway = class ChatsGateway {
     handleConnection(socket) {
         this.logger.log(`connected : ${socket.id} ${socket.nsp.name}`);
     }
+    async handleMakeRoom(data, socket) {
+        const [myId, yourId] = data;
+        const userI = await this.userModel.findById(myId);
+        const userYOU = await this.userModel.findById(yourId);
+        console.log(typeof myId);
+        console.log(yourId);
+        const isExistRoom = await this.roomModel.find({ users: [myId, yourId] });
+        console.log(isExistRoom);
+        if (isExistRoom.length === 0) {
+            const room = await this.roomModel.create({ users: [myId, yourId] });
+            const chat = await this.chattingModel.create({
+                room_id: room.id,
+                user: userI.username,
+                content: `${userI.username}님이 채팅을 요청했습니다.`,
+                userImg: userI.imgUrl,
+            });
+            await this.roomModel.findByIdAndUpdate(room.id, {
+                $push: { chatting: { $each: [chat.id], $position: 0 } },
+            });
+            return room.id;
+        }
+        return isExistRoom[0].id;
+    }
     handleEnterRoom(data, socket) {
-        console.log(socket.rooms);
-        console.log(data);
         socket.join(data);
         socket.to(data).emit('welcome', data);
         return data;
     }
-    handleMakeRoom(room, socket) {
-        socket.to(room).emit('bye', room);
+    async handleExitRoom(data, socket) {
+        console.log('=======================', data);
+        const [room, roomId, userId] = data;
+        const user = await this.userModel.findById(userId);
+        const roomInfo = await this.roomModel.findById(roomId);
+        console.log(roomInfo);
+        if (roomInfo.users.length > 1) {
+            const chat = await this.chattingModel.create({
+                room_id: roomId,
+                user: user.username,
+                content: `${user.username}님이 채팅방을 떠났습니다.`,
+                userImg: user.imgUrl,
+            });
+            await this.roomModel.findByIdAndUpdate(roomInfo.id, {
+                $push: { chatting: { $each: [chat.id], $position: 0 } },
+            });
+            await this.roomModel.findByIdAndUpdate(roomInfo.id, {
+                $pull: { users: user.id },
+            });
+        }
+        else {
+            for (let i = 0; i < roomInfo.chatting.length; i++) {
+                await this.chattingModel.findByIdAndDelete(roomInfo.chatting[i]);
+            }
+            await this.roomModel.findByIdAndDelete(roomId);
+        }
     }
     async handleSubmitChat(data, socket) {
         const [message, room, roomId, myUsername] = data;
@@ -74,6 +121,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ChatsGateway.prototype, "handleConnection", null);
 __decorate([
+    (0, websockets_1.SubscribeMessage)(`make_room`),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, socket_io_1.Socket]),
+    __metadata("design:returntype", Promise)
+], ChatsGateway.prototype, "handleMakeRoom", null);
+__decorate([
     (0, websockets_1.SubscribeMessage)('enter_room'),
     __param(0, (0, websockets_1.MessageBody)()),
     __param(1, (0, websockets_1.ConnectedSocket)()),
@@ -87,8 +142,8 @@ __decorate([
     __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
-    __metadata("design:returntype", void 0)
-], ChatsGateway.prototype, "handleMakeRoom", null);
+    __metadata("design:returntype", Promise)
+], ChatsGateway.prototype, "handleExitRoom", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('new_message'),
     __param(0, (0, websockets_1.MessageBody)()),
@@ -101,7 +156,9 @@ ChatsGateway = __decorate([
     (0, websockets_1.WebSocketGateway)(),
     __param(0, (0, mongoose_1.InjectModel)(chattings_model_1.Chatting.name)),
     __param(1, (0, mongoose_1.InjectModel)(rooms_model_1.Room.name)),
+    __param(2, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model])
 ], ChatsGateway);
 exports.ChatsGateway = ChatsGateway;
