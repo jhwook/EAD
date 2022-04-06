@@ -16,7 +16,10 @@ import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
+import io from 'socket.io-client';
 import userHolder from '../Image/Logo/welcome.png';
+
+const socket = io(`${process.env.REACT_APP_SERVER}`);
 
 const Wrapper = styled.div`
   width: 100%;
@@ -415,6 +418,8 @@ const CommonBtn = styled.button`
   }
 `;
 
+const PostBtn = styled(CommonBtn)``;
+
 function PostView() {
   const { userData, itemData } = useSelector((state: RootState) => state);
   const { userInfo, accessToken, isLogin } = userData;
@@ -620,12 +625,26 @@ function PostView() {
     navigate(`/post/modify/${id}`);
   };
 
-  const writerChatOnClick = () => {
-    navigate(`/chat`);
+  const postChatOnClick = () => {
+    socket.emit(
+      'make_room',
+      userData.userInfo.id,
+      data.writer,
+      (roomId: string) => {
+        navigate(`/chat/${roomId}/${data.writerName}`);
+      },
+    );
+  };
+
+  const comChatOnClick = (id: string, username: string) => {
+    socket.emit('make_room', userData.userInfo.id, id, (roomId: string) => {
+      navigate(`/chat/${roomId}/${username}`);
+    });
   };
 
   const comPickOnClick = () => {
     setComPickModalView(!comPickModalView);
+    navigate(`/chat/${data.writer}`);
   };
 
   interface IComState {
@@ -657,7 +676,7 @@ function PostView() {
             )}
             <PostWriter>{data.writerName}</PostWriter>
             {postWriterView ? (
-              <CommonBtn onClick={postModifyOnClick}>채팅</CommonBtn>
+              <PostBtn onClick={postChatOnClick}>채팅</PostBtn>
             ) : (
               <CommonHideBtn />
             )}
@@ -749,7 +768,13 @@ function PostView() {
                         ) : (
                           <CommonHideBtn />
                         )}
-                        <CommonBtn onClick={writerChatOnClick}>채팅</CommonBtn>
+                        <CommonBtn
+                          onClick={() =>
+                            comChatOnClick(com.writer, com.writerName)
+                          }
+                        >
+                          채팅
+                        </CommonBtn>
                         {userInfo.id === com.writer ||
                         userInfo.id === data.writer ? (
                           <CommentItemBtnBox>
