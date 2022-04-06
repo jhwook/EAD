@@ -28,6 +28,9 @@ export class Room extends Document {
 
   @Prop([String])
   users: [];
+
+  @Prop()
+  leftUser: string;
 }
 
 const _RoomSchema = SchemaFactory.createForClass(Room);

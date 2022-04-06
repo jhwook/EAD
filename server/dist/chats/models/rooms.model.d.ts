@@ -9,5 +9,6 @@ export declare class Room extends Document {
     roomName: string;
     chatting: [];
     users: [];
+    leftUser: string;
 }
 export declare const RoomSchema: import("mongoose").Schema<Room, import("mongoose").Model<Room, any, any, any>, any, any>;
