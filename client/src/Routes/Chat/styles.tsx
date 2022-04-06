@@ -120,10 +120,10 @@ export const List = styled.ul`
   flex-direction: column;
   padding: 10px 20px 20px 20px;
   box-sizing: border-box;
-  overflow: scroll;
+  /* overflow: scroll;
   ::-webkit-scrollbar {
     display: none;
-  }
+  } */
   @media ${(props) => props.theme.iPhone12Pro} {
     padding: 5px 5px 5px 5px;
   }
@@ -286,7 +286,7 @@ export const MsgBtn = styled.button`
     right: -70px;
   }
   @media ${(props) => props.theme.tablet} {
-    top: -5px;
+    top: -6.5px;
     right: -30px;
   }
   @media ${(props) => props.theme.desktop} {
@@ -371,6 +371,11 @@ export const RoomList = styled.li`
 export const ChatListWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ChatBox = styled.div`

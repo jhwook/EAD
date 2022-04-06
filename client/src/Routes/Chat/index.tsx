@@ -2,15 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import Scrollbars from 'react-custom-scrollbars';
 import { nanoid } from 'nanoid';
-import { useMatch, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { FiSend } from 'react-icons/fi';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 import useSWR, { useSWRConfig } from 'swr';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 import { useSelector } from 'react-redux';
 import { RootState } from 'index';
 import { FooterWrapper } from 'Routes/Home/styles';
-import axios from 'axios';
 import fetcher from '../../utils/fetcher';
 import {
   BackBtn,
@@ -78,13 +79,12 @@ function Chat() {
   const scrollRef = useRef<Scrollbars>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  dayjs.locale('ko');
   const { username, roomId } =
     useParams<{ username: string; roomId: string }>();
   const { userData } = useSelector((state: RootState) => state);
   const { mutate } = useSWRConfig();
-  const { data: roomList, mutate: mutateRoom } = useSWR<
-    IRoomList[] | undefined
-  >(
+  const { data: roomList } = useSWR<IRoomList[] | undefined>(
     userData
       ? `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`
       : null,
@@ -92,7 +92,7 @@ function Chat() {
   );
   console.log('roomList :', roomList);
 
-  const { data: chat, mutate: mutateChat } = useSWR<IChatList | undefined>(
+  const { data: chat } = useSWR<IChatList | undefined>(
     userData && roomId
       ? `${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`
       : null,
@@ -104,6 +104,12 @@ function Chat() {
     setMessage(e.currentTarget.value);
   };
 
+  useEffect(() => {
+    if (chat?.chattings) {
+      scrollRef.current?.scrollToBottom();
+    }
+  }, [chat]);
+
   const onMessageClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     socket.emit(
@@ -114,9 +120,9 @@ function Chat() {
       userData.userInfo.username,
       () => {
         mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
+        scrollRef.current?.scrollToBottom();
       },
     );
-    scrollRef.current?.scrollToBottom();
     setMessage('');
   };
 
@@ -125,40 +131,19 @@ function Chat() {
   };
 
   useEffect(() => {
-    socket.on('welcome', (user) => {
+    socket.on('welcome', () => {
       // setChat([...chat, `${user} joined!`]);
-      axios
-        .post('', { message: `${user} joined!` }, { withCredentials: true })
-        .then(() => {
-          mutateChat();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
     });
 
-    socket.on('bye', (user) => {
+    socket.on('bye', () => {
       // setChat([...chat, `${user} left :(`]);
-      axios
-        .post('', { message: `${user} left :(` }, { withCredentials: true })
-        .then(() => {
-          mutateChat();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
     });
 
-    socket.on('new_message', (msg: string) => {
+    socket.on('new_message', () => {
       // setChat([...chat, msg]);
-      axios
-        .post('', { message: msg }, { withCredentials: true })
-        .then(() => {
-          mutateChat();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
     });
   }, [chat]);
 
@@ -173,6 +158,8 @@ function Chat() {
     socket.emit('bye', room);
     navigate(`/chat`);
   };
+
+  const reverseChat = chat?.chattings.flat().reverse();
 
   return (
     <>
@@ -210,14 +197,16 @@ function Chat() {
                 <List>
                   <Scrollbars autoHide ref={scrollRef}>
                     <ChatListWrapper>
-                      {chat?.chattings.map((el: IChattings) => (
+                      {reverseChat?.map((el: IChattings) => (
                         <ChatBox key={nanoid()}>
                           <Picture src={el.userImg} />
                           <ChatList>
                             <MsgBox>{el.content}</MsgBox>
                           </ChatList>
                           <DateBox>
-                            <Date>{el.createdAt}</Date>
+                            <Date>
+                              {dayjs(el.createdAt).format('MM. DD A HH:mm')}
+                            </Date>
                           </DateBox>
                         </ChatBox>
                       ))}
