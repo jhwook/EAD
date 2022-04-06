@@ -26,6 +26,21 @@ const Wrapper = styled.div`
   width: 100%;
   min-height: 618px;
   margin: 0 0 200px 0;
+  @media ${(props) => props.theme.mobile} {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 30px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 30px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 30px;
+  }
 `;
 
 const FooterWrapper = styled.div`
@@ -33,6 +48,16 @@ const FooterWrapper = styled.div`
   position: relative;
   margin-top: -150px;
   @media ${(props) => props.theme.mobile} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
     height: 200px;
     position: relative;
     margin-top: -200px;
@@ -46,9 +71,17 @@ const PostBox = styled.div`
   border: 2px solid ${(props) => props.theme.grey};
   border-radius: 20px;
   box-shadow: 3px 3px rgba(0, 0, 0, 0.3);
+  @media ${(props) => props.theme.tablet} {
+    width: 610px;
+  }
   @media ${(props) => props.theme.mobile} {
+    width: 480px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 380px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 310px;
   }
 `;
 
@@ -58,6 +91,17 @@ const PostTopBox = styled.div`
   flex-direction: flex;
   align-items: center;
   margin: 12px 0 0 0;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin: 2px 0 0 0;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 0px 0 0 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 0px 0 0 0;
+  }
 `;
 
 const PostUnpkIcon = styled.div`
@@ -72,6 +116,26 @@ const PostUnpkIcon = styled.div`
   color: ${(props) => props.theme.btnGreen};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.beige};
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin: 0 0 0 14px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    height: 30px;
+    width: 32px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 0 0 0 10px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    height: 30px;
+    width: 32px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 0 0 0 6px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    height: 30px;
+    width: 32px;
+  }
 `;
 
 const PostPickIcon = styled.div`
@@ -86,6 +150,26 @@ const PostPickIcon = styled.div`
   color: ${(props) => props.theme.beige};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.btnGreen};
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin: 0 0 0 14px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    height: 30px;
+    width: 32px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 0 0 0 10px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    height: 30px;
+    width: 32px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 0 0 0 6px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    height: 30px;
+    width: 32px;
+  }
 `;
 
 const WriterImgBox = styled.div`
@@ -94,36 +178,104 @@ const WriterImgBox = styled.div`
   border-radius: 50%;
   border: 1px solid ${(props) => props.theme.grey};
   margin: auto 0px auto 5px;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 30px;
+    width: 32px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    height: 30px;
+    width: 32px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 30px;
+    width: 28px;
+    margin: auto 0px auto 3px;
+  }
 `;
 
 const WriterImg = styled.img`
   height: 45px;
   width: 55px;
   border-radius: 50%;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 30px;
+    width: 32px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    height: 30px;
+    width: 32px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 30px;
+    width: 28px;
+  }
 `;
 
 const PostWriter = styled.div`
-  width: 330px;
+  width: 320px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
   margin: auto 20px auto 8px;
+  overflow: hidden;
+  @media ${(props) => props.theme.tablet} {
+    width: 190px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 170px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: auto 0px auto 9px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    width: 148px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: auto 0px auto 4px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    width: 106px;
+  }
 `;
 
 const PostBtnBox = styled.div`
   display: flex;
   margin: 0 10px 0 0;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin: 0 5px 0 0;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 0 5px 0 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 0 5px 0 0;
+  }
 `;
 
 const PostMidBox = styled.div`
   height: 46px;
   margin: 7px 0 14px 0;
   flex-wrap: wrap;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin: 7px 0 5px 0;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 7px 0 5px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 7px 0 5px 0;
+  }
 `;
 
 const PostTitle = styled.div`
   width: auto;
-  max-width: 490px;
+  max-width: 500px;
   font-size: ${(props) => props.theme.fontSize.medium};
   color: ${(props) => props.theme.black};
   border: 1px solid ${(props) => props.theme.grey};
@@ -134,18 +286,62 @@ const PostTitle = styled.div`
   white-space: nowrap;
   overflow: hidden;
   margin: auto 0px auto 24px;
+  @media ${(props) => props.theme.tablet} {
+    max-width: 400px;
+    font-size: ${(props) => props.theme.fontSize.small};
+  }
+  @media ${(props) => props.theme.mobile} {
+    max-width: 320px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+    margin: auto 0px auto 14px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    max-width: 265px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    margin: auto 0px auto 10px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    max-width: 215px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: auto 0px auto 6px;
+    padding: 9px 7px 9px 7px;
+  }
 `;
 
 const PostBounty = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
-  width: 130px;
+  width: 145px;
   margin: auto 21px auto 0px;
-  padding: 12.5px;
+  padding: 12.5px 8px;
   float: right;
   color: ${(props) => props.theme.beige};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.btnGreen};
   border-radius: 10px;
+  text-align: center;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    padding: 11px 4px;
+    width: 125px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin: auto 14px auto 0px;
+    padding: 10.5px 5px;
+    width: 100px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: auto 10px auto 0px;
+    padding: 2.5px 5px;
+    width: 60px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: auto 6px auto 0px;
+    padding: 3px 5px;
+    width: 50px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
 `;
 
 const PostTagBox = styled.div`
@@ -154,6 +350,18 @@ const PostTagBox = styled.div`
   flex-wrap: wrap;
   width: 690px;
   margin: auto;
+  @media ${(props) => props.theme.tablet} {
+    width: 560px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 450px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 360px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+  }
 `;
 
 const PostTagList = styled.ul`
@@ -181,20 +389,25 @@ const PostTagTitle = styled.span`
   padding: 3px;
 `;
 
-const PostBotBox = styled.div`
+const PostViewBox = styled.div`
   margin: 0 auto 0 auto;
   padding: 0 0 5px 0;
   width: 690px;
   height: auto;
   min-height: 100px;
   font-size: ${(props) => props.theme.fontSize.mini};
-`;
-
-const ViewerBox = styled.div`
-  padding: 0 0 10px 0;
-  margin: 0 auto 5px auto;
-  width: 690px;
-  height: auto;
+  @media ${(props) => props.theme.tablet} {
+    width: 554px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 446px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 350px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 290px;
+  }
 `;
 
 const CommentBox = styled.div`
@@ -202,6 +415,40 @@ const CommentBox = styled.div`
   margin: 0 auto 0 auto;
   display: flex;
   flex-direction: column;
+  @media ${(props) => props.theme.tablet} {
+    width: 610px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 480px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 380px;
+    padding: 0px 0 0 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 310px;
+  }
+`;
+
+const ViewerBox = styled.div`
+  padding: 0 0 10px 0;
+  margin: 0 auto 5px auto;
+  width: 690px;
+  height: auto;
+  @media ${(props) => props.theme.tablet} {
+    width: 560px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 442px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 350px;
+    padding: 0 0 0px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 290px;
+    padding: 0 0 0px 0;
+  }
 `;
 
 const CommentWriteForm = styled.form`
@@ -210,6 +457,17 @@ const CommentWriteForm = styled.form`
   margin: 0 0 20px 0;
   border-radius: 20px;
   box-shadow: 3px 3px rgba(0, 0, 0, 0.3);
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    padding: 0px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    padding: 0 0 5px 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 0 0 5px 0;
+  }
 `;
 
 const CommentWriteBox = styled.div`
@@ -217,12 +475,38 @@ const CommentWriteBox = styled.div`
   flex-direction: flex;
   align-items: center;
   padding: 10px 10px 0 0;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    padding: 5px 7px 0px 0px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    padding: 5px 7px 0px 0px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    padding: 5px 7px 0px 0px;
+  }
 `;
 
 const CommentWriteName = styled.div`
   width: 650px;
   padding: 0px 0 0px 25px;
   font-size: ${(props) => props.theme.fontSize.mini};
+  @media ${(props) => props.theme.tablet} {
+    width: 518px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 400px;
+    padding: 0px 0 0px 20px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 300px;
+    padding: 0px 0 0px 15px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 252px;
+    padding: 0px 0 0px 10px;
+  }
 `;
 
 const CommentTitle = styled.input`
@@ -235,6 +519,20 @@ const CommentTitle = styled.input`
   color: ${(props) => props.theme.black};
   font-weight: bold;
   margin: 0 0px 10px 23px;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 432px;
+    margin: 0 0px 10px 18px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 341px;
+    margin: 5px 0px 10px 14px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 280px;
+    margin: 5px 0px 10px 8px;
+  }
 `;
 
 const CommentItemBox = styled.div``;
@@ -257,8 +555,26 @@ const CommentItemHead = styled.div`
 
 const CommentWriter = styled.div`
   width: 236px;
-  margin: 0 0 0 25px;
+  margin: 0 0 0 10px;
   font-size: ${(props) => props.theme.fontSize.mini};
+  overflow: hidden;
+  @media ${(props) => props.theme.tablet} {
+    width: 120px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    width: 115px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    margin: 0 0 0 4px;
+    width: 104px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 0 0 0 3px;
+    width: 70px;
+  }
 `;
 
 const CommentItemEmptyBox = styled.div`
@@ -272,6 +588,16 @@ const CommentItemBtnBox = styled.div`
   display: flex;
   flex-direction: flex;
   margin: auto 14px auto 0;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: auto 8px auto 0;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: auto 4px auto 0;
+  }
 `;
 
 const CommentItemTitle = styled.div`
@@ -287,6 +613,79 @@ const CommentItemTitle = styled.div`
   margin: 10px 0 20px 24px;
   white-space: nowrap;
   overflow: hidden;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.small};
+    margin: 3px 0 0px 14px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    margin: 6px 0 0px 10px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    margin: 6px 0 0px 4px;
+  }
+`;
+
+const CommonHideBtn = styled.div`
+  width: 60px;
+  height: 30px;
+  margin: 10px 10px 10px 10px;
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: 25px;
+    width: 43px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 5px;
+    height: 27px;
+    width: 35px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 2px;
+    height: 27px;
+    width: 35px;
+  }
+`;
+
+const CommonBtn = styled.button`
+  background-color: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.black};
+  border: 1px solid ${(props) => props.theme.grey};
+  border-radius: 10px;
+  margin: 10px 10px 10px 10px;
+  font-size: ${(props) => props.theme.fontSize.tiny};
+  width: 60px;
+  height: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    color: ${(props) => props.theme.pink};
+    font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  @media ${(props) => props.theme.tablet} {
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    height: 27px;
+    width: 43px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 5px;
+    height: 27px;
+    width: 35px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 2px;
+    height: 27px;
+    width: 35px;
+  }
 `;
 
 const ModalBack = styled.div`
@@ -357,15 +756,21 @@ const UpScrollBtn = styled.div`
     height: 100%;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 35px;
-    height: 35px;
-    right: 20px;
+    width: 25px;
+    height: 25px;
+    right: 4px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 25px;
+    height: 25px;
+    right: 4px;
     bottom: 240px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 35px;
-    height: 35px;
-    right: 20px;
+    width: 25px;
+    height: 25px;
+    right: 8px;
     bottom: 240px;
   }
   @media ${(props) => props.theme.tablet} {
@@ -382,30 +787,6 @@ const UpScrollBtn = styled.div`
     width: 50px;
     height: 50px;
     right: 20px;
-  }
-`;
-
-const CommonHideBtn = styled.div`
-  width: 60px;
-  height: 30px;
-  margin: 10px 10px 10px 10px;
-`;
-
-const CommonBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.black};
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 10px;
-  margin: 10px 10px 10px 10px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  width: 60px;
-  height: 30px;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    color: ${(props) => props.theme.pink};
-    font-weight: bold;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -683,7 +1064,7 @@ function PostView() {
         <PostBox>
           <PostTopBox>
             {data.selection ? (
-              <PostPickIcon>채택완료</PostPickIcon>
+              <PostPickIcon>채택완</PostPickIcon>
             ) : (
               <PostUnpkIcon>채택중</PostUnpkIcon>
             )}
@@ -711,7 +1092,7 @@ function PostView() {
           </PostTopBox>
           <PostMidBox>
             <PostTitle>{data.title}</PostTitle>
-            <PostBounty>현상금: {data.bounty}원</PostBounty>
+            <PostBounty>현 상 금 : {data.bounty}원</PostBounty>
           </PostMidBox>
           <PostTagBox>
             <PostTagList>
@@ -722,12 +1103,12 @@ function PostView() {
               ))}
             </PostTagList>
           </PostTagBox>
-          <PostBotBox>
+          <PostViewBox>
             <Viewer
               initialValue={postCon.content}
               plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
             />
-          </PostBotBox>
+          </PostViewBox>
         </PostBox>
         <CommentBox>
           {isLogin ? (

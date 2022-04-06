@@ -28,7 +28,14 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding-bottom: 150px;
+  @media ${(props) => props.theme.tablet} {
+    padding-bottom: 386px;
+  }
   @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+    padding-bottom: 200px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     flex-direction: column;
     padding-bottom: 200px;
   }
@@ -47,6 +54,11 @@ const FooterWrapper = styled.div`
     position: relative;
     margin-top: -200px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     height: 200px;
     position: relative;
@@ -61,6 +73,10 @@ const LeftBox = styled.div`
   flex-direction: column;
   @media ${(props) => props.theme.mobile} {
     width: 90%;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 90%;
+    padding: 20px 0 0 0;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 90%;
@@ -99,6 +115,10 @@ const ImgLabel = styled.label`
     font-size: ${(props) => props.theme.fontSize.micro};
     margin: 10px 0 20px 0;
   }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 10px 0 30px 0;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.micro};
     margin: 10px 0 20px 0;
@@ -121,6 +141,9 @@ const StackText = styled.div`
   @media ${(props) => props.theme.mobile} {
     margin-top: 23px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    margin-top: 23px;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     margin-top: 23px;
   }
@@ -132,6 +155,10 @@ const StackLine = styled.hr`
   margin: 6px 0 10px 0;
   background-color: ${(props) => props.theme.black};
   @media ${(props) => props.theme.mobile} {
+    height: 2px;
+    margin: 5px 0 15px 0;
+  }
+  @media ${(props) => props.theme.mobile1} {
     height: 2px;
     margin: 5px 0 15px 0;
   }
@@ -151,6 +178,10 @@ const StackBox = styled.div`
     height: 250px;
     margin: 5px 0px 5px 0px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    height: 270px;
+    margin: 5px 0px 5px 0px;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     height: 250px;
     margin: 5px 0px 5px 0px;
@@ -167,6 +198,10 @@ const CostBox = styled.div`
   flex-wrap: wrap;
   @media ${(props) => props.theme.mobile} {
     height: 100px;
+    margin: 10px 0 9px 0;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    height: 110px;
     margin: 10px 0 9px 0;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
@@ -204,6 +239,10 @@ const RightBox = styled.div`
     width: 90%;
     margin: 40px 0 20px 0;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 90%;
+    margin: 40px 0 20px 0;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 90%;
     margin: 40px 0 15px 0;
@@ -224,9 +263,15 @@ const InfoBox = styled.div`
     padding: 25px 0 0 0;
     margin: 0 auto 15px auto;
   }
+  @media ${(props) => props.theme.mobile1} {
+    height: 570px;
+    width: 330px;
+    padding: 25px 0 0 0;
+    margin: 0px auto 25px auto;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     height: 550px;
-    width: 325px;
+    width: 306px;
     padding: 25px 0 0 0;
     margin: 0px auto 15px auto;
   }
@@ -255,6 +300,9 @@ const InfoText = styled.div`
   @media ${(props) => props.theme.mobile} {
     width: 270px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 270px;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
   }
@@ -267,6 +315,9 @@ const NameText = styled.div`
   @media ${(props) => props.theme.mobile} {
     width: 270px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 270px;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
   }
@@ -277,6 +328,9 @@ const PasswordText = styled.div`
   width: 290px;
   margin: 10px 0 15px 0;
   @media ${(props) => props.theme.mobile} {
+    width: 270px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 270px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
@@ -293,6 +347,10 @@ const InfoDistrict = styled.div`
   cursor: pointer;
   transition: all 0.4s;
   @media ${(props) => props.theme.mobile} {
+    width: 270px;
+    margin: 0px 0 3px 0;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 270px;
     margin: 0px 0 3px 0;
   }
@@ -320,6 +378,10 @@ const EmailInput = styled.input`
     width: 270px;
     padding: 4px 0px 4px 10px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 270px;
+    padding: 9px 0px 9px 10px;
+  }
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
     padding: 4px 0px 4px 10px;
@@ -337,6 +399,10 @@ const InfoInput = styled.input`
   @media ${(props) => props.theme.mobile} {
     width: 270px;
     padding: 4px 0px 4px 10px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 270px;
+    padding: 9px 0px 9px 10px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
@@ -385,6 +451,10 @@ const InfoErrorText = styled.div`
   height: 8px;
   margin: 2px 0 10px 0;
   @media ${(props) => props.theme.mobile} {
+    width: 270px;
+    margin: 2px 0 12px 0;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 270px;
     margin: 2px 0 12px 0;
   }
@@ -623,6 +693,12 @@ const UpScrollBtn = styled.div`
     height: 100%;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 25px;
+    height: 25px;
+    right: 10px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 35px;
     height: 35px;
     right: 20px;
@@ -1231,6 +1307,7 @@ function Profile() {
               </InfoDistrict>
               <InfoInput
                 type="text"
+                maxLength={11}
                 value={username}
                 placeholder={username}
                 onChange={usernameOnChange}
