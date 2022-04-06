@@ -134,11 +134,17 @@ function Chat() {
     socket.on('welcome', () => {
       // setChat([...chat, `${user} joined!`]);
       mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
+      mutate(
+        `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`,
+      );
     });
 
     socket.on('bye', () => {
       // setChat([...chat, `${user} left :(`]);
       mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
+      mutate(
+        `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`,
+      );
     });
 
     socket.on('new_message', () => {
@@ -155,7 +161,11 @@ function Chat() {
   };
 
   const exitRoom = () => {
-    socket.emit('bye', room);
+    socket.emit('bye', room, () => {
+      mutate(
+        `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`,
+      );
+    });
     navigate(`/chat`);
   };
 
