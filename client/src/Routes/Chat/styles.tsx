@@ -120,10 +120,6 @@ export const List = styled.ul`
   flex-direction: column;
   padding: 10px 20px 20px 20px;
   box-sizing: border-box;
-  /* overflow: scroll;
-  ::-webkit-scrollbar {
-    display: none;
-  } */
   @media ${(props) => props.theme.iPhone12Pro} {
     padding: 5px 5px 5px 5px;
   }
@@ -487,3 +483,123 @@ export const ExitRoomBtn = styled.div`
 export const ExitRoomText = styled.div``;
 
 export const RoomTitle = styled.div``;
+
+export const ExitModalWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -50px;
+`;
+
+export const ExitModal = styled.div`
+  width: 150px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.theme.beige};
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
+  z-index: 5;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 150px;
+    height: 80px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 150px;
+    height: 80px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 150px;
+    height: 80px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 200px;
+    height: 90px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 200px;
+    height: 90px;
+  }
+  @media ${(props) => props.theme.desktop1} {
+    width: 200px;
+    height: 90px;
+  }
+  @media ${(props) => props.theme.desktop2} {
+    width: 200px;
+    height: 90px;
+  }
+`;
+
+export const UpBox = styled.div`
+  font-size: ${(props) => props.theme.fontSize.micro};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.desktop1} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+  @media ${(props) => props.theme.desktop2} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+  }
+`;
+
+export const DownBox = styled.div`
+  display: flex;
+  font-size: ${(props) => props.theme.fontSize.dust};
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+  }
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+  }
+  @media ${(props) => props.theme.desktop} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.desktop1} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+  @media ${(props) => props.theme.desktop2} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+  }
+`;
+
+export const ExitTitle = styled.div`
+  margin-bottom: 10px;
+`;
+
+export const ExitBtn = styled.div`
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  padding: 3px;
+  margin: 2px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px;
+  transition: all 0.7s;
+  cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.btnGreen};
+  }
+`;

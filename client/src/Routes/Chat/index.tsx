@@ -27,8 +27,13 @@ import {
   ChatWrapper,
   Date,
   DateBox,
+  DownBox,
+  ExitBtn,
+  ExitModal,
+  ExitModalWrapper,
   ExitRoomBtn,
   ExitRoomText,
+  ExitTitle,
   List,
   ListTitle,
   MsgBox,
@@ -40,6 +45,7 @@ import {
   RoomList,
   RoomTitle,
   RoomWrapper,
+  UpBox,
   Wrapper,
 } from './styles';
 
@@ -75,6 +81,7 @@ interface IChatList {
 function Chat() {
   const [room, setRoom] = useState<string | undefined>('');
   const [message, setMessage] = useState('');
+  const [open, setOpen] = useState(false);
   const [index, setIndex] = useState<number>();
   const scrollRef = useRef<Scrollbars>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -107,9 +114,9 @@ function Chat() {
   useEffect(() => {
     if (username && roomId) {
       socket.emit('enter_room', username, () => {
-        // mutate(
-        //   `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
-        // );
+        mutate(
+          `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
+        );
       });
       setRoom(username);
     }
@@ -166,7 +173,12 @@ function Chat() {
       );
       setRoom('');
     });
+    setOpen(!open);
     navigate(`/chat`);
+  };
+
+  const exitOnClick = () => {
+    setOpen(!open);
   };
 
   const reverseChat = chat?.chattings.flat().reverse();
@@ -174,6 +186,19 @@ function Chat() {
   return (
     <>
       <Nav />
+      {open ? (
+        <ExitModalWrapper>
+          <ExitModal>
+            <UpBox>
+              <ExitTitle>정말로 나가시겠습니까?</ExitTitle>
+            </UpBox>
+            <DownBox>
+              <ExitBtn onClick={exitRoom}>네, 나갈래요.</ExitBtn>
+              <ExitBtn onClick={exitOnClick}>아니요</ExitBtn>
+            </DownBox>
+          </ExitModal>
+        </ExitModalWrapper>
+      ) : null}
       <ChattingWrapper>
         <Wrapper>
           <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
@@ -200,7 +225,7 @@ function Chat() {
               <Chatting>
                 <ChatInfo>
                   <Nickname>{`${room}`}</Nickname>
-                  <ExitRoomBtn onClick={exitRoom}>
+                  <ExitRoomBtn onClick={exitOnClick}>
                     <ExitRoomText>방 나가기</ExitRoomText>
                   </ExitRoomBtn>
                 </ChatInfo>
