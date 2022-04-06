@@ -7,15 +7,15 @@ import { ChatsService } from './chats.service';
 export class ChatsController {
   constructor(private readonly chatsService: ChatsService) {}
 
+  @Post('/make-room')
+  makeRoom(@Body() body) {
+    return this.chatsService.makeRoom(body);
+  }
+
   @Get('/room-list/:id')
   getRoomList(@Param() param) {
     console.log('hi');
     return this.chatsService.getRoomList(param);
-  }
-
-  @Post('/make-room')
-  makeRoom(@Body() body) {
-    return this.chatsService.makeRoom(body);
   }
 
   @Get('/rooms/:id')

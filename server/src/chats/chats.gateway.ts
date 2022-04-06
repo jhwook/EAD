@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable class-methods-use-this */
 import { Logger } from '@nestjs/common';
@@ -15,6 +17,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Chatting } from './models/chattings.model';
 import { Room } from './models/rooms.model';
+import { User } from '../users/users.schema';
 
 // namespace -> room
 
@@ -27,6 +30,7 @@ export class ChatsGateway
   constructor(
     @InjectModel(Chatting.name) private readonly chattingModel: Model<Chatting>,
     @InjectModel(Room.name) private readonly roomModel: Model<Room>,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {
     this.logger.log('constructor');
   }
@@ -45,13 +49,42 @@ export class ChatsGateway
     this.logger.log(`connected : ${socket.id} ${socket.nsp.name}`);
   }
 
+  @SubscribeMessage(`make_room`)
+  async handleMakeRoom(
+    @MessageBody() data: string,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    const [myId, yourId] = data;
+    const userI = await this.userModel.findById(myId);
+    const userYOU = await this.userModel.findById(yourId);
+
+    console.log(typeof myId);
+    console.log(yourId);
+    const isExistRoom = await this.roomModel.find({ users: [myId, yourId] });
+    console.log(isExistRoom);
+    if (isExistRoom.length === 0) {
+      const room = await this.roomModel.create({ users: [myId, yourId] });
+      const chat = await this.chattingModel.create({
+        room_id: room.id,
+        user: userI.username,
+        content: `${userI.username}님이 채팅을 요청했습니다.`,
+        userImg: userI.imgUrl,
+      });
+      await this.roomModel.findByIdAndUpdate(room.id, {
+        $push: { chatting: { $each: [chat.id], $position: 0 } },
+      });
+      return room.id;
+    }
+
+    return isExistRoom[0].id;
+  }
+
   @SubscribeMessage('enter_room')
   handleEnterRoom(
     @MessageBody() data: string,
     @ConnectedSocket() socket: Socket,
   ) {
-    console.log(socket.rooms);
-    console.log(data);
+    // console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
 
     socket.join(data);
     socket.to(data).emit('welcome', data);
@@ -59,8 +92,33 @@ export class ChatsGateway
   }
 
   @SubscribeMessage('bye')
-  handleMakeRoom(@MessageBody() room, @ConnectedSocket() socket: Socket) {
-    socket.to(room).emit('bye', room);
+  async handleExitRoom(@MessageBody() data, @ConnectedSocket() socket: Socket) {
+    console.log('=======================', data);
+    const [room, roomId, userId] = data;
+    const user = await this.userModel.findById(userId);
+    const roomInfo = await this.roomModel.findById(roomId);
+    console.log(roomInfo);
+
+    if (roomInfo.users.length > 1) {
+      const chat = await this.chattingModel.create({
+        room_id: roomId,
+        user: user.username,
+        content: `${user.username}님이 채팅방을 떠났습니다.`,
+        userImg: user.imgUrl,
+      });
+      await this.roomModel.findByIdAndUpdate(roomInfo.id, {
+        $push: { chatting: { $each: [chat.id], $position: 0 } },
+      });
+      await this.roomModel.findByIdAndUpdate(roomInfo.id, {
+        $pull: { users: user.id },
+      });
+    } else {
+      for (let i = 0; i < roomInfo.chatting.length; i++) {
+        await this.chattingModel.findByIdAndDelete(roomInfo.chatting[i]);
+      }
+      await this.roomModel.findByIdAndDelete(roomId);
+      // socket.to(room).emit('bye', room);
+    }
   }
 
   @SubscribeMessage('new_message')

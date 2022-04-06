@@ -7,7 +7,7 @@
 import { Types, Document } from 'mongoose';
 export declare class Chatting extends Document {
     room_id: Types.ObjectId;
-    user: Types.ObjectId;
+    user: string;
     userImg: string;
     content: string;
 }

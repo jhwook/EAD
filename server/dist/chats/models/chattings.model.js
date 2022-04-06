@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChattingSchema = exports.Chatting = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const class_validator_1 = require("class-validator");
 const mongoose_2 = require("mongoose");
 const options = {
     timestamps: true,
@@ -23,9 +22,8 @@ __decorate([
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Chatting.prototype, "room_id", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, required: true, ref: 'User' }),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
 ], Chatting.prototype, "user", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),

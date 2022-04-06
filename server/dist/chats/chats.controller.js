@@ -19,12 +19,12 @@ let ChatsController = class ChatsController {
     constructor(chatsService) {
         this.chatsService = chatsService;
     }
+    makeRoom(body) {
+        return this.chatsService.makeRoom(body);
+    }
     getRoomList(param) {
         console.log('hi');
         return this.chatsService.getRoomList(param);
-    }
-    makeRoom(body) {
-        return this.chatsService.makeRoom(body);
     }
     getRoomChat(param) {
         return this.chatsService.getRoomChat(param);
@@ -34,19 +34,19 @@ let ChatsController = class ChatsController {
     }
 };
 __decorate([
-    (0, common_1.Get)('/room-list/:id'),
-    __param(0, (0, common_1.Param)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ChatsController.prototype, "getRoomList", null);
-__decorate([
     (0, common_1.Post)('/make-room'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ChatsController.prototype, "makeRoom", null);
+__decorate([
+    (0, common_1.Get)('/room-list/:id'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ChatsController.prototype, "getRoomList", null);
 __decorate([
     (0, common_1.Get)('/rooms/:id'),
     __param(0, (0, common_1.Param)()),
