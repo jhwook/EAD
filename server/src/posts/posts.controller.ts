@@ -124,28 +124,21 @@ export class PostsController {
   // 포스트 이미지 업로드
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('posts')))
   // @UseGuards(JwtAuthGuard)
-  @Post('/upload-post/:postId')
-  uploadPostImage(
-    @UploadedFiles() files: Array<Express.Multer.File>,
-    @Param() param,
-  ) {
+  @Post('/upload/post')
+  uploadPostImage(@UploadedFiles() files: Array<Express.Multer.File>) {
     console.log(files);
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.postsService.uploadPostImg(param, files);
+    return this.postsService.uploadPostImg(files);
   }
 
   // 댓글 이미지 업로드
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('comments')))
   // @UseGuards(JwtAuthGuard)
-  @Post('/upload-comment/:commentId')
-  uploadCommentImage(
-    @UploadedFiles() files: Array<Express.Multer.File>,
-    @Param() param,
-    @Body() body,
-  ) {
+  @Post('/upload/comment')
+  uploadCommentImage(@UploadedFiles() files: Array<Express.Multer.File>) {
     console.log(files);
     // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.postsService.uploadCommentImg(body, param, files);
+    return this.postsService.uploadCommentImg(files);
   }
 
   // 댓글 채택

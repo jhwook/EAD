@@ -35,9 +35,8 @@ export class Comment extends Document {
   @IsPositive()
   up: number;
 
-  @Prop([String])
-  @IsString()
-  imgUrl: [];
+  @Prop({ default: false })
+  selection: boolean;
 }
 const CommentSchema = SchemaFactory.createForClass(Comment);
 // CommentSchema.index({ title: 'text', content: 'text' });
