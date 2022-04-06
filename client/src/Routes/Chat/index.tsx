@@ -178,7 +178,6 @@ function Chat() {
     });
     setRoom(username);
     setIndex(i);
-    // setIndex(roomList.length - 1);
     navigate(`/chat/${id}/${username}`);
   };
 
@@ -227,7 +226,9 @@ function Chat() {
                     <RoomList
                       // eslint-disable-next-line react/no-array-index-key
                       key={i}
-                      className={index === i ? 'focus' : ''}
+                      className={
+                        index === i || el.roomName === username ? 'focus' : ''
+                      }
                       onClick={() => onClickChatRoom(el.roomName, i, el.id)}
                     >
                       <RoomBox>
