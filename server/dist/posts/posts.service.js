@@ -72,6 +72,9 @@ let PostsService = class PostsService {
             throw new common_1.HttpException('it is not your post', 401);
         }
         if (post) {
+            for (let i = 0; i < post.comment.length; i++) {
+                await this.commentModel.findByIdAndDelete(post.comment[i]);
+            }
             await this.postModel.findByIdAndDelete(postId);
             return { message: 'successfully deleted' };
         }
