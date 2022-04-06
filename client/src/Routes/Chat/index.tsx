@@ -86,7 +86,7 @@ function Chat() {
   const { mutate } = useSWRConfig();
   const { data: roomList } = useSWR<IRoomList[] | undefined>(
     userData
-      ? `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`
+      ? `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`
       : null,
     fetcher,
   );
@@ -135,7 +135,7 @@ function Chat() {
       // setChat([...chat, `${user} joined!`]);
       mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
       mutate(
-        `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`,
+        `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
       );
     });
 
@@ -143,7 +143,7 @@ function Chat() {
       // setChat([...chat, `${user} left :(`]);
       mutate(`${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`);
       mutate(
-        `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`,
+        `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
       );
     });
 
@@ -156,7 +156,7 @@ function Chat() {
   const onClickChatRoom = (username: string, i: number, id: string) => {
     socket.emit('enter_room', username, () => {
       mutate(
-        `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`,
+        `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
       );
     });
     setRoom(username);
@@ -167,7 +167,7 @@ function Chat() {
   const exitRoom = () => {
     socket.emit('bye', room, () => {
       mutate(
-        `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`,
+        `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`,
       );
     });
     navigate(`/chat`);
@@ -215,7 +215,7 @@ function Chat() {
                         <ChatBox key={nanoid()}>
                           <Picture src={el.userImg} />
                           <ChatList>
-                            <MsgBox>{el.content}</MsgBox>
+                            <MsgBox>{`${el.user}: ${el.content}`}</MsgBox>
                           </ChatList>
                           <DateBox>
                             <Date>
