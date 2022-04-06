@@ -85,6 +85,9 @@ let ChatsGateway = class ChatsGateway {
             await this.roomModel.findByIdAndUpdate(roomInfo.id, {
                 $pull: { users: user.id },
             });
+            await this.roomModel.findByIdAndUpdate(roomInfo.id, {
+                leftUser: userId,
+            });
         }
         else {
             for (let i = 0; i < roomInfo.chatting.length; i++) {
@@ -92,6 +95,7 @@ let ChatsGateway = class ChatsGateway {
             }
             await this.roomModel.findByIdAndDelete(roomId);
         }
+        return room;
     }
     async handleSubmitChat(data, socket) {
         const [message, room, roomId, myUsername] = data;

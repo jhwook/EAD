@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-return */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-empty-function */
@@ -112,6 +113,9 @@ export class ChatsGateway
       await this.roomModel.findByIdAndUpdate(roomInfo.id, {
         $pull: { users: user.id },
       });
+      await this.roomModel.findByIdAndUpdate(roomInfo.id, {
+        leftUser: userId,
+      });
     } else {
       for (let i = 0; i < roomInfo.chatting.length; i++) {
         await this.chattingModel.findByIdAndDelete(roomInfo.chatting[i]);
@@ -119,6 +123,7 @@ export class ChatsGateway
       await this.roomModel.findByIdAndDelete(roomId);
       // socket.to(room).emit('bye', room);
     }
+    return room;
   }
 
   @SubscribeMessage('new_message')
