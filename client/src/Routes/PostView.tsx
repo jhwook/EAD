@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-children-prop */
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
@@ -85,16 +86,6 @@ const PostPickIcon = styled.div`
   color: ${(props) => props.theme.beige};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.btnGreen};
-`;
-
-const PostEmptyIcon = styled.div`
-  height: 45px;
-  width: 55px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 0 0 25px;
 `;
 
 const WriterImgBox = styled.div`
@@ -425,7 +416,7 @@ function PostView() {
   const { userInfo, accessToken, isLogin } = userData;
   const [comments, setComments] = useState<any[]>([]);
   const [comId, setComId] = useState('');
-  const [postFuncView, setPostFuncView] = useState(false);
+  const [comWriterId, setComWriterId] = useState('');
   const [postWriterView, setPostWriterView] = useState(false);
   const [comModalView, setComModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
@@ -451,6 +442,7 @@ function PostView() {
     writer: string;
     writerImg: string;
     writerName: string;
+    selection: boolean;
     __v: number;
     _id: number;
   }
@@ -468,6 +460,7 @@ function PostView() {
     writer: '',
     writerImg: '',
     writerName: '',
+    selection: false,
     __v: 0,
     _id: 0,
   });
@@ -600,6 +593,26 @@ function PostView() {
     navigate('/');
   };
 
+  const pickComOnClick = async () => {
+    await axios.post(
+      `${process.env.REACT_APP_SERVER}/posts/select/comment`,
+      {
+        myId: data.writer,
+        yourId: comWriterId,
+        postId: data.id,
+        commentId: comId,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      },
+    );
+    navigate('/');
+  };
+
   const delPostModalClick = () => {
     setPostDelModalView(!postDelModalView);
   };
@@ -642,7 +655,13 @@ function PostView() {
     });
   };
 
-  const comPickOnClick = () => {
+  const comPickOnClick = (id: string, comId: any) => {
+    setComWriterId(id);
+    setComId(comId);
+    setComPickModalView(!comPickModalView);
+  };
+
+  const comPickModalClick = () => {
     setComPickModalView(!comPickModalView);
     navigate(`/chat/${data.writer}`);
   };
@@ -654,6 +673,7 @@ function PostView() {
     content: string;
     writerName: string;
     writerImg: string;
+    selection: boolean;
     _id: number;
   }
 
@@ -663,8 +683,11 @@ function PostView() {
       <Wrapper>
         <PostBox>
           <PostTopBox>
-            <PostPickIcon>채택완료</PostPickIcon>
-            {/* <PostUnpkIcon>채택중</PostUnpkIcon> */}
+            {data.selection ? (
+              <PostPickIcon>채택완료</PostPickIcon>
+            ) : (
+              <PostUnpkIcon>채택중</PostUnpkIcon>
+            )}
             {data.writerImg ? (
               <WriterImgBox>
                 <WriterImg src={data.writerImg} onClick={postWriterOnClick} />
@@ -749,8 +772,11 @@ function PostView() {
               {comments.map((com: IComState) => (
                 <CommentItem key={nanoid()}>
                   <CommentItemHead>
-                    <PostPickIcon>채택글</PostPickIcon>
-                    {/* <PostEmptyIcon /> */}
+                    {com.selection ? (
+                      <PostPickIcon>채택글</PostPickIcon>
+                    ) : (
+                      <PostUnpkIcon>미채택</PostUnpkIcon>
+                    )}
                     {com.writerImg ? (
                       <WriterImgBox>
                         <WriterImg src={com.writerImg} />
@@ -763,8 +789,12 @@ function PostView() {
                     <CommentWriter>{com.writerName}</CommentWriter>
                     {isLogin ? (
                       <>
-                        {userInfo.id === data.writer ? (
-                          <CommonBtn onClick={comPickOnClick}>채택</CommonBtn>
+                        {userInfo.id === data.writer && !data.selection ? (
+                          <CommonBtn
+                            onClick={() => comPickOnClick(com.writer, com._id)}
+                          >
+                            채택
+                          </CommonBtn>
                         ) : (
                           <CommonHideBtn />
                         )}
@@ -849,12 +879,12 @@ function PostView() {
           <ModalBack>
             <ModalBox>
               <ModalText>
-                현재 답변을 채택하시겠습니까? 현상금만큼 보유금이 차감되고
+                채택하시면 이를 취소할 수 없고, 현상금만큼 보유금이 차감되어
                 채택자에게 전달됩니다
               </ModalText>
               <ModalBtnBox>
-                <ModalBtn onClick={comPickOnClick}>네</ModalBtn>
-                <ModalBtn onClick={comPickOnClick}>아니요</ModalBtn>
+                <ModalBtn onClick={pickComOnClick}>네</ModalBtn>
+                <ModalBtn onClick={comPickModalClick}>아니요</ModalBtn>
               </ModalBtnBox>
             </ModalBox>
           </ModalBack>
