@@ -7,7 +7,7 @@ export declare class Comment extends Document {
     title: string;
     content: string;
     up: number;
-    imgUrl: [];
+    selection: boolean;
 }
 declare const CommentSchema: mongoose.Schema<Comment, mongoose.Model<Comment, any, any, any>, any, any>;
 export { CommentSchema };

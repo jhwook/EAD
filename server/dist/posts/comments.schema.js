@@ -52,10 +52,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Comment.prototype, "up", void 0);
 __decorate([
-    (0, mongoose_1.Prop)([String]),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", Array)
-], Comment.prototype, "imgUrl", void 0);
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Comment.prototype, "selection", void 0);
 Comment = __decorate([
     (0, mongoose_1.Schema)(options)
 ], Comment);

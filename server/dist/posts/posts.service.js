@@ -79,11 +79,9 @@ let PostsService = class PostsService {
             throw new common_1.HttpException('존재하지 않는 포스트입니다', 400);
         }
     }
-    async uploadPostImg(param, files) {
-        const { postId } = param;
+    async uploadPostImg(files) {
         const fileName = `posts/${files[0].filename}`;
         const imgUrl = `http://localhost:4000/media/${fileName}`;
-        await this.postModel.findByIdAndUpdate(postId, { $push: { imgUrl } });
         return imgUrl;
     }
     async searchPost(keyword) {
@@ -159,11 +157,9 @@ let PostsService = class PostsService {
         const comment = await this.commentModel.findById(commentId);
         return comment;
     }
-    async uploadCommentImg(body, param, files) {
-        const { commentId } = param;
+    async uploadCommentImg(files) {
         const fileName = `comments/${files[0].filename}`;
         const imgUrl = `http://localhost:4000/media/${fileName}`;
-        await this.postModel.findByIdAndUpdate(commentId, { $push: { imgUrl } });
         return imgUrl;
     }
     async getPostTitle() {
@@ -191,7 +187,18 @@ let PostsService = class PostsService {
         const mycomment = await this.commentModel.find({ writer: id });
         return mycomment;
     }
-    async selectComment(body) { }
+    async selectComment(body) {
+        const { myId, yourId, postId, commentId } = body;
+        const post = await this.postModel.findById(postId);
+        await this.userModel.findByIdAndUpdate(myId, {
+            $inc: { money: -1 * post.bounty },
+        });
+        await this.userModel.findByIdAndUpdate(yourId, {
+            $inc: { money: post.bounty },
+        });
+        await this.postModel.findByIdAndUpdate(postId, { selection: true });
+        await this.commentModel.findByIdAndUpdate(commentId, { selection: true });
+    }
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),
