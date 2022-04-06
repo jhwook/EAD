@@ -398,6 +398,7 @@ function Post() {
           <PostMidBox>
             <PostTitle
               type="text"
+              maxLength={30}
               placeholder="제목은 여기에"
               onChange={titleOnChange}
             />
