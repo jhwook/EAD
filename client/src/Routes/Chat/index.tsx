@@ -7,6 +7,7 @@ import { FiSend } from 'react-icons/fi';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import useSWR, { useSWRConfig } from 'swr';
+import autosize from 'autosize';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 import { useSelector } from 'react-redux';
@@ -38,7 +39,7 @@ import {
   ListTitle,
   MsgBox,
   MsgBtn,
-  MsgInput,
+  MsgTextArea,
   Nickname,
   Picture,
   RoomBox,
@@ -84,7 +85,7 @@ function Chat() {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState<number>();
   const scrollRef = useRef<Scrollbars>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
   dayjs.locale('ko');
   const { username, roomId } =
@@ -96,19 +97,34 @@ function Chat() {
       ? `${process.env.REACT_APP_SERVER}/chats/room-list/${userData.userInfo.id}`
       : null,
     fetcher,
+    { refreshInterval: 1000 },
   );
-  console.log('roomList :', roomList);
 
   const { data: chat } = useSWR<IChatList | undefined>(
     userData && roomId
       ? `${process.env.REACT_APP_SERVER}/chats/rooms/${roomId}`
       : null,
     fetcher,
+    { refreshInterval: 1 },
   );
-  console.log('chat :', chat);
 
-  const onMessageChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const onMessageChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     setMessage(e.currentTarget.value);
+  };
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      autosize(textAreaRef.current);
+    }
+  }, []);
+
+  const onKeydownChat = (e: any) => {
+    if (e.key === 'Enter') {
+      if (!e.shiftKey) {
+        e.preventDefault();
+        onMessageClick(e);
+      }
+    }
   };
 
   useEffect(() => {
@@ -273,11 +289,12 @@ function Chat() {
                   </Scrollbars>
                 </List>
                 <ChatForm>
-                  <MsgInput
+                  <MsgTextArea
                     placeholder="메세지를 입력해주세요."
                     value={message}
                     onChange={onMessageChange}
-                    ref={inputRef}
+                    onKeyPress={onKeydownChat}
+                    ref={textAreaRef}
                   />
                   <MsgBtn type="submit" onClick={onMessageClick}>
                     <FiSend className="send" />
