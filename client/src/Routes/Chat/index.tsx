@@ -154,7 +154,11 @@ function Chat() {
   }, [chat]);
 
   const onClickChatRoom = (username: string, i: number, id: string) => {
-    socket.emit('enter_room', username);
+    socket.emit('enter_room', username, () => {
+      mutate(
+        `${process.env.REACT_APP_SERVER}/chats/room-list/6236ccf67859b50174765244`,
+      );
+    });
     setRoom(username);
     setIndex(i);
     navigate(`/chat/${id}/${username}`);
