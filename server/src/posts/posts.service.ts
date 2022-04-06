@@ -88,6 +88,10 @@ export class PostsService {
     }
 
     if (post) {
+      for (let i = 0; i < post.comment.length; i++) {
+        await this.commentModel.findByIdAndDelete(post.comment[i]);
+      }
+
       await this.postModel.findByIdAndDelete(postId);
       return { message: 'successfully deleted' };
     } else {
