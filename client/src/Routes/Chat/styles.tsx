@@ -225,16 +225,32 @@ export const ChatForm = styled.form`
   position: relative;
   .send {
     color: ${(props) => props.theme.btnGreen};
-    font-size: ${(props) => props.theme.fontSize.small};
+    font-size: ${(props) => props.theme.fontSize.medium};
     font-weight: bold;
     position: absolute;
     top: 28px;
     right: 135px;
     cursor: pointer;
+    transition: all 0.7s;
+    &:hover {
+      color: ${(props) => props.theme.pink};
+    }
+    @media ${(props) => props.theme.iPhone12Pro} {
+      font-size: ${(props) => props.theme.fontSize.mini};
+    }
+    @media ${(props) => props.theme.mobile1} {
+      font-size: ${(props) => props.theme.fontSize.mini};
+    }
+    @media ${(props) => props.theme.mobile} {
+      font-size: ${(props) => props.theme.fontSize.mini};
+    }
+    @media ${(props) => props.theme.tablet} {
+      font-size: ${(props) => props.theme.fontSize.small};
+    }
   }
 `;
 
-export const MsgInput = styled.input`
+export const MsgTextArea = styled.textarea`
   width: 550px;
   height: 40px;
   font-size: ${(props) => props.theme.fontSize.mini};
@@ -243,13 +259,14 @@ export const MsgInput = styled.input`
   border-radius: 10px;
   padding-left: 10px;
   position: relative;
+  resize: none;
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 200px;
+    width: 170px;
     height: 32px;
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 200px;
+    width: 175px;
     height: 32px;
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
@@ -270,32 +287,32 @@ export const MsgBtn = styled.button`
   top: 0px;
   right: 20px;
   @media ${(props) => props.theme.iPhone12Pro} {
-    top: -6px;
-    right: -100px;
+    top: -4.5px;
+    right: -121px;
   }
   @media ${(props) => props.theme.mobile1} {
-    top: -6px;
-    right: -100px;
+    top: -4.5px;
+    right: -123px;
   }
   @media ${(props) => props.theme.mobile} {
-    top: -6px;
-    right: -70px;
+    top: -4.5px;
+    right: -115px;
   }
   @media ${(props) => props.theme.tablet} {
-    top: -6.5px;
-    right: -30px;
+    top: -4.5px;
+    right: -85px;
   }
   @media ${(props) => props.theme.desktop} {
-    top: -2px;
-    right: -5px;
+    top: -4.5px;
+    right: -75px;
   }
   @media ${(props) => props.theme.desktop1} {
-    top: 0px;
-    right: 70px;
+    top: -2px;
+    right: 0px;
   }
   @media ${(props) => props.theme.desktop2} {
-    top: 0px;
-    right: 70px;
+    top: -2px;
+    right: 0px;
   }
 `;
 
@@ -389,7 +406,6 @@ export const ChatBox = styled.div`
 
 export const ChatList = styled.li`
   width: 300px;
-  max-height: 50px;
   font-size: ${(props) => props.theme.fontSize.mini};
   font-weight: bold;
   border: 2px solid ${(props) => props.theme.btnGreen};

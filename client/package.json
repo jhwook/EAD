@@ -17,6 +17,7 @@
     "@types/react-dom": "^17.0.13",
     "@types/react-redux": "^7.1.23",
     "@types/styled-components": "^5.1.24",
+    "autosize": "^5.0.1",
     "axios": "^0.26.1",
     "dayjs": "^1.11.0",
     "immer": "^9.0.12",
@@ -72,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@types/autosize": "^4.0.1",
     "@types/prismjs": "^1.26.0",
     "@types/react-custom-scrollbars": "^4.0.10",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
