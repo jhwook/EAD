@@ -19,7 +19,7 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 import io from 'socket.io-client';
-import userHolder from '../Image/Logo/welcome.png';
+import userHolder from '../Image/Logo/welcome.svg';
 
 const socket = io(`${process.env.REACT_APP_SERVER}`);
 

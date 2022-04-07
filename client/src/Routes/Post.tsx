@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-return-assign */
 import styled from 'styled-components';
 import { useState, useRef, useCallback } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -11,7 +12,7 @@ import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { Editor } from '@toast-ui/react-editor';
-import { RootState } from 'index';
+import { RootState, ItemRender, AppDispatch } from 'index';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
 
@@ -479,8 +480,10 @@ function Post() {
   const [tag, setTag] = useState(initialTag);
   const [title, setTitle] = useState('');
   const [bounty, setBounty] = useState(0);
+  const [postId, setPostId] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
@@ -520,7 +523,7 @@ function Post() {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
     if (tag.length !== 0 && title !== '' && content !== '') {
-      await axios.post(
+      const data = await axios.post(
         `${process.env.REACT_APP_SERVER}/posts`,
         {
           id: userInfo.id,
@@ -537,6 +540,8 @@ function Post() {
           withCredentials: true,
         },
       );
+      setPostId(data.data.data.id);
+      dispatch(ItemRender([{ content: data.data.data.content }]));
       setPostModalView(!postModalView);
     } else if (tag.length === 0 || title === '' || content === '') {
       setFailModalView(!failModalView);
@@ -560,7 +565,7 @@ function Post() {
   };
 
   const postModalOnClick = () => {
-    navigate('/search');
+    navigate(`/post/${postId}`);
   };
 
   const failModalOnClick = useCallback(() => {

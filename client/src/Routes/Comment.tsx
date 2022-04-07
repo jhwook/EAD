@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { RootState } from 'index';
+import { RootState, ComRender, AppDispatch } from 'index';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -351,6 +351,8 @@ function Comment() {
   const [postId, setPostId] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const [con, setCon] = useState(comData[0]);
@@ -377,7 +379,7 @@ function Comment() {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
     if (content !== '') {
-      await axios.patch(
+      const data = await axios.patch(
         `${process.env.REACT_APP_SERVER}/posts/${id}/modify/comment`,
         {
           id: userInfo.id,
@@ -391,6 +393,8 @@ function Comment() {
           withCredentials: true,
         },
       );
+      console.log(data);
+      // dispatch(ComRender([con]));
       setPostModalView(!postModalView);
     } else if (content === '') {
       setFailModalView(!failModalView);
