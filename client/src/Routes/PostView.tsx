@@ -135,19 +135,16 @@ const PostUnpkIcon = styled.div`
   @media ${(props) => props.theme.tablet} {
   }
   @media ${(props) => props.theme.mobile} {
-    margin: 0 0 0 14px;
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 35px;
     width: 40px;
   }
   @media ${(props) => props.theme.mobile1} {
-    margin: 0 0 0 10px;
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 35px;
     width: 40px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    margin: 0 0 0 6px;
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 30px;
     width: 33px;
@@ -482,7 +479,7 @@ const CommentWriteName = styled.div`
     padding: 0px 0 0px 20px;
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 300px;
+    width: 308px;
     padding: 0px 0 0px 15px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
@@ -543,7 +540,7 @@ const CommentItemList = styled.ul``;
 
 const CommentItem = styled.li`
   border: 2px solid ${(props) => props.theme.btnGreen};
-  margin: 0 0 10px 0;
+  margin: 0 0 20px 0;
   border-radius: 20px;
   box-shadow: 3px 3px rgba(18, 62, 27, 0.3);
 `;
@@ -579,17 +576,15 @@ const CommentWriter = styled.div`
   }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.tiny};
-    width: 205px;
+    width: 204px;
   }
   @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.tiny};
-    margin: 0 0 0 4px;
-    width: 145px;
+    width: 167px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.micro};
-    margin: 0 0 0 3px;
-    width: 105px;
+    width: 115px;
   }
 `;
 
@@ -602,10 +597,8 @@ const CommentItemBtnBox = styled.div`
   @media ${(props) => props.theme.mobile} {
   }
   @media ${(props) => props.theme.mobile1} {
-    margin: auto 8px auto 0;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    margin: auto 4px auto 0;
   }
 `;
 
@@ -626,16 +619,19 @@ const CommentItemTitle = styled.div`
     max-width: 500px;
   }
   @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.small};
-    margin: 3px 0 0px 14px;
+    max-width: 440px;
+    font-size: ${(props) => props.theme.fontSize.mini};
+    margin: 3px 0 15px 23px;
   }
   @media ${(props) => props.theme.mobile1} {
-    font-size: ${(props) => props.theme.fontSize.mini};
-    margin: 6px 0 0px 10px;
+    max-width: 350px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    margin: 6px 0 10px 15px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.mini};
-    margin: 6px 0 0px 4px;
+    max-width: 280px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 6px 0 10px 15px;
   }
 `;
 
@@ -650,15 +646,16 @@ const ViewerBox = styled.div`
     width: 532px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 442px;
+    margin: 0px auto 19px auto;
+    width: 404px;
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 350px;
-    padding: 0 0 0px 0;
+    margin: 0px auto 14px auto;
+    width: 318px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 290px;
-    padding: 0 0 0px 0;
+    margin: 0px auto 14px auto;
+    width: 250px;
   }
 `;
 
@@ -710,13 +707,13 @@ const CommonBtn = styled.button`
   }
   @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.micro};
-    margin: 5px;
+    margin: 5px 0px 5px 5px;
     height: 27px;
     width: 35px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.micro};
-    margin: 2px;
+    margin: 5px 0px 5px 5px;
     height: 27px;
     width: 35px;
   }
