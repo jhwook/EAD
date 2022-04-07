@@ -14,7 +14,7 @@ import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
 import { FiChevronsUp } from 'react-icons/fi';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
-import userHolder from '../Image/Logo/welcoming.svg';
+import userHolder from '../Image/Logo/welcome.svg';
 import oauthImg from '../Image/Logo/3people.svg';
 
 const Payment = loadable(() => import('Components/Payment'));

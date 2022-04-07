@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-import { RootState } from 'index';
+import { RootState, ItemRender, AppDispatch } from 'index';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -477,10 +477,12 @@ function PostModify() {
   const [tag, setTag] = useState(initialTag);
   const [title, setTitle] = useState('');
   const [bounty, setBounty] = useState(0);
+  const [postId, setPostId] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
   const [postCon, setPostCon] = useState(itemData[0]);
   const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
@@ -537,7 +539,7 @@ function PostModify() {
     const editorInstance = editorRef.current?.getInstance();
     const content = editorInstance?.getMarkdown();
     if (tag.length !== 0 && title !== '' && content !== '') {
-      await axios.patch(
+      const data = await axios.patch(
         `${process.env.REACT_APP_SERVER}/posts/${id}`,
         {
           id: userInfo.id,
@@ -554,6 +556,8 @@ function PostModify() {
           withCredentials: true,
         },
       );
+      setPostId(data.data.data.id);
+      dispatch(ItemRender([{ content: data.data.data.content }]));
       setPostModalView(!postModalView);
     } else if (tag.length === 0 || title === '' || content === '') {
       setFailModalView(!failModalView);
@@ -577,7 +581,7 @@ function PostModify() {
   };
 
   const postModalOnClick = () => {
-    navigate('/search');
+    navigate(`/post/${postId}`);
   };
 
   const failModalOnClick = () => {
