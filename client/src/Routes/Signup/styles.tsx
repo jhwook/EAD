@@ -261,7 +261,7 @@ export const ConfirmText = styled.div`
 
 export const ErrorText = styled.div`
   width: 340px;
-  color: ${(props) => props.theme.lightGrey};
+  color: ${(props) => props.theme.pink};
   font-size: ${(props) => props.theme.fontSize.tiny};
   text-align: left;
   margin-bottom: 10px;
