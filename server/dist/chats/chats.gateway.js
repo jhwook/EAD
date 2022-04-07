@@ -38,10 +38,9 @@ let ChatsGateway = class ChatsGateway {
     handleConnection(socket) {
         this.logger.log(`connected : ${socket.id} ${socket.nsp.name}`);
     }
-    async handleMakeRoom(data, socket) {
+    async handleMakeRoom(data) {
         const [myId, yourId] = data;
         const userI = await this.userModel.findById(myId);
-        const userYOU = await this.userModel.findById(yourId);
         const isExistRoom = await this.roomModel.find({ users: [myId, yourId] });
         if (isExistRoom.length === 0) {
             const room = await this.roomModel.create({ users: [myId, yourId] });
@@ -63,7 +62,7 @@ let ChatsGateway = class ChatsGateway {
         socket.to(data).emit('welcome', data);
         return data;
     }
-    async handleExitRoom(data, socket) {
+    async handleExitRoom(data) {
         const [room, roomId, userId] = data;
         const user = await this.userModel.findById(userId);
         const roomInfo = await this.roomModel.findById(roomId);
@@ -123,9 +122,8 @@ __decorate([
 __decorate([
     (0, websockets_1.SubscribeMessage)(`make_room`),
     __param(0, (0, websockets_1.MessageBody)()),
-    __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, socket_io_1.Socket]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ChatsGateway.prototype, "handleMakeRoom", null);
 __decorate([
@@ -139,9 +137,8 @@ __decorate([
 __decorate([
     (0, websockets_1.SubscribeMessage)('bye'),
     __param(0, (0, websockets_1.MessageBody)()),
-    __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ChatsGateway.prototype, "handleExitRoom", null);
 __decorate([

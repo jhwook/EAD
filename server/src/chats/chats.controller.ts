@@ -14,7 +14,6 @@ export class ChatsController {
 
   @Get('/room-list/:id')
   getRoomList(@Param() param) {
-    console.log('hi');
     return this.chatsService.getRoomList(param);
   }
 

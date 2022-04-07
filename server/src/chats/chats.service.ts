@@ -69,7 +69,7 @@ export class ChatsService {
 
   async getRoomChat(param) {
     const { id } = param;
-    // const rooms = await this.roomModel.find({ users: { $all: id } });
+
     const room = await this.roomModel.findById(id).populate('chattings');
 
     return room;

@@ -23,7 +23,6 @@ let ChatsController = class ChatsController {
         return this.chatsService.makeRoom(body);
     }
     getRoomList(param) {
-        console.log('hi');
         return this.chatsService.getRoomList(param);
     }
     getRoomChat(param) {

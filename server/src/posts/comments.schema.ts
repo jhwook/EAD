@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
-import mongoose, { Document, Types } from 'mongoose';
-import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
-import { Post } from './posts.schema';
+import { Document, Types } from 'mongoose';
+import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 const options: SchemaOptions = {
   timestamps: true,
@@ -39,5 +38,5 @@ export class Comment extends Document {
   selection: boolean;
 }
 const CommentSchema = SchemaFactory.createForClass(Comment);
-// CommentSchema.index({ title: 'text', content: 'text' });
+
 export { CommentSchema };

@@ -11,6 +11,8 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const config_1 = require("@nestjs/config");
+const mongoose_1 = require("@nestjs/mongoose");
+const users_schema_1 = require("../users/users.schema");
 const users_module_1 = require("../users/users.module");
 const jwt_strategy_1 = require("./jwt/jwt.strategy");
 const auth_service_1 = require("./auth.service");
@@ -26,6 +28,7 @@ AuthModule = __decorate([
                 signOptions: { expiresIn: '1y' },
             }),
             (0, common_1.forwardRef)(() => users_module_1.UsersModule),
+            mongoose_1.MongooseModule.forFeature([{ name: users_schema_1.User.name, schema: users_schema_1.UserSchema }]),
         ],
         providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy],
         exports: [auth_service_1.AuthService, jwt_1.JwtModule, passport_1.PassportModule],

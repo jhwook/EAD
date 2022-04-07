@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
-const users_repository_1 = require("./users.repository");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const axios_1 = require("@nestjs/axios");
@@ -30,10 +29,9 @@ const http_exception_filter_1 = require("../common/exceptions/http-exception.fil
 const users_service_1 = require("./users.service");
 const users_schema_1 = require("./users.schema");
 let UsersController = class UsersController {
-    constructor(usersService, authService, usersRepository, awsService, httpService, userModel) {
+    constructor(usersService, authService, awsService, httpService, userModel) {
         this.usersService = usersService;
         this.authService = authService;
-        this.usersRepository = usersRepository;
         this.awsService = awsService;
         this.httpService = httpService;
         this.userModel = userModel;
@@ -143,9 +141,6 @@ let UsersController = class UsersController {
     verifyUsername(body) {
         return this.usersService.verifyUsername(body);
     }
-    getUsersPosts(req) {
-        return this.usersService.getUsersPosts(req);
-    }
     async uploadImage(file, param) {
         console.log(file);
         const { id } = param;
@@ -218,7 +213,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "signup", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/logout'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
@@ -263,14 +257,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "verifyUsername", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
-    (0, common_1.Get)('posts'),
-    __param(0, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "getUsersPosts", null);
-__decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     (0, common_1.Post)('upload/:id'),
     __param(0, (0, common_1.UploadedFile)()),
@@ -297,10 +283,9 @@ UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
-    __param(5, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
+    __param(4, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
     __metadata("design:paramtypes", [users_service_1.UsersService,
         auth_service_1.AuthService,
-        users_repository_1.UsersRepository,
         aws_service_1.AwsService,
         axios_1.HttpService,
         mongoose_2.Model])

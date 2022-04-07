@@ -1,12 +1,6 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import {
-  IsArray,
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { Post } from 'src/posts/posts.schema';
 
 const options: SchemaOptions = {
@@ -75,20 +69,6 @@ export class User extends Document {
 
 // eslint-disable-next-line no-underscore-dangle
 const _UserSchema = SchemaFactory.createForClass(User);
-
-// eslint-disable-next-line func-names
-// _UserSchema.virtual('readOnlyData').get(function (this: User) {
-//   return {
-//     id: this.id,
-//     email: this.email,
-//     username: this.username,
-//     stacks: this.stacks,
-//     oauth: this.oauth,
-//     imgUrl: this.imgUrl,
-//     posts: this.posts,
-//   };
-// });
-
 _UserSchema.virtual('posts', {
   ref: 'Post',
   localField: '_id',

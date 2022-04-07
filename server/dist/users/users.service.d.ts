@@ -1,21 +1,15 @@
 import { Model } from 'mongoose';
-import { MailerService } from '@nestjs-modules/mailer';
 import { TwilioClient } from 'nestjs-twilio';
 import { Post } from 'src/posts/posts.schema';
 import { Comment } from 'src/posts/comments.schema';
-import { AwsService } from 'src/aws.service';
-import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
-    private readonly usersRepository;
-    private readonly mailerService;
-    private readonly awsService;
     private readonly twilio;
     private readonly userModel;
     private readonly postModel;
     private readonly commentModel;
-    constructor(usersRepository: UsersRepository, mailerService: MailerService, awsService: AwsService, twilio: TwilioClient, userModel: Model<User>, postModel: Model<Post>, commentModel: Model<Comment>);
+    constructor(twilio: TwilioClient, userModel: Model<User>, postModel: Model<Post>, commentModel: Model<Comment>);
     createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;
@@ -37,7 +31,6 @@ export declare class UsersService {
         _id: any;
     }>;
     deleteUser(userInfo: UserRequestDto): Promise<string>;
-    findUserByEmail(email: any): Promise<User>;
     findOauthUser(oauthId: any): Promise<User & {
         _id: any;
     }>;
@@ -45,9 +38,6 @@ export declare class UsersService {
         _id: any;
     }>;
     changeStacksBoolean(param: any, body: any): Promise<User & {
-        _id: any;
-    }>;
-    getUsersPosts(req: any): Promise<User & {
         _id: any;
     }>;
     verifyUserEmail(body: any): Promise<{
