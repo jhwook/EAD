@@ -20,22 +20,18 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 3px 0 200px 0;
-  .dot {
-    font-size: ${(props) => props.theme.fontSize.medium};
-    cursor: pointer;
-  }
+  margin: 0px 0 180px 0;
   @media ${(props) => props.theme.tablet} {
     height: auto;
     min-height: 100%;
-    margin: 20px 0 166px 0;
-    padding: 0 0 0px 0;
+    margin: 20px 0 178px 0;
+    padding: 0 0 220px 0;
   }
   @media ${(props) => props.theme.mobile} {
     height: auto;
     min-height: 100%;
-    padding: 0 0 0px 0;
-    margin: 30px 0 200px 0;
+    padding: 0 0 106px 0;
+    margin: 30px 0 179px 0;
   }
   @media ${(props) => props.theme.mobile1} {
     height: auto;
@@ -89,12 +85,10 @@ const PostBox = styled.div`
   }
   @media ${(props) => props.theme.mobile1} {
     margin: 0 0 20px 0;
-
     width: 380px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     margin: 0 0 20px 0;
-
     width: 310px;
   }
 `;
@@ -157,12 +151,10 @@ const PostMidBox = styled.div`
     margin: 12px 0 0 0;
   }
   @media ${(props) => props.theme.mobile1} {
-    // align-items: center;
     flex-direction: column;
     margin: 15px 0 0 0;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    // align-items: center;
     flex-direction: column;
     margin: 11px 0 0 0;
   }
@@ -631,6 +623,7 @@ function Post() {
           </TagBox>
           <PostBotBox>
             <Editor
+              height="420px"
               initialEditType="markdown"
               ref={editorRef}
               placeholder="마크다운 양식으로 작성하세요"
