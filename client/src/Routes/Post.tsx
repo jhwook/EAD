@@ -6,6 +6,10 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { Editor } from '@toast-ui/react-editor';
 import { RootState } from 'index';
 import Nav from 'Components/Nav';
@@ -308,7 +312,7 @@ function Post() {
     (e: any) => {
       const filtered = tag.filter((el) => el === e.target.value);
       if (e.target.value !== '' && filtered.length === 0) {
-        setTag([...tag, e.target.value]);
+        setTag([...tag, e.target.value.toLowerCase()]);
         e.target.value = '';
       }
     },
@@ -398,7 +402,7 @@ function Post() {
           <PostMidBox>
             <PostTitle
               type="text"
-              maxLength={37}
+              maxLength={36}
               placeholder="제목은 여기에"
               onChange={titleOnChange}
             />
@@ -447,6 +451,7 @@ function Post() {
                 ['ul', 'ol'],
                 ['code', 'codeblock'],
               ]}
+              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
                   const imgUrl = uploadPostImg(blob);
