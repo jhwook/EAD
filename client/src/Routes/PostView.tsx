@@ -1191,7 +1191,7 @@ function PostView() {
           </PostViewBox>
         </PostBox>
         <CommentBox>
-          {isLogin ? (
+          {isLogin && userInfo.id !== data.writer ? (
             <CommentWriteForm>
               <CommentWriteBox>
                 <CommentWriteName>{userInfo.username}</CommentWriteName>
