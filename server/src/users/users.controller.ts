@@ -34,6 +34,8 @@ import { SuccessInterceptor } from '../common/interceptors/success.interceptor';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { UsersService } from './users.service';
 import { User } from './users.schema';
+import { Post as PostModel } from '../posts/posts.schema';
+import { Comment } from '../posts/comments.schema';
 
 @Controller('users')
 @UseInterceptors(SuccessInterceptor)
@@ -46,6 +48,8 @@ export class UsersController {
     private readonly awsService: AwsService,
     private httpService: HttpService,
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    @InjectModel(PostModel.name) private readonly postModel: Model<PostModel>,
+    @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -80,8 +84,7 @@ export class UsersController {
 
     const accessToken = naverToken.data.access_token;
     const refreshToken = naverToken.data.refresh_token;
-    console.log(accessToken);
-    console.log(refreshToken);
+
     const userData = await axios.get('https://openapi.naver.com/v1/nid/me', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -96,7 +99,6 @@ export class UsersController {
       provider,
     );
 
-    console.log(user);
     return { token: refreshToken, oauthId: user.oauthId };
   }
 
@@ -131,7 +133,6 @@ export class UsersController {
       provider,
     );
 
-    console.log(user);
     return { token: refreshToken, oauthId: user.oauthId };
   }
 
@@ -155,7 +156,7 @@ export class UsersController {
       `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`,
     );
     const { sub, name } = userData.data;
-    console.log(userData);
+
     const user = await this.authService.validateUser(
       sub,
       name,
@@ -163,7 +164,6 @@ export class UsersController {
       provider,
     );
 
-    console.log(user);
     return { token: access_token, oauthId: user.oauthId };
   }
 
@@ -225,7 +225,6 @@ export class UsersController {
   @UseInterceptors(FileInterceptor('image'))
   @Post('upload/:id')
   async uploadImage(@UploadedFile() file: Express.Multer.File, @Param() param) {
-    console.log(file);
     const { id } = param;
     const user = await this.userModel.findById(id);
 
@@ -237,6 +236,16 @@ export class UsersController {
     const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
     user.imgUrl = imgUrl;
     await user.save();
+
+    // 유저의 포스트, 댓글 이미지 수정
+    await this.postModel.updateMany(
+      { writer: id },
+      { $set: { writerImg: user.imgUrl } },
+    );
+    await this.commentModel.updateMany(
+      { writer: id },
+      { $set: { writerImg: user.imgUrl } },
+    );
 
     return user;
   }
