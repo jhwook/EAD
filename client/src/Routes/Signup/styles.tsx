@@ -9,6 +9,9 @@ export const SignupWrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 2;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    top: 15px;
+  }
 `;
 export const Wrapper = styled.div`
   width: 370px;
@@ -24,7 +27,7 @@ export const Wrapper = styled.div`
   position: relative;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
-    height: 620px;
+    height: 590px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 270px;
@@ -199,6 +202,9 @@ export const ExitBtn = styled.button`
   top: 15px;
   right: 23px;
   cursor: pointer;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
 `;
 
 export const SignupBtn = styled.button`
