@@ -521,8 +521,8 @@ export const DeleteBtn = styled.div`
 `;
 
 export const UpScrollBtn = styled.div`
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   position: fixed;
   right: 160px;
   bottom: 170px;
@@ -537,26 +537,28 @@ export const UpScrollBtn = styled.div`
     height: 100%;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     right: 40px;
     bottom: 220px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     right: 40px;
     bottom: 220px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     right: 40px;
     bottom: 220px;
   }
   @media ${(props) => props.theme.tablet} {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     right: 60px;
   }
   @media ${(props) => props.theme.desktop} {
