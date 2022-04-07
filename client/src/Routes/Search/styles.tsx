@@ -240,13 +240,20 @@ export const DownSide = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  .long {
+    font-size: ${(props) => props.theme.fontSize.atom};
+  }
 `;
 
 export const Title = styled.div`
   font-size: ${(props) => props.theme.fontSize.medium};
 `;
 export const Tag = styled.div`
-  width: 70px;
+  width: 84px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: ${(props) => props.theme.btnGreen};
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: bold;
