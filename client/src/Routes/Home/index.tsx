@@ -174,7 +174,7 @@ function Home() {
       <Nav />
       <HomeWrapper>
         <Wrapper>
-          <Fade delay={500}>
+          <Fade delay={400}>
             <IntroWrapper>
               <Intro src={intro} alt={logo1} />
             </IntroWrapper>
@@ -186,32 +186,34 @@ function Home() {
               <Text>바로 검색해보세요!</Text>
               <HiOutlineChevronDoubleDown className="down" />
             </Fade>
-            <Searchbar>
-              <Form onSubmit={handleOnSubmit}>
-                <SearchBarWrapper>
-                  <SearchInput
-                    onChange={handleOnChange}
-                    value={value}
-                    placeholder={errorMessage || '여기에 입력해주세요!'}
-                  />
+            <Fade delay={600}>
+              <Searchbar>
+                <Form onSubmit={handleOnSubmit}>
+                  <SearchBarWrapper>
+                    <SearchInput
+                      onChange={handleOnChange}
+                      value={value}
+                      placeholder={errorMessage || '여기에 입력해주세요!'}
+                    />
 
-                  <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
+                    <DeleteBtn onClick={deleteValueOnClick}>&times;</DeleteBtn>
 
-                  {arr.length !== 0 && value !== '' ? (
-                    <SearchBarBox>
-                      <SearchList
-                        type="button"
-                        list={filteredArr}
-                        chooseList={searchListOnClick}
-                      />
-                    </SearchBarBox>
-                  ) : null}
-                </SearchBarWrapper>
-                <Button type="submit">
-                  <FaSearch className="search" />
-                </Button>
-              </Form>
-            </Searchbar>
+                    {arr.length !== 0 && value !== '' ? (
+                      <SearchBarBox>
+                        <SearchList
+                          type="button"
+                          list={filteredArr}
+                          chooseList={searchListOnClick}
+                        />
+                      </SearchBarBox>
+                    ) : null}
+                  </SearchBarWrapper>
+                  <Button type="submit">
+                    <FaSearch className="search" />
+                  </Button>
+                </Form>
+              </Searchbar>
+            </Fade>
           </SearchBox>
         </Wrapper>
         <Box>
