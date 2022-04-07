@@ -25,11 +25,17 @@ const socket = io(`${process.env.REACT_APP_SERVER}`);
 const Wrapper = styled.div`
   width: 100%;
   min-height: 618px;
-  margin: 0 0 200px 0;
+  margin: 3px 0 200px 0;
+  @media ${(props) => props.theme.tablet} {
+    height: auto;
+    min-height: 100%;
+    margin: 3px 0 166px 0;
+    padding: 0 0 150px 0;
+  }
   @media ${(props) => props.theme.mobile} {
     height: auto;
     min-height: 100%;
-    padding-bottom: 30px;
+    padding-bottom: 82px;
   }
   @media ${(props) => props.theme.mobile1} {
     height: auto;
@@ -47,6 +53,11 @@ const FooterWrapper = styled.div`
   height: 150px;
   position: relative;
   margin-top: -150px;
+  /* @media ${(props) => props.theme.tablet} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  } */
   @media ${(props) => props.theme.mobile} {
     height: 200px;
     position: relative;
@@ -68,9 +79,9 @@ const PostBox = styled.div`
   width: 740px;
   height: auto;
   margin: 0 auto 30px auto;
-  border: 2px solid ${(props) => props.theme.grey};
+  border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 20px;
-  box-shadow: 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px rgba(18, 62, 27, 0.3);
   @media ${(props) => props.theme.tablet} {
     width: 610px;
   }
@@ -90,7 +101,9 @@ const PostTopBox = styled.div`
   display: flex;
   flex-direction: flex;
   align-items: center;
-  margin: 12px 0 0 0;
+  margin: 8px 25px 0px 25px;
+  padding: 0px 0px 8px 0px;
+  border-bottom: 1px solid ${(props) => props.theme.btnGreen};
   @media ${(props) => props.theme.tablet} {
   }
   @media ${(props) => props.theme.mobile} {
@@ -112,7 +125,7 @@ const PostUnpkIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0 0 25px;
+  margin: 0 0 0 0px;
   color: ${(props) => props.theme.btnGreen};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.beige};
@@ -146,7 +159,7 @@ const PostPickIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0 0 25px;
+  margin: 0 0 0 0px;
   color: ${(props) => props.theme.beige};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.btnGreen};
@@ -176,7 +189,7 @@ const WriterImgBox = styled.div`
   height: 45px;
   width: 55px;
   border-radius: 50%;
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   margin: auto 0px auto 5px;
   @media ${(props) => props.theme.tablet} {
   }
@@ -216,14 +229,14 @@ const WriterImg = styled.img`
 `;
 
 const PostWriter = styled.div`
-  width: 320px;
+  width: 400px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
   margin: auto 20px auto 8px;
   overflow: hidden;
   @media ${(props) => props.theme.tablet} {
-    width: 190px;
+    width: 270px;
   }
   @media ${(props) => props.theme.mobile} {
     width: 170px;
@@ -242,7 +255,7 @@ const PostWriter = styled.div`
 
 const PostBtnBox = styled.div`
   display: flex;
-  margin: 0 10px 0 0;
+  margin: 0 0px 0 0;
   @media ${(props) => props.theme.tablet} {
   }
   @media ${(props) => props.theme.mobile} {
@@ -257,8 +270,11 @@ const PostBtnBox = styled.div`
 `;
 
 const PostMidBox = styled.div`
-  height: 46px;
-  margin: 7px 0 14px 0;
+  // height: 46px;
+  margin: 20px 0 14px 0;
+  display: flex;
+  // align-items: center;
+  flex-direction: column;
   flex-wrap: wrap;
   @media ${(props) => props.theme.tablet} {
   }
@@ -275,19 +291,19 @@ const PostMidBox = styled.div`
 
 const PostTitle = styled.div`
   width: auto;
-  max-width: 500px;
+  max-width: 670px;
   font-size: ${(props) => props.theme.fontSize.medium};
   color: ${(props) => props.theme.black};
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 11px;
-  display: inline-block;
+  // display: inline-block;
   padding: 7px;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
-  margin: auto 0px auto 24px;
+  margin: auto auto auto 24px;
   @media ${(props) => props.theme.tablet} {
-    max-width: 400px;
+    max-width: 500px;
     font-size: ${(props) => props.theme.fontSize.small};
   }
   @media ${(props) => props.theme.mobile} {
@@ -310,15 +326,16 @@ const PostTitle = styled.div`
 
 const PostBounty = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
-  width: 145px;
-  margin: auto 21px auto 0px;
-  padding: 12.5px 8px;
+  width: auto;
+  margin: 15px auto auto 24px;
+  padding: 8px 8px 6px 8px;
   float: right;
   color: ${(props) => props.theme.beige};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   text-align: center;
+  font-family: 'Hanna';
   @media ${(props) => props.theme.tablet} {
     font-size: ${(props) => props.theme.fontSize.tiny};
     padding: 11px 4px;
@@ -390,12 +407,13 @@ const PostTagTitle = styled.span`
 `;
 
 const PostViewBox = styled.div`
-  margin: 0 auto 0 auto;
-  padding: 0 0 5px 0;
-  width: 690px;
+  margin: 15px auto 22px auto;
+  padding: 0 12px;
+  width: 664px;
   height: auto;
   min-height: 100px;
   font-size: ${(props) => props.theme.fontSize.mini};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   @media ${(props) => props.theme.tablet} {
     width: 554px;
   }
@@ -452,11 +470,11 @@ const ViewerBox = styled.div`
 `;
 
 const CommentWriteForm = styled.form`
-  border: 2px solid ${(props) => props.theme.grey};
+  border: 2px solid ${(props) => props.theme.btnGreen};
   padding: 0 0 15px 0;
   margin: 0 0 20px 0;
   border-radius: 20px;
-  box-shadow: 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px rgba(18, 62, 27, 0.3);
   @media ${(props) => props.theme.tablet} {
   }
   @media ${(props) => props.theme.mobile} {
@@ -512,7 +530,7 @@ const CommentWriteName = styled.div`
 const CommentTitle = styled.input`
   width: 500px;
   height: 25px;
-  border: 2px solid ${(props) => props.theme.grey};
+  border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   padding: 5px 0 5px 5px;
   font-size: ${(props) => props.theme.fontSize.small};
@@ -540,10 +558,10 @@ const CommentItemBox = styled.div``;
 const CommentItemList = styled.ul``;
 
 const CommentItem = styled.li`
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 2px solid ${(props) => props.theme.btnGreen};
   margin: 0 0 10px 0;
   border-radius: 20px;
-  box-shadow: 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px rgba(18, 62, 27, 0.3);
 `;
 
 const CommentItemHead = styled.div`
@@ -605,7 +623,7 @@ const CommentItemTitle = styled.div`
   max-width: 650px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 11px;
   display: inline-block;
   padding: 8px;
@@ -652,20 +670,21 @@ const CommonHideBtn = styled.div`
 `;
 
 const CommonBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.beige};
   color: ${(props) => props.theme.black};
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
-  margin: 10px 10px 10px 10px;
+  margin: 10px 0px 10px 20px;
   font-size: ${(props) => props.theme.fontSize.tiny};
   width: 60px;
   height: 30px;
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
+    background-color: ${(props) => props.theme.white};
     color: ${(props) => props.theme.pink};
     font-weight: bold;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 3px 3px rgba(18, 62, 27, 0.3);
   }
   @media ${(props) => props.theme.tablet} {
   }
@@ -725,7 +744,7 @@ const ModalBtnBox = styled.div``;
 const ModalBtn = styled.button`
   background-color: ${(props) => props.theme.white};
   color: ${(props) => props.theme.btnGreen};
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 11px;
   margin: 20px;
   font-size: ${(props) => props.theme.fontSize.tiny};
@@ -760,6 +779,7 @@ const UpScrollBtn = styled.div`
     height: 25px;
     right: 4px;
     bottom: 240px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 25px;
@@ -772,6 +792,7 @@ const UpScrollBtn = styled.div`
     height: 25px;
     right: 8px;
     bottom: 240px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.tablet} {
     width: 40px;
@@ -787,6 +808,33 @@ const UpScrollBtn = styled.div`
     width: 50px;
     height: 50px;
     right: 20px;
+  }
+`;
+
+export const BackBtn = styled.button`
+  background-color: ${(props) => props.theme.beige};
+  color: ${(props) => props.theme.btnGreen};
+  font-size: ${(props) => props.theme.fontSize.mini};
+  font-weight: bold;
+  border: none;
+  position: absolute;
+  top: 125px;
+  left: 80px;
+  cursor: pointer;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 100px;
+    left: 30px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 100px;
+    left: 30px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 100px;
+    left: 45px;
   }
 `;
 
@@ -1046,6 +1094,10 @@ function PostView() {
     setComPickModalView(!comPickModalView);
   };
 
+  const goBackOnClick = () => {
+    navigate(`/search`);
+  };
+
   interface IComState {
     post_id: string;
     writer: string;
@@ -1060,6 +1112,7 @@ function PostView() {
   return (
     <>
       <Nav />
+      <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
       <Wrapper>
         <PostBox>
           <PostTopBox>
@@ -1078,21 +1131,30 @@ function PostView() {
               </WriterImgBox>
             )}
             <PostWriter>{data.writerName}</PostWriter>
-            {postWriterView ? (
-              <PostBtn onClick={postChatOnClick}>채팅</PostBtn>
-            ) : (
-              <CommonHideBtn />
-            )}
             {userInfo.id === data?.writer ? (
               <PostBtnBox>
                 <CommonBtn onClick={postModifyOnClick}>수정</CommonBtn>
                 <CommonBtn onClick={delPostModalClick}>삭제</CommonBtn>
               </PostBtnBox>
-            ) : null}
+            ) : (
+              <PostBtnBox>
+                {isLogin ? (
+                  <>
+                    <CommonHideBtn />
+                    <PostBtn onClick={postChatOnClick}>채팅</PostBtn>
+                  </>
+                ) : (
+                  <>
+                    <CommonHideBtn />
+                    <CommonHideBtn />
+                  </>
+                )}
+              </PostBtnBox>
+            )}
           </PostTopBox>
           <PostMidBox>
             <PostTitle>{data.title}</PostTitle>
-            <PostBounty>현 상 금 : {data.bounty}원</PostBounty>
+            <PostBounty>현상금 : {data.bounty}원</PostBounty>
           </PostMidBox>
           <PostTagBox>
             <PostTagList>
