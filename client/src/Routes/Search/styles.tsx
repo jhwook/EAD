@@ -174,6 +174,7 @@ export const ListWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  word-break: break-all;
 `;
 
 export const Lists = styled.ul`
@@ -212,10 +213,11 @@ export const Lists = styled.ul`
   }
 `;
 export const List = styled.li`
-  width: 250px;
-  height: 250px;
+  width: 260px;
+  height: 260px;
   border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 15px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
