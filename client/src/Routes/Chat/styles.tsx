@@ -443,6 +443,21 @@ export const DateBox = styled.div`
   .meyo {
     width: 47px;
     text-align: right;
+    @media ${(props) => props.theme.mobile} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.tablet} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.desktop} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.desktop1} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.desktop2} {
+      width: 100px;
+    }
   }
 `;
 
