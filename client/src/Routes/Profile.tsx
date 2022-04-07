@@ -1307,7 +1307,7 @@ function Profile() {
               </InfoDistrict>
               <InfoInput
                 type="text"
-                maxLength={11}
+                maxLength={16}
                 value={username}
                 placeholder={username}
                 onChange={usernameOnChange}

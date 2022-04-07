@@ -302,7 +302,12 @@ function Comment() {
               <ComWriter>로그인을 해야합니다</ComWriter>
             </ComTopBox>
           )}
-          <ComTitle type="text" value={title} onChange={titleOnChange} />
+          <ComTitle
+            type="text"
+            value={title}
+            maxLength={36}
+            onChange={titleOnChange}
+          />
           <ViewerBox>
             <Editor
               height="438px"
