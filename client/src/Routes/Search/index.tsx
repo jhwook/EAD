@@ -263,7 +263,7 @@ function Search() {
       setExpress(false);
       setAws(false);
       setGit(false);
-    } else if (el === 'styledcomponents') {
+    } else if (el === 'styled-components') {
       setSc(true);
       setAll(false);
       setHtml(false);
@@ -276,7 +276,7 @@ function Search() {
       setExpress(false);
       setAws(false);
       setGit(false);
-    } else if (el === 'node') {
+    } else if (el === 'node.js') {
       setNode(true);
       setAll(false);
       setHtml(false);
