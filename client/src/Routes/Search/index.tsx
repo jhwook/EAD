@@ -263,7 +263,7 @@ function Search() {
       setExpress(false);
       setAws(false);
       setGit(false);
-    } else if (el === 'styled-components') {
+    } else if (el === 'styled-component') {
       setSc(true);
       setAll(false);
       setHtml(false);
@@ -511,7 +511,7 @@ function Search() {
               <Stack
                 bgColor="#5A9E7A"
                 color="white"
-                onClick={() => checkOnClick('styledcomponents')}
+                onClick={() => checkOnClick('styled-component')}
               >
                 Styled-Component
               </Stack>
@@ -519,7 +519,7 @@ function Search() {
               <Stack
                 color="#5A9E7A"
                 bgColor="white"
-                onClick={() => checkOnClick('styledcomponents')}
+                onClick={() => checkOnClick('styled-component')}
               >
                 Styled-Component
               </Stack>
@@ -528,7 +528,7 @@ function Search() {
               <Stack
                 bgColor="#5A9E7A"
                 color="white"
-                onClick={() => checkOnClick('node')}
+                onClick={() => checkOnClick('node.js')}
               >
                 Node.js
               </Stack>
@@ -536,7 +536,7 @@ function Search() {
               <Stack
                 color="#5A9E7A"
                 bgColor="white"
-                onClick={() => checkOnClick('node')}
+                onClick={() => checkOnClick('node.js')}
               >
                 Node.js
               </Stack>
