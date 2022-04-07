@@ -10,24 +10,22 @@ import {
   Delete,
   Get,
   Param,
-  ParseArrayPipe,
   Patch,
   Post,
   Query,
   Req,
   Res,
-  UploadedFiles,
+  UploadedFile,
   UseFilters,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { NaverAuthGuard } from 'src/auth/naver/naver.guard';
-import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { HttpService } from '@nestjs/axios';
-import LocalStorage from 'node-localstorage';
 import axios from 'axios';
-import { multerOptions } from '../common/utils/multer.options';
+import { AwsService } from 'src/aws.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
 import { AuthService } from '../auth/auth.service';
@@ -35,7 +33,7 @@ import { UserRequestDto } from './dto/users.request.dto';
 import { SuccessInterceptor } from '../common/interceptors/success.interceptor';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { UsersService } from './users.service';
-import { ideahub } from 'googleapis/build/src/apis/ideahub';
+import { User } from './users.schema';
 
 @Controller('users')
 @UseInterceptors(SuccessInterceptor)
@@ -47,7 +45,9 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
     private readonly usersRepository: UsersRepository,
+    private readonly awsService: AwsService,
     private httpService: HttpService,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
   //  @Get('/all')
@@ -250,15 +250,28 @@ export class UsersController {
 
   // eslint-disable-next-line class-methods-use-this
 
-  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('users')))
+  @UseInterceptors(FileInterceptor('image'))
   // @UseGuards(JwtAuthGuard)
   @Post('upload/:id')
-  uploadImage(
-    @UploadedFiles() files: Array<Express.Multer.File>,
+  async uploadImage(
+    // @UploadedFiles() files: Array<Express.Multer.File>,
+    @UploadedFile() file: Express.Multer.File,
     @Param() param,
   ) {
-    // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.usersService.uploadImg(param, files);
+    const { id } = param;
+    const user = await this.userModel.findById(id);
+
+    if (user.imgUrl) {
+      await this.awsService.deleteS3Object(user.imgUrl.slice(42));
+    }
+
+    const result = await this.awsService.uploadFileToS3('users', file);
+    const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
+    user.imgUrl = imgUrl;
+    await user.save();
+
+    return user;
+    // return this.usersService.uploadImg(file, param);
   }
 
   // @Post('/send-email')

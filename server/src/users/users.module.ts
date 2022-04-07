@@ -1,14 +1,14 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MulterModule } from '@nestjs/platform-express';
 import { Post, PostSchema } from 'src/posts/posts.schema';
 import { Comment, CommentSchema } from 'src/posts/comments.schema';
-import { google } from 'googleapis';
 import { TwilioModule } from 'nestjs-twilio';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
+import { AwsService } from '../aws.service';
+// import { MulterExtendedModule } from 'nestjs-multer-extended';
 import { AuthModule } from '../auth/auth.module';
 import { UsersRepository } from './users.repository';
 import { User, UserSchema } from './users.schema';
@@ -31,9 +31,17 @@ import { UsersService } from './users.service';
 // console.log(tokenFunc());
 @Module({
   imports: [
-    MulterModule.register({
-      dest: './upload',
-    }),
+    // MulterExtendedModule.register({
+    //   awsConfig: {
+    //     accessKeyId: 'YOUR_AWS_ACCESS_KEY_ID',
+    //     secretAccessKey: 'YOUR_AWS_ACCESS_KEY_ID',
+    //     region: 'AWS_REGION_NEAR_TO_YOU',
+    //     // ... any options you want to pass to the AWS instance
+    //   },
+    //   bucket: 'YOUR_S3_BUCKET_NAME',
+    //   basePath: 'ROOT_DIR_OF_ASSETS',
+    //   fileSize: 1 * 1024 * 1024,
+    // }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Post.name, schema: PostSchema },
@@ -70,7 +78,7 @@ import { UsersService } from './users.service';
     HttpModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, UsersRepository],
+  providers: [UsersService, UsersRepository, AwsService],
   exports: [UsersService, UsersRepository],
 })
 export class UsersModule {}

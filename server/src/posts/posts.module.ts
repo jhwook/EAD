@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
 import { UsersService } from 'src/users/users.service';
+import { AwsService } from 'src/aws.service';
 import { UsersModule } from '../users/users.module';
 import { UsersRepository } from '../users/users.repository';
 import { AuthModule } from '../auth/auth.module';
@@ -26,7 +27,7 @@ import { UserSchema, User } from '../users/users.schema';
     UsersModule,
   ],
   controllers: [PostsController],
-  providers: [PostsService, PostsRepository],
+  providers: [PostsService, PostsRepository, AwsService],
   exports: [PostsService, PostsRepository],
 })
 export class PostsModule {}

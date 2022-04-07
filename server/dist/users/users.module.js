@@ -10,12 +10,12 @@ exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mailer_1 = require("@nestjs-modules/mailer");
-const platform_express_1 = require("@nestjs/platform-express");
 const posts_schema_1 = require("../posts/posts.schema");
 const comments_schema_1 = require("../posts/comments.schema");
 const nestjs_twilio_1 = require("nestjs-twilio");
 const config_1 = require("@nestjs/config");
 const axios_1 = require("@nestjs/axios");
+const aws_service_1 = require("../aws.service");
 const auth_module_1 = require("../auth/auth.module");
 const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
@@ -26,9 +26,6 @@ let UsersModule = class UsersModule {
 UsersModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            platform_express_1.MulterModule.register({
-                dest: './upload',
-            }),
             mongoose_1.MongooseModule.forFeature([
                 { name: users_schema_1.User.name, schema: users_schema_1.UserSchema },
                 { name: posts_schema_1.Post.name, schema: posts_schema_1.PostSchema },
@@ -61,7 +58,7 @@ UsersModule = __decorate([
             axios_1.HttpModule,
         ],
         controllers: [users_controller_1.UsersController],
-        providers: [users_service_1.UsersService, users_repository_1.UsersRepository],
+        providers: [users_service_1.UsersService, users_repository_1.UsersRepository, aws_service_1.AwsService],
         exports: [users_service_1.UsersService, users_repository_1.UsersRepository],
     })
 ], UsersModule);

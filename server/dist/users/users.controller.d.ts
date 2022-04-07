@@ -1,16 +1,21 @@
 /// <reference types="multer" />
 import { UsersRepository } from 'src/users/users.repository';
 import { HttpService } from '@nestjs/axios';
+import { AwsService } from 'src/aws.service';
+import { Model } from 'mongoose';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
 import { AuthService } from '../auth/auth.service';
 import { UserRequestDto } from './dto/users.request.dto';
 import { UsersService } from './users.service';
+import { User } from './users.schema';
 export declare class UsersController {
     private readonly usersService;
     private readonly authService;
     private readonly usersRepository;
+    private readonly awsService;
     private httpService;
-    constructor(usersService: UsersService, authService: AuthService, usersRepository: UsersRepository, httpService: HttpService);
+    private readonly userModel;
+    constructor(usersService: UsersService, authService: AuthService, usersRepository: UsersRepository, awsService: AwsService, httpService: HttpService, userModel: Model<User>);
     auth(req: any): {
         isLogin: boolean;
         userInfo: any;
@@ -18,7 +23,7 @@ export declare class UsersController {
     };
     oauth(req: any, body: any): Promise<{
         isLogin: boolean;
-        userInfo: import("./users.schema").User & {
+        userInfo: User & {
             _id: any;
         };
         token: any;
@@ -37,7 +42,7 @@ export declare class UsersController {
     }>;
     login(body: LoginRequestDto): Promise<{
         isLogin: boolean;
-        userInfo: import("./users.schema").User;
+        userInfo: User;
         token: string;
     }>;
     signup(body: UserRequestDto): Promise<{
@@ -53,10 +58,10 @@ export declare class UsersController {
     }>;
     logout(req: any, res: any): any;
     signout(req: any): Promise<string>;
-    updateUser(body: any): Promise<import("./users.schema").User & {
+    updateUser(body: any): Promise<User & {
         _id: any;
     }>;
-    updateStacks(param: any, body: any): Promise<import("./users.schema").User & {
+    updateStacks(param: any, body: any): Promise<User & {
         _id: any;
     }>;
     verifyEmail(body: any): Promise<{
@@ -65,14 +70,14 @@ export declare class UsersController {
     verifyUsername(body: any): Promise<{
         message: string;
     }>;
-    getUsersPosts(req: any): Promise<import("./users.schema").User & {
+    getUsersPosts(req: any): Promise<User & {
         _id: any;
     }>;
-    uploadImage(files: Array<Express.Multer.File>, param: any): Promise<import("./users.schema").User & {
+    uploadImage(file: Express.Multer.File, param: any): Promise<User & {
         _id: any;
     }>;
     sendPhoneMessage(body: any): number;
-    usersPayment(body: any): Promise<import("./users.schema").User & {
+    usersPayment(body: any): Promise<User & {
         _id: any;
     }>;
 }

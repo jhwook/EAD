@@ -59,10 +59,8 @@ export class ChatsGateway
     const userI = await this.userModel.findById(myId);
     const userYOU = await this.userModel.findById(yourId);
 
-    console.log(typeof myId);
-    console.log(yourId);
     const isExistRoom = await this.roomModel.find({ users: [myId, yourId] });
-    console.log(isExistRoom);
+
     if (isExistRoom.length === 0) {
       const room = await this.roomModel.create({ users: [myId, yourId] });
       const chat = await this.chattingModel.create({
@@ -85,8 +83,6 @@ export class ChatsGateway
     @MessageBody() data: string,
     @ConnectedSocket() socket: Socket,
   ) {
-    // console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
-
     socket.join(data);
     socket.to(data).emit('welcome', data);
     return data;
@@ -94,11 +90,9 @@ export class ChatsGateway
 
   @SubscribeMessage('bye')
   async handleExitRoom(@MessageBody() data, @ConnectedSocket() socket: Socket) {
-    console.log('=======================', data);
     const [room, roomId, userId] = data;
     const user = await this.userModel.findById(userId);
     const roomInfo = await this.roomModel.findById(roomId);
-    console.log(roomInfo);
 
     if (roomInfo.users.length > 1) {
       const chat = await this.chattingModel.create({
@@ -132,7 +126,7 @@ export class ChatsGateway
     @ConnectedSocket() socket: Socket,
   ) {
     const [message, room, roomId, myUsername] = data;
-    console.log(data);
+
     const chat = await this.chattingModel.create({
       user: myUsername,
       content: message,

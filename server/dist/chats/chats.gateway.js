@@ -42,10 +42,7 @@ let ChatsGateway = class ChatsGateway {
         const [myId, yourId] = data;
         const userI = await this.userModel.findById(myId);
         const userYOU = await this.userModel.findById(yourId);
-        console.log(typeof myId);
-        console.log(yourId);
         const isExistRoom = await this.roomModel.find({ users: [myId, yourId] });
-        console.log(isExistRoom);
         if (isExistRoom.length === 0) {
             const room = await this.roomModel.create({ users: [myId, yourId] });
             const chat = await this.chattingModel.create({
@@ -67,11 +64,9 @@ let ChatsGateway = class ChatsGateway {
         return data;
     }
     async handleExitRoom(data, socket) {
-        console.log('=======================', data);
         const [room, roomId, userId] = data;
         const user = await this.userModel.findById(userId);
         const roomInfo = await this.roomModel.findById(roomId);
-        console.log(roomInfo);
         if (roomInfo.users.length > 1) {
             const chat = await this.chattingModel.create({
                 room_id: roomId,
@@ -99,7 +94,6 @@ let ChatsGateway = class ChatsGateway {
     }
     async handleSubmitChat(data, socket) {
         const [message, room, roomId, myUsername] = data;
-        console.log(data);
         const chat = await this.chattingModel.create({
             user: myUsername,
             content: message,

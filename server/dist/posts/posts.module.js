@@ -10,6 +10,7 @@ exports.PostsModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const platform_express_1 = require("@nestjs/platform-express");
+const aws_service_1 = require("../aws.service");
 const users_module_1 = require("../users/users.module");
 const auth_module_1 = require("../auth/auth.module");
 const posts_repository_1 = require("./posts.repository");
@@ -35,7 +36,7 @@ PostsModule = __decorate([
             users_module_1.UsersModule,
         ],
         controllers: [posts_controller_1.PostsController],
-        providers: [posts_service_1.PostsService, posts_repository_1.PostsRepository],
+        providers: [posts_service_1.PostsService, posts_repository_1.PostsRepository, aws_service_1.AwsService],
         exports: [posts_service_1.PostsService, posts_repository_1.PostsRepository],
     })
 ], PostsModule);
