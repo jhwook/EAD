@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import loadable from '@loadable/component';
 import {
@@ -81,25 +81,21 @@ function Signup() {
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (username && email && password && confirmPassword && done) {
-      try {
-        await axios.post(
-          `${process.env.REACT_APP_SERVER}/users/signup`,
-          { username, email, password },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
+      await axios.post(
+        `${process.env.REACT_APP_SERVER}/users/signup`,
+        { username, email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
-        setEmail('');
-        setPassword('');
-        setUsername('');
-        setDone(false);
-        navigate('/login');
-      } catch (err) {
-        console.log(err);
-      }
+          withCredentials: true,
+        },
+      );
+      setEmail('');
+      setPassword('');
+      setUsername('');
+      setDone(false);
+      navigate('/login');
     }
     if (done === false) {
       setErrorDoneMessage('본인 인증이 필요합니다.');

@@ -443,6 +443,27 @@ export const DateBox = styled.div`
   .meyo {
     width: 47px;
     text-align: right;
+    @media ${(props) => props.theme.iPhone12Pro} {
+      width: 70px;
+    }
+    @media ${(props) => props.theme.mobile1} {
+      width: 70px;
+    }
+    @media ${(props) => props.theme.mobile} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.tablet} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.desktop} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.desktop1} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.desktop2} {
+      width: 100px;
+    }
   }
 `;
 
@@ -473,6 +494,9 @@ export const MsgBox = styled.div`
     padding: 5px;
   }
   @media ${(props) => props.theme.mobile1} {
+    padding: 5px;
+  }
+  @media ${(props) => props.theme.mobile} {
     padding: 5px;
   }
 `;

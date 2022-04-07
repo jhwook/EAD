@@ -7,6 +7,11 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
+<<<<<<< Updated upstream
+=======
+import * as crypto from 'crypto';
+// import * as twilio from 'twilio';
+>>>>>>> Stashed changes
 import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { Post } from 'src/posts/posts.schema';
 import { Comment } from 'src/posts/comments.schema';
@@ -16,6 +21,11 @@ import { UserRequestDto } from './dto/users.request.dto';
 @Injectable()
 export class UsersService {
   constructor(
+<<<<<<< Updated upstream
+=======
+    private readonly usersRepository: UsersRepository,
+    private readonly awsService: AwsService,
+>>>>>>> Stashed changes
     @InjectTwilio() private readonly twilio: TwilioClient,
     @InjectModel(User.name) private readonly userModel: Model<User>,
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
