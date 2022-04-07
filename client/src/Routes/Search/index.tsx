@@ -629,7 +629,12 @@ function Search() {
                   </UpSide>
                   <DownSide>
                     {el.tag.map((el: string) => (
-                      <Tag key={nanoid()}>{el}</Tag>
+                      <Tag
+                        key={nanoid()}
+                        className={el === 'styled-component' ? 'long' : ''}
+                      >
+                        {el}
+                      </Tag>
                     ))}
                   </DownSide>
                 </List>
