@@ -4,7 +4,6 @@ exports.SocketAdapter = void 0;
 const core_1 = require("@nestjs/core");
 const common_1 = require("@nestjs/common");
 const cookieParser = require("cookie-parser");
-const path = require("path");
 const platform_socket_io_1 = require("@nestjs/platform-socket.io");
 const http_exception_filter_1 = require("./common/exceptions/http-exception.filter");
 const app_module_1 = require("./app.module");
@@ -24,9 +23,6 @@ async function bootstrap() {
     app.enableCors({
         origin: true,
         credentials: true,
-    });
-    app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {
-        prefix: '/media',
     });
     const { PORT } = process.env;
     await app.listen(PORT);

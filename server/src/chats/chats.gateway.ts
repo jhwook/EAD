@@ -126,11 +126,13 @@ export class ChatsGateway
     @ConnectedSocket() socket: Socket,
   ) {
     const [message, room, roomId, myUsername] = data;
+    const myUser = await this.userModel.findOne({ username: myUsername });
 
     const chat = await this.chattingModel.create({
       user: myUsername,
       content: message,
       room_id: roomId,
+      userImg: myUser.imgUrl,
     });
     await this.roomModel.findByIdAndUpdate(roomId, {
       $push: { chatting: { $each: [chat.id], $position: 0 } },

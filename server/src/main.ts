@@ -29,35 +29,17 @@ export class SocketAdapter extends IoAdapter {
 }
 
 async function bootstrap() {
-  // const server = express();
-  const app = await NestFactory.create<NestExpressApplication>(
-    AppModule,
-    // new ExpressAdapter(server),
-  );
-
-  // const io = require('socket.io')(server, {
-  //   cors: {
-  //     origin: 'https://example.com',
-  //     methods: ['GET', 'POST'],
-  //   },
-  // });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useWebSocketAdapter(new SocketAdapter(app));
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors({
-    // origin: ['http://localhost:3000'],
     origin: true,
     credentials: true,
   });
 
-  // http://localhost:4000/media/users/aaa.png
-  app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {
-    prefix: '/media',
-  });
   const { PORT } = process.env;
-  // await app.init();
-  // http.createServer(server).listen(PORT);
   await app.listen(PORT);
 }
 bootstrap();
