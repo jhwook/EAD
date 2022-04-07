@@ -26,28 +26,28 @@ const socket = io(`${process.env.REACT_APP_SERVER}`);
 const Wrapper = styled.div`
   width: 100%;
   min-height: 618px;
-  margin: 3px 0 200px 0;
+  margin: 0px 0 200px 0;
   @media ${(props) => props.theme.tablet} {
     height: auto;
-    min-height: 100%;
+    min-height: 868px;
     margin: 20px 0 166px 0;
     padding: 0 0 0px 0;
   }
   @media ${(props) => props.theme.mobile} {
     height: auto;
-    min-height: 100%;
+    min-height: 713px;
     padding: 0 0 0px 0;
     margin: 30px 0 200px 0;
   }
   @media ${(props) => props.theme.mobile1} {
     height: auto;
-    min-height: 100%;
+    min-height: 607px;
     padding: 0 0 0px 0;
     margin: 18px 0 200px 0;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     height: auto;
-    min-height: 100%;
+    min-height: 536px;
     padding: 0 0 0px 0;
     margin: 18px 0 200px 0;
   }
