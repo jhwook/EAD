@@ -405,6 +405,12 @@ const UpScrollBtn = styled.div`
     right: 20px;
     bottom: 240px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
   @media ${(props) => props.theme.mobile} {
     width: 35px;
     height: 35px;
