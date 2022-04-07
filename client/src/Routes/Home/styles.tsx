@@ -216,10 +216,10 @@ export const Intro = styled.img`
     width: 300px;
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 380px;
+    width: 310px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 500px;
+    width: 400px;
   }
   @media ${(props) => props.theme.tablet} {
     width: 530px;
