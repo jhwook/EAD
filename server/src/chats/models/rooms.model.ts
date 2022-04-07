@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
-import { IsNotEmpty } from 'class-validator';
-import { Types, Document } from 'mongoose';
-import { Chatting } from './chattings.model';
+import { Document } from 'mongoose';
 
 const options: SchemaOptions = {
   timestamps: true,
@@ -12,16 +10,6 @@ const options: SchemaOptions = {
 export class Room extends Document {
   @Prop()
   roomName: string;
-
-  // @Prop({
-  //   type: {
-  //     _id: { type: Types.ObjectId, required: true, ref: 'Chatting' },
-  //     user: { type: String, required: true },
-  //     content: { type: String },
-  //   },
-  // })
-  // @IsNotEmpty()
-  // chat: Chatting;
 
   @Prop([String])
   chatting: [];

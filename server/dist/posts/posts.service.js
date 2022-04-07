@@ -15,16 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const users_repository_1 = require("../users/users.repository");
 const mongoose_2 = require("mongoose");
 const users_schema_1 = require("../users/users.schema");
-const posts_repository_1 = require("./posts.repository");
 const posts_schema_1 = require("./posts.schema");
 const comments_schema_1 = require("./comments.schema");
 let PostsService = class PostsService {
-    constructor(postsRepository, usersRepository, postModel, commentModel, userModel) {
-        this.postsRepository = postsRepository;
-        this.usersRepository = usersRepository;
+    constructor(postModel, commentModel, userModel) {
         this.postModel = postModel;
         this.commentModel = commentModel;
         this.userModel = userModel;
@@ -67,7 +63,7 @@ let PostsService = class PostsService {
     async deletePost(param, body) {
         const { postId } = param;
         const { id } = body;
-        const post = await this.postsRepository.findPostById(postId);
+        const post = await this.postModel.findById(postId);
         if (post.writer !== id) {
             throw new common_1.HttpException('it is not your post', 401);
         }
@@ -88,13 +84,11 @@ let PostsService = class PostsService {
         return imgUrl;
     }
     async searchPost(keyword) {
-        console.log(keyword);
         if (keyword !== '') {
             let postArray = [];
             postArray = await this.postModel
                 .find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
                 .sort({ score: { $meta: 'textScore' } });
-            console.log(postArray);
             return postArray.map((post) => {
                 return { id: post.id, title: post.title, tag: post.tag };
             });
@@ -130,7 +124,7 @@ let PostsService = class PostsService {
         return newPost;
     }
     async modifyComment(body, param) {
-        const { id, content, title } = body;
+        const { content, title } = body;
         const { commentId } = param;
         await this.commentModel.findByIdAndUpdate(commentId, {
             content,
@@ -142,7 +136,6 @@ let PostsService = class PostsService {
     async deleteComment(param) {
         const { commentId } = param;
         const comment = await this.commentModel.findById(commentId);
-        console.log(String(comment.post_id));
         const postId = String(comment.post_id);
         const post = await this.postModel.findById(postId);
         if (!comment) {
@@ -166,7 +159,10 @@ let PostsService = class PostsService {
         return imgUrl;
     }
     async getPostTitle() {
-        const postTitles = await this.postsRepository.getTitle();
+        const titleArr = await this.postModel.find({});
+        const postTitles = titleArr.map((post) => {
+            return { id: post.id, title: post.title, tag: post.tag };
+        });
         return postTitles;
     }
     async getOnePostContent(id) {
@@ -205,12 +201,10 @@ let PostsService = class PostsService {
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(2, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
-    __param(3, (0, mongoose_1.InjectModel)(comments_schema_1.Comment.name)),
-    __param(4, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
-    __metadata("design:paramtypes", [posts_repository_1.PostsRepository,
-        users_repository_1.UsersRepository,
-        mongoose_2.Model,
+    __param(0, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
+    __param(1, (0, mongoose_1.InjectModel)(comments_schema_1.Comment.name)),
+    __param(2, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model])
 ], PostsService);

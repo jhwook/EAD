@@ -17,18 +17,12 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const bcrypt = require("bcrypt");
-const mailer_1 = require("@nestjs-modules/mailer");
 const nestjs_twilio_1 = require("nestjs-twilio");
 const posts_schema_1 = require("../posts/posts.schema");
 const comments_schema_1 = require("../posts/comments.schema");
-const aws_service_1 = require("../aws.service");
-const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
 let UsersService = class UsersService {
-    constructor(usersRepository, mailerService, awsService, twilio, userModel, postModel, commentModel) {
-        this.usersRepository = usersRepository;
-        this.mailerService = mailerService;
-        this.awsService = awsService;
+    constructor(twilio, userModel, postModel, commentModel) {
         this.twilio = twilio;
         this.userModel = userModel;
         this.postModel = postModel;
@@ -36,8 +30,8 @@ let UsersService = class UsersService {
     }
     async createUser(body) {
         const { email, username, password } = body;
-        const isEmailExist = await this.usersRepository.existsByEmail(email);
-        const isUsernameExist = await this.usersRepository.existsByUsername(username);
+        const isEmailExist = await this.userModel.exists({ email });
+        const isUsernameExist = await this.userModel.exists({ username });
         if (isEmailExist || isUsernameExist) {
             if (isEmailExist) {
                 throw new common_1.HttpException('this email already exist', 400);
@@ -60,7 +54,7 @@ let UsersService = class UsersService {
             false,
             false,
         ];
-        const user = await this.usersRepository.create({
+        const user = await this.userModel.create({
             email,
             username,
             password: hashedPassword,
@@ -82,7 +76,7 @@ let UsersService = class UsersService {
             false,
             false,
         ];
-        await this.usersRepository.create({
+        await this.userModel.create({
             email: 'None',
             oauthId,
             username,
@@ -104,11 +98,8 @@ let UsersService = class UsersService {
         return updatedUser;
     }
     async deleteUser(userInfo) {
-        await this.usersRepository.delete(userInfo);
+        await this.userModel.deleteOne(userInfo);
         return 'successfully signout';
-    }
-    async findUserByEmail(email) {
-        return await this.usersRepository.findUserByEmail(email);
     }
     async findOauthUser(oauthId) {
         return await this.userModel.findOne({ oauthId });
@@ -143,14 +134,9 @@ let UsersService = class UsersService {
         const modifiedUser = await this.userModel.findById(id);
         return modifiedUser;
     }
-    async getUsersPosts(req) {
-        const { id } = req.user;
-        const usersPost = await this.usersRepository.findUserPosts(id);
-        return usersPost;
-    }
     async verifyUserEmail(body) {
         const { email } = body;
-        const isExistEmail = await this.usersRepository.existsByEmail(email);
+        const isExistEmail = await this.userModel.exists({ email });
         if (isExistEmail) {
             throw new common_1.HttpException('존재하는 이메일입니다.', 400);
         }
@@ -160,7 +146,7 @@ let UsersService = class UsersService {
     }
     async verifyUsername(body) {
         const { username } = body;
-        const isExistUsername = await this.usersRepository.existsByUsername(username);
+        const isExistUsername = await this.userModel.exists({ username });
         if (isExistUsername) {
             throw new common_1.HttpException('존재하는 닉네임입니다.', 400);
         }
@@ -190,13 +176,11 @@ let UsersService = class UsersService {
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(3, (0, nestjs_twilio_1.InjectTwilio)()),
-    __param(4, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
-    __param(5, (0, mongoose_2.InjectModel)(posts_schema_1.Post.name)),
-    __param(6, (0, mongoose_2.InjectModel)(comments_schema_1.Comment.name)),
-    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
-        mailer_1.MailerService,
-        aws_service_1.AwsService, Object, mongoose_1.Model,
+    __param(0, (0, nestjs_twilio_1.InjectTwilio)()),
+    __param(1, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
+    __param(2, (0, mongoose_2.InjectModel)(posts_schema_1.Post.name)),
+    __param(3, (0, mongoose_2.InjectModel)(comments_schema_1.Comment.name)),
+    __metadata("design:paramtypes", [Object, mongoose_1.Model,
         mongoose_1.Model,
         mongoose_1.Model])
 ], UsersService);

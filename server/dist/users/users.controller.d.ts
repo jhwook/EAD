@@ -1,5 +1,4 @@
 /// <reference types="multer" />
-import { UsersRepository } from 'src/users/users.repository';
 import { HttpService } from '@nestjs/axios';
 import { AwsService } from 'src/aws.service';
 import { Model } from 'mongoose';
@@ -11,11 +10,10 @@ import { User } from './users.schema';
 export declare class UsersController {
     private readonly usersService;
     private readonly authService;
-    private readonly usersRepository;
     private readonly awsService;
     private httpService;
     private readonly userModel;
-    constructor(usersService: UsersService, authService: AuthService, usersRepository: UsersRepository, awsService: AwsService, httpService: HttpService, userModel: Model<User>);
+    constructor(usersService: UsersService, authService: AuthService, awsService: AwsService, httpService: HttpService, userModel: Model<User>);
     auth(req: any): {
         isLogin: boolean;
         userInfo: any;
@@ -42,7 +40,9 @@ export declare class UsersController {
     }>;
     login(body: LoginRequestDto): Promise<{
         isLogin: boolean;
-        userInfo: User;
+        userInfo: User & {
+            _id: any;
+        };
         token: string;
     }>;
     signup(body: UserRequestDto): Promise<{
@@ -69,9 +69,6 @@ export declare class UsersController {
     }>;
     verifyUsername(body: any): Promise<{
         message: string;
-    }>;
-    getUsersPosts(req: any): Promise<User & {
-        _id: any;
     }>;
     uploadImage(file: Express.Multer.File, param: any): Promise<User & {
         _id: any;

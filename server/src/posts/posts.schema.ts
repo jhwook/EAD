@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
-import mongoose, { Types, Document } from 'mongoose';
+import { Types, Document } from 'mongoose';
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
-import { Comment } from './comments.schema';
 
 const options: SchemaOptions = {
   timestamps: true,

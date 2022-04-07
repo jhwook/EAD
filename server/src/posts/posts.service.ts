@@ -9,10 +9,8 @@
 /* eslint-disable no-else-return */
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { UsersRepository } from 'src/users/users.repository';
 import { Model } from 'mongoose';
 import { User } from 'src/users/users.schema';
-import { PostsRepository } from './posts.repository';
 import { Post } from './posts.schema';
 import { Comment } from './comments.schema';
 
@@ -20,8 +18,6 @@ import { Comment } from './comments.schema';
 export class PostsService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    private readonly postsRepository: PostsRepository,
-    private readonly usersRepository: UsersRepository,
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
     @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
     @InjectModel(User.name) private readonly userModel: Model<User>,
@@ -32,8 +28,6 @@ export class PostsService {
     const post = await this.postModel.findById(id).populate('comments');
     return post;
   }
-
-  // async getAllComments() {}
 
   // 포스트 작성
   async createPost(body) {
@@ -81,7 +75,7 @@ export class PostsService {
   async deletePost(param, body) {
     const { postId } = param;
     const { id } = body;
-    const post = await this.postsRepository.findPostById(postId);
+    const post = await this.postModel.findById(postId);
 
     if (post.writer !== id) {
       throw new HttpException('it is not your post', 401);
@@ -109,7 +103,6 @@ export class PostsService {
 
   // 검색 (키워드)
   async searchPost(keyword) {
-    console.log(keyword);
     if (keyword !== '') {
       let postArray = [];
       postArray = await this.postModel
@@ -118,7 +111,7 @@ export class PostsService {
           { score: { $meta: 'textScore' } },
         )
         .sort({ score: { $meta: 'textScore' } });
-      console.log(postArray);
+
       return postArray.map((post) => {
         return { id: post.id, title: post.title, tag: post.tag };
       });
@@ -168,7 +161,7 @@ export class PostsService {
 
   // 댓글 수정
   async modifyComment(body, param) {
-    const { id, content, title } = body;
+    const { content, title } = body;
     const { commentId } = param;
 
     await this.commentModel.findByIdAndUpdate(commentId, {
@@ -183,7 +176,6 @@ export class PostsService {
   async deleteComment(param) {
     const { commentId } = param;
     const comment = await this.commentModel.findById(commentId);
-    console.log(String(comment.post_id));
     const postId = String(comment.post_id);
     const post = await this.postModel.findById(postId);
 
@@ -221,14 +213,18 @@ export class PostsService {
 
   // 포스트 제목만 주기
   async getPostTitle() {
-    const postTitles = await this.postsRepository.getTitle();
+    const titleArr = await this.postModel.find({});
+
+    const postTitles = titleArr.map((post) => {
+      return { id: post.id, title: post.title, tag: post.tag };
+    });
+
     return postTitles;
   }
 
   async getOnePostContent(id) {
     const post = await this.postModel.findById(id);
-    // const post = await this.postModel.findById(id).populate('comments');
-    // console.log(post);
+
     let result = [];
     const commentArr = post.comment;
 

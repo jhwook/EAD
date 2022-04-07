@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const mailer_1 = require("@nestjs-modules/mailer");
 const posts_schema_1 = require("../posts/posts.schema");
 const comments_schema_1 = require("../posts/comments.schema");
 const nestjs_twilio_1 = require("nestjs-twilio");
@@ -17,7 +16,6 @@ const config_1 = require("@nestjs/config");
 const axios_1 = require("@nestjs/axios");
 const aws_service_1 = require("../aws.service");
 const auth_module_1 = require("../auth/auth.module");
-const users_repository_1 = require("./users.repository");
 const users_schema_1 = require("./users.schema");
 const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
@@ -31,21 +29,6 @@ UsersModule = __decorate([
                 { name: posts_schema_1.Post.name, schema: posts_schema_1.PostSchema },
                 { name: comments_schema_1.Comment.name, schema: comments_schema_1.CommentSchema },
             ]),
-            mailer_1.MailerModule.forRoot({
-                transport: {
-                    service: 'gmail',
-                    host: 'smtp.gmail.com',
-                    port: 587,
-                    auth: {
-                        type: 'OAuth2',
-                        user: process.env.EMAIL_ID,
-                        pass: process.env.EMAIL_PASS,
-                        clientId: process.env.OAUTH_CLIENT_ID,
-                        clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                        refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-                    },
-                },
-            }),
             nestjs_twilio_1.TwilioModule.forRootAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (cfg) => ({
@@ -58,8 +41,8 @@ UsersModule = __decorate([
             axios_1.HttpModule,
         ],
         controllers: [users_controller_1.UsersController],
-        providers: [users_service_1.UsersService, users_repository_1.UsersRepository, aws_service_1.AwsService],
-        exports: [users_service_1.UsersService, users_repository_1.UsersRepository],
+        providers: [users_service_1.UsersService, aws_service_1.AwsService],
+        exports: [users_service_1.UsersService],
     })
 ], UsersModule);
 exports.UsersModule = UsersModule;

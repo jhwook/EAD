@@ -1,4 +1,10 @@
-import mongoose, { Types, Document } from 'mongoose';
+/// <reference types="mongoose/types/pipelinestage" />
+/// <reference types="mongoose/types/connection" />
+/// <reference types="mongoose/types/cursor" />
+/// <reference types="mongoose/types/document" />
+/// <reference types="mongoose/types/error" />
+/// <reference types="mongoose/types/schemaoptions" />
+import { Types, Document } from 'mongoose';
 export declare class Post extends Document {
     writer: Types.ObjectId;
     writerName: string;
@@ -10,4 +16,4 @@ export declare class Post extends Document {
     bounty: number;
     selection: boolean;
 }
-export declare const PostSchema: mongoose.Schema<Post, mongoose.Model<Post, any, any, any>, any, any>;
+export declare const PostSchema: import("mongoose").Schema<Post, import("mongoose").Model<Post, any, any, any>, any, any>;

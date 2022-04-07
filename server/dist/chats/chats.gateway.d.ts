@@ -13,8 +13,8 @@ export declare class ChatsGateway implements OnGatewayInit, OnGatewayConnection,
     afterInit(): void;
     handleDisconnect(socket: Socket): void;
     handleConnection(socket: Socket): void;
-    handleMakeRoom(data: string, socket: Socket): Promise<any>;
+    handleMakeRoom(data: string): Promise<any>;
     handleEnterRoom(data: string, socket: Socket): string;
-    handleExitRoom(data: any, socket: Socket): Promise<any>;
+    handleExitRoom(data: any): Promise<any>;
     handleSubmitChat(data: string, socket: Socket): Promise<string>;
 }

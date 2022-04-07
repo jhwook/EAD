@@ -33,7 +33,6 @@ let PostsController = class PostsController {
         return this.postsService.getPostTitle();
     }
     searchPost(keyword) {
-        console.log(keyword);
         return this.postsService.searchPost(keyword);
     }
     searchPostByTag(body) {
@@ -70,13 +69,11 @@ let PostsController = class PostsController {
         return this.postsService.getOneComment(param);
     }
     async uploadPostImage(file) {
-        console.log(file);
         const result = await this.awsService.uploadFileToS3('posts', file);
         const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
         return imgUrl;
     }
     async uploadCommentImage(file) {
-        console.log(file);
         const result = await this.awsService.uploadFileToS3('comments', file);
         const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
         return imgUrl;

@@ -1,9 +1,9 @@
+/* eslint-disable no-useless-constructor */
 /* eslint-disable camelcase */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 /* eslint-disable no-return-await */
 /* eslint-disable lines-between-class-members */
-import { UsersRepository } from 'src/users/users.repository';
 import {
   Body,
   Controller,
@@ -40,21 +40,14 @@ import { User } from './users.schema';
 @UseFilters(HttpExceptionFilter)
 export class UsersController {
   // 의존성 주입
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
-    private readonly usersRepository: UsersRepository,
     private readonly awsService: AwsService,
     private httpService: HttpService,
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  //  @Get('/all')
-  //  getAll() {
-
-  //  }
-  // eslint-disable-next-line class-methods-use-this
   @UseGuards(JwtAuthGuard)
   @Get('/auth')
   auth(@Req() req) {
@@ -63,7 +56,6 @@ export class UsersController {
     return { isLogin: true, userInfo: req.user, token };
   }
 
-  // @UseGuards(JwtAuthGuard)
   @Post('/oauth')
   async oauth(@Req() req, @Body() body) {
     const refreshToken = req.rawHeaders[9];
@@ -75,7 +67,6 @@ export class UsersController {
 
   // Naver 로그인
   @Get('auth/naver')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   async naverlogin(@Query() query) {
     const provider = 'naver';
     const { code, state } = query;
@@ -97,7 +88,7 @@ export class UsersController {
       },
       withCredentials: true,
     });
-    // console.log(userData);
+
     const user = await this.authService.validateUser(
       userData.data.response.id,
       userData.data.response.name,
@@ -143,6 +134,7 @@ export class UsersController {
     console.log(user);
     return { token: refreshToken, oauthId: user.oauthId };
   }
+
   // Google 로그인
   @Get('auth/google')
   async googleLogin(@Query() query) {
@@ -158,9 +150,7 @@ export class UsersController {
     });
 
     const { access_token, id_token } = googleToken.data;
-    // console.log(access_token);
-    // console.log(refresh_token);
-    // console.log(id_token);
+
     const userData = await axios.get(
       `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`,
     );
@@ -176,33 +166,21 @@ export class UsersController {
     console.log(user);
     return { token: access_token, oauthId: user.oauthId };
   }
-  // @UseGuards(NaverAuthGuard)
-  // @Get('auth/naver/callback')
-  // async callback(@Req() req, @Res() res: Response): Promise<any> {
-  //   if (req.user.type === 'login') {
-  //     res.cookie('access_token', req.user.token);
-  //   } else {
-  //     res.cookie('once_token', req.user.token);
-  //   }
-  //   res.redirect('http://localhost:3000');
 
-  //   res.end();
-  //   // 리다이렉트 해주는 페이지
-  // }
-
+  // 유저 로그인
   @Post('/login')
   async login(@Body() body: LoginRequestDto) {
     return this.authService.jwtLogIn(body);
   }
 
+  // 유저 회원가입
   @Post('/signup')
   async signup(@Body() body: UserRequestDto) {
     const signupService = await this.usersService.createUser(body);
     return signupService;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  @UseGuards(JwtAuthGuard)
+  // 유저 로그아웃
   @Post('/logout')
   logout(@Req() req, @Res() res) {
     res.cookie('jwt', '', {
@@ -213,45 +191,38 @@ export class UsersController {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  // @UseGuards(JwtAuthGuard)
+  // 유저 회원탈퇴
   @Delete('/signout')
   signout(@Req() req) {
     return this.usersService.deleteUser(req.user);
   }
 
-  // @UseGuards(JwtAuthGuard)
+  // 유저 회원정보 수정
   @Patch('/profile')
   updateUser(@Body() body) {
     return this.usersService.updateUser(body);
   }
 
-  // @UseGuards(JwtAuthGuard)
+  // 유저 스택 변경
   @Post('/stacks/:id')
   updateStacks(@Param() param, @Body() body) {
     return this.usersService.changeStacksBoolean(param, body);
   }
 
+  // email 유효성 검사
   @Post('/verify/email')
   verifyEmail(@Body() body) {
     return this.usersService.verifyUserEmail(body);
   }
 
+  // username 유효성 검사
   @Post('/verify/username')
   verifyUsername(@Body() body) {
     return this.usersService.verifyUsername(body);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('posts')
-  getUsersPosts(@Req() req) {
-    return this.usersService.getUsersPosts(req);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-
+  // 유저 프로필 사진 업로드
   @UseInterceptors(FileInterceptor('image'))
-  // @UseGuards(JwtAuthGuard)
   @Post('upload/:id')
   async uploadImage(@UploadedFile() file: Express.Multer.File, @Param() param) {
     console.log(file);
@@ -268,32 +239,17 @@ export class UsersController {
     await user.save();
 
     return user;
-    // return this.usersService.uploadImg(file, param);
   }
 
-  // @Post('/send-email')
-  // sendEmail(@Body() body) {
-  //   return this.usersService.sendEmail(body);
-  // }
-
+  // 문자 인증
   @Post('/sms')
   sendPhoneMessage(@Body() body) {
     return this.usersService.sendPhoneMessage(body);
   }
 
-  // @UseGuards(JwtAuthGuard)
+  // 금액 충전
   @Post('/payment')
   usersPayment(@Body() body) {
     return this.usersService.usersPayment(body);
   }
-
-  // @Post('/find/email')
-  // findEmail(@Body() body) {
-  //   return this.usersService.findEmail(body);
-  // }
-
-  // @Post('/find/password')
-  // findPassword(@Body() body) {
-  //   return this.usersService.findPassword(body);
-  // }
 }

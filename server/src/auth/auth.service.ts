@@ -3,21 +3,22 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/users/users.schema';
-import { UsersRepository } from '../users/users.repository';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class AuthService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     private usersService: UsersService,
-    private readonly usersRepository: UsersRepository,
     private jwtService: JwtService,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
   async jwtLogIn(data) {
     const { email, password } = data;
 
-    const user = await this.usersRepository.findUserByEmail(email);
+    const user = await this.userModel.findOne({ email });
 
     if (!user) {
       throw new HttpException('please check your email or password', 401);
@@ -49,7 +50,7 @@ export class AuthService {
     // DB에서 oauth 유저 정보 찾기
     const user = await this.usersService.findOauthUser(oauthId);
     let newUser;
-    // console.log(user);
+
     // DB에 oauth 유저 정보 없을 시 생성
     if (!user) {
       newUser = this.usersService.oauthSignUp(username, oauthId, refreshToken);
@@ -87,29 +88,4 @@ export class AuthService {
 
     return token;
   }
-
-  // async createRefreshToken(user: User) {
-  //   const payload = {
-  //     user_no: user.user_no,
-  //     user_token: 'refreshToken',
-  //   };
-
-  //   const token = this.jwtService.sign(payload, {
-  //     secret: process.env.JWT_SECRET,
-  //     expiresIn: '50m',
-  //   });
-
-  //   const refresh_token = CryptoJS.AES.encrypt(
-  //     JSON.stringify(token),
-  //     process.env.AES_KEY,
-  //   ).toString();
-
-  //   await getConnection()
-  //     .createQueryBuilder()
-  //     .update(User)
-  //     .set({ user_refresh_token: token })
-  //     .where(`user_no = ${user.user_no}`)
-  //     .execute();
-  //   return refresh_token;
-  // }
 }

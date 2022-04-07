@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 /* eslint-disable no-return-await */
@@ -6,30 +7,15 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import * as crypto from 'crypto';
-import { MailerService } from '@nestjs-modules/mailer';
-// import * as twilio from 'twilio';
 import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { Post } from 'src/posts/posts.schema';
 import { Comment } from 'src/posts/comments.schema';
-import { AwsService } from 'src/aws.service';
-
-import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 
-// const accountSid = process.env.TWILIO_ACCOUNT_SID;
-// const authToken = process.env.TWILIO_AUTH_TOKEN;
-// // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const twilio = require('twilio')(accountSid, authToken);
-
 @Injectable()
 export class UsersService {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
-    private readonly usersRepository: UsersRepository,
-    private readonly mailerService: MailerService,
-    private readonly awsService: AwsService,
     @InjectTwilio() private readonly twilio: TwilioClient,
     @InjectModel(User.name) private readonly userModel: Model<User>,
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
@@ -39,10 +25,8 @@ export class UsersService {
   // 회원가입
   async createUser(body: UserRequestDto) {
     const { email, username, password } = body;
-    const isEmailExist = await this.usersRepository.existsByEmail(email);
-    const isUsernameExist = await this.usersRepository.existsByUsername(
-      username,
-    );
+    const isEmailExist = await this.userModel.exists({ email });
+    const isUsernameExist = await this.userModel.exists({ username });
 
     if (isEmailExist || isUsernameExist) {
       if (isEmailExist) {
@@ -68,7 +52,7 @@ export class UsersService {
       false,
     ];
 
-    const user = await this.usersRepository.create({
+    const user = await this.userModel.create({
       email,
       username,
       password: hashedPassword,
@@ -93,7 +77,7 @@ export class UsersService {
       false,
       false,
     ];
-    await this.usersRepository.create({
+    await this.userModel.create({
       email: 'None',
       oauthId,
       username,
@@ -111,8 +95,8 @@ export class UsersService {
     return user;
   }
 
+  // oauth 유저 토큰 업데이트
   async oauthTokenUpdate(oauthId, refreshToken) {
-    // await this.usersRepository.oauthTokenUpdate(user, refreshToken);
     await this.userModel.findOneAndUpdate({ oauthId }, { refreshToken });
     const updatedUser = await this.userModel.findOne({ oauthId });
     return updatedUser;
@@ -120,14 +104,11 @@ export class UsersService {
 
   // 회원탈퇴
   async deleteUser(userInfo: UserRequestDto) {
-    await this.usersRepository.delete(userInfo);
+    await this.userModel.deleteOne(userInfo);
     return 'successfully signout';
   }
 
-  async findUserByEmail(email) {
-    return await this.usersRepository.findUserByEmail(email);
-  }
-
+  // oauth 유저 찾기
   async findOauthUser(oauthId) {
     return await this.userModel.findOne({ oauthId });
   }
@@ -177,16 +158,10 @@ export class UsersService {
     return modifiedUser;
   }
 
-  async getUsersPosts(req) {
-    const { id } = req.user;
-    const usersPost = await this.usersRepository.findUserPosts(id);
-
-    return usersPost;
-  }
-
+  // email 유효성 검사
   async verifyUserEmail(body) {
     const { email } = body;
-    const isExistEmail = await this.usersRepository.existsByEmail(email);
+    const isExistEmail = await this.userModel.exists({ email });
     if (isExistEmail) {
       throw new HttpException('존재하는 이메일입니다.', 400);
     } else {
@@ -194,30 +169,16 @@ export class UsersService {
     }
   }
 
+  // username 유효성 검사
   async verifyUsername(body) {
     const { username } = body;
-    const isExistUsername = await this.usersRepository.existsByUsername(
-      username,
-    );
+    const isExistUsername = await this.userModel.exists({ username });
     if (isExistUsername) {
       throw new HttpException('존재하는 닉네임입니다.', 400);
     } else {
       return { message: 'ok' };
     }
   }
-
-  // async sendEmail(body) {
-  //   const { email } = body;
-  //   const number: number = crypto.randomBytes(8).readUInt32LE(0);
-
-  //   await this.mailerService.sendMail({
-  //     to: email, // list of receivers
-  //     from: process.env.EMAIL_ID, // sender address
-  //     subject: 'Testing Nest MailerModule ✔', // Subject line
-  //     text: 'welcome', // plaintext body
-  //     html: `6자리 인증 코드 :  <b> ${number}</b>`, // HTML body content
-  //   });
-  // }
 
   // 문자 인증
   sendPhoneMessage(body) {
@@ -235,7 +196,7 @@ export class UsersService {
   // 유저 금액 충전
   async usersPayment(body) {
     const { id, cost } = body;
-    // const userinfo = await this.usersRepository.usersPayment(id, cost);
+
     const user = await this.userModel.findById(id);
 
     await this.userModel.findByIdAndUpdate(id, {

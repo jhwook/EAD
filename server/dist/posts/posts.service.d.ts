@@ -1,17 +1,13 @@
 /// <reference types="multer" />
-import { UsersRepository } from 'src/users/users.repository';
 import { Model } from 'mongoose';
 import { User } from 'src/users/users.schema';
-import { PostsRepository } from './posts.repository';
 import { Post } from './posts.schema';
 import { Comment } from './comments.schema';
 export declare class PostsService {
-    private readonly postsRepository;
-    private readonly usersRepository;
     private readonly postModel;
     private readonly commentModel;
     private readonly userModel;
-    constructor(postsRepository: PostsRepository, usersRepository: UsersRepository, postModel: Model<Post>, commentModel: Model<Comment>, userModel: Model<User>);
+    constructor(postModel: Model<Post>, commentModel: Model<Comment>, userModel: Model<User>);
     getOnePost(id: any): Promise<Post & {
         _id: any;
     }>;

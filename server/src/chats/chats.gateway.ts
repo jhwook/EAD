@@ -51,13 +51,9 @@ export class ChatsGateway
   }
 
   @SubscribeMessage(`make_room`)
-  async handleMakeRoom(
-    @MessageBody() data: string,
-    @ConnectedSocket() socket: Socket,
-  ) {
+  async handleMakeRoom(@MessageBody() data: string) {
     const [myId, yourId] = data;
     const userI = await this.userModel.findById(myId);
-    const userYOU = await this.userModel.findById(yourId);
 
     const isExistRoom = await this.roomModel.find({ users: [myId, yourId] });
 
@@ -89,7 +85,7 @@ export class ChatsGateway
   }
 
   @SubscribeMessage('bye')
-  async handleExitRoom(@MessageBody() data, @ConnectedSocket() socket: Socket) {
+  async handleExitRoom(@MessageBody() data) {
     const [room, roomId, userId] = data;
     const user = await this.userModel.findById(userId);
     const roomInfo = await this.roomModel.findById(roomId);
@@ -115,7 +111,6 @@ export class ChatsGateway
         await this.chattingModel.findByIdAndDelete(roomInfo.chatting[i]);
       }
       await this.roomModel.findByIdAndDelete(roomId);
-      // socket.to(room).emit('bye', room);
     }
     return room;
   }

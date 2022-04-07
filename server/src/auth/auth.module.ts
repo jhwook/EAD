@@ -2,10 +2,11 @@ import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from 'src/users/users.schema';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { AuthService } from './auth.service';
-// import { NaverStrategy } from './naver/naver.strategy';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AuthService } from './auth.service';
       signOptions: { expiresIn: '1y' },
     }),
     forwardRef(() => UsersModule),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService, JwtModule, PassportModule],
