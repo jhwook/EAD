@@ -369,14 +369,14 @@ export const UpScrollBtn = styled.div`
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 30px;
     height: 30px;
-    right: 20px;
+    right: 5px;
     bottom: 240px;
     border-radius: 10px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 30px;
     height: 30px;
-    right: 20px;
+    right: 5px;
     bottom: 240px;
     border-radius: 10px;
   }
