@@ -253,11 +253,8 @@ export class UsersController {
   @UseInterceptors(FileInterceptor('image'))
   // @UseGuards(JwtAuthGuard)
   @Post('upload/:id')
-  async uploadImage(
-    // @UploadedFiles() files: Array<Express.Multer.File>,
-    @UploadedFile() file: Express.Multer.File,
-    @Param() param,
-  ) {
+  async uploadImage(@UploadedFile() file: Express.Multer.File, @Param() param) {
+    console.log(file);
     const { id } = param;
     const user = await this.userModel.findById(id);
 

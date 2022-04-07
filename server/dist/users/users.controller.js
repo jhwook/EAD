@@ -147,6 +147,7 @@ let UsersController = class UsersController {
         return this.usersService.getUsersPosts(req);
     }
     async uploadImage(file, param) {
+        console.log(file);
         const { id } = param;
         const user = await this.userModel.findById(id);
         if (user.imgUrl) {

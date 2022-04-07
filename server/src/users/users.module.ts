@@ -1,7 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { MulterModule } from '@nestjs/platform-express';
 import { Post, PostSchema } from 'src/posts/posts.schema';
 import { Comment, CommentSchema } from 'src/posts/comments.schema';
 import { TwilioModule } from 'nestjs-twilio';
