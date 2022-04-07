@@ -10,17 +10,16 @@ import {
   UseFilters,
   UseGuards,
   UseInterceptors,
-  UploadedFiles,
   Query,
   UploadedFile,
 } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { AwsService } from 'src/aws.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
-import { multerOptions } from 'src/common/utils/multer.options';
+
 import { PostsService } from './posts.service';
 
 @Controller('posts')
