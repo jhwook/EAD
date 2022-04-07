@@ -12,8 +12,10 @@ import {
   UseInterceptors,
   UploadedFiles,
   Query,
+  UploadedFile,
 } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { AwsService } from 'src/aws.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
@@ -29,6 +31,7 @@ export class PostsController {
   constructor(
     private readonly postsService: PostsService,
     private readonly authService: AuthService,
+    private readonly awsService: AwsService,
   ) {}
 
   // 포스트 작성
@@ -122,23 +125,27 @@ export class PostsController {
   }
 
   // 포스트 이미지 업로드
-  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('posts')))
+  @UseInterceptors(FileInterceptor('image'))
   // @UseGuards(JwtAuthGuard)
   @Post('/upload/post')
-  uploadPostImage(@UploadedFiles() files: Array<Express.Multer.File>) {
-    console.log(files);
-    // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.postsService.uploadPostImg(files);
+  async uploadPostImage(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
+    const result = await this.awsService.uploadFileToS3('posts', file);
+    const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
+
+    return imgUrl;
   }
 
   // 댓글 이미지 업로드
-  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('comments')))
+  @UseInterceptors(FileInterceptor('image'))
   // @UseGuards(JwtAuthGuard)
   @Post('/upload/comment')
-  uploadCommentImage(@UploadedFiles() files: Array<Express.Multer.File>) {
-    console.log(files);
-    // return { image: `http://localhost:4000/media/users/${files[0].filename}` };
-    return this.postsService.uploadCommentImg(files);
+  async uploadCommentImage(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
+    const result = await this.awsService.uploadFileToS3('comments', file);
+    const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
+
+    return imgUrl;
   }
 
   // 댓글 채택

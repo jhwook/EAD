@@ -12,6 +12,8 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { Post } from 'src/posts/posts.schema';
 import { Comment } from 'src/posts/comments.schema';
+import { AwsService } from 'src/aws.service';
+
 import { UsersRepository } from './users.repository';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
@@ -27,6 +29,7 @@ export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly mailerService: MailerService,
+    private readonly awsService: AwsService,
     @InjectTwilio() private readonly twilio: TwilioClient,
     @InjectModel(User.name) private readonly userModel: Model<User>,
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
@@ -201,19 +204,6 @@ export class UsersService {
     } else {
       return { message: 'ok' };
     }
-  }
-
-  // 유저 프로필 사진
-  async uploadImg(param, files: Express.Multer.File[]) {
-    const id = param.id;
-    const fileName = `users/${files[0].filename}`;
-    console.log(`fileName: ${fileName}`);
-    const newUser = await this.usersRepository.findByIdAndUpdateImg(
-      id,
-      fileName,
-    );
-
-    return newUser;
   }
 
   // async sendEmail(body) {

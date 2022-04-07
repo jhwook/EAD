@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const config_1 = require("@nestjs/config");
 const mongoose = require("mongoose");
+const aws_service_1 = require("./aws.service");
 const auth_module_1 = require("./auth/auth.module");
 const logger_middleware_1 = require("./common/middlewares/logger.middleware");
 const app_controller_1 = require("./app.controller");
@@ -41,7 +42,8 @@ AppModule = __decorate([
             chats_module_1.ChatsModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService, aws_service_1.AwsService],
+        exports: [aws_service_1.AwsService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

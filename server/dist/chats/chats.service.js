@@ -42,7 +42,6 @@ let ChatsService = class ChatsService {
     async getRoomList(param) {
         const { id } = param;
         const roomList = await this.roomModel.find({ users: { $all: id } });
-        console.log(roomList);
         const roomNameList = [];
         for (let i = 0; i < roomList.length; i++) {
             if (roomList[i].users.length > 1) {
@@ -74,7 +73,6 @@ let ChatsService = class ChatsService {
     async getRoomChat(param) {
         const { id } = param;
         const room = await this.roomModel.findById(id).populate('chattings');
-        console.log('===============');
         return room;
     }
 };

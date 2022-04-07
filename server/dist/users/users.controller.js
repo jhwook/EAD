@@ -18,7 +18,9 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const axios_1 = require("@nestjs/axios");
 const axios_2 = require("axios");
-const multer_options_1 = require("../common/utils/multer.options");
+const aws_service_1 = require("../aws.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
 const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 const login_request_dto_1 = require("../auth/dto/login.request.dto");
 const auth_service_1 = require("../auth/auth.service");
@@ -26,12 +28,15 @@ const users_request_dto_1 = require("./dto/users.request.dto");
 const success_interceptor_1 = require("../common/interceptors/success.interceptor");
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const users_service_1 = require("./users.service");
+const users_schema_1 = require("./users.schema");
 let UsersController = class UsersController {
-    constructor(usersService, authService, usersRepository, httpService) {
+    constructor(usersService, authService, usersRepository, awsService, httpService, userModel) {
         this.usersService = usersService;
         this.authService = authService;
         this.usersRepository = usersRepository;
+        this.awsService = awsService;
         this.httpService = httpService;
+        this.userModel = userModel;
     }
     auth(req) {
         const token = req.rawHeaders[1].slice(7);
@@ -141,8 +146,17 @@ let UsersController = class UsersController {
     getUsersPosts(req) {
         return this.usersService.getUsersPosts(req);
     }
-    uploadImage(files, param) {
-        return this.usersService.uploadImg(param, files);
+    async uploadImage(file, param) {
+        const { id } = param;
+        const user = await this.userModel.findById(id);
+        if (user.imgUrl) {
+            await this.awsService.deleteS3Object(user.imgUrl.slice(42));
+        }
+        const result = await this.awsService.uploadFileToS3('users', file);
+        const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
+        user.imgUrl = imgUrl;
+        await user.save();
+        return user;
     }
     sendPhoneMessage(body) {
         return this.usersService.sendPhoneMessage(body);
@@ -256,13 +270,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUsersPosts", null);
 __decorate([
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('users'))),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     (0, common_1.Post)('upload/:id'),
-    __param(0, (0, common_1.UploadedFiles)()),
+    __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "uploadImage", null);
 __decorate([
     (0, common_1.Post)('/sms'),
@@ -282,10 +296,13 @@ UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
+    __param(5, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
     __metadata("design:paramtypes", [users_service_1.UsersService,
         auth_service_1.AuthService,
         users_repository_1.UsersRepository,
-        axios_1.HttpService])
+        aws_service_1.AwsService,
+        axios_1.HttpService,
+        mongoose_2.Model])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.controller.js.map

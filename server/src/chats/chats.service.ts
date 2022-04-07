@@ -35,7 +35,6 @@ export class ChatsService {
     const { id } = param;
     const roomList = await this.roomModel.find({ users: { $all: id } });
 
-    console.log(roomList);
     const roomNameList = [];
 
     for (let i = 0; i < roomList.length; i++) {
@@ -72,8 +71,6 @@ export class ChatsService {
     const { id } = param;
     // const rooms = await this.roomModel.find({ users: { $all: id } });
     const room = await this.roomModel.findById(id).populate('chattings');
-
-    console.log('===============');
 
     return room;
   }

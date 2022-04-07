@@ -15,15 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
+const aws_service_1 = require("../aws.service");
 const auth_service_1 = require("../auth/auth.service");
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const success_interceptor_1 = require("../common/interceptors/success.interceptor");
-const multer_options_1 = require("../common/utils/multer.options");
 const posts_service_1 = require("./posts.service");
 let PostsController = class PostsController {
-    constructor(postsService, authService) {
+    constructor(postsService, authService, awsService) {
         this.postsService = postsService;
         this.authService = authService;
+        this.awsService = awsService;
     }
     createPost(body) {
         return this.postsService.createPost(body);
@@ -68,13 +69,17 @@ let PostsController = class PostsController {
     getOneComment(param) {
         return this.postsService.getOneComment(param);
     }
-    uploadPostImage(files) {
-        console.log(files);
-        return this.postsService.uploadPostImg(files);
+    async uploadPostImage(file) {
+        console.log(file);
+        const result = await this.awsService.uploadFileToS3('posts', file);
+        const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
+        return imgUrl;
     }
-    uploadCommentImage(files) {
-        console.log(files);
-        return this.postsService.uploadCommentImg(files);
+    async uploadCommentImage(file) {
+        console.log(file);
+        const result = await this.awsService.uploadFileToS3('comments', file);
+        const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
+        return imgUrl;
     }
     selectComment(body) {
         return this.postsService.selectComment(body);
@@ -182,20 +187,20 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "getOneComment", null);
 __decorate([
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('posts'))),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     (0, common_1.Post)('/upload/post'),
-    __param(0, (0, common_1.UploadedFiles)()),
+    __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], PostsController.prototype, "uploadPostImage", null);
 __decorate([
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 10, (0, multer_options_1.multerOptions)('comments'))),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     (0, common_1.Post)('/upload/comment'),
-    __param(0, (0, common_1.UploadedFiles)()),
+    __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], PostsController.prototype, "uploadCommentImage", null);
 __decorate([
     (0, common_1.Post)('/select/comment'),
@@ -209,7 +214,8 @@ PostsController = __decorate([
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
     __metadata("design:paramtypes", [posts_service_1.PostsService,
-        auth_service_1.AuthService])
+        auth_service_1.AuthService,
+        aws_service_1.AwsService])
 ], PostsController);
 exports.PostsController = PostsController;
 //# sourceMappingURL=posts.controller.js.map
