@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { FiChevronsUp } from 'react-icons/fi';
+import { HiOutlineChevronDoubleDown } from 'react-icons/hi';
 import { HomeSearch } from 'index';
 import Nav from 'Components/Nav';
 import Footer from '../../Components/Footer';
@@ -15,6 +16,7 @@ import logo2 from '../../Image/Logo/2.svg';
 import logo3 from '../../Image/Logo/3.svg';
 import logo4 from '../../Image/Logo/4.svg';
 import logo5 from '../../Image/Logo/5.svg';
+import intro from '../../Image/intro.gif';
 import {
   DeleteBtn,
   Form,
@@ -37,6 +39,8 @@ import {
   RightBox,
   UpScrollBtn,
   FooterWrapper,
+  IntroWrapper,
+  Intro,
 } from './styles';
 
 const SearchList = loadable(() => import('Components/SearchList'));
@@ -171,12 +175,16 @@ function Home() {
       <HomeWrapper>
         <Wrapper>
           <Fade delay={500}>
-            <Logo src={logo1} />
+            <IntroWrapper>
+              <Intro src={intro} alt={logo1} />
+            </IntroWrapper>
+            {/* <Logo src={logo1} /> */}
           </Fade>
           <SearchBox>
             <Fade delay={500}>
               <Text>개발하면서 궁금했던 점을</Text>
-              <Text>검색해보세요!</Text>
+              <Text>바로 검색해보세요!</Text>
+              <HiOutlineChevronDoubleDown className="down" />
             </Fade>
             <Searchbar>
               <Form onSubmit={handleOnSubmit}>

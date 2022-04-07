@@ -1,4 +1,52 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+export const HomeArrow = keyframes`
+  0% {
+    top: 135px;
+  }
+  50% {
+    top: 145px;
+  }
+  100% {
+    top: 135px;
+  }
+`;
+
+export const HomeArrow1 = keyframes`
+  0% {
+    top: 100px;
+  }
+  50% {
+    top: 110px;
+  }
+  100% {
+    top: 100px;
+  }
+`;
+
+export const HomeArrow2 = keyframes`
+  0% {
+    top: 80px;
+  }
+  50% {
+    top: 90px;
+  }
+  100% {
+    top: 80px;
+  }
+`;
+
+export const HomeArrow3 = keyframes`
+  0% {
+    top: 70px;
+  }
+  50% {
+    top: 80px;
+  }
+  100% {
+    top: 70px;
+  }
+`;
 
 export const HomeWrapper = styled.div`
   height: auto;
@@ -43,7 +91,7 @@ export const Wrapper = styled.div`
   @media ${(props) => props.theme.tablet} {
     flex-direction: column;
   }
-  .team {
+  /* .team {
     font-size: ${(props) => props.theme.fontSize.veryHuge};
     color: ${(props) => props.theme.green};
     position: absolute;
@@ -97,6 +145,87 @@ export const Wrapper = styled.div`
       top: 600px;
       right: 10px;
     }
+  } */
+  .down {
+    position: absolute;
+    top: 135px;
+    left: 283px;
+    font-size: ${(props) => props.theme.fontSize.large};
+    animation: ${HomeArrow} 1s infinite;
+    @media ${(props) => props.theme.iPhone12Pro} {
+      top: 70px;
+      left: 150px;
+      font-size: ${(props) => props.theme.fontSize.small};
+      animation: ${HomeArrow3} 1s infinite;
+    }
+    @media ${(props) => props.theme.mobile1} {
+      top: 70px;
+      left: 150px;
+      font-size: ${(props) => props.theme.fontSize.small};
+      animation: ${HomeArrow3} 1s infinite;
+    }
+    @media ${(props) => props.theme.mobile} {
+      top: 80px;
+      left: 200px;
+      font-size: ${(props) => props.theme.fontSize.medium};
+      animation: ${HomeArrow2} 1s infinite;
+    }
+    @media ${(props) => props.theme.tablet} {
+      top: 100px;
+      left: 263px;
+      font-size: ${(props) => props.theme.fontSize.medium};
+      animation: ${HomeArrow1} 1s infinite;
+    }
+    @media ${(props) => props.theme.desktop} {
+      top: 100px;
+      left: 263px;
+      font-size: ${(props) => props.theme.fontSize.medium};
+      animation: ${HomeArrow1} 1s infinite;
+    }
+  }
+`;
+
+export const IntroWrapper = styled.div`
+  margin-right: 70px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin-right: 0px;
+    margin-bottom: 30px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin-right: 0px;
+    margin-bottom: 30px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin-right: 0px;
+    margin-bottom: 30px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    margin-right: 0px;
+    margin-bottom: 30px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    margin-right: 50px;
+  }
+`;
+
+export const Intro = styled.img`
+  width: 630px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 300px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 380px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 500px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 530px;
+  }
+  @media ${(props) => props.theme.desktop} {
+    width: 580px;
   }
 `;
 
@@ -145,6 +274,7 @@ export const SearchBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 export const LeftBox = styled.div`
