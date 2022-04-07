@@ -254,10 +254,8 @@ const PostBtnBox = styled.div`
 `;
 
 const PostMidBox = styled.div`
-  // height: 46px;
   margin: 20px 0 14px 0;
   display: flex;
-  // align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
   @media ${(props) => props.theme.tablet} {
