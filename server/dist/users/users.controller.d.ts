@@ -7,13 +7,17 @@ import { AuthService } from '../auth/auth.service';
 import { UserRequestDto } from './dto/users.request.dto';
 import { UsersService } from './users.service';
 import { User } from './users.schema';
+import { Post as PostModel } from '../posts/posts.schema';
+import { Comment } from '../posts/comments.schema';
 export declare class UsersController {
     private readonly usersService;
     private readonly authService;
     private readonly awsService;
     private httpService;
     private readonly userModel;
-    constructor(usersService: UsersService, authService: AuthService, awsService: AwsService, httpService: HttpService, userModel: Model<User>);
+    private readonly postModel;
+    private readonly commentModel;
+    constructor(usersService: UsersService, authService: AuthService, awsService: AwsService, httpService: HttpService, userModel: Model<User>, postModel: Model<PostModel>, commentModel: Model<Comment>);
     auth(req: any): {
         isLogin: boolean;
         userInfo: any;
@@ -52,7 +56,7 @@ export declare class UsersController {
         stacks: object;
         oauth: any;
         imgUrl: string;
-        posts: import("../posts/posts.schema").Post[];
+        posts: PostModel[];
         refreshToken: string;
         oauthId: string;
     }>;
