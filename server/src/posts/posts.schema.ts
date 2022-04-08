@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { Types, Document } from 'mongoose';
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import nGramTextSearch from 'mongoose-plugin-ngram-text-search';
 
 const options: SchemaOptions = {
   timestamps: true,
@@ -45,7 +46,7 @@ export class Post extends Document {
 }
 // eslint-disable-next-line no-underscore-dangle
 const _PostSchema = SchemaFactory.createForClass(Post);
-_PostSchema.index({ title: 'text', content: 'text' });
+_PostSchema.index({ title: 'text' }, { default_language: 'ngram' });
 _PostSchema.virtual('comments', {
   ref: 'Comment',
   localField: '_id',
