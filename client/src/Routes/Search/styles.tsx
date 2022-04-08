@@ -224,6 +224,14 @@ export const List = styled.li`
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   cursor: pointer;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 240px;
+    height: 240px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 240px;
+    height: 240px;
+  }
 `;
 
 export const UpSide = styled.div`
