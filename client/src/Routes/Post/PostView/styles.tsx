@@ -615,17 +615,17 @@ export const CommentItemTitle = styled.div`
   }
   @media ${(props) => props.theme.mobile} {
     max-width: 440px;
-    font-size: ${(props) => props.theme.fontSize.mini};
+    font-size: ${(props) => props.theme.fontSize.tiny};
     margin: 3px 0 15px 23px;
   }
   @media ${(props) => props.theme.mobile1} {
     max-width: 350px;
-    font-size: ${(props) => props.theme.fontSize.tiny};
+    font-size: ${(props) => props.theme.fontSize.micro};
     margin: 6px 0 10px 15px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     max-width: 280px;
-    font-size: ${(props) => props.theme.fontSize.micro};
+    font-size: ${(props) => props.theme.fontSize.dust};
     margin: 6px 0 10px 15px;
   }
 `;

@@ -143,6 +143,7 @@ export const ItemTitle = styled.div`
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.mini};
     padding: 6px 3px 3px 3px;
+    height: 20px;
   }
   @media ${(props) => props.theme.mobile1} {
     max-width: 345px;
