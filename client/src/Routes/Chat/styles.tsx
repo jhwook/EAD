@@ -358,13 +358,13 @@ export const RoomList = styled.li`
   margin-bottom: 5px;
   box-sizing: border-box;
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 75px;
+    width: 80px;
     height: 45px;
     font-size: ${(props) => props.theme.fontSize.micro};
     padding-left: 3px;
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 75px;
+    width: 80px;
     height: 45px;
     font-size: ${(props) => props.theme.fontSize.micro};
     padding-left: 3px;
