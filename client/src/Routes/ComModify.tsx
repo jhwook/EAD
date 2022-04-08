@@ -20,7 +20,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 3px 0 200px 0;
-
   @media ${(props) => props.theme.tablet} {
     height: auto;
     min-height: 100%;
@@ -186,30 +185,34 @@ const ComBtn = styled.button`
 
 const ComTitle = styled.input`
   width: 682px;
-  height: 25px;
   border: 2px solid ${(props) => props.theme.btnGreen};
   border-radius: 10px;
   padding: 5px 0px 5px 5px;
-  font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
   font-weight: bold;
   margin: 0 auto 15px 25px;
+  font-size: ${(props) => props.theme.fontSize.small};
   @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
     width: 553px;
   }
   @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
     margin: 13px auto 12px 13px;
     width: 443px;
   }
   @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    padding: 5px 5px 3px 5px;
     margin: 13px auto 6px 13px;
     width: 343px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    margin: 10px auto 6px 13px;
-    padding: 3px 5px 3px 5px;
-    width: 267px;
-    font-size: ${(props) => props.theme.fontSize.mini};
+    font-size: ${(props) => props.theme.fontSize.micro};
+    border-radius: 7px;
+    margin: 10px auto 6px 15px;
+    padding: 5px 5px 3px 5px;
+    width: 260px;
   }
 `;
 

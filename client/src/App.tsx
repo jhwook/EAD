@@ -11,7 +11,7 @@ const Search = loadable(() => import('Routes/Search/index'));
 const Post = loadable(() => import('Routes/Post'));
 const PostView = loadable(() => import('Routes/PostView'));
 const PostModify = loadable(() => import('Routes/PostModify'));
-const Comment = loadable(() => import('Routes/Comment'));
+const ComModify = loadable(() => import('Routes/ComModify'));
 const Chat = loadable(() => import('Routes/Chat/index'));
 const Naver = loadable(() => import('Routes/Auth/Naver'));
 const Kakao = loadable(() => import('Routes/Auth/Kakao'));
@@ -30,7 +30,7 @@ function App() {
       <Route path="/post" element={<Post />} />
       <Route path="/post/:id" element={<PostView />} />
       <Route path="/post/modify/:id" element={<PostModify />} />
-      <Route path="/comment/:id" element={<Comment />} />
+      <Route path="/comment/:id" element={<ComModify />} />
       <Route path="/search/*" element={<Search />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/chat/:roomId/:username" element={<Chat />} />
