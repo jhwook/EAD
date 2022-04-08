@@ -281,7 +281,7 @@ function Chat() {
                                   : ''
                               }
                             >
-                              {dayjs(el.createdAt).format('MM. DD A HH:mm')}
+                              {dayjs(el.createdAt).format('MM. DD HH:mm')}
                             </Date>
                           </DateBox>
                         </ChatBox>

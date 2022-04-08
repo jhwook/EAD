@@ -490,6 +490,9 @@ export const MsgBox = styled.div`
   @media ${(props) => props.theme.mobile1} {
     padding: 5px;
   }
+  @media ${(props) => props.theme.mobile} {
+    padding: 5px;
+  }
 `;
 
 export const ExitRoomBtn = styled.div`

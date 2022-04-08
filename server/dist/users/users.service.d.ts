@@ -5,11 +5,20 @@ import { Comment } from 'src/posts/comments.schema';
 import { User } from './users.schema';
 import { UserRequestDto } from './dto/users.request.dto';
 export declare class UsersService {
+<<<<<<< Updated upstream
+=======
+    private readonly usersRepository;
+    private readonly awsService;
+>>>>>>> Stashed changes
     private readonly twilio;
     private readonly userModel;
     private readonly postModel;
     private readonly commentModel;
+<<<<<<< Updated upstream
     constructor(twilio: TwilioClient, userModel: Model<User>, postModel: Model<Post>, commentModel: Model<Comment>);
+=======
+    constructor(usersRepository: UsersRepository, awsService: AwsService, twilio: TwilioClient, userModel: Model<User>, postModel: Model<Post>, commentModel: Model<Comment>);
+>>>>>>> Stashed changes
     createUser(body: UserRequestDto): Promise<{
         id: string;
         email: string;

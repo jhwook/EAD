@@ -22,7 +22,13 @@ const posts_schema_1 = require("../posts/posts.schema");
 const comments_schema_1 = require("../posts/comments.schema");
 const users_schema_1 = require("./users.schema");
 let UsersService = class UsersService {
+<<<<<<< Updated upstream
     constructor(twilio, userModel, postModel, commentModel) {
+=======
+    constructor(usersRepository, awsService, twilio, userModel, postModel, commentModel) {
+        this.usersRepository = usersRepository;
+        this.awsService = awsService;
+>>>>>>> Stashed changes
         this.twilio = twilio;
         this.userModel = userModel;
         this.postModel = postModel;
@@ -176,11 +182,20 @@ let UsersService = class UsersService {
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
+<<<<<<< Updated upstream
     __param(0, (0, nestjs_twilio_1.InjectTwilio)()),
     __param(1, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
     __param(2, (0, mongoose_2.InjectModel)(posts_schema_1.Post.name)),
     __param(3, (0, mongoose_2.InjectModel)(comments_schema_1.Comment.name)),
     __metadata("design:paramtypes", [Object, mongoose_1.Model,
+=======
+    __param(2, (0, nestjs_twilio_1.InjectTwilio)()),
+    __param(3, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
+    __param(4, (0, mongoose_2.InjectModel)(posts_schema_1.Post.name)),
+    __param(5, (0, mongoose_2.InjectModel)(comments_schema_1.Comment.name)),
+    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
+        aws_service_1.AwsService, Object, mongoose_1.Model,
+>>>>>>> Stashed changes
         mongoose_1.Model,
         mongoose_1.Model])
 ], UsersService);
