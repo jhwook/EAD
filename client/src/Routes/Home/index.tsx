@@ -175,10 +175,10 @@ function Home() {
       <HomeWrapper>
         <Wrapper>
           <Fade delay={400}>
-            <IntroWrapper>
+            {/* <IntroWrapper>
               <Intro src={intro} alt={logo1} />
-            </IntroWrapper>
-            {/* <Logo src={logo1} /> */}
+            </IntroWrapper> */}
+            <Logo src={logo1} />
           </Fade>
           <SearchBox>
             <Fade delay={500}>

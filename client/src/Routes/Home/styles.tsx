@@ -435,11 +435,13 @@ export const SearchInput = styled.input`
     width: 250px;
     height: 20px;
     margin-right: 5px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 250px;
     height: 20px;
     margin-right: 5px;
+    font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile} {
     width: 350px;
