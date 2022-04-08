@@ -209,20 +209,23 @@ const PostTitle = styled.input`
   margin: 0 27px 15px 25px;
   @media ${(props) => props.theme.tablet} {
     width: 370px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.mobile} {
     margin: 0 15px 12px 15px;
     width: 293px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.mobile1} {
     margin: 0 15px 6px 15px;
     width: 342px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     margin: 0 15px 6px 15px;
     padding: 3px 0 3px 5px;
     width: 270px;
-    font-size: ${(props) => props.theme.fontSize.mini};
+    font-size: ${(props) => props.theme.fontSize.micro};
   }
 `;
 
