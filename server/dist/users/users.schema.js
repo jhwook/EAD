@@ -51,7 +51,9 @@ __decorate([
     __metadata("design:type", Boolean)
 ], User.prototype, "oauth", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({
+        default: 'https://ead-image-upload.s3.ap-northeast-2.amazonaws.com/default/welcome.svg',
+    }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], User.prototype, "imgUrl", void 0);

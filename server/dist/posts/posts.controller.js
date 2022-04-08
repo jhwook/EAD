@@ -16,14 +16,12 @@ exports.PostsController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const aws_service_1 = require("../aws.service");
-const auth_service_1 = require("../auth/auth.service");
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const success_interceptor_1 = require("../common/interceptors/success.interceptor");
 const posts_service_1 = require("./posts.service");
 let PostsController = class PostsController {
-    constructor(postsService, authService, awsService) {
+    constructor(postsService, awsService) {
         this.postsService = postsService;
-        this.authService = authService;
         this.awsService = awsService;
     }
     createPost(body) {
@@ -211,7 +209,6 @@ PostsController = __decorate([
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
     __metadata("design:paramtypes", [posts_service_1.PostsService,
-        auth_service_1.AuthService,
         aws_service_1.AwsService])
 ], PostsController);
 exports.PostsController = PostsController;
