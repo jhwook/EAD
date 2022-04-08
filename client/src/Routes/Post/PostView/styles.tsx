@@ -23,9 +23,9 @@ export const Wrapper = styled.div`
   }
   @media ${(props) => props.theme.mobile} {
     height: auto;
-    min-height: 713px;
+    min-height: 743px;
     padding: 0 0 0px 0;
-    margin: 30px 0 200px 0;
+    margin: 30px 0 202px 0;
     .toastui-editor-contents {
       font-size: 15px;
     }
@@ -134,17 +134,17 @@ export const PostUnpkIcon = styled.div`
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 35px;
-    width: 40px;
+    width: 43px;
   }
   @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 35px;
-    width: 40px;
+    width: 43px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 30px;
-    width: 33px;
+    width: 36px;
   }
 `;
 
@@ -165,17 +165,17 @@ export const PostPickIcon = styled.div`
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 35px;
-    width: 40px;
+    width: 43px;
   }
   @media ${(props) => props.theme.mobile1} {
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 35px;
-    width: 40px;
+    width: 43px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.micro};
     height: 30px;
-    width: 33px;
+    width: 36px;
   }
 `;
 
@@ -193,15 +193,15 @@ export const WriterImgBox = styled.div`
   }
   @media ${(props) => props.theme.mobile} {
     height: 35px;
-    width: 40px;
+    width: 43px;
   }
   @media ${(props) => props.theme.mobile1} {
     height: 35px;
-    width: 40px;
+    width: 43px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     height: 30px;
-    width: 30px;
+    width: 33px;
   }
 `;
 
