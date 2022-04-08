@@ -21,29 +21,44 @@ const Wrapper = styled.div`
   width: 100%;
   min-height: 618px;
   margin: 0px 0 200px 0;
+  .toastui-editor-contents {
+    font-size: 17px;
+  }
   @media ${(props) => props.theme.tablet} {
     height: auto;
     min-height: 868px;
     margin: 20px 0 166px 0;
     padding: 0 0 0px 0;
+    .toastui-editor-contents {
+      font-size: 16px;
+    }
   }
   @media ${(props) => props.theme.mobile} {
     height: auto;
     min-height: 713px;
     padding: 0 0 0px 0;
     margin: 30px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 15px;
+    }
   }
   @media ${(props) => props.theme.mobile1} {
     height: auto;
     min-height: 607px;
     padding: 0 0 0px 0;
     margin: 18px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 12px;
+    }
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     height: auto;
     min-height: 536px;
     padding: 0 0 0px 0;
     margin: 18px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 11px;
+    }
   }
 `;
 
@@ -114,7 +129,7 @@ const ItemTitleBox = styled.div`
   display: flex;
   margin: 0 0 7px 0;
   @media ${(props) => props.theme.mobile} {
-    width: 420px;
+    width: 430px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 340px;
@@ -126,35 +141,31 @@ const ItemTitleBox = styled.div`
 
 const ItemTitle = styled.div`
   width: auto;
-  max-width: 660px;
+  max-width: 530px;
   height: 23px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 11px;
   display: inline-block;
   padding: 6px;
   font-weight: bold;
-  margin: 0px 25px 0px 0px;
   white-space: nowrap;
   overflow: hidden;
-  text-align: center;
   @media ${(props) => props.theme.mobile} {
-    max-width: 400px;
     font-size: ${(props) => props.theme.fontSize.mini};
-    margin: 0px 23px 0px 0px;
+    padding: 6px 3px 3px 3px;
   }
   @media ${(props) => props.theme.mobile1} {
-    max-width: 320px;
-    font-size: ${(props) => props.theme.fontSize.tiny};
-    margin: 0px 16px 0px 0px;
-    padding: 9px 6px 0 6px;
+    max-width: 345px;
+    font-size: ${(props) => props.theme.fontSize.micro};
+    padding: 6px 3px 3px 3px;
+    height: 15px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    max-width: 250px;
     font-size: ${(props) => props.theme.fontSize.micro};
-    margin: 0px 15px 0px 0px;
-    padding: 9px 6px 0 3px;
+    padding: 6px 3px 3px 3px;
+    height: 15px;
   }
 `;
 

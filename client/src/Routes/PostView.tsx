@@ -12,6 +12,7 @@ import { RootState, ComRender, AppDispatch } from 'index';
 import { FiChevronsUp } from 'react-icons/fi';
 import { Editor, Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -27,29 +28,44 @@ const Wrapper = styled.div`
   width: 100%;
   min-height: 618px;
   margin: 0px 0 200px 0;
+  .toastui-editor-contents {
+    font-size: 17px;
+  }
   @media ${(props) => props.theme.tablet} {
     height: auto;
     min-height: 868px;
     margin: 20px 0 166px 0;
     padding: 0 0 0px 0;
+    .toastui-editor-contents {
+      font-size: 16px;
+    }
   }
   @media ${(props) => props.theme.mobile} {
     height: auto;
     min-height: 713px;
     padding: 0 0 0px 0;
     margin: 30px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 15px;
+    }
   }
   @media ${(props) => props.theme.mobile1} {
     height: auto;
     min-height: 607px;
     padding: 0 0 0px 0;
     margin: 18px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 12px;
+    }
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     height: auto;
     min-height: 536px;
     padding: 0 0 0px 0;
     margin: 18px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 11px;
+    }
   }
 `;
 
@@ -285,7 +301,7 @@ const PostTitle = styled.div`
   overflow: hidden;
   margin: auto auto auto 24px;
   @media ${(props) => props.theme.tablet} {
-    max-width: 500px;
+    max-width: 545px;
     font-size: ${(props) => props.theme.fontSize.small};
   }
   @media ${(props) => props.theme.mobile} {
@@ -1197,7 +1213,7 @@ function PostView() {
               </CommentWriteBox>
               <CommentTitle
                 type="text"
-                maxLength={36}
+                maxLength={26}
                 placeholder="제목은 여기에"
                 onChange={conTitleOnChange}
               />
