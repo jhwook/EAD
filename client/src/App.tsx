@@ -4,14 +4,14 @@ import Login from './Routes/Login/index';
 import Signup from './Routes/Signup/index';
 
 const Home = loadable(() => import('Routes/Home/index'));
-const Profile = loadable(() => import('Routes/Profile'));
-const Mypost = loadable(() => import('Routes/Mypost'));
-const Mycomment = loadable(() => import('Routes/Mycomment'));
+const Profile = loadable(() => import('Routes/Profile/index'));
+const MyPost = loadable(() => import('Routes/Post/MyPost/index'));
+const MyComment = loadable(() => import('Routes/Post/MyComment/index'));
 const Search = loadable(() => import('Routes/Search/index'));
-const Post = loadable(() => import('Routes/Post'));
-const PostView = loadable(() => import('Routes/PostView'));
-const PostModify = loadable(() => import('Routes/PostModify'));
-const ComModify = loadable(() => import('Routes/ComModify'));
+const Post = loadable(() => import('Routes/Post/PostWrite/index'));
+const PostView = loadable(() => import('Routes/Post/PostView/index'));
+const PostModify = loadable(() => import('Routes/Post/PostModify/index'));
+const ComModify = loadable(() => import('Routes/Post/CommentModify/index'));
 const Chat = loadable(() => import('Routes/Chat/index'));
 const Naver = loadable(() => import('Routes/Auth/Naver'));
 const Kakao = loadable(() => import('Routes/Auth/Kakao'));
@@ -25,8 +25,8 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/mypost" element={<Mypost />} />
-      <Route path="/mycomment" element={<Mycomment />} />
+      <Route path="/mypost" element={<MyPost />} />
+      <Route path="/mycomment" element={<MyComment />} />
       <Route path="/post" element={<Post />} />
       <Route path="/post/:id" element={<PostView />} />
       <Route path="/post/modify/:id" element={<PostModify />} />
