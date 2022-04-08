@@ -32,16 +32,21 @@ let PostsService = class PostsService {
     async createPost(body) {
         const { id, title, content, tag, bounty } = body;
         const user = await this.userModel.findById(id);
-        const post = await this.postModel.create({
-            writer: user.id,
-            writerImg: user.imgUrl,
-            writerName: user.username,
-            title,
-            content,
-            tag,
-            bounty,
-        });
-        return post;
+        if (user.money < bounty) {
+            return { message: 'money' };
+        }
+        else {
+            const post = await this.postModel.create({
+                writer: user.id,
+                writerImg: user.imgUrl,
+                writerName: user.username,
+                title,
+                content,
+                tag,
+                bounty,
+            });
+            return post;
+        }
     }
     async updatePost(body, param) {
         const { id, title, content, tag, img, bounty } = body;

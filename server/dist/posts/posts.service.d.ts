@@ -11,8 +11,10 @@ export declare class PostsService {
     getOnePost(id: any): Promise<Post & {
         _id: any;
     }>;
-    createPost(body: any): Promise<Post & {
+    createPost(body: any): Promise<(Post & {
         _id: any;
+    }) | {
+        message: string;
     }>;
     updatePost(body: any, param: any): Promise<Post & {
         _id: any;

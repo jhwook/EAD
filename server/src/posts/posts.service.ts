@@ -37,18 +37,22 @@ export class PostsService {
 
     const user = await this.userModel.findById(id);
 
-    const post = await this.postModel.create({
-      // eslint-disable-next-line no-underscore-dangle
-      writer: user.id,
-      writerImg: user.imgUrl,
-      writerName: user.username,
-      title,
-      content,
-      tag,
-      bounty,
-    });
+    if (user.money < bounty) {
+      return { message: 'money' };
+    } else {
+      const post = await this.postModel.create({
+        // eslint-disable-next-line no-underscore-dangle
+        writer: user.id,
+        writerImg: user.imgUrl,
+        writerName: user.username,
+        title,
+        content,
+        tag,
+        bounty,
+      });
 
-    return post;
+      return post;
+    }
   }
 
   // 포스트 수정
@@ -263,6 +267,7 @@ export class PostsService {
     return mycomment;
   }
 
+  // 댓글 채택
   async selectComment(body) {
     const { myId, yourId, postId, commentId } = body;
     const post = await this.postModel.findById(postId);
