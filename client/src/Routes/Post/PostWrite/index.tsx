@@ -55,6 +55,7 @@ function Post() {
   const [postId, setPostId] = useState('');
   const [postModalView, setPostModalView] = useState(false);
   const [failModalView, setFailModalView] = useState(false);
+  const [moneyFailView, setMoneyFailView] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
@@ -112,9 +113,13 @@ function Post() {
           withCredentials: true,
         },
       );
-      setPostId(data.data.data.id);
-      dispatch(ItemRender([{ content: data.data.data.content }]));
-      setPostModalView(!postModalView);
+      if (data.data.data.message) {
+        setMoneyFailView(!moneyFailView);
+      } else {
+        setPostId(data.data.data.id);
+        dispatch(ItemRender([{ content: data.data.data.content }]));
+        setPostModalView(!postModalView);
+      }
     } else if (tag.length === 0 || title === '' || content === '') {
       setFailModalView(!failModalView);
     }
@@ -140,9 +145,13 @@ function Post() {
     navigate(`/post/${postId}`);
   };
 
-  const failModalOnClick = useCallback(() => {
+  const failModalOnClick = () => {
     setFailModalView(!failModalView);
-  }, [failModalView, setFailModalView]);
+  };
+
+  const moneyFailOnClick = () => {
+    setMoneyFailView(!moneyFailView);
+  };
 
   const goBackOnClick = () => {
     navigate(`/search`);
@@ -241,6 +250,16 @@ function Post() {
                 제목, 태그, 본문에 모두 내용이 있어야 합니다
               </FailModalText>
               <FailModalBtn onClick={failModalOnClick}>확인</FailModalBtn>
+            </FailModalBox>
+          </FailModalBack>
+        ) : null}
+        {moneyFailView ? (
+          <FailModalBack>
+            <FailModalBox>
+              <FailModalText>
+                잔액이 부족합니다 선택한 현상금을 확인하세요
+              </FailModalText>
+              <FailModalBtn onClick={moneyFailOnClick}>확인</FailModalBtn>
             </FailModalBox>
           </FailModalBack>
         ) : null}
