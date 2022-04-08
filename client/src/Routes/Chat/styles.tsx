@@ -514,15 +514,22 @@ export const ExitRoomBtn = styled.div`
   }
 `;
 
-export const ExitRoomText = styled.div``;
+export const ExitRoomText = styled.div`
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+  }
+`;
 
 export const RoomTitle = styled.div`
   word-break: break-all;
   @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.quark};
+    font-size: ${(props) => props.theme.fontSize.dust};
   }
   @media ${(props) => props.theme.mobile1} {
-    font-size: ${(props) => props.theme.fontSize.quark};
+    font-size: ${(props) => props.theme.fontSize.dust};
   }
   @media ${(props) => props.theme.mobile} {
     font-size: ${(props) => props.theme.fontSize.dust};

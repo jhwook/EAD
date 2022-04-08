@@ -51,10 +51,12 @@ export const UsernameInput = styled.input`
   margin-bottom: 12px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 270px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
 `;
@@ -68,10 +70,12 @@ export const EmailInput = styled.input`
   margin-bottom: 12px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 270px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
 `;
@@ -86,10 +90,12 @@ export const PasswordInput = styled.input`
   margin-bottom: 10px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 270px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
 `;
@@ -105,10 +111,12 @@ export const CofirmPasswordInput = styled.input`
   margin-bottom: 10px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 270px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
 `;
@@ -134,10 +142,12 @@ export const PhoneInput = styled.input`
   margin-right: 10px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 170px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 170px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
 `;
@@ -154,10 +164,12 @@ export const NumberInput = styled.input`
   margin-right: 15px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 190px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 190px;
+    height: 15px;
     font-size: ${(props) => props.theme.fontSize.mini};
   }
 `;
@@ -175,6 +187,12 @@ export const SendPhoneBtn = styled.button`
     background-color: ${(props) => props.theme.lightGrey};
     color: ${(props) => props.theme.white};
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 37px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    height: 37px;
+  }
 `;
 
 export const ConfirmNumberBtn = styled.button`
@@ -191,6 +209,12 @@ export const ConfirmNumberBtn = styled.button`
     background-color: ${(props) => props.theme.lightGrey};
     color: ${(props) => props.theme.white};
   }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 37px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    height: 37px;
+  }
 `;
 
 export const ExitBtn = styled.button`
@@ -204,6 +228,11 @@ export const ExitBtn = styled.button`
   cursor: pointer;
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.mini};
+    top: 35px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    top: 35px;
   }
 `;
 
@@ -225,10 +254,14 @@ export const SignupBtn = styled.button`
     color: ${(props) => props.theme.white};
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 170px;
+    width: 130px;
+    height: 45px;
+    font-size: ${(props) => props.theme.fontSize.mini};
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 170px;
+    width: 130px;
+    height: 45px;
+    font-size: ${(props) => props.theme.fontSize.mini};
   }
 `;
 
@@ -239,9 +272,11 @@ export const Text = styled.div`
   text-align: left;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 270px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
 `;
 
@@ -259,9 +294,11 @@ export const ConfirmText = styled.div`
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
+    font-size: ${(props) => props.theme.fontSize.micro};
   }
   @media ${(props) => props.theme.mobile1} {
     width: 270px;
+    font-size: ${(props) => props.theme.fontSize.micro};
   }
 `;
 
