@@ -6,12 +6,12 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { nanoid } from '@reduxjs/toolkit';
+import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import { Editor } from '@toast-ui/react-editor';
 import { RootState, ItemRender, AppDispatch } from 'index';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
@@ -472,6 +472,38 @@ const FailModalBtn = styled.button`
   }
 `;
 
+export const BackBtn = styled.button`
+  background-color: ${(props) => props.theme.beige};
+  color: ${(props) => props.theme.btnGreen};
+  font-size: ${(props) => props.theme.fontSize.mini};
+  font-weight: bold;
+  border: none;
+  position: absolute;
+  top: 125px;
+  left: 50px;
+  cursor: pointer;
+  @media ${(props) => props.theme.tablet} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+    top: 100px;
+    left: 30px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 100px;
+    left: 15px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 70px;
+    left: 15px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    top: 70px;
+    left: 35px;
+  }
+`;
+
 function Post() {
   const { userData } = useSelector((state: RootState) => state);
   const { accessToken, userInfo, isLogin } = userData;
@@ -572,9 +604,14 @@ function Post() {
     setFailModalView(!failModalView);
   }, [failModalView, setFailModalView]);
 
+  const goBackOnClick = () => {
+    navigate(`/search`);
+  };
+
   return (
     <>
       <Nav />
+      <BackBtn onClick={goBackOnClick}>{`< 목록으로 돌아가기`}</BackBtn>
       <Wrapper>
         <PostBox>
           {isLogin ? (
@@ -590,7 +627,7 @@ function Post() {
           <PostMidBox>
             <PostTitle
               type="text"
-              maxLength={36}
+              maxLength={26}
               placeholder="제목은 여기에"
               onChange={titleOnChange}
             />

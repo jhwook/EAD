@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { RootState, ComRender, AppDispatch } from 'index';
+import { RootState, AppDispatch } from 'index';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 3px 0 200px 0;
+
   @media ${(props) => props.theme.tablet} {
     height: auto;
     min-height: 100%;
@@ -393,8 +394,6 @@ function Comment() {
           withCredentials: true,
         },
       );
-      console.log(data);
-      // dispatch(ComRender([con]));
       setPostModalView(!postModalView);
     } else if (content === '') {
       setFailModalView(!failModalView);
@@ -450,7 +449,7 @@ function Comment() {
           <ComTitle
             type="text"
             value={title}
-            maxLength={36}
+            maxLength={26}
             onChange={titleOnChange}
           />
           <ViewerBox>

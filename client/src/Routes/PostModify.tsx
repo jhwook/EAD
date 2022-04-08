@@ -604,7 +604,12 @@ function PostModify() {
             </PostTopBox>
           )}
           <PostMidBox>
-            <PostTitle type="text" value={title} onChange={titleOnChange} />
+            <PostTitle
+              type="text"
+              maxLength={26}
+              value={title}
+              onChange={titleOnChange}
+            />
             <PostBountyBox>
               <PostText>현상금 :</PostText>
               <PostBounty value={bounty} onChange={bountyOnChange}>

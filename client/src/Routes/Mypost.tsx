@@ -7,7 +7,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { RootState, ItemRender, AppDispatch } from 'index';
 import { Viewer } from '@toast-ui/react-editor';
 import { FiChevronsUp } from 'react-icons/fi';
-import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -20,29 +20,44 @@ const Wrapper = styled.div`
   width: 100%;
   min-height: 618px;
   margin: 0px 0 200px 0;
+  .toastui-editor-contents {
+    font-size: 17px;
+  }
   @media ${(props) => props.theme.tablet} {
     height: auto;
     min-height: 868px;
     margin: 20px 0 166px 0;
     padding: 0 0 0px 0;
+    .toastui-editor-contents {
+      font-size: 16px;
+    }
   }
   @media ${(props) => props.theme.mobile} {
     height: auto;
     min-height: 713px;
     padding: 0 0 0px 0;
     margin: 30px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 15px;
+    }
   }
   @media ${(props) => props.theme.mobile1} {
     height: auto;
     min-height: 607px;
     padding: 0 0 0px 0;
     margin: 18px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 12px;
+    }
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     height: auto;
     min-height: 536px;
     padding: 0 0 0px 0;
     margin: 18px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 11px;
+    }
   }
 `;
 
@@ -118,6 +133,19 @@ const ItemTitle = styled.div`
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    max-width: 345px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    height: 15px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    padding: 6px 3px 3px 3px;
+    height: 15px;
+  }
 `;
 
 const MidBox = styled.div`
@@ -161,11 +189,11 @@ const ItemBounty = styled.div`
     margin: auto 6px auto 0px;
   }
   @media ${(props) => props.theme.mobile1} {
-    font-size: ${(props) => props.theme.fontSize.tiny};
+    font-size: ${(props) => props.theme.fontSize.atom};
     margin: auto 6px auto 0px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.micro};
+    font-size: ${(props) => props.theme.fontSize.atom};
     margin: auto 6px auto 0px;
   }
 `;
@@ -183,11 +211,11 @@ const ItemComCount = styled.div`
     margin: auto 6px auto 0px;
   }
   @media ${(props) => props.theme.mobile1} {
-    font-size: ${(props) => props.theme.fontSize.tiny};
+    font-size: ${(props) => props.theme.fontSize.atom};
     margin: auto 6px auto 0px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.micro};
+    font-size: ${(props) => props.theme.fontSize.atom};
     margin: auto 6px auto 0px;
   }
 `;
