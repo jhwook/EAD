@@ -26,7 +26,6 @@ export class PostsController {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly postsService: PostsService,
-    private readonly authService: AuthService,
     private readonly awsService: AwsService,
   ) {}
 
