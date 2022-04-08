@@ -5,8 +5,10 @@ export declare class PostsController {
     private readonly postsService;
     private readonly awsService;
     constructor(postsService: PostsService, awsService: AwsService);
-    createPost(body: any): Promise<import("./posts.schema").Post & {
+    createPost(body: any): Promise<(import("./posts.schema").Post & {
         _id: any;
+    }) | {
+        message: string;
     }>;
     getPostTitle(): Promise<{
         id: any;
