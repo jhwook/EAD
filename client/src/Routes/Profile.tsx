@@ -14,7 +14,7 @@ import { AppDispatch, RootState, UserLogout, UserModify } from 'index';
 import { FiChevronsUp } from 'react-icons/fi';
 import Nav from 'Components/Nav';
 import Footer from 'Components/Footer';
-import userHolder from '../Image/Logo/welcoming.svg';
+import userHolder from '../Image/Logo/welcome.svg';
 import oauthImg from '../Image/Logo/3people.svg';
 
 const Payment = loadable(() => import('Components/Payment'));
@@ -743,7 +743,6 @@ function Profile() {
   const [express, setExpress] = useState(userInfo.stacks?.[7]);
   const [aws, setAws] = useState(userInfo.stacks?.[8]);
   const [other, setOther] = useState(userInfo.stacks?.[9]);
-  // const [userInfo.id, setuserInfo.id] = useState(userInfo.id);
   const [username, setUsername] = useState(userInfo.username);
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
@@ -753,57 +752,6 @@ function Profile() {
   const [scrollY, setScrollY] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_SERVER}/users/auth`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        const userinfo = res.data.data.userInfo;
-        setUsername(userinfo.username);
-        setJs(userinfo.stacks[0]);
-        setTs(userinfo.stacks[1]);
-        setCss(userinfo.stacks[2]);
-        setReact(userinfo.stacks[3]);
-        setVue(userinfo.stacks[4]);
-        setNoSql(userinfo.stacks[5]);
-        setSql(userinfo.stacks[6]);
-        setExpress(userinfo.stacks[7]);
-        setAws(userinfo.stacks[8]);
-        setOther(userinfo.stacks[9]);
-        dispatch(UserModify(res.data.data.userInfo));
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_SERVER}/users/oauth`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        const userinfo = res.data.data.userInfo;
-        setUsername(userinfo.username);
-        setJs(userinfo.stacks[0]);
-        setTs(userinfo.stacks[1]);
-        setCss(userinfo.stacks[2]);
-        setReact(userinfo.stacks[3]);
-        setVue(userinfo.stacks[4]);
-        setNoSql(userinfo.stacks[5]);
-        setSql(userinfo.stacks[6]);
-        setExpress(userinfo.stacks[7]);
-        setAws(userinfo.stacks[8]);
-        setOther(userinfo.stacks[9]);
-      });
-  }, []);
 
   useEffect(() => {
     if (username === '') {
@@ -1307,7 +1255,7 @@ function Profile() {
               </InfoDistrict>
               <InfoInput
                 type="text"
-                maxLength={11}
+                maxLength={16}
                 value={username}
                 placeholder={username}
                 onChange={usernameOnChange}

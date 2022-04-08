@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Post, PostSchema } from 'src/posts/posts.schema';
+import { Post as PostModel, PostSchema } from 'src/posts/posts.schema';
 import { Comment, CommentSchema } from 'src/posts/comments.schema';
 import { TwilioModule } from 'nestjs-twilio';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -15,7 +15,7 @@ import { UsersService } from './users.service';
   imports: [
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
-      { name: Post.name, schema: PostSchema },
+      { name: PostModel.name, schema: PostSchema },
       { name: Comment.name, schema: CommentSchema },
     ]),
 <<<<<<< Updated upstream

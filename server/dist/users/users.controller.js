@@ -28,13 +28,17 @@ const success_interceptor_1 = require("../common/interceptors/success.intercepto
 const http_exception_filter_1 = require("../common/exceptions/http-exception.filter");
 const users_service_1 = require("./users.service");
 const users_schema_1 = require("./users.schema");
+const posts_schema_1 = require("../posts/posts.schema");
+const comments_schema_1 = require("../posts/comments.schema");
 let UsersController = class UsersController {
-    constructor(usersService, authService, awsService, httpService, userModel) {
+    constructor(usersService, authService, awsService, httpService, userModel, postModel, commentModel) {
         this.usersService = usersService;
         this.authService = authService;
         this.awsService = awsService;
         this.httpService = httpService;
         this.userModel = userModel;
+        this.postModel = postModel;
+        this.commentModel = commentModel;
     }
     auth(req) {
         const token = req.rawHeaders[1].slice(7);
@@ -58,8 +62,6 @@ let UsersController = class UsersController {
         });
         const accessToken = naverToken.data.access_token;
         const refreshToken = naverToken.data.refresh_token;
-        console.log(accessToken);
-        console.log(refreshToken);
         const userData = await axios_2.default.get('https://openapi.naver.com/v1/nid/me', {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -67,7 +69,6 @@ let UsersController = class UsersController {
             withCredentials: true,
         });
         const user = await this.authService.validateUser(userData.data.response.id, userData.data.response.name, refreshToken, provider);
-        console.log(user);
         return { token: refreshToken, oauthId: user.oauthId };
     }
     async kakaoLogin(query) {
@@ -90,7 +91,6 @@ let UsersController = class UsersController {
         });
         console.log(userData.data.properties.nickname);
         const user = await this.authService.validateUser(userData.data.id, userData.data.properties.nickname, refreshToken, provider);
-        console.log(user);
         return { token: refreshToken, oauthId: user.oauthId };
     }
     async googleLogin(query) {
@@ -106,9 +106,7 @@ let UsersController = class UsersController {
         const { access_token, id_token } = googleToken.data;
         const userData = await axios_2.default.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`);
         const { sub, name } = userData.data;
-        console.log(userData);
         const user = await this.authService.validateUser(sub, name, access_token, provider);
-        console.log(user);
         return { token: access_token, oauthId: user.oauthId };
     }
     async login(body) {
@@ -142,7 +140,6 @@ let UsersController = class UsersController {
         return this.usersService.verifyUsername(body);
     }
     async uploadImage(file, param) {
-        console.log(file);
         const { id } = param;
         const user = await this.userModel.findById(id);
         if (user.imgUrl) {
@@ -152,6 +149,8 @@ let UsersController = class UsersController {
         const imgUrl = await this.awsService.getAwsS3FileUrl(result.key);
         user.imgUrl = imgUrl;
         await user.save();
+        await this.postModel.updateMany({ writer: id }, { $set: { writerImg: user.imgUrl } });
+        await this.commentModel.updateMany({ writer: id }, { $set: { writerImg: user.imgUrl } });
         return user;
     }
     sendPhoneMessage(body) {
@@ -284,10 +283,14 @@ UsersController = __decorate([
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
     (0, common_1.UseFilters)(http_exception_filter_1.HttpExceptionFilter),
     __param(4, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
+    __param(5, (0, mongoose_1.InjectModel)(posts_schema_1.Post.name)),
+    __param(6, (0, mongoose_1.InjectModel)(comments_schema_1.Comment.name)),
     __metadata("design:paramtypes", [users_service_1.UsersService,
         auth_service_1.AuthService,
         aws_service_1.AwsService,
         axios_1.HttpService,
+        mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model])
 ], UsersController);
 exports.UsersController = UsersController;

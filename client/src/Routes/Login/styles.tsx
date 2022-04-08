@@ -11,8 +11,14 @@ export const LoginWrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 2;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    top: -35px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    top: -35px;
+  }
   @media ${(props) => props.theme.mobile} {
-    top: 20px;
+    top: -35px;
   }
 `;
 export const Wrapper = styled.div`
@@ -30,9 +36,11 @@ export const Wrapper = styled.div`
   top: 50px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 270px;
+    height: 450px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 270px;
+    height: 450px;
   }
 `;
 export const Form = styled.form`
@@ -51,9 +59,11 @@ export const EmailInput = styled.input`
   margin-bottom: 10px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 250px;
+    height: 18px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 250px;
+    height: 18px;
   }
 `;
 export const PasswordInput = styled.input`
@@ -67,9 +77,11 @@ export const PasswordInput = styled.input`
   margin-bottom: 10px;
   @media ${(props) => props.theme.iPhone12Pro} {
     width: 250px;
+    height: 18px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 250px;
+    height: 18px;
   }
 `;
 export const ExitBtn = styled.button`
@@ -99,10 +111,12 @@ export const LoginBtn = styled.button`
     color: ${(props) => props.theme.lightGrey};
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 180px;
+    width: 150px;
+    height: 45px;
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 180px;
+    width: 150px;
+    height: 45px;
   }
 `;
 export const SignupBtn = styled.div`
@@ -123,10 +137,10 @@ export const SignupBtn = styled.div`
     color: ${(props) => props.theme.white};
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 160px;
+    width: 130px;
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 160px;
+    width: 130px;
   }
 `;
 

@@ -16,6 +16,7 @@ const Chat = loadable(() => import('Routes/Chat/index'));
 const Naver = loadable(() => import('Routes/Auth/Naver'));
 const Kakao = loadable(() => import('Routes/Auth/Kakao'));
 const Google = loadable(() => import('Routes/Auth/Google'));
+const NotFound = loadable(() => import('Components/NotFound'));
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <Route path="/auth/naver" element={<Naver />} />
       <Route path="/auth/kakao" element={<Kakao />} />
       <Route path="/auth/google" element={<Google />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

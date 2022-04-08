@@ -224,6 +224,14 @@ export const List = styled.li`
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.3) 3px 3px;
   cursor: pointer;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 240px;
+    height: 240px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 240px;
+    height: 240px;
+  }
 `;
 
 export const UpSide = styled.div`
@@ -240,13 +248,20 @@ export const DownSide = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  .long {
+    font-size: ${(props) => props.theme.fontSize.atom};
+  }
 `;
 
 export const Title = styled.div`
   font-size: ${(props) => props.theme.fontSize.medium};
 `;
 export const Tag = styled.div`
-  width: 70px;
+  width: 84px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: ${(props) => props.theme.btnGreen};
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: bold;
@@ -292,8 +307,8 @@ export const SearchBarBox = styled.ul`
 export const AddBtnBox = styled.div``;
 
 export const AddPostBtn = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   position: fixed;
   right: 40px;
   bottom: 700px;
@@ -310,39 +325,43 @@ export const AddPostBtn = styled.img`
     height: 35px;
     top: 390px;
     right: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 35px;
     height: 35px;
     top: 390px;
     right: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     top: 350px;
     right: 10px;
   }
   @media ${(props) => props.theme.tablet} {
-    width: 55px;
-    height: 55px;
+    width: 45px;
+    height: 45px;
     right: 10px;
   }
   @media ${(props) => props.theme.desktop} {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     right: 10px;
   }
   @media ${(props) => props.theme.desktop1} {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     right: 10px;
   }
 `;
 
 export const UpScrollBtn = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   position: fixed;
   right: 160px;
   bottom: 170px;
@@ -356,16 +375,18 @@ export const UpScrollBtn = styled.div`
     height: 100%;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    width: 35px;
-    height: 35px;
-    right: 20px;
+    width: 30px;
+    height: 30px;
+    right: 5px;
     bottom: 240px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.mobile1} {
-    width: 35px;
-    height: 35px;
-    right: 20px;
+    width: 30px;
+    height: 30px;
+    right: 5px;
     bottom: 240px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.mobile} {
     width: 35px;
@@ -379,13 +400,13 @@ export const UpScrollBtn = styled.div`
     right: 20px;
   }
   @media ${(props) => props.theme.desktop} {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     right: 20px;
   }
   @media ${(props) => props.theme.desktop1} {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     right: 20px;
   }
 `;

@@ -182,12 +182,12 @@ export const Picture = styled.img`
     margin-right: 5px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 35px;
-    height: 35px;
+    width: 25px;
+    height: 25px;
   }
   @media ${(props) => props.theme.tablet} {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 `;
 
@@ -371,7 +371,7 @@ export const RoomList = styled.li`
   }
   @media ${(props) => props.theme.mobile} {
     width: 120px;
-    height: 55px;
+    height: 50px;
     font-size: ${(props) => props.theme.fontSize.tiny};
   }
   @media ${(props) => props.theme.tablet} {
@@ -443,12 +443,6 @@ export const DateBox = styled.div`
   .meyo {
     width: 47px;
     text-align: right;
-    @media ${(props) => props.theme.iPhone12Pro} {
-      width: 70px;
-    }
-    @media ${(props) => props.theme.mobile1} {
-      width: 70px;
-    }
     @media ${(props) => props.theme.mobile} {
       width: 100px;
     }
@@ -524,6 +518,15 @@ export const ExitRoomText = styled.div``;
 
 export const RoomTitle = styled.div`
   word-break: break-all;
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.quark};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.quark};
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.dust};
+  }
 `;
 
 export const ExitModalWrapper = styled.div`

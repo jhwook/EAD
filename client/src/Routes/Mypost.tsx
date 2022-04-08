@@ -7,7 +7,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { RootState, ItemRender, AppDispatch } from 'index';
 import { Viewer } from '@toast-ui/react-editor';
 import { FiChevronsUp } from 'react-icons/fi';
-import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -19,14 +19,45 @@ import noneHolder from '../Image/Logo/posts.svg';
 const Wrapper = styled.div`
   width: 100%;
   min-height: 618px;
-  margin: 0 0 200px 0;
-  .dot {
-    font-size: ${(props) => props.theme.fontSize.medium};
-    cursor: pointer;
+  margin: 0px 0 200px 0;
+  .toastui-editor-contents {
+    font-size: 17px;
   }
-  .dotS {
-    font-size: ${(props) => props.theme.fontSize.small};
-    cursor: pointer;
+  @media ${(props) => props.theme.tablet} {
+    height: auto;
+    min-height: 868px;
+    margin: 20px 0 166px 0;
+    padding: 0 0 0px 0;
+    .toastui-editor-contents {
+      font-size: 16px;
+    }
+  }
+  @media ${(props) => props.theme.mobile} {
+    height: auto;
+    min-height: 713px;
+    padding: 0 0 0px 0;
+    margin: 30px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 15px;
+    }
+  }
+  @media ${(props) => props.theme.mobile1} {
+    height: auto;
+    min-height: 607px;
+    padding: 0 0 0px 0;
+    margin: 18px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 12px;
+    }
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: auto;
+    min-height: 536px;
+    padding: 0 0 0px 0;
+    margin: 18px 0 200px 0;
+    .toastui-editor-contents {
+      font-size: 11px;
+    }
   }
 `;
 
@@ -39,19 +70,54 @@ const FooterWrapper = styled.div`
     position: relative;
     margin-top: -200px;
   }
+  @media ${(props) => props.theme.mobile1} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    height: 200px;
+    position: relative;
+    margin-top: -200px;
+  }
 `;
 
-const PostsBox = styled.div`
-  margin: 0px auto 0 auto;
-  height: auto;
-  width: 600px;
+const PostBox = styled.div`
+  width: 740px;
+  margin: 0 auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  @media ${(props) => props.theme.mobile} {
+    width: 480px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 380px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 310px;
+  }
 `;
 
-const PostsItem = styled.div`
+const PostItem = styled.div`
+  border: 2px solid ${(props) => props.theme.btnGreen};
+  margin: 0 0 20px 0;
   border-radius: 20px;
-  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
-  border: 1px solid ${(props) => props.theme.grey};
-  margin: 0px auto 30px auto;
+  box-shadow: 3px 3px rgba(18, 62, 27, 0.3);
+`;
+
+const ItemTitleBox = styled.div`
+  border-bottom: 1px solid ${(props) => props.theme.btnGreen};
+  margin: 25px 25px 10px 25px;
+  padding: 0 0 10px 0;
+  @media ${(props) => props.theme.mobile} {
+    margin: 15px 15px 10px 15px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 15px 15px 10px 15px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 15px 15px 10px 15px;
+  }
 `;
 
 const ItemTitle = styled.div`
@@ -60,84 +126,171 @@ const ItemTitle = styled.div`
   height: 23px;
   font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.black};
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 11px;
   display: inline-block;
   padding: 6px;
   font-weight: bold;
-  margin: 25px 25px 10px 25px;
   white-space: nowrap;
   overflow: hidden;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.mini};
+  }
+  @media ${(props) => props.theme.mobile1} {
+    max-width: 345px;
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    height: 15px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    padding: 6px 3px 3px 3px;
+    height: 15px;
+  }
 `;
 
 const MidBox = styled.div`
   display: flex;
-  margin: 0 0 0 25px;
+  margin: 10px 25px 0 25px;
+  @media ${(props) => props.theme.mobile} {
+    margin: 10px 15px 0px 15px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 10px 15px 0px 15px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 10px 15px 0px 15px;
+  }
 `;
 
 const ItemBox = styled.div`
   display: flex;
   width: 50%;
+  @media ${(props) => props.theme.mobile} {
+    width: 55%;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 53%;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 55%;
+  }
 `;
 
 const ItemBounty = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
-  // width: 130px;
   margin: auto 12px auto 0px;
   padding: 6px;
   color: ${(props) => props.theme.beige};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.btnGreen};
   border-radius: 10px;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    margin: auto 6px auto 0px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    margin: auto 6px auto 0px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    margin: auto 6px auto 0px;
+  }
 `;
 
 const ItemComCount = styled.div`
   font-size: ${(props) => props.theme.fontSize.mini};
-  // width: 130px;
   margin: auto 12px auto 0px;
   padding: 6px;
   color: ${(props) => props.theme.beige};
   border: 1px solid ${(props) => props.theme.btnGreen};
   background-color: ${(props) => props.theme.btnGreen};
   border-radius: 10px;
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    margin: auto 6px auto 0px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    margin: auto 6px auto 0px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.atom};
+    margin: auto 6px auto 0px;
+  }
 `;
 
 const BtnBox = styled.div`
-  // width: 100%;
-  // height: 60px;
   display: flex;
-  // float: right;
   flex-direction: row-reverse;
   width: 50%;
-  // align-items: center;
-  margin: 0px 10px 0 0;
+  margin: 0px 0px 0 0;
+  @media ${(props) => props.theme.mobile} {
+    width: 45%;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    width: 47%;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    width: 45%;
+  }
 `;
 
 const ItemBtn = styled.button`
-  background-color: ${(props) => props.theme.white};
-  color: ${(props) => props.theme.btnGreen};
-  border: 1px solid ${(props) => props.theme.grey};
-  border-radius: 11px;
-  margin: auto 12px auto 0px;
+  background-color: ${(props) => props.theme.beige};
+  color: ${(props) => props.theme.black};
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  border-radius: 10px;
+  margin: 10px 0px 10px 20px;
   font-size: ${(props) => props.theme.fontSize.tiny};
   width: 60px;
   height: 30px;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: all 0.3s;
   &:hover {
+    background-color: ${(props) => props.theme.white};
     color: ${(props) => props.theme.pink};
     font-weight: bold;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 3px 3px rgba(18, 62, 27, 0.3);
+  }
+  @media ${(props) => props.theme.mobile} {
+    font-size: ${(props) => props.theme.fontSize.tiny};
+    height: 27px;
+    width: 43px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 5px 0px 5px 6px;
+    height: 27px;
+    width: 35px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    font-size: ${(props) => props.theme.fontSize.micro};
+    margin: 5px 0px 5px 6px;
+    height: 27px;
+    width: 35px;
   }
 `;
 
 const ViewerBox = styled.div`
-  margin: 0 auto 0 auto;
-  padding: 0 0 5px 0;
-  width: 530px;
+  padding: 0 12px 0px 12px;
+  margin: 15px auto 22px auto;
+  width: 664px;
   height: auto;
-  min-height: 50px;
-  font-size: ${(props) => props.theme.fontSize.mini};
+  border: 1px solid ${(props) => props.theme.btnGreen};
+  border-radius: 8px;
+  @media ${(props) => props.theme.mobile} {
+    margin: 10px auto 23px auto;
+    width: 420px;
+  }
+  @media ${(props) => props.theme.mobile1} {
+    margin: 10px auto 14px auto;
+    width: 318px;
+  }
+  @media ${(props) => props.theme.iPhone12Pro} {
+    margin: 10px auto 14px auto;
+    width: 250px;
+  }
 `;
 
 const PostDelModalBack = styled.div`
@@ -177,7 +330,7 @@ const PostDelModalBtnBox = styled.div``;
 const PostDelModalBtn = styled.button`
   background-color: ${(props) => props.theme.white};
   color: ${(props) => props.theme.btnGreen};
-  border: 1px solid ${(props) => props.theme.grey};
+  border: 1px solid ${(props) => props.theme.btnGreen};
   border-radius: 11px;
   margin: 20px;
   font-size: ${(props) => props.theme.fontSize.tiny};
@@ -275,6 +428,12 @@ const UpScrollBtn = styled.div`
     height: 100%;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
+    width: 35px;
+    height: 35px;
+    right: 20px;
+    bottom: 240px;
+  }
+  @media ${(props) => props.theme.mobile1} {
     width: 35px;
     height: 35px;
     right: 20px;
@@ -437,10 +596,12 @@ function Mypost() {
       <Nav />
       <Wrapper>
         {posts.length !== 0 ? (
-          <PostsBox>
+          <PostBox>
             {posts.map((post: IPost) => (
-              <PostsItem key={nanoid()}>
-                <ItemTitle>{post.title}</ItemTitle>
+              <PostItem key={nanoid()}>
+                <ItemTitleBox>
+                  <ItemTitle>{post.title}</ItemTitle>
+                </ItemTitleBox>
                 <MidBox>
                   <ItemBox>
                     <ItemBounty>현상금: {post.bounty}원</ItemBounty>
@@ -466,9 +627,9 @@ function Mypost() {
                     plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
                   />
                 </ViewerBox>
-              </PostsItem>
+              </PostItem>
             ))}
-          </PostsBox>
+          </PostBox>
         ) : (
           <NoneBox>
             <NoneImg src={noneHolder} />

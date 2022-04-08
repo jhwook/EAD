@@ -13,13 +13,13 @@ const List = styled.li`
     padding: 3px 0px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    font-size: ${(props) => props.theme.fontSize.tiny};
+    font-size: ${(props) => props.theme.fontSize.micro};
   }
   @media ${(props) => props.theme.mobile1} {
-    font-size: ${(props) => props.theme.fontSize.tiny};
+    font-size: ${(props) => props.theme.fontSize.micro};
   }
   @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.mini};
+    font-size: ${(props) => props.theme.fontSize.tiny};
   }
 `;
 

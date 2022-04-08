@@ -36,7 +36,10 @@ export class User extends Document {
   @Prop()
   oauth: boolean;
 
-  @Prop()
+  @Prop({
+    default:
+      'https://ead-image-upload.s3.ap-northeast-2.amazonaws.com/default/welcome.svg',
+  })
   @IsString()
   imgUrl: string;
 
