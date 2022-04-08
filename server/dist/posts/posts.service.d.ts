@@ -21,11 +21,9 @@ export declare class PostsService {
         message: string;
     }>;
     uploadPostImg(files: Express.Multer.File[]): Promise<string>;
-    searchPost(keyword: any): Promise<{
-        id: any;
-        title: any;
-        tag: any;
-    }[]>;
+    searchPost(keyword: any): Promise<(Post & {
+        _id: any;
+    })[]>;
     searchPostByTag(body: any): Promise<any[]>;
     createComment(body: any, param: any): Promise<Post & {
         _id: any;

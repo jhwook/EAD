@@ -66,7 +66,7 @@ Post = __decorate([
 ], Post);
 exports.Post = Post;
 const _PostSchema = mongoose_1.SchemaFactory.createForClass(Post);
-_PostSchema.index({ title: 'text', content: 'text' });
+_PostSchema.index({ title: 'text' }, { default_language: 'ngram' });
 _PostSchema.virtual('comments', {
     ref: 'Comment',
     localField: '_id',

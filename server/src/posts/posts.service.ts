@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable object-shorthand */
 /* eslint-disable prefer-const */
@@ -103,24 +105,34 @@ export class PostsService {
 
   // 검색 (키워드)
   async searchPost(keyword) {
-    if (keyword !== '') {
-      let postArray = [];
-      postArray = await this.postModel
-        .find(
-          { $text: { $search: keyword } },
-          { score: { $meta: 'textScore' } },
-        )
-        .sort({ score: { $meta: 'textScore' } });
+    const postArray = await this.postModel.find();
 
-      return postArray.map((post) => {
+    return postArray.filter((post) => {
+      if (post.title.includes(keyword)) {
         return { id: post.id, title: post.title, tag: post.tag };
-      });
-    }
-    const allPost = await this.postModel.find();
-
-    return allPost.map((post) => {
-      return { id: post.id, title: post.title, tag: post.tag };
+      }
     });
+
+    // if (keyword !== '') {
+    //   let postArray = [];
+    //   postArray = await this.postModel
+    //     .find(
+    //       { $text: { $search: keyword } },
+    //       { score: { $meta: 'textScore' } },
+    //     )
+    //     .sort({ score: { $meta: 'textScore' } });
+
+    //   console.log(postArray);
+
+    //   return postArray.map((post) => {
+    //     return { id: post.id, title: post.title, tag: post.tag };
+    //   });
+    // }
+    // const allPost = await this.postModel.find();
+
+    // return allPost.map((post) => {
+    //   return { id: post.id, title: post.title, tag: post.tag };
+    // });
   }
 
   // 검색 (태그)
