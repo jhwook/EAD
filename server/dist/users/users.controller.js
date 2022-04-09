@@ -159,6 +159,38 @@ let UsersController = class UsersController {
     usersPayment(body) {
         return this.usersService.usersPayment(body);
     }
+    async usersPaymentMobile(param, req) {
+        const { imp_uid } = param;
+        const getToken = await axios_2.default.post('https://api.iamport.kr/users/getToken', {
+            imp_key: '7617144421555476',
+            imp_secret: '51a0e59f49ef90aacc3548c8563412dcea27f4a20e0f94a2327c609ba12aed1c21801ba8f46230b1',
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        });
+        const { access_token } = getToken.data.response;
+        console.log(access_token);
+        const getPaymentData = await axios_2.default.get(`https://api.iamport.kr/payments/${imp_uid}`, {
+            headers: { Authorization: access_token },
+        });
+        const paymentData = getPaymentData.data.response;
+        console.log(paymentData.amount);
+        const user = await this.userModel
+            .findOne({
+            username: paymentData.buyer_name,
+        })
+            .select('-password');
+        user.money = user.money + paymentData.amount;
+        user.save();
+        console.log(user);
+        return {
+            isLogin: true,
+            userInfo: user,
+            accessToken: req.headers.authorization.slice(7),
+        };
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
@@ -278,6 +310,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "usersPayment", null);
+__decorate([
+    (0, common_1.Get)('/payment/mobile/:imp_uid/:merchant_uid'),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "usersPaymentMobile", null);
 UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseInterceptors)(success_interceptor_1.SuccessInterceptor),
