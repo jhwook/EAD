@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
+import MobilePayment from 'Components/MobilePayment';
 import Login from './Routes/Login/index';
 import Signup from './Routes/Signup/index';
 
@@ -37,6 +38,7 @@ function App() {
       <Route path="/auth/naver" element={<Naver />} />
       <Route path="/auth/kakao" element={<Kakao />} />
       <Route path="/auth/google" element={<Google />} />
+      <Route path="/mobile/*" element={<MobilePayment />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
