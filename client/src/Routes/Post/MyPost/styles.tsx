@@ -34,7 +34,7 @@ export const Wrapper = styled.div`
     height: auto;
     min-height: 607px;
     padding: 0 0 0px 0;
-    margin: 18px 0 200px 0;
+    margin: 18px 0 211px 0;
     .toastui-editor-contents {
       font-size: 12px;
     }
@@ -43,7 +43,7 @@ export const Wrapper = styled.div`
     height: auto;
     min-height: 536px;
     padding: 0 0 0px 0;
-    margin: 18px 0 200px 0;
+    margin: 18px 0 211px 0;
     .toastui-editor-contents {
       font-size: 11px;
     }
@@ -251,13 +251,13 @@ export const ItemBtn = styled.button`
     font-size: ${(props) => props.theme.fontSize.micro};
     margin: 5px 0px 5px 6px;
     height: 27px;
-    width: 38px;
+    width: 40px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.micro};
     margin: 5px 0px 5px 6px;
     height: 27px;
-    width: 38px;
+    width: 40px;
   }
 `;
 

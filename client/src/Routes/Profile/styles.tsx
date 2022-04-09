@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding-bottom: 150px;
+  margin: 0 0 10px 0;
   @media ${(props) => props.theme.desktop2} {
     height: auto;
     min-height: 868px;
@@ -685,18 +686,21 @@ export const UpScrollBtn = styled.div`
     height: 25px;
     right: 10px;
     bottom: 240px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.mobile1} {
     width: 35px;
     height: 35px;
     right: 20px;
     bottom: 240px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.mobile} {
     width: 35px;
     height: 35px;
     right: 20px;
     bottom: 240px;
+    border-radius: 10px;
   }
   @media ${(props) => props.theme.tablet} {
     width: 40px;
