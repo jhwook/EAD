@@ -667,12 +667,12 @@ export const CommonHideBtn = styled.div`
   @media ${(props) => props.theme.mobile1} {
     margin: 5px;
     height: 27px;
-    width: 35px;
+    width: 40px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     margin: 2px;
     height: 27px;
-    width: 35px;
+    width: 40px;
   }
 `;
 
@@ -704,13 +704,13 @@ export const CommonBtn = styled.button`
     font-size: ${(props) => props.theme.fontSize.micro};
     margin: 5px 0px 5px 5px;
     height: 27px;
-    width: 38px;
+    width: 40px;
   }
   @media ${(props) => props.theme.iPhone12Pro} {
     font-size: ${(props) => props.theme.fontSize.micro};
     margin: 5px 0px 5px 5px;
     height: 27px;
-    width: 38px;
+    width: 40px;
   }
 `;
 
