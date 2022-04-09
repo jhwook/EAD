@@ -6,13 +6,16 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   padding-top: 10px;
   background-color: ${(props) => props.theme.green};
   @media ${(props) => props.theme.iPhone12Pro} {
     height: 200px;
+    padding-top: 7px;
   }
   @media ${(props) => props.theme.mobile1} {
     height: 200px;
+    padding-top: 7px;
   }
   @media ${(props) => props.theme.mobile} {
     height: 200px;
@@ -25,11 +28,11 @@ const UpBox = styled.div`
   align-items: flex-start;
   @media ${(props) => props.theme.iPhone12Pro} {
     flex-direction: column;
-    margin-bottom: 25px;
+    margin-bottom: 17px;
   }
   @media ${(props) => props.theme.mobile1} {
     flex-direction: column;
-    margin-bottom: 25px;
+    margin-bottom: 17px;
   }
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
