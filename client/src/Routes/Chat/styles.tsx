@@ -444,6 +444,12 @@ export const DateBox = styled.div`
   .meyo {
     width: 47px;
     text-align: right;
+    @media ${(props) => props.theme.iPhone12Pro} {
+      width: 100px;
+    }
+    @media ${(props) => props.theme.mobile1} {
+      width: 100px;
+    }
     @media ${(props) => props.theme.mobile} {
       width: 100px;
     }

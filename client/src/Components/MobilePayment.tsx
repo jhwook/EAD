@@ -16,7 +16,6 @@ function MobilePayment() {
   const impSuccess = new URL(window.location.href).searchParams.get(
     'imp_success',
   );
-  console.log(impUid, merchantUid, impSuccess);
 
   const payment = async () => {
     if (impSuccess === 'true') {
@@ -32,6 +31,8 @@ function MobilePayment() {
       );
 
       dispatch(UserPayment(data.data.data));
+      navigate('/profile');
+    } else {
       navigate('/profile');
     }
   };
