@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ChattingWrapper = styled.div`
+  width: 100%;
   height: auto;
   min-height: 100%;
   padding-bottom: 150px;
@@ -467,14 +468,14 @@ export const Date = styled.div`
   color: ${(props) => props.theme.grey};
   @media ${(props) => props.theme.iPhone12Pro} {
     margin-left: 5px;
-    font-size: ${(props) => props.theme.fontSize.quark};
+    font-size: ${(props) => props.theme.fontSize.dust};
   }
   @media ${(props) => props.theme.mobile1} {
     margin-left: 5px;
-    font-size: ${(props) => props.theme.fontSize.quark};
+    font-size: ${(props) => props.theme.fontSize.dust};
   }
   @media ${(props) => props.theme.mobile} {
-    font-size: ${(props) => props.theme.fontSize.atom};
+    font-size: ${(props) => props.theme.fontSize.dust};
   }
 `;
 

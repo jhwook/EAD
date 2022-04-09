@@ -8,23 +8,32 @@ import { AppDispatch, RootState, UserLogout } from 'index';
 import logo from '../Image/Logo/ead.png';
 
 const Wrapper = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 50px;
+  box-sizing: border-box;
 
   .dot {
     font-size: ${(props) => props.theme.fontSize.large};
     cursor: pointer;
     @media ${(props) => props.theme.iPhone12Pro} {
       display: none;
+      padding: 10px 10px;
     }
     @media ${(props) => props.theme.mobile1} {
       display: none;
+      padding: 10px 10px;
     }
     @media ${(props) => props.theme.mobile} {
       display: none;
       font-size: ${(props) => props.theme.fontSize.medium};
+      padding: 10px 10px;
+    }
+    @media ${(props) => props.theme.tablet} {
+      font-size: ${(props) => props.theme.fontSize.medium};
+      padding: 10px 10px;
     }
   }
   .burger {
@@ -48,19 +57,19 @@ const Wrapper = styled.div`
     @media ${(props) => props.theme.mobile} {
       display: block;
       position: absolute;
-      top: 25px;
+      top: 30px;
       right: 40px;
       font-size: ${(props) => props.theme.fontSize.medium};
     }
   }
   @media ${(props) => props.theme.iPhone12Pro} {
-    padding: 10px 20px;
+    padding: 10px 10px;
   }
   @media ${(props) => props.theme.mobile1} {
-    padding: 10px 20px;
+    padding: 10px 10px;
   }
   @media ${(props) => props.theme.mobile} {
-    padding: 10px 20px;
+    padding: 10px 10px;
   }
 `;
 const LeftBox = styled.div``;
