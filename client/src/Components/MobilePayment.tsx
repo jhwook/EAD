@@ -30,7 +30,7 @@ function MobilePayment() {
         },
       );
 
-      dispatch(UserPayment(data.data.data));
+      dispatch(UserPayment(data.data.data.userInfo));
       navigate('/profile');
     } else {
       navigate('/profile');

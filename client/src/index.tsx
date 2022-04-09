@@ -104,6 +104,7 @@ interface IPaymentProps {
   oauth?: boolean;
   money?: number;
   stacks?: boolean[];
+  imgUrl?: string;
   createdAt?: string;
   updateAt?: string;
   __v?: number;
