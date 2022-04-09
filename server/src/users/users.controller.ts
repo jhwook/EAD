@@ -1,3 +1,4 @@
+/* eslint-disable operator-assignment */
 /* eslint-disable no-useless-constructor */
 /* eslint-disable camelcase */
 /* eslint-disable class-methods-use-this */
@@ -260,5 +261,53 @@ export class UsersController {
   @Post('/payment')
   usersPayment(@Body() body) {
     return this.usersService.usersPayment(body);
+  }
+
+  // 금액 충전 (모바일)
+  @Get('/payment/mobile/:imp_uid/:merchant_uid')
+  async usersPaymentMobile(@Param() param, @Req() req) {
+    const { imp_uid } = param;
+
+    const getToken = await axios.post(
+      'https://api.iamport.kr/users/getToken',
+      {
+        imp_key: '7617144421555476',
+        imp_secret:
+          '51a0e59f49ef90aacc3548c8563412dcea27f4a20e0f94a2327c609ba12aed1c21801ba8f46230b1',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+
+    const { access_token } = getToken.data.response;
+    console.log(access_token);
+
+    // imp_uid로 아임포트 서버에서 결제 정보 조회
+    const getPaymentData = await axios.get(
+      `https://api.iamport.kr/payments/${imp_uid}`,
+      {
+        headers: { Authorization: access_token },
+      },
+    );
+    const paymentData = getPaymentData.data.response;
+    console.log(paymentData.amount);
+    const user = await this.userModel
+      .findOne({
+        username: paymentData.buyer_name,
+      })
+      .select('-password');
+
+    user.money = user.money + paymentData.amount;
+    user.save();
+    console.log(user);
+    return {
+      isLogin: true,
+      userInfo: user,
+      accessToken: req.headers.authorization.slice(7),
+    };
   }
 }

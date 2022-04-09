@@ -81,4 +81,11 @@ export declare class UsersController {
     usersPayment(body: any): Promise<User & {
         _id: any;
     }>;
+    usersPaymentMobile(param: any, req: any): Promise<{
+        isLogin: boolean;
+        userInfo: User & {
+            _id: any;
+        };
+        accessToken: any;
+    }>;
 }
